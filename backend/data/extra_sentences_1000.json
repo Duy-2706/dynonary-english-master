@@ -1,0 +1,4002 @@
+[
+  {
+    "sentence": "Nice to meet you.",
+    "mean": "Rất vui được gặp bạn."
+  },
+  {
+    "sentence": "See you tomorrow.",
+    "mean": "Hẹn gặp bạn ngày mai."
+  },
+  {
+    "sentence": "Thank you very much.",
+    "mean": "Cảm ơn bạn rất nhiều."
+  },
+  {
+    "sentence": "You are welcome.",
+    "mean": "Không có gì."
+  },
+  {
+    "sentence": "I am learning English every day.",
+    "mean": "Tôi học tiếng Anh mỗi ngày."
+  },
+  {
+    "sentence": "Hello, i need help.",
+    "mean": "Xin chào, tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, i am busy today.",
+    "mean": "Xin chào, tôi hôm nay bận."
+  },
+  {
+    "sentence": "Hello, i want some coffee.",
+    "mean": "Xin chào, tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, i like learning English.",
+    "mean": "Xin chào, tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, i have a meeting.",
+    "mean": "Xin chào, tôi có cuộc họp."
+  },
+  {
+    "sentence": "Hello, i feel tired.",
+    "mean": "Xin chào, tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, i am hungry.",
+    "mean": "Xin chào, tôi đang đói."
+  },
+  {
+    "sentence": "Hello, i love this song.",
+    "mean": "Xin chào, tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, i need more time.",
+    "mean": "Xin chào, tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, i am ready.",
+    "mean": "Xin chào, tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Hello, you need help.",
+    "mean": "Xin chào, bạn cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, you am busy today.",
+    "mean": "Xin chào, bạn hôm nay bận."
+  },
+  {
+    "sentence": "Hello, you want some coffee.",
+    "mean": "Xin chào, bạn muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, you like learning English.",
+    "mean": "Xin chào, bạn thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, you have a meeting.",
+    "mean": "Xin chào, bạn có cuộc họp."
+  },
+  {
+    "sentence": "Hello, you feel tired.",
+    "mean": "Xin chào, bạn cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, you am hungry.",
+    "mean": "Xin chào, bạn đang đói."
+  },
+  {
+    "sentence": "Hello, you love this song.",
+    "mean": "Xin chào, bạn yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, you need more time.",
+    "mean": "Xin chào, bạn cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, you am ready.",
+    "mean": "Xin chào, bạn đã sẵn sàng."
+  },
+  {
+    "sentence": "Hello, we need help.",
+    "mean": "Xin chào, chúng tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, we am busy today.",
+    "mean": "Xin chào, chúng tôi hôm nay bận."
+  },
+  {
+    "sentence": "Hello, we want some coffee.",
+    "mean": "Xin chào, chúng tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, we like learning English.",
+    "mean": "Xin chào, chúng tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, we have a meeting.",
+    "mean": "Xin chào, chúng tôi có cuộc họp."
+  },
+  {
+    "sentence": "Hello, we feel tired.",
+    "mean": "Xin chào, chúng tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, we am hungry.",
+    "mean": "Xin chào, chúng tôi đang đói."
+  },
+  {
+    "sentence": "Hello, we love this song.",
+    "mean": "Xin chào, chúng tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, we need more time.",
+    "mean": "Xin chào, chúng tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, we am ready.",
+    "mean": "Xin chào, chúng tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Hello, they need help.",
+    "mean": "Xin chào, họ cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, they am busy today.",
+    "mean": "Xin chào, họ hôm nay bận."
+  },
+  {
+    "sentence": "Hello, they want some coffee.",
+    "mean": "Xin chào, họ muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, they like learning English.",
+    "mean": "Xin chào, họ thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, they have a meeting.",
+    "mean": "Xin chào, họ có cuộc họp."
+  },
+  {
+    "sentence": "Hello, they feel tired.",
+    "mean": "Xin chào, họ cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, they am hungry.",
+    "mean": "Xin chào, họ đang đói."
+  },
+  {
+    "sentence": "Hello, they love this song.",
+    "mean": "Xin chào, họ yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, they need more time.",
+    "mean": "Xin chào, họ cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, they am ready.",
+    "mean": "Xin chào, họ đã sẵn sàng."
+  },
+  {
+    "sentence": "Hello, he need help.",
+    "mean": "Xin chào, anh ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, he am busy today.",
+    "mean": "Xin chào, anh ấy hôm nay bận."
+  },
+  {
+    "sentence": "Hello, he want some coffee.",
+    "mean": "Xin chào, anh ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, he like learning English.",
+    "mean": "Xin chào, anh ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, he have a meeting.",
+    "mean": "Xin chào, anh ấy có cuộc họp."
+  },
+  {
+    "sentence": "Hello, he feel tired.",
+    "mean": "Xin chào, anh ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, he am hungry.",
+    "mean": "Xin chào, anh ấy đang đói."
+  },
+  {
+    "sentence": "Hello, he love this song.",
+    "mean": "Xin chào, anh ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, he need more time.",
+    "mean": "Xin chào, anh ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, he am ready.",
+    "mean": "Xin chào, anh ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Hello, she need help.",
+    "mean": "Xin chào, cô ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Hello, she am busy today.",
+    "mean": "Xin chào, cô ấy hôm nay bận."
+  },
+  {
+    "sentence": "Hello, she want some coffee.",
+    "mean": "Xin chào, cô ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Hello, she like learning English.",
+    "mean": "Xin chào, cô ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Hello, she have a meeting.",
+    "mean": "Xin chào, cô ấy có cuộc họp."
+  },
+  {
+    "sentence": "Hello, she feel tired.",
+    "mean": "Xin chào, cô ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Hello, she am hungry.",
+    "mean": "Xin chào, cô ấy đang đói."
+  },
+  {
+    "sentence": "Hello, she love this song.",
+    "mean": "Xin chào, cô ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Hello, she need more time.",
+    "mean": "Xin chào, cô ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Hello, she am ready.",
+    "mean": "Xin chào, cô ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, i need help.",
+    "mean": "Chào buổi sáng, tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, i am busy today.",
+    "mean": "Chào buổi sáng, tôi hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, i want some coffee.",
+    "mean": "Chào buổi sáng, tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, i like learning English.",
+    "mean": "Chào buổi sáng, tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, i have a meeting.",
+    "mean": "Chào buổi sáng, tôi có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, i feel tired.",
+    "mean": "Chào buổi sáng, tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, i am hungry.",
+    "mean": "Chào buổi sáng, tôi đang đói."
+  },
+  {
+    "sentence": "Good morning, i love this song.",
+    "mean": "Chào buổi sáng, tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, i need more time.",
+    "mean": "Chào buổi sáng, tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, i am ready.",
+    "mean": "Chào buổi sáng, tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, you need help.",
+    "mean": "Chào buổi sáng, bạn cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, you am busy today.",
+    "mean": "Chào buổi sáng, bạn hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, you want some coffee.",
+    "mean": "Chào buổi sáng, bạn muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, you like learning English.",
+    "mean": "Chào buổi sáng, bạn thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, you have a meeting.",
+    "mean": "Chào buổi sáng, bạn có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, you feel tired.",
+    "mean": "Chào buổi sáng, bạn cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, you am hungry.",
+    "mean": "Chào buổi sáng, bạn đang đói."
+  },
+  {
+    "sentence": "Good morning, you love this song.",
+    "mean": "Chào buổi sáng, bạn yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, you need more time.",
+    "mean": "Chào buổi sáng, bạn cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, you am ready.",
+    "mean": "Chào buổi sáng, bạn đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, we need help.",
+    "mean": "Chào buổi sáng, chúng tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, we am busy today.",
+    "mean": "Chào buổi sáng, chúng tôi hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, we want some coffee.",
+    "mean": "Chào buổi sáng, chúng tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, we like learning English.",
+    "mean": "Chào buổi sáng, chúng tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, we have a meeting.",
+    "mean": "Chào buổi sáng, chúng tôi có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, we feel tired.",
+    "mean": "Chào buổi sáng, chúng tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, we am hungry.",
+    "mean": "Chào buổi sáng, chúng tôi đang đói."
+  },
+  {
+    "sentence": "Good morning, we love this song.",
+    "mean": "Chào buổi sáng, chúng tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, we need more time.",
+    "mean": "Chào buổi sáng, chúng tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, we am ready.",
+    "mean": "Chào buổi sáng, chúng tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, they need help.",
+    "mean": "Chào buổi sáng, họ cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, they am busy today.",
+    "mean": "Chào buổi sáng, họ hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, they want some coffee.",
+    "mean": "Chào buổi sáng, họ muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, they like learning English.",
+    "mean": "Chào buổi sáng, họ thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, they have a meeting.",
+    "mean": "Chào buổi sáng, họ có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, they feel tired.",
+    "mean": "Chào buổi sáng, họ cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, they am hungry.",
+    "mean": "Chào buổi sáng, họ đang đói."
+  },
+  {
+    "sentence": "Good morning, they love this song.",
+    "mean": "Chào buổi sáng, họ yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, they need more time.",
+    "mean": "Chào buổi sáng, họ cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, they am ready.",
+    "mean": "Chào buổi sáng, họ đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, he need help.",
+    "mean": "Chào buổi sáng, anh ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, he am busy today.",
+    "mean": "Chào buổi sáng, anh ấy hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, he want some coffee.",
+    "mean": "Chào buổi sáng, anh ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, he like learning English.",
+    "mean": "Chào buổi sáng, anh ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, he have a meeting.",
+    "mean": "Chào buổi sáng, anh ấy có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, he feel tired.",
+    "mean": "Chào buổi sáng, anh ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, he am hungry.",
+    "mean": "Chào buổi sáng, anh ấy đang đói."
+  },
+  {
+    "sentence": "Good morning, he love this song.",
+    "mean": "Chào buổi sáng, anh ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, he need more time.",
+    "mean": "Chào buổi sáng, anh ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, he am ready.",
+    "mean": "Chào buổi sáng, anh ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Good morning, she need help.",
+    "mean": "Chào buổi sáng, cô ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Good morning, she am busy today.",
+    "mean": "Chào buổi sáng, cô ấy hôm nay bận."
+  },
+  {
+    "sentence": "Good morning, she want some coffee.",
+    "mean": "Chào buổi sáng, cô ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Good morning, she like learning English.",
+    "mean": "Chào buổi sáng, cô ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good morning, she have a meeting.",
+    "mean": "Chào buổi sáng, cô ấy có cuộc họp."
+  },
+  {
+    "sentence": "Good morning, she feel tired.",
+    "mean": "Chào buổi sáng, cô ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Good morning, she am hungry.",
+    "mean": "Chào buổi sáng, cô ấy đang đói."
+  },
+  {
+    "sentence": "Good morning, she love this song.",
+    "mean": "Chào buổi sáng, cô ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Good morning, she need more time.",
+    "mean": "Chào buổi sáng, cô ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Good morning, she am ready.",
+    "mean": "Chào buổi sáng, cô ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, i need help.",
+    "mean": "Chào buổi tối, tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, i am busy today.",
+    "mean": "Chào buổi tối, tôi hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, i want some coffee.",
+    "mean": "Chào buổi tối, tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, i like learning English.",
+    "mean": "Chào buổi tối, tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, i have a meeting.",
+    "mean": "Chào buổi tối, tôi có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, i feel tired.",
+    "mean": "Chào buổi tối, tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, i am hungry.",
+    "mean": "Chào buổi tối, tôi đang đói."
+  },
+  {
+    "sentence": "Good evening, i love this song.",
+    "mean": "Chào buổi tối, tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, i need more time.",
+    "mean": "Chào buổi tối, tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, i am ready.",
+    "mean": "Chào buổi tối, tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, you need help.",
+    "mean": "Chào buổi tối, bạn cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, you am busy today.",
+    "mean": "Chào buổi tối, bạn hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, you want some coffee.",
+    "mean": "Chào buổi tối, bạn muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, you like learning English.",
+    "mean": "Chào buổi tối, bạn thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, you have a meeting.",
+    "mean": "Chào buổi tối, bạn có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, you feel tired.",
+    "mean": "Chào buổi tối, bạn cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, you am hungry.",
+    "mean": "Chào buổi tối, bạn đang đói."
+  },
+  {
+    "sentence": "Good evening, you love this song.",
+    "mean": "Chào buổi tối, bạn yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, you need more time.",
+    "mean": "Chào buổi tối, bạn cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, you am ready.",
+    "mean": "Chào buổi tối, bạn đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, we need help.",
+    "mean": "Chào buổi tối, chúng tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, we am busy today.",
+    "mean": "Chào buổi tối, chúng tôi hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, we want some coffee.",
+    "mean": "Chào buổi tối, chúng tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, we like learning English.",
+    "mean": "Chào buổi tối, chúng tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, we have a meeting.",
+    "mean": "Chào buổi tối, chúng tôi có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, we feel tired.",
+    "mean": "Chào buổi tối, chúng tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, we am hungry.",
+    "mean": "Chào buổi tối, chúng tôi đang đói."
+  },
+  {
+    "sentence": "Good evening, we love this song.",
+    "mean": "Chào buổi tối, chúng tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, we need more time.",
+    "mean": "Chào buổi tối, chúng tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, we am ready.",
+    "mean": "Chào buổi tối, chúng tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, they need help.",
+    "mean": "Chào buổi tối, họ cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, they am busy today.",
+    "mean": "Chào buổi tối, họ hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, they want some coffee.",
+    "mean": "Chào buổi tối, họ muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, they like learning English.",
+    "mean": "Chào buổi tối, họ thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, they have a meeting.",
+    "mean": "Chào buổi tối, họ có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, they feel tired.",
+    "mean": "Chào buổi tối, họ cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, they am hungry.",
+    "mean": "Chào buổi tối, họ đang đói."
+  },
+  {
+    "sentence": "Good evening, they love this song.",
+    "mean": "Chào buổi tối, họ yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, they need more time.",
+    "mean": "Chào buổi tối, họ cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, they am ready.",
+    "mean": "Chào buổi tối, họ đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, he need help.",
+    "mean": "Chào buổi tối, anh ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, he am busy today.",
+    "mean": "Chào buổi tối, anh ấy hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, he want some coffee.",
+    "mean": "Chào buổi tối, anh ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, he like learning English.",
+    "mean": "Chào buổi tối, anh ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, he have a meeting.",
+    "mean": "Chào buổi tối, anh ấy có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, he feel tired.",
+    "mean": "Chào buổi tối, anh ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, he am hungry.",
+    "mean": "Chào buổi tối, anh ấy đang đói."
+  },
+  {
+    "sentence": "Good evening, he love this song.",
+    "mean": "Chào buổi tối, anh ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, he need more time.",
+    "mean": "Chào buổi tối, anh ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, he am ready.",
+    "mean": "Chào buổi tối, anh ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Good evening, she need help.",
+    "mean": "Chào buổi tối, cô ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Good evening, she am busy today.",
+    "mean": "Chào buổi tối, cô ấy hôm nay bận."
+  },
+  {
+    "sentence": "Good evening, she want some coffee.",
+    "mean": "Chào buổi tối, cô ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Good evening, she like learning English.",
+    "mean": "Chào buổi tối, cô ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Good evening, she have a meeting.",
+    "mean": "Chào buổi tối, cô ấy có cuộc họp."
+  },
+  {
+    "sentence": "Good evening, she feel tired.",
+    "mean": "Chào buổi tối, cô ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Good evening, she am hungry.",
+    "mean": "Chào buổi tối, cô ấy đang đói."
+  },
+  {
+    "sentence": "Good evening, she love this song.",
+    "mean": "Chào buổi tối, cô ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Good evening, she need more time.",
+    "mean": "Chào buổi tối, cô ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Good evening, she am ready.",
+    "mean": "Chào buổi tối, cô ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, i need help.",
+    "mean": "Xin lỗi, tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, i am busy today.",
+    "mean": "Xin lỗi, tôi hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, i want some coffee.",
+    "mean": "Xin lỗi, tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, i like learning English.",
+    "mean": "Xin lỗi, tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, i have a meeting.",
+    "mean": "Xin lỗi, tôi có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, i feel tired.",
+    "mean": "Xin lỗi, tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, i am hungry.",
+    "mean": "Xin lỗi, tôi đang đói."
+  },
+  {
+    "sentence": "Excuse me, i love this song.",
+    "mean": "Xin lỗi, tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, i need more time.",
+    "mean": "Xin lỗi, tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, i am ready.",
+    "mean": "Xin lỗi, tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, you need help.",
+    "mean": "Xin lỗi, bạn cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, you am busy today.",
+    "mean": "Xin lỗi, bạn hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, you want some coffee.",
+    "mean": "Xin lỗi, bạn muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, you like learning English.",
+    "mean": "Xin lỗi, bạn thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, you have a meeting.",
+    "mean": "Xin lỗi, bạn có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, you feel tired.",
+    "mean": "Xin lỗi, bạn cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, you am hungry.",
+    "mean": "Xin lỗi, bạn đang đói."
+  },
+  {
+    "sentence": "Excuse me, you love this song.",
+    "mean": "Xin lỗi, bạn yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, you need more time.",
+    "mean": "Xin lỗi, bạn cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, you am ready.",
+    "mean": "Xin lỗi, bạn đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, we need help.",
+    "mean": "Xin lỗi, chúng tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, we am busy today.",
+    "mean": "Xin lỗi, chúng tôi hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, we want some coffee.",
+    "mean": "Xin lỗi, chúng tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, we like learning English.",
+    "mean": "Xin lỗi, chúng tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, we have a meeting.",
+    "mean": "Xin lỗi, chúng tôi có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, we feel tired.",
+    "mean": "Xin lỗi, chúng tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, we am hungry.",
+    "mean": "Xin lỗi, chúng tôi đang đói."
+  },
+  {
+    "sentence": "Excuse me, we love this song.",
+    "mean": "Xin lỗi, chúng tôi yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, we need more time.",
+    "mean": "Xin lỗi, chúng tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, we am ready.",
+    "mean": "Xin lỗi, chúng tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, they need help.",
+    "mean": "Xin lỗi, họ cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, they am busy today.",
+    "mean": "Xin lỗi, họ hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, they want some coffee.",
+    "mean": "Xin lỗi, họ muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, they like learning English.",
+    "mean": "Xin lỗi, họ thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, they have a meeting.",
+    "mean": "Xin lỗi, họ có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, they feel tired.",
+    "mean": "Xin lỗi, họ cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, they am hungry.",
+    "mean": "Xin lỗi, họ đang đói."
+  },
+  {
+    "sentence": "Excuse me, they love this song.",
+    "mean": "Xin lỗi, họ yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, they need more time.",
+    "mean": "Xin lỗi, họ cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, they am ready.",
+    "mean": "Xin lỗi, họ đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, he need help.",
+    "mean": "Xin lỗi, anh ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, he am busy today.",
+    "mean": "Xin lỗi, anh ấy hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, he want some coffee.",
+    "mean": "Xin lỗi, anh ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, he like learning English.",
+    "mean": "Xin lỗi, anh ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, he have a meeting.",
+    "mean": "Xin lỗi, anh ấy có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, he feel tired.",
+    "mean": "Xin lỗi, anh ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, he am hungry.",
+    "mean": "Xin lỗi, anh ấy đang đói."
+  },
+  {
+    "sentence": "Excuse me, he love this song.",
+    "mean": "Xin lỗi, anh ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, he need more time.",
+    "mean": "Xin lỗi, anh ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, he am ready.",
+    "mean": "Xin lỗi, anh ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Excuse me, she need help.",
+    "mean": "Xin lỗi, cô ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "Excuse me, she am busy today.",
+    "mean": "Xin lỗi, cô ấy hôm nay bận."
+  },
+  {
+    "sentence": "Excuse me, she want some coffee.",
+    "mean": "Xin lỗi, cô ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "Excuse me, she like learning English.",
+    "mean": "Xin lỗi, cô ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "Excuse me, she have a meeting.",
+    "mean": "Xin lỗi, cô ấy có cuộc họp."
+  },
+  {
+    "sentence": "Excuse me, she feel tired.",
+    "mean": "Xin lỗi, cô ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "Excuse me, she am hungry.",
+    "mean": "Xin lỗi, cô ấy đang đói."
+  },
+  {
+    "sentence": "Excuse me, she love this song.",
+    "mean": "Xin lỗi, cô ấy yêu bài hát này."
+  },
+  {
+    "sentence": "Excuse me, she need more time.",
+    "mean": "Xin lỗi, cô ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "Excuse me, she am ready.",
+    "mean": "Xin lỗi, cô ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, i need help.",
+    "mean": "Nhân tiện, tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, i am busy today.",
+    "mean": "Nhân tiện, tôi hôm nay bận."
+  },
+  {
+    "sentence": "By the way, i want some coffee.",
+    "mean": "Nhân tiện, tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, i like learning English.",
+    "mean": "Nhân tiện, tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, i have a meeting.",
+    "mean": "Nhân tiện, tôi có cuộc họp."
+  },
+  {
+    "sentence": "By the way, i feel tired.",
+    "mean": "Nhân tiện, tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, i am hungry.",
+    "mean": "Nhân tiện, tôi đang đói."
+  },
+  {
+    "sentence": "By the way, i love this song.",
+    "mean": "Nhân tiện, tôi yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, i need more time.",
+    "mean": "Nhân tiện, tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, i am ready.",
+    "mean": "Nhân tiện, tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, you need help.",
+    "mean": "Nhân tiện, bạn cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, you am busy today.",
+    "mean": "Nhân tiện, bạn hôm nay bận."
+  },
+  {
+    "sentence": "By the way, you want some coffee.",
+    "mean": "Nhân tiện, bạn muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, you like learning English.",
+    "mean": "Nhân tiện, bạn thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, you have a meeting.",
+    "mean": "Nhân tiện, bạn có cuộc họp."
+  },
+  {
+    "sentence": "By the way, you feel tired.",
+    "mean": "Nhân tiện, bạn cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, you am hungry.",
+    "mean": "Nhân tiện, bạn đang đói."
+  },
+  {
+    "sentence": "By the way, you love this song.",
+    "mean": "Nhân tiện, bạn yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, you need more time.",
+    "mean": "Nhân tiện, bạn cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, you am ready.",
+    "mean": "Nhân tiện, bạn đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, we need help.",
+    "mean": "Nhân tiện, chúng tôi cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, we am busy today.",
+    "mean": "Nhân tiện, chúng tôi hôm nay bận."
+  },
+  {
+    "sentence": "By the way, we want some coffee.",
+    "mean": "Nhân tiện, chúng tôi muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, we like learning English.",
+    "mean": "Nhân tiện, chúng tôi thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, we have a meeting.",
+    "mean": "Nhân tiện, chúng tôi có cuộc họp."
+  },
+  {
+    "sentence": "By the way, we feel tired.",
+    "mean": "Nhân tiện, chúng tôi cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, we am hungry.",
+    "mean": "Nhân tiện, chúng tôi đang đói."
+  },
+  {
+    "sentence": "By the way, we love this song.",
+    "mean": "Nhân tiện, chúng tôi yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, we need more time.",
+    "mean": "Nhân tiện, chúng tôi cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, we am ready.",
+    "mean": "Nhân tiện, chúng tôi đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, they need help.",
+    "mean": "Nhân tiện, họ cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, they am busy today.",
+    "mean": "Nhân tiện, họ hôm nay bận."
+  },
+  {
+    "sentence": "By the way, they want some coffee.",
+    "mean": "Nhân tiện, họ muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, they like learning English.",
+    "mean": "Nhân tiện, họ thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, they have a meeting.",
+    "mean": "Nhân tiện, họ có cuộc họp."
+  },
+  {
+    "sentence": "By the way, they feel tired.",
+    "mean": "Nhân tiện, họ cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, they am hungry.",
+    "mean": "Nhân tiện, họ đang đói."
+  },
+  {
+    "sentence": "By the way, they love this song.",
+    "mean": "Nhân tiện, họ yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, they need more time.",
+    "mean": "Nhân tiện, họ cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, they am ready.",
+    "mean": "Nhân tiện, họ đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, he need help.",
+    "mean": "Nhân tiện, anh ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, he am busy today.",
+    "mean": "Nhân tiện, anh ấy hôm nay bận."
+  },
+  {
+    "sentence": "By the way, he want some coffee.",
+    "mean": "Nhân tiện, anh ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, he like learning English.",
+    "mean": "Nhân tiện, anh ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, he have a meeting.",
+    "mean": "Nhân tiện, anh ấy có cuộc họp."
+  },
+  {
+    "sentence": "By the way, he feel tired.",
+    "mean": "Nhân tiện, anh ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, he am hungry.",
+    "mean": "Nhân tiện, anh ấy đang đói."
+  },
+  {
+    "sentence": "By the way, he love this song.",
+    "mean": "Nhân tiện, anh ấy yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, he need more time.",
+    "mean": "Nhân tiện, anh ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, he am ready.",
+    "mean": "Nhân tiện, anh ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "By the way, she need help.",
+    "mean": "Nhân tiện, cô ấy cần giúp đỡ."
+  },
+  {
+    "sentence": "By the way, she am busy today.",
+    "mean": "Nhân tiện, cô ấy hôm nay bận."
+  },
+  {
+    "sentence": "By the way, she want some coffee.",
+    "mean": "Nhân tiện, cô ấy muốn uống cà phê."
+  },
+  {
+    "sentence": "By the way, she like learning English.",
+    "mean": "Nhân tiện, cô ấy thích học tiếng Anh."
+  },
+  {
+    "sentence": "By the way, she have a meeting.",
+    "mean": "Nhân tiện, cô ấy có cuộc họp."
+  },
+  {
+    "sentence": "By the way, she feel tired.",
+    "mean": "Nhân tiện, cô ấy cảm thấy mệt."
+  },
+  {
+    "sentence": "By the way, she am hungry.",
+    "mean": "Nhân tiện, cô ấy đang đói."
+  },
+  {
+    "sentence": "By the way, she love this song.",
+    "mean": "Nhân tiện, cô ấy yêu bài hát này."
+  },
+  {
+    "sentence": "By the way, she need more time.",
+    "mean": "Nhân tiện, cô ấy cần thêm thời gian."
+  },
+  {
+    "sentence": "By the way, she am ready.",
+    "mean": "Nhân tiện, cô ấy đã sẵn sàng."
+  },
+  {
+    "sentence": "Can you help me?",
+    "mean": "Bạn có thể giúp tôi không?"
+  },
+  {
+    "sentence": "What time is it?",
+    "mean": "Mấy giờ rồi?"
+  },
+  {
+    "sentence": "Where are you going?",
+    "mean": "Bạn đang đi đâu vậy?"
+  },
+  {
+    "sentence": "Do you understand?",
+    "mean": "Bạn có hiểu không?"
+  },
+  {
+    "sentence": "Would you like some tea?",
+    "mean": "Bạn có muốn uống trà không?"
+  },
+  {
+    "sentence": "I need help today at school.",
+    "mean": "Tôi cần giúp đỡ today at school."
+  },
+  {
+    "sentence": "I need help today at home.",
+    "mean": "Tôi cần giúp đỡ today at home."
+  },
+  {
+    "sentence": "I need help today at work.",
+    "mean": "Tôi cần giúp đỡ today at work."
+  },
+  {
+    "sentence": "I need help today in the office.",
+    "mean": "Tôi cần giúp đỡ today in the office."
+  },
+  {
+    "sentence": "I need help today at the restaurant.",
+    "mean": "Tôi cần giúp đỡ today at the restaurant."
+  },
+  {
+    "sentence": "I need help tomorrow at school.",
+    "mean": "Tôi cần giúp đỡ tomorrow at school."
+  },
+  {
+    "sentence": "I need help tomorrow at home.",
+    "mean": "Tôi cần giúp đỡ tomorrow at home."
+  },
+  {
+    "sentence": "I need help tomorrow at work.",
+    "mean": "Tôi cần giúp đỡ tomorrow at work."
+  },
+  {
+    "sentence": "I need help tomorrow in the office.",
+    "mean": "Tôi cần giúp đỡ tomorrow in the office."
+  },
+  {
+    "sentence": "I need help tomorrow at the restaurant.",
+    "mean": "Tôi cần giúp đỡ tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I need help this week at school.",
+    "mean": "Tôi cần giúp đỡ this week at school."
+  },
+  {
+    "sentence": "I need help this week at home.",
+    "mean": "Tôi cần giúp đỡ this week at home."
+  },
+  {
+    "sentence": "I need help this week at work.",
+    "mean": "Tôi cần giúp đỡ this week at work."
+  },
+  {
+    "sentence": "I need help this week in the office.",
+    "mean": "Tôi cần giúp đỡ this week in the office."
+  },
+  {
+    "sentence": "I need help this week at the restaurant.",
+    "mean": "Tôi cần giúp đỡ this week at the restaurant."
+  },
+  {
+    "sentence": "I need help right now at school.",
+    "mean": "Tôi cần giúp đỡ right now at school."
+  },
+  {
+    "sentence": "I need help right now at home.",
+    "mean": "Tôi cần giúp đỡ right now at home."
+  },
+  {
+    "sentence": "I need help right now at work.",
+    "mean": "Tôi cần giúp đỡ right now at work."
+  },
+  {
+    "sentence": "I need help right now in the office.",
+    "mean": "Tôi cần giúp đỡ right now in the office."
+  },
+  {
+    "sentence": "I need help right now at the restaurant.",
+    "mean": "Tôi cần giúp đỡ right now at the restaurant."
+  },
+  {
+    "sentence": "I need help later at school.",
+    "mean": "Tôi cần giúp đỡ later at school."
+  },
+  {
+    "sentence": "I need help later at home.",
+    "mean": "Tôi cần giúp đỡ later at home."
+  },
+  {
+    "sentence": "I need help later at work.",
+    "mean": "Tôi cần giúp đỡ later at work."
+  },
+  {
+    "sentence": "I need help later in the office.",
+    "mean": "Tôi cần giúp đỡ later in the office."
+  },
+  {
+    "sentence": "I need help later at the restaurant.",
+    "mean": "Tôi cần giúp đỡ later at the restaurant."
+  },
+  {
+    "sentence": "I am busy today today at school.",
+    "mean": "Tôi hôm nay bận today at school."
+  },
+  {
+    "sentence": "I am busy today today at home.",
+    "mean": "Tôi hôm nay bận today at home."
+  },
+  {
+    "sentence": "I am busy today today at work.",
+    "mean": "Tôi hôm nay bận today at work."
+  },
+  {
+    "sentence": "I am busy today today in the office.",
+    "mean": "Tôi hôm nay bận today in the office."
+  },
+  {
+    "sentence": "I am busy today today at the restaurant.",
+    "mean": "Tôi hôm nay bận today at the restaurant."
+  },
+  {
+    "sentence": "I am busy today tomorrow at school.",
+    "mean": "Tôi hôm nay bận tomorrow at school."
+  },
+  {
+    "sentence": "I am busy today tomorrow at home.",
+    "mean": "Tôi hôm nay bận tomorrow at home."
+  },
+  {
+    "sentence": "I am busy today tomorrow at work.",
+    "mean": "Tôi hôm nay bận tomorrow at work."
+  },
+  {
+    "sentence": "I am busy today tomorrow in the office.",
+    "mean": "Tôi hôm nay bận tomorrow in the office."
+  },
+  {
+    "sentence": "I am busy today tomorrow at the restaurant.",
+    "mean": "Tôi hôm nay bận tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I am busy today this week at school.",
+    "mean": "Tôi hôm nay bận this week at school."
+  },
+  {
+    "sentence": "I am busy today this week at home.",
+    "mean": "Tôi hôm nay bận this week at home."
+  },
+  {
+    "sentence": "I am busy today this week at work.",
+    "mean": "Tôi hôm nay bận this week at work."
+  },
+  {
+    "sentence": "I am busy today this week in the office.",
+    "mean": "Tôi hôm nay bận this week in the office."
+  },
+  {
+    "sentence": "I am busy today this week at the restaurant.",
+    "mean": "Tôi hôm nay bận this week at the restaurant."
+  },
+  {
+    "sentence": "I am busy today right now at school.",
+    "mean": "Tôi hôm nay bận right now at school."
+  },
+  {
+    "sentence": "I am busy today right now at home.",
+    "mean": "Tôi hôm nay bận right now at home."
+  },
+  {
+    "sentence": "I am busy today right now at work.",
+    "mean": "Tôi hôm nay bận right now at work."
+  },
+  {
+    "sentence": "I am busy today right now in the office.",
+    "mean": "Tôi hôm nay bận right now in the office."
+  },
+  {
+    "sentence": "I am busy today right now at the restaurant.",
+    "mean": "Tôi hôm nay bận right now at the restaurant."
+  },
+  {
+    "sentence": "I am busy today later at school.",
+    "mean": "Tôi hôm nay bận later at school."
+  },
+  {
+    "sentence": "I am busy today later at home.",
+    "mean": "Tôi hôm nay bận later at home."
+  },
+  {
+    "sentence": "I am busy today later at work.",
+    "mean": "Tôi hôm nay bận later at work."
+  },
+  {
+    "sentence": "I am busy today later in the office.",
+    "mean": "Tôi hôm nay bận later in the office."
+  },
+  {
+    "sentence": "I am busy today later at the restaurant.",
+    "mean": "Tôi hôm nay bận later at the restaurant."
+  },
+  {
+    "sentence": "I want some coffee today at school.",
+    "mean": "Tôi muốn uống cà phê today at school."
+  },
+  {
+    "sentence": "I want some coffee today at home.",
+    "mean": "Tôi muốn uống cà phê today at home."
+  },
+  {
+    "sentence": "I want some coffee today at work.",
+    "mean": "Tôi muốn uống cà phê today at work."
+  },
+  {
+    "sentence": "I want some coffee today in the office.",
+    "mean": "Tôi muốn uống cà phê today in the office."
+  },
+  {
+    "sentence": "I want some coffee today at the restaurant.",
+    "mean": "Tôi muốn uống cà phê today at the restaurant."
+  },
+  {
+    "sentence": "I want some coffee tomorrow at school.",
+    "mean": "Tôi muốn uống cà phê tomorrow at school."
+  },
+  {
+    "sentence": "I want some coffee tomorrow at home.",
+    "mean": "Tôi muốn uống cà phê tomorrow at home."
+  },
+  {
+    "sentence": "I want some coffee tomorrow at work.",
+    "mean": "Tôi muốn uống cà phê tomorrow at work."
+  },
+  {
+    "sentence": "I want some coffee tomorrow in the office.",
+    "mean": "Tôi muốn uống cà phê tomorrow in the office."
+  },
+  {
+    "sentence": "I want some coffee tomorrow at the restaurant.",
+    "mean": "Tôi muốn uống cà phê tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I want some coffee this week at school.",
+    "mean": "Tôi muốn uống cà phê this week at school."
+  },
+  {
+    "sentence": "I want some coffee this week at home.",
+    "mean": "Tôi muốn uống cà phê this week at home."
+  },
+  {
+    "sentence": "I want some coffee this week at work.",
+    "mean": "Tôi muốn uống cà phê this week at work."
+  },
+  {
+    "sentence": "I want some coffee this week in the office.",
+    "mean": "Tôi muốn uống cà phê this week in the office."
+  },
+  {
+    "sentence": "I want some coffee this week at the restaurant.",
+    "mean": "Tôi muốn uống cà phê this week at the restaurant."
+  },
+  {
+    "sentence": "I want some coffee right now at school.",
+    "mean": "Tôi muốn uống cà phê right now at school."
+  },
+  {
+    "sentence": "I want some coffee right now at home.",
+    "mean": "Tôi muốn uống cà phê right now at home."
+  },
+  {
+    "sentence": "I want some coffee right now at work.",
+    "mean": "Tôi muốn uống cà phê right now at work."
+  },
+  {
+    "sentence": "I want some coffee right now in the office.",
+    "mean": "Tôi muốn uống cà phê right now in the office."
+  },
+  {
+    "sentence": "I want some coffee right now at the restaurant.",
+    "mean": "Tôi muốn uống cà phê right now at the restaurant."
+  },
+  {
+    "sentence": "I want some coffee later at school.",
+    "mean": "Tôi muốn uống cà phê later at school."
+  },
+  {
+    "sentence": "I want some coffee later at home.",
+    "mean": "Tôi muốn uống cà phê later at home."
+  },
+  {
+    "sentence": "I want some coffee later at work.",
+    "mean": "Tôi muốn uống cà phê later at work."
+  },
+  {
+    "sentence": "I want some coffee later in the office.",
+    "mean": "Tôi muốn uống cà phê later in the office."
+  },
+  {
+    "sentence": "I want some coffee later at the restaurant.",
+    "mean": "Tôi muốn uống cà phê later at the restaurant."
+  },
+  {
+    "sentence": "I like learning English today at school.",
+    "mean": "Tôi thích học tiếng Anh today at school."
+  },
+  {
+    "sentence": "I like learning English today at home.",
+    "mean": "Tôi thích học tiếng Anh today at home."
+  },
+  {
+    "sentence": "I like learning English today at work.",
+    "mean": "Tôi thích học tiếng Anh today at work."
+  },
+  {
+    "sentence": "I like learning English today in the office.",
+    "mean": "Tôi thích học tiếng Anh today in the office."
+  },
+  {
+    "sentence": "I like learning English today at the restaurant.",
+    "mean": "Tôi thích học tiếng Anh today at the restaurant."
+  },
+  {
+    "sentence": "I like learning English tomorrow at school.",
+    "mean": "Tôi thích học tiếng Anh tomorrow at school."
+  },
+  {
+    "sentence": "I like learning English tomorrow at home.",
+    "mean": "Tôi thích học tiếng Anh tomorrow at home."
+  },
+  {
+    "sentence": "I like learning English tomorrow at work.",
+    "mean": "Tôi thích học tiếng Anh tomorrow at work."
+  },
+  {
+    "sentence": "I like learning English tomorrow in the office.",
+    "mean": "Tôi thích học tiếng Anh tomorrow in the office."
+  },
+  {
+    "sentence": "I like learning English tomorrow at the restaurant.",
+    "mean": "Tôi thích học tiếng Anh tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I like learning English this week at school.",
+    "mean": "Tôi thích học tiếng Anh this week at school."
+  },
+  {
+    "sentence": "I like learning English this week at home.",
+    "mean": "Tôi thích học tiếng Anh this week at home."
+  },
+  {
+    "sentence": "I like learning English this week at work.",
+    "mean": "Tôi thích học tiếng Anh this week at work."
+  },
+  {
+    "sentence": "I like learning English this week in the office.",
+    "mean": "Tôi thích học tiếng Anh this week in the office."
+  },
+  {
+    "sentence": "I like learning English this week at the restaurant.",
+    "mean": "Tôi thích học tiếng Anh this week at the restaurant."
+  },
+  {
+    "sentence": "I like learning English right now at school.",
+    "mean": "Tôi thích học tiếng Anh right now at school."
+  },
+  {
+    "sentence": "I like learning English right now at home.",
+    "mean": "Tôi thích học tiếng Anh right now at home."
+  },
+  {
+    "sentence": "I like learning English right now at work.",
+    "mean": "Tôi thích học tiếng Anh right now at work."
+  },
+  {
+    "sentence": "I like learning English right now in the office.",
+    "mean": "Tôi thích học tiếng Anh right now in the office."
+  },
+  {
+    "sentence": "I like learning English right now at the restaurant.",
+    "mean": "Tôi thích học tiếng Anh right now at the restaurant."
+  },
+  {
+    "sentence": "I like learning English later at school.",
+    "mean": "Tôi thích học tiếng Anh later at school."
+  },
+  {
+    "sentence": "I like learning English later at home.",
+    "mean": "Tôi thích học tiếng Anh later at home."
+  },
+  {
+    "sentence": "I like learning English later at work.",
+    "mean": "Tôi thích học tiếng Anh later at work."
+  },
+  {
+    "sentence": "I like learning English later in the office.",
+    "mean": "Tôi thích học tiếng Anh later in the office."
+  },
+  {
+    "sentence": "I like learning English later at the restaurant.",
+    "mean": "Tôi thích học tiếng Anh later at the restaurant."
+  },
+  {
+    "sentence": "I have a meeting today at school.",
+    "mean": "Tôi có cuộc họp today at school."
+  },
+  {
+    "sentence": "I have a meeting today at home.",
+    "mean": "Tôi có cuộc họp today at home."
+  },
+  {
+    "sentence": "I have a meeting today at work.",
+    "mean": "Tôi có cuộc họp today at work."
+  },
+  {
+    "sentence": "I have a meeting today in the office.",
+    "mean": "Tôi có cuộc họp today in the office."
+  },
+  {
+    "sentence": "I have a meeting today at the restaurant.",
+    "mean": "Tôi có cuộc họp today at the restaurant."
+  },
+  {
+    "sentence": "I have a meeting tomorrow at school.",
+    "mean": "Tôi có cuộc họp tomorrow at school."
+  },
+  {
+    "sentence": "I have a meeting tomorrow at home.",
+    "mean": "Tôi có cuộc họp tomorrow at home."
+  },
+  {
+    "sentence": "I have a meeting tomorrow at work.",
+    "mean": "Tôi có cuộc họp tomorrow at work."
+  },
+  {
+    "sentence": "I have a meeting tomorrow in the office.",
+    "mean": "Tôi có cuộc họp tomorrow in the office."
+  },
+  {
+    "sentence": "I have a meeting tomorrow at the restaurant.",
+    "mean": "Tôi có cuộc họp tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I have a meeting this week at school.",
+    "mean": "Tôi có cuộc họp this week at school."
+  },
+  {
+    "sentence": "I have a meeting this week at home.",
+    "mean": "Tôi có cuộc họp this week at home."
+  },
+  {
+    "sentence": "I have a meeting this week at work.",
+    "mean": "Tôi có cuộc họp this week at work."
+  },
+  {
+    "sentence": "I have a meeting this week in the office.",
+    "mean": "Tôi có cuộc họp this week in the office."
+  },
+  {
+    "sentence": "I have a meeting this week at the restaurant.",
+    "mean": "Tôi có cuộc họp this week at the restaurant."
+  },
+  {
+    "sentence": "I have a meeting right now at school.",
+    "mean": "Tôi có cuộc họp right now at school."
+  },
+  {
+    "sentence": "I have a meeting right now at home.",
+    "mean": "Tôi có cuộc họp right now at home."
+  },
+  {
+    "sentence": "I have a meeting right now at work.",
+    "mean": "Tôi có cuộc họp right now at work."
+  },
+  {
+    "sentence": "I have a meeting right now in the office.",
+    "mean": "Tôi có cuộc họp right now in the office."
+  },
+  {
+    "sentence": "I have a meeting right now at the restaurant.",
+    "mean": "Tôi có cuộc họp right now at the restaurant."
+  },
+  {
+    "sentence": "I have a meeting later at school.",
+    "mean": "Tôi có cuộc họp later at school."
+  },
+  {
+    "sentence": "I have a meeting later at home.",
+    "mean": "Tôi có cuộc họp later at home."
+  },
+  {
+    "sentence": "I have a meeting later at work.",
+    "mean": "Tôi có cuộc họp later at work."
+  },
+  {
+    "sentence": "I have a meeting later in the office.",
+    "mean": "Tôi có cuộc họp later in the office."
+  },
+  {
+    "sentence": "I have a meeting later at the restaurant.",
+    "mean": "Tôi có cuộc họp later at the restaurant."
+  },
+  {
+    "sentence": "I feel tired today at school.",
+    "mean": "Tôi cảm thấy mệt today at school."
+  },
+  {
+    "sentence": "I feel tired today at home.",
+    "mean": "Tôi cảm thấy mệt today at home."
+  },
+  {
+    "sentence": "I feel tired today at work.",
+    "mean": "Tôi cảm thấy mệt today at work."
+  },
+  {
+    "sentence": "I feel tired today in the office.",
+    "mean": "Tôi cảm thấy mệt today in the office."
+  },
+  {
+    "sentence": "I feel tired today at the restaurant.",
+    "mean": "Tôi cảm thấy mệt today at the restaurant."
+  },
+  {
+    "sentence": "I feel tired tomorrow at school.",
+    "mean": "Tôi cảm thấy mệt tomorrow at school."
+  },
+  {
+    "sentence": "I feel tired tomorrow at home.",
+    "mean": "Tôi cảm thấy mệt tomorrow at home."
+  },
+  {
+    "sentence": "I feel tired tomorrow at work.",
+    "mean": "Tôi cảm thấy mệt tomorrow at work."
+  },
+  {
+    "sentence": "I feel tired tomorrow in the office.",
+    "mean": "Tôi cảm thấy mệt tomorrow in the office."
+  },
+  {
+    "sentence": "I feel tired tomorrow at the restaurant.",
+    "mean": "Tôi cảm thấy mệt tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I feel tired this week at school.",
+    "mean": "Tôi cảm thấy mệt this week at school."
+  },
+  {
+    "sentence": "I feel tired this week at home.",
+    "mean": "Tôi cảm thấy mệt this week at home."
+  },
+  {
+    "sentence": "I feel tired this week at work.",
+    "mean": "Tôi cảm thấy mệt this week at work."
+  },
+  {
+    "sentence": "I feel tired this week in the office.",
+    "mean": "Tôi cảm thấy mệt this week in the office."
+  },
+  {
+    "sentence": "I feel tired this week at the restaurant.",
+    "mean": "Tôi cảm thấy mệt this week at the restaurant."
+  },
+  {
+    "sentence": "I feel tired right now at school.",
+    "mean": "Tôi cảm thấy mệt right now at school."
+  },
+  {
+    "sentence": "I feel tired right now at home.",
+    "mean": "Tôi cảm thấy mệt right now at home."
+  },
+  {
+    "sentence": "I feel tired right now at work.",
+    "mean": "Tôi cảm thấy mệt right now at work."
+  },
+  {
+    "sentence": "I feel tired right now in the office.",
+    "mean": "Tôi cảm thấy mệt right now in the office."
+  },
+  {
+    "sentence": "I feel tired right now at the restaurant.",
+    "mean": "Tôi cảm thấy mệt right now at the restaurant."
+  },
+  {
+    "sentence": "I feel tired later at school.",
+    "mean": "Tôi cảm thấy mệt later at school."
+  },
+  {
+    "sentence": "I feel tired later at home.",
+    "mean": "Tôi cảm thấy mệt later at home."
+  },
+  {
+    "sentence": "I feel tired later at work.",
+    "mean": "Tôi cảm thấy mệt later at work."
+  },
+  {
+    "sentence": "I feel tired later in the office.",
+    "mean": "Tôi cảm thấy mệt later in the office."
+  },
+  {
+    "sentence": "I feel tired later at the restaurant.",
+    "mean": "Tôi cảm thấy mệt later at the restaurant."
+  },
+  {
+    "sentence": "I am hungry today at school.",
+    "mean": "Tôi đang đói today at school."
+  },
+  {
+    "sentence": "I am hungry today at home.",
+    "mean": "Tôi đang đói today at home."
+  },
+  {
+    "sentence": "I am hungry today at work.",
+    "mean": "Tôi đang đói today at work."
+  },
+  {
+    "sentence": "I am hungry today in the office.",
+    "mean": "Tôi đang đói today in the office."
+  },
+  {
+    "sentence": "I am hungry today at the restaurant.",
+    "mean": "Tôi đang đói today at the restaurant."
+  },
+  {
+    "sentence": "I am hungry tomorrow at school.",
+    "mean": "Tôi đang đói tomorrow at school."
+  },
+  {
+    "sentence": "I am hungry tomorrow at home.",
+    "mean": "Tôi đang đói tomorrow at home."
+  },
+  {
+    "sentence": "I am hungry tomorrow at work.",
+    "mean": "Tôi đang đói tomorrow at work."
+  },
+  {
+    "sentence": "I am hungry tomorrow in the office.",
+    "mean": "Tôi đang đói tomorrow in the office."
+  },
+  {
+    "sentence": "I am hungry tomorrow at the restaurant.",
+    "mean": "Tôi đang đói tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I am hungry this week at school.",
+    "mean": "Tôi đang đói this week at school."
+  },
+  {
+    "sentence": "I am hungry this week at home.",
+    "mean": "Tôi đang đói this week at home."
+  },
+  {
+    "sentence": "I am hungry this week at work.",
+    "mean": "Tôi đang đói this week at work."
+  },
+  {
+    "sentence": "I am hungry this week in the office.",
+    "mean": "Tôi đang đói this week in the office."
+  },
+  {
+    "sentence": "I am hungry this week at the restaurant.",
+    "mean": "Tôi đang đói this week at the restaurant."
+  },
+  {
+    "sentence": "I am hungry right now at school.",
+    "mean": "Tôi đang đói right now at school."
+  },
+  {
+    "sentence": "I am hungry right now at home.",
+    "mean": "Tôi đang đói right now at home."
+  },
+  {
+    "sentence": "I am hungry right now at work.",
+    "mean": "Tôi đang đói right now at work."
+  },
+  {
+    "sentence": "I am hungry right now in the office.",
+    "mean": "Tôi đang đói right now in the office."
+  },
+  {
+    "sentence": "I am hungry right now at the restaurant.",
+    "mean": "Tôi đang đói right now at the restaurant."
+  },
+  {
+    "sentence": "I am hungry later at school.",
+    "mean": "Tôi đang đói later at school."
+  },
+  {
+    "sentence": "I am hungry later at home.",
+    "mean": "Tôi đang đói later at home."
+  },
+  {
+    "sentence": "I am hungry later at work.",
+    "mean": "Tôi đang đói later at work."
+  },
+  {
+    "sentence": "I am hungry later in the office.",
+    "mean": "Tôi đang đói later in the office."
+  },
+  {
+    "sentence": "I am hungry later at the restaurant.",
+    "mean": "Tôi đang đói later at the restaurant."
+  },
+  {
+    "sentence": "I love this song today at school.",
+    "mean": "Tôi yêu bài hát này today at school."
+  },
+  {
+    "sentence": "I love this song today at home.",
+    "mean": "Tôi yêu bài hát này today at home."
+  },
+  {
+    "sentence": "I love this song today at work.",
+    "mean": "Tôi yêu bài hát này today at work."
+  },
+  {
+    "sentence": "I love this song today in the office.",
+    "mean": "Tôi yêu bài hát này today in the office."
+  },
+  {
+    "sentence": "I love this song today at the restaurant.",
+    "mean": "Tôi yêu bài hát này today at the restaurant."
+  },
+  {
+    "sentence": "I love this song tomorrow at school.",
+    "mean": "Tôi yêu bài hát này tomorrow at school."
+  },
+  {
+    "sentence": "I love this song tomorrow at home.",
+    "mean": "Tôi yêu bài hát này tomorrow at home."
+  },
+  {
+    "sentence": "I love this song tomorrow at work.",
+    "mean": "Tôi yêu bài hát này tomorrow at work."
+  },
+  {
+    "sentence": "I love this song tomorrow in the office.",
+    "mean": "Tôi yêu bài hát này tomorrow in the office."
+  },
+  {
+    "sentence": "I love this song tomorrow at the restaurant.",
+    "mean": "Tôi yêu bài hát này tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I love this song this week at school.",
+    "mean": "Tôi yêu bài hát này this week at school."
+  },
+  {
+    "sentence": "I love this song this week at home.",
+    "mean": "Tôi yêu bài hát này this week at home."
+  },
+  {
+    "sentence": "I love this song this week at work.",
+    "mean": "Tôi yêu bài hát này this week at work."
+  },
+  {
+    "sentence": "I love this song this week in the office.",
+    "mean": "Tôi yêu bài hát này this week in the office."
+  },
+  {
+    "sentence": "I love this song this week at the restaurant.",
+    "mean": "Tôi yêu bài hát này this week at the restaurant."
+  },
+  {
+    "sentence": "I love this song right now at school.",
+    "mean": "Tôi yêu bài hát này right now at school."
+  },
+  {
+    "sentence": "I love this song right now at home.",
+    "mean": "Tôi yêu bài hát này right now at home."
+  },
+  {
+    "sentence": "I love this song right now at work.",
+    "mean": "Tôi yêu bài hát này right now at work."
+  },
+  {
+    "sentence": "I love this song right now in the office.",
+    "mean": "Tôi yêu bài hát này right now in the office."
+  },
+  {
+    "sentence": "I love this song right now at the restaurant.",
+    "mean": "Tôi yêu bài hát này right now at the restaurant."
+  },
+  {
+    "sentence": "I love this song later at school.",
+    "mean": "Tôi yêu bài hát này later at school."
+  },
+  {
+    "sentence": "I love this song later at home.",
+    "mean": "Tôi yêu bài hát này later at home."
+  },
+  {
+    "sentence": "I love this song later at work.",
+    "mean": "Tôi yêu bài hát này later at work."
+  },
+  {
+    "sentence": "I love this song later in the office.",
+    "mean": "Tôi yêu bài hát này later in the office."
+  },
+  {
+    "sentence": "I love this song later at the restaurant.",
+    "mean": "Tôi yêu bài hát này later at the restaurant."
+  },
+  {
+    "sentence": "I need more time today at school.",
+    "mean": "Tôi cần thêm thời gian today at school."
+  },
+  {
+    "sentence": "I need more time today at home.",
+    "mean": "Tôi cần thêm thời gian today at home."
+  },
+  {
+    "sentence": "I need more time today at work.",
+    "mean": "Tôi cần thêm thời gian today at work."
+  },
+  {
+    "sentence": "I need more time today in the office.",
+    "mean": "Tôi cần thêm thời gian today in the office."
+  },
+  {
+    "sentence": "I need more time today at the restaurant.",
+    "mean": "Tôi cần thêm thời gian today at the restaurant."
+  },
+  {
+    "sentence": "I need more time tomorrow at school.",
+    "mean": "Tôi cần thêm thời gian tomorrow at school."
+  },
+  {
+    "sentence": "I need more time tomorrow at home.",
+    "mean": "Tôi cần thêm thời gian tomorrow at home."
+  },
+  {
+    "sentence": "I need more time tomorrow at work.",
+    "mean": "Tôi cần thêm thời gian tomorrow at work."
+  },
+  {
+    "sentence": "I need more time tomorrow in the office.",
+    "mean": "Tôi cần thêm thời gian tomorrow in the office."
+  },
+  {
+    "sentence": "I need more time tomorrow at the restaurant.",
+    "mean": "Tôi cần thêm thời gian tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I need more time this week at school.",
+    "mean": "Tôi cần thêm thời gian this week at school."
+  },
+  {
+    "sentence": "I need more time this week at home.",
+    "mean": "Tôi cần thêm thời gian this week at home."
+  },
+  {
+    "sentence": "I need more time this week at work.",
+    "mean": "Tôi cần thêm thời gian this week at work."
+  },
+  {
+    "sentence": "I need more time this week in the office.",
+    "mean": "Tôi cần thêm thời gian this week in the office."
+  },
+  {
+    "sentence": "I need more time this week at the restaurant.",
+    "mean": "Tôi cần thêm thời gian this week at the restaurant."
+  },
+  {
+    "sentence": "I need more time right now at school.",
+    "mean": "Tôi cần thêm thời gian right now at school."
+  },
+  {
+    "sentence": "I need more time right now at home.",
+    "mean": "Tôi cần thêm thời gian right now at home."
+  },
+  {
+    "sentence": "I need more time right now at work.",
+    "mean": "Tôi cần thêm thời gian right now at work."
+  },
+  {
+    "sentence": "I need more time right now in the office.",
+    "mean": "Tôi cần thêm thời gian right now in the office."
+  },
+  {
+    "sentence": "I need more time right now at the restaurant.",
+    "mean": "Tôi cần thêm thời gian right now at the restaurant."
+  },
+  {
+    "sentence": "I need more time later at school.",
+    "mean": "Tôi cần thêm thời gian later at school."
+  },
+  {
+    "sentence": "I need more time later at home.",
+    "mean": "Tôi cần thêm thời gian later at home."
+  },
+  {
+    "sentence": "I need more time later at work.",
+    "mean": "Tôi cần thêm thời gian later at work."
+  },
+  {
+    "sentence": "I need more time later in the office.",
+    "mean": "Tôi cần thêm thời gian later in the office."
+  },
+  {
+    "sentence": "I need more time later at the restaurant.",
+    "mean": "Tôi cần thêm thời gian later at the restaurant."
+  },
+  {
+    "sentence": "I am ready today at school.",
+    "mean": "Tôi đã sẵn sàng today at school."
+  },
+  {
+    "sentence": "I am ready today at home.",
+    "mean": "Tôi đã sẵn sàng today at home."
+  },
+  {
+    "sentence": "I am ready today at work.",
+    "mean": "Tôi đã sẵn sàng today at work."
+  },
+  {
+    "sentence": "I am ready today in the office.",
+    "mean": "Tôi đã sẵn sàng today in the office."
+  },
+  {
+    "sentence": "I am ready today at the restaurant.",
+    "mean": "Tôi đã sẵn sàng today at the restaurant."
+  },
+  {
+    "sentence": "I am ready tomorrow at school.",
+    "mean": "Tôi đã sẵn sàng tomorrow at school."
+  },
+  {
+    "sentence": "I am ready tomorrow at home.",
+    "mean": "Tôi đã sẵn sàng tomorrow at home."
+  },
+  {
+    "sentence": "I am ready tomorrow at work.",
+    "mean": "Tôi đã sẵn sàng tomorrow at work."
+  },
+  {
+    "sentence": "I am ready tomorrow in the office.",
+    "mean": "Tôi đã sẵn sàng tomorrow in the office."
+  },
+  {
+    "sentence": "I am ready tomorrow at the restaurant.",
+    "mean": "Tôi đã sẵn sàng tomorrow at the restaurant."
+  },
+  {
+    "sentence": "I am ready this week at school.",
+    "mean": "Tôi đã sẵn sàng this week at school."
+  },
+  {
+    "sentence": "I am ready this week at home.",
+    "mean": "Tôi đã sẵn sàng this week at home."
+  },
+  {
+    "sentence": "I am ready this week at work.",
+    "mean": "Tôi đã sẵn sàng this week at work."
+  },
+  {
+    "sentence": "I am ready this week in the office.",
+    "mean": "Tôi đã sẵn sàng this week in the office."
+  },
+  {
+    "sentence": "I am ready this week at the restaurant.",
+    "mean": "Tôi đã sẵn sàng this week at the restaurant."
+  },
+  {
+    "sentence": "I am ready right now at school.",
+    "mean": "Tôi đã sẵn sàng right now at school."
+  },
+  {
+    "sentence": "I am ready right now at home.",
+    "mean": "Tôi đã sẵn sàng right now at home."
+  },
+  {
+    "sentence": "I am ready right now at work.",
+    "mean": "Tôi đã sẵn sàng right now at work."
+  },
+  {
+    "sentence": "I am ready right now in the office.",
+    "mean": "Tôi đã sẵn sàng right now in the office."
+  },
+  {
+    "sentence": "I am ready right now at the restaurant.",
+    "mean": "Tôi đã sẵn sàng right now at the restaurant."
+  },
+  {
+    "sentence": "I am ready later at school.",
+    "mean": "Tôi đã sẵn sàng later at school."
+  },
+  {
+    "sentence": "I am ready later at home.",
+    "mean": "Tôi đã sẵn sàng later at home."
+  },
+  {
+    "sentence": "I am ready later at work.",
+    "mean": "Tôi đã sẵn sàng later at work."
+  },
+  {
+    "sentence": "I am ready later in the office.",
+    "mean": "Tôi đã sẵn sàng later in the office."
+  },
+  {
+    "sentence": "I am ready later at the restaurant.",
+    "mean": "Tôi đã sẵn sàng later at the restaurant."
+  },
+  {
+    "sentence": "You need help today at school.",
+    "mean": "Bạn cần giúp đỡ today at school."
+  },
+  {
+    "sentence": "You need help today at home.",
+    "mean": "Bạn cần giúp đỡ today at home."
+  },
+  {
+    "sentence": "You need help today at work.",
+    "mean": "Bạn cần giúp đỡ today at work."
+  },
+  {
+    "sentence": "You need help today in the office.",
+    "mean": "Bạn cần giúp đỡ today in the office."
+  },
+  {
+    "sentence": "You need help today at the restaurant.",
+    "mean": "Bạn cần giúp đỡ today at the restaurant."
+  },
+  {
+    "sentence": "You need help tomorrow at school.",
+    "mean": "Bạn cần giúp đỡ tomorrow at school."
+  },
+  {
+    "sentence": "You need help tomorrow at home.",
+    "mean": "Bạn cần giúp đỡ tomorrow at home."
+  },
+  {
+    "sentence": "You need help tomorrow at work.",
+    "mean": "Bạn cần giúp đỡ tomorrow at work."
+  },
+  {
+    "sentence": "You need help tomorrow in the office.",
+    "mean": "Bạn cần giúp đỡ tomorrow in the office."
+  },
+  {
+    "sentence": "You need help tomorrow at the restaurant.",
+    "mean": "Bạn cần giúp đỡ tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You need help this week at school.",
+    "mean": "Bạn cần giúp đỡ this week at school."
+  },
+  {
+    "sentence": "You need help this week at home.",
+    "mean": "Bạn cần giúp đỡ this week at home."
+  },
+  {
+    "sentence": "You need help this week at work.",
+    "mean": "Bạn cần giúp đỡ this week at work."
+  },
+  {
+    "sentence": "You need help this week in the office.",
+    "mean": "Bạn cần giúp đỡ this week in the office."
+  },
+  {
+    "sentence": "You need help this week at the restaurant.",
+    "mean": "Bạn cần giúp đỡ this week at the restaurant."
+  },
+  {
+    "sentence": "You need help right now at school.",
+    "mean": "Bạn cần giúp đỡ right now at school."
+  },
+  {
+    "sentence": "You need help right now at home.",
+    "mean": "Bạn cần giúp đỡ right now at home."
+  },
+  {
+    "sentence": "You need help right now at work.",
+    "mean": "Bạn cần giúp đỡ right now at work."
+  },
+  {
+    "sentence": "You need help right now in the office.",
+    "mean": "Bạn cần giúp đỡ right now in the office."
+  },
+  {
+    "sentence": "You need help right now at the restaurant.",
+    "mean": "Bạn cần giúp đỡ right now at the restaurant."
+  },
+  {
+    "sentence": "You need help later at school.",
+    "mean": "Bạn cần giúp đỡ later at school."
+  },
+  {
+    "sentence": "You need help later at home.",
+    "mean": "Bạn cần giúp đỡ later at home."
+  },
+  {
+    "sentence": "You need help later at work.",
+    "mean": "Bạn cần giúp đỡ later at work."
+  },
+  {
+    "sentence": "You need help later in the office.",
+    "mean": "Bạn cần giúp đỡ later in the office."
+  },
+  {
+    "sentence": "You need help later at the restaurant.",
+    "mean": "Bạn cần giúp đỡ later at the restaurant."
+  },
+  {
+    "sentence": "You am busy today today at school.",
+    "mean": "Bạn hôm nay bận today at school."
+  },
+  {
+    "sentence": "You am busy today today at home.",
+    "mean": "Bạn hôm nay bận today at home."
+  },
+  {
+    "sentence": "You am busy today today at work.",
+    "mean": "Bạn hôm nay bận today at work."
+  },
+  {
+    "sentence": "You am busy today today in the office.",
+    "mean": "Bạn hôm nay bận today in the office."
+  },
+  {
+    "sentence": "You am busy today today at the restaurant.",
+    "mean": "Bạn hôm nay bận today at the restaurant."
+  },
+  {
+    "sentence": "You am busy today tomorrow at school.",
+    "mean": "Bạn hôm nay bận tomorrow at school."
+  },
+  {
+    "sentence": "You am busy today tomorrow at home.",
+    "mean": "Bạn hôm nay bận tomorrow at home."
+  },
+  {
+    "sentence": "You am busy today tomorrow at work.",
+    "mean": "Bạn hôm nay bận tomorrow at work."
+  },
+  {
+    "sentence": "You am busy today tomorrow in the office.",
+    "mean": "Bạn hôm nay bận tomorrow in the office."
+  },
+  {
+    "sentence": "You am busy today tomorrow at the restaurant.",
+    "mean": "Bạn hôm nay bận tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You am busy today this week at school.",
+    "mean": "Bạn hôm nay bận this week at school."
+  },
+  {
+    "sentence": "You am busy today this week at home.",
+    "mean": "Bạn hôm nay bận this week at home."
+  },
+  {
+    "sentence": "You am busy today this week at work.",
+    "mean": "Bạn hôm nay bận this week at work."
+  },
+  {
+    "sentence": "You am busy today this week in the office.",
+    "mean": "Bạn hôm nay bận this week in the office."
+  },
+  {
+    "sentence": "You am busy today this week at the restaurant.",
+    "mean": "Bạn hôm nay bận this week at the restaurant."
+  },
+  {
+    "sentence": "You am busy today right now at school.",
+    "mean": "Bạn hôm nay bận right now at school."
+  },
+  {
+    "sentence": "You am busy today right now at home.",
+    "mean": "Bạn hôm nay bận right now at home."
+  },
+  {
+    "sentence": "You am busy today right now at work.",
+    "mean": "Bạn hôm nay bận right now at work."
+  },
+  {
+    "sentence": "You am busy today right now in the office.",
+    "mean": "Bạn hôm nay bận right now in the office."
+  },
+  {
+    "sentence": "You am busy today right now at the restaurant.",
+    "mean": "Bạn hôm nay bận right now at the restaurant."
+  },
+  {
+    "sentence": "You am busy today later at school.",
+    "mean": "Bạn hôm nay bận later at school."
+  },
+  {
+    "sentence": "You am busy today later at home.",
+    "mean": "Bạn hôm nay bận later at home."
+  },
+  {
+    "sentence": "You am busy today later at work.",
+    "mean": "Bạn hôm nay bận later at work."
+  },
+  {
+    "sentence": "You am busy today later in the office.",
+    "mean": "Bạn hôm nay bận later in the office."
+  },
+  {
+    "sentence": "You am busy today later at the restaurant.",
+    "mean": "Bạn hôm nay bận later at the restaurant."
+  },
+  {
+    "sentence": "You want some coffee today at school.",
+    "mean": "Bạn muốn uống cà phê today at school."
+  },
+  {
+    "sentence": "You want some coffee today at home.",
+    "mean": "Bạn muốn uống cà phê today at home."
+  },
+  {
+    "sentence": "You want some coffee today at work.",
+    "mean": "Bạn muốn uống cà phê today at work."
+  },
+  {
+    "sentence": "You want some coffee today in the office.",
+    "mean": "Bạn muốn uống cà phê today in the office."
+  },
+  {
+    "sentence": "You want some coffee today at the restaurant.",
+    "mean": "Bạn muốn uống cà phê today at the restaurant."
+  },
+  {
+    "sentence": "You want some coffee tomorrow at school.",
+    "mean": "Bạn muốn uống cà phê tomorrow at school."
+  },
+  {
+    "sentence": "You want some coffee tomorrow at home.",
+    "mean": "Bạn muốn uống cà phê tomorrow at home."
+  },
+  {
+    "sentence": "You want some coffee tomorrow at work.",
+    "mean": "Bạn muốn uống cà phê tomorrow at work."
+  },
+  {
+    "sentence": "You want some coffee tomorrow in the office.",
+    "mean": "Bạn muốn uống cà phê tomorrow in the office."
+  },
+  {
+    "sentence": "You want some coffee tomorrow at the restaurant.",
+    "mean": "Bạn muốn uống cà phê tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You want some coffee this week at school.",
+    "mean": "Bạn muốn uống cà phê this week at school."
+  },
+  {
+    "sentence": "You want some coffee this week at home.",
+    "mean": "Bạn muốn uống cà phê this week at home."
+  },
+  {
+    "sentence": "You want some coffee this week at work.",
+    "mean": "Bạn muốn uống cà phê this week at work."
+  },
+  {
+    "sentence": "You want some coffee this week in the office.",
+    "mean": "Bạn muốn uống cà phê this week in the office."
+  },
+  {
+    "sentence": "You want some coffee this week at the restaurant.",
+    "mean": "Bạn muốn uống cà phê this week at the restaurant."
+  },
+  {
+    "sentence": "You want some coffee right now at school.",
+    "mean": "Bạn muốn uống cà phê right now at school."
+  },
+  {
+    "sentence": "You want some coffee right now at home.",
+    "mean": "Bạn muốn uống cà phê right now at home."
+  },
+  {
+    "sentence": "You want some coffee right now at work.",
+    "mean": "Bạn muốn uống cà phê right now at work."
+  },
+  {
+    "sentence": "You want some coffee right now in the office.",
+    "mean": "Bạn muốn uống cà phê right now in the office."
+  },
+  {
+    "sentence": "You want some coffee right now at the restaurant.",
+    "mean": "Bạn muốn uống cà phê right now at the restaurant."
+  },
+  {
+    "sentence": "You want some coffee later at school.",
+    "mean": "Bạn muốn uống cà phê later at school."
+  },
+  {
+    "sentence": "You want some coffee later at home.",
+    "mean": "Bạn muốn uống cà phê later at home."
+  },
+  {
+    "sentence": "You want some coffee later at work.",
+    "mean": "Bạn muốn uống cà phê later at work."
+  },
+  {
+    "sentence": "You want some coffee later in the office.",
+    "mean": "Bạn muốn uống cà phê later in the office."
+  },
+  {
+    "sentence": "You want some coffee later at the restaurant.",
+    "mean": "Bạn muốn uống cà phê later at the restaurant."
+  },
+  {
+    "sentence": "You like learning English today at school.",
+    "mean": "Bạn thích học tiếng Anh today at school."
+  },
+  {
+    "sentence": "You like learning English today at home.",
+    "mean": "Bạn thích học tiếng Anh today at home."
+  },
+  {
+    "sentence": "You like learning English today at work.",
+    "mean": "Bạn thích học tiếng Anh today at work."
+  },
+  {
+    "sentence": "You like learning English today in the office.",
+    "mean": "Bạn thích học tiếng Anh today in the office."
+  },
+  {
+    "sentence": "You like learning English today at the restaurant.",
+    "mean": "Bạn thích học tiếng Anh today at the restaurant."
+  },
+  {
+    "sentence": "You like learning English tomorrow at school.",
+    "mean": "Bạn thích học tiếng Anh tomorrow at school."
+  },
+  {
+    "sentence": "You like learning English tomorrow at home.",
+    "mean": "Bạn thích học tiếng Anh tomorrow at home."
+  },
+  {
+    "sentence": "You like learning English tomorrow at work.",
+    "mean": "Bạn thích học tiếng Anh tomorrow at work."
+  },
+  {
+    "sentence": "You like learning English tomorrow in the office.",
+    "mean": "Bạn thích học tiếng Anh tomorrow in the office."
+  },
+  {
+    "sentence": "You like learning English tomorrow at the restaurant.",
+    "mean": "Bạn thích học tiếng Anh tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You like learning English this week at school.",
+    "mean": "Bạn thích học tiếng Anh this week at school."
+  },
+  {
+    "sentence": "You like learning English this week at home.",
+    "mean": "Bạn thích học tiếng Anh this week at home."
+  },
+  {
+    "sentence": "You like learning English this week at work.",
+    "mean": "Bạn thích học tiếng Anh this week at work."
+  },
+  {
+    "sentence": "You like learning English this week in the office.",
+    "mean": "Bạn thích học tiếng Anh this week in the office."
+  },
+  {
+    "sentence": "You like learning English this week at the restaurant.",
+    "mean": "Bạn thích học tiếng Anh this week at the restaurant."
+  },
+  {
+    "sentence": "You like learning English right now at school.",
+    "mean": "Bạn thích học tiếng Anh right now at school."
+  },
+  {
+    "sentence": "You like learning English right now at home.",
+    "mean": "Bạn thích học tiếng Anh right now at home."
+  },
+  {
+    "sentence": "You like learning English right now at work.",
+    "mean": "Bạn thích học tiếng Anh right now at work."
+  },
+  {
+    "sentence": "You like learning English right now in the office.",
+    "mean": "Bạn thích học tiếng Anh right now in the office."
+  },
+  {
+    "sentence": "You like learning English right now at the restaurant.",
+    "mean": "Bạn thích học tiếng Anh right now at the restaurant."
+  },
+  {
+    "sentence": "You like learning English later at school.",
+    "mean": "Bạn thích học tiếng Anh later at school."
+  },
+  {
+    "sentence": "You like learning English later at home.",
+    "mean": "Bạn thích học tiếng Anh later at home."
+  },
+  {
+    "sentence": "You like learning English later at work.",
+    "mean": "Bạn thích học tiếng Anh later at work."
+  },
+  {
+    "sentence": "You like learning English later in the office.",
+    "mean": "Bạn thích học tiếng Anh later in the office."
+  },
+  {
+    "sentence": "You like learning English later at the restaurant.",
+    "mean": "Bạn thích học tiếng Anh later at the restaurant."
+  },
+  {
+    "sentence": "You have a meeting today at school.",
+    "mean": "Bạn có cuộc họp today at school."
+  },
+  {
+    "sentence": "You have a meeting today at home.",
+    "mean": "Bạn có cuộc họp today at home."
+  },
+  {
+    "sentence": "You have a meeting today at work.",
+    "mean": "Bạn có cuộc họp today at work."
+  },
+  {
+    "sentence": "You have a meeting today in the office.",
+    "mean": "Bạn có cuộc họp today in the office."
+  },
+  {
+    "sentence": "You have a meeting today at the restaurant.",
+    "mean": "Bạn có cuộc họp today at the restaurant."
+  },
+  {
+    "sentence": "You have a meeting tomorrow at school.",
+    "mean": "Bạn có cuộc họp tomorrow at school."
+  },
+  {
+    "sentence": "You have a meeting tomorrow at home.",
+    "mean": "Bạn có cuộc họp tomorrow at home."
+  },
+  {
+    "sentence": "You have a meeting tomorrow at work.",
+    "mean": "Bạn có cuộc họp tomorrow at work."
+  },
+  {
+    "sentence": "You have a meeting tomorrow in the office.",
+    "mean": "Bạn có cuộc họp tomorrow in the office."
+  },
+  {
+    "sentence": "You have a meeting tomorrow at the restaurant.",
+    "mean": "Bạn có cuộc họp tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You have a meeting this week at school.",
+    "mean": "Bạn có cuộc họp this week at school."
+  },
+  {
+    "sentence": "You have a meeting this week at home.",
+    "mean": "Bạn có cuộc họp this week at home."
+  },
+  {
+    "sentence": "You have a meeting this week at work.",
+    "mean": "Bạn có cuộc họp this week at work."
+  },
+  {
+    "sentence": "You have a meeting this week in the office.",
+    "mean": "Bạn có cuộc họp this week in the office."
+  },
+  {
+    "sentence": "You have a meeting this week at the restaurant.",
+    "mean": "Bạn có cuộc họp this week at the restaurant."
+  },
+  {
+    "sentence": "You have a meeting right now at school.",
+    "mean": "Bạn có cuộc họp right now at school."
+  },
+  {
+    "sentence": "You have a meeting right now at home.",
+    "mean": "Bạn có cuộc họp right now at home."
+  },
+  {
+    "sentence": "You have a meeting right now at work.",
+    "mean": "Bạn có cuộc họp right now at work."
+  },
+  {
+    "sentence": "You have a meeting right now in the office.",
+    "mean": "Bạn có cuộc họp right now in the office."
+  },
+  {
+    "sentence": "You have a meeting right now at the restaurant.",
+    "mean": "Bạn có cuộc họp right now at the restaurant."
+  },
+  {
+    "sentence": "You have a meeting later at school.",
+    "mean": "Bạn có cuộc họp later at school."
+  },
+  {
+    "sentence": "You have a meeting later at home.",
+    "mean": "Bạn có cuộc họp later at home."
+  },
+  {
+    "sentence": "You have a meeting later at work.",
+    "mean": "Bạn có cuộc họp later at work."
+  },
+  {
+    "sentence": "You have a meeting later in the office.",
+    "mean": "Bạn có cuộc họp later in the office."
+  },
+  {
+    "sentence": "You have a meeting later at the restaurant.",
+    "mean": "Bạn có cuộc họp later at the restaurant."
+  },
+  {
+    "sentence": "You feel tired today at school.",
+    "mean": "Bạn cảm thấy mệt today at school."
+  },
+  {
+    "sentence": "You feel tired today at home.",
+    "mean": "Bạn cảm thấy mệt today at home."
+  },
+  {
+    "sentence": "You feel tired today at work.",
+    "mean": "Bạn cảm thấy mệt today at work."
+  },
+  {
+    "sentence": "You feel tired today in the office.",
+    "mean": "Bạn cảm thấy mệt today in the office."
+  },
+  {
+    "sentence": "You feel tired today at the restaurant.",
+    "mean": "Bạn cảm thấy mệt today at the restaurant."
+  },
+  {
+    "sentence": "You feel tired tomorrow at school.",
+    "mean": "Bạn cảm thấy mệt tomorrow at school."
+  },
+  {
+    "sentence": "You feel tired tomorrow at home.",
+    "mean": "Bạn cảm thấy mệt tomorrow at home."
+  },
+  {
+    "sentence": "You feel tired tomorrow at work.",
+    "mean": "Bạn cảm thấy mệt tomorrow at work."
+  },
+  {
+    "sentence": "You feel tired tomorrow in the office.",
+    "mean": "Bạn cảm thấy mệt tomorrow in the office."
+  },
+  {
+    "sentence": "You feel tired tomorrow at the restaurant.",
+    "mean": "Bạn cảm thấy mệt tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You feel tired this week at school.",
+    "mean": "Bạn cảm thấy mệt this week at school."
+  },
+  {
+    "sentence": "You feel tired this week at home.",
+    "mean": "Bạn cảm thấy mệt this week at home."
+  },
+  {
+    "sentence": "You feel tired this week at work.",
+    "mean": "Bạn cảm thấy mệt this week at work."
+  },
+  {
+    "sentence": "You feel tired this week in the office.",
+    "mean": "Bạn cảm thấy mệt this week in the office."
+  },
+  {
+    "sentence": "You feel tired this week at the restaurant.",
+    "mean": "Bạn cảm thấy mệt this week at the restaurant."
+  },
+  {
+    "sentence": "You feel tired right now at school.",
+    "mean": "Bạn cảm thấy mệt right now at school."
+  },
+  {
+    "sentence": "You feel tired right now at home.",
+    "mean": "Bạn cảm thấy mệt right now at home."
+  },
+  {
+    "sentence": "You feel tired right now at work.",
+    "mean": "Bạn cảm thấy mệt right now at work."
+  },
+  {
+    "sentence": "You feel tired right now in the office.",
+    "mean": "Bạn cảm thấy mệt right now in the office."
+  },
+  {
+    "sentence": "You feel tired right now at the restaurant.",
+    "mean": "Bạn cảm thấy mệt right now at the restaurant."
+  },
+  {
+    "sentence": "You feel tired later at school.",
+    "mean": "Bạn cảm thấy mệt later at school."
+  },
+  {
+    "sentence": "You feel tired later at home.",
+    "mean": "Bạn cảm thấy mệt later at home."
+  },
+  {
+    "sentence": "You feel tired later at work.",
+    "mean": "Bạn cảm thấy mệt later at work."
+  },
+  {
+    "sentence": "You feel tired later in the office.",
+    "mean": "Bạn cảm thấy mệt later in the office."
+  },
+  {
+    "sentence": "You feel tired later at the restaurant.",
+    "mean": "Bạn cảm thấy mệt later at the restaurant."
+  },
+  {
+    "sentence": "You am hungry today at school.",
+    "mean": "Bạn đang đói today at school."
+  },
+  {
+    "sentence": "You am hungry today at home.",
+    "mean": "Bạn đang đói today at home."
+  },
+  {
+    "sentence": "You am hungry today at work.",
+    "mean": "Bạn đang đói today at work."
+  },
+  {
+    "sentence": "You am hungry today in the office.",
+    "mean": "Bạn đang đói today in the office."
+  },
+  {
+    "sentence": "You am hungry today at the restaurant.",
+    "mean": "Bạn đang đói today at the restaurant."
+  },
+  {
+    "sentence": "You am hungry tomorrow at school.",
+    "mean": "Bạn đang đói tomorrow at school."
+  },
+  {
+    "sentence": "You am hungry tomorrow at home.",
+    "mean": "Bạn đang đói tomorrow at home."
+  },
+  {
+    "sentence": "You am hungry tomorrow at work.",
+    "mean": "Bạn đang đói tomorrow at work."
+  },
+  {
+    "sentence": "You am hungry tomorrow in the office.",
+    "mean": "Bạn đang đói tomorrow in the office."
+  },
+  {
+    "sentence": "You am hungry tomorrow at the restaurant.",
+    "mean": "Bạn đang đói tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You am hungry this week at school.",
+    "mean": "Bạn đang đói this week at school."
+  },
+  {
+    "sentence": "You am hungry this week at home.",
+    "mean": "Bạn đang đói this week at home."
+  },
+  {
+    "sentence": "You am hungry this week at work.",
+    "mean": "Bạn đang đói this week at work."
+  },
+  {
+    "sentence": "You am hungry this week in the office.",
+    "mean": "Bạn đang đói this week in the office."
+  },
+  {
+    "sentence": "You am hungry this week at the restaurant.",
+    "mean": "Bạn đang đói this week at the restaurant."
+  },
+  {
+    "sentence": "You am hungry right now at school.",
+    "mean": "Bạn đang đói right now at school."
+  },
+  {
+    "sentence": "You am hungry right now at home.",
+    "mean": "Bạn đang đói right now at home."
+  },
+  {
+    "sentence": "You am hungry right now at work.",
+    "mean": "Bạn đang đói right now at work."
+  },
+  {
+    "sentence": "You am hungry right now in the office.",
+    "mean": "Bạn đang đói right now in the office."
+  },
+  {
+    "sentence": "You am hungry right now at the restaurant.",
+    "mean": "Bạn đang đói right now at the restaurant."
+  },
+  {
+    "sentence": "You am hungry later at school.",
+    "mean": "Bạn đang đói later at school."
+  },
+  {
+    "sentence": "You am hungry later at home.",
+    "mean": "Bạn đang đói later at home."
+  },
+  {
+    "sentence": "You am hungry later at work.",
+    "mean": "Bạn đang đói later at work."
+  },
+  {
+    "sentence": "You am hungry later in the office.",
+    "mean": "Bạn đang đói later in the office."
+  },
+  {
+    "sentence": "You am hungry later at the restaurant.",
+    "mean": "Bạn đang đói later at the restaurant."
+  },
+  {
+    "sentence": "You love this song today at school.",
+    "mean": "Bạn yêu bài hát này today at school."
+  },
+  {
+    "sentence": "You love this song today at home.",
+    "mean": "Bạn yêu bài hát này today at home."
+  },
+  {
+    "sentence": "You love this song today at work.",
+    "mean": "Bạn yêu bài hát này today at work."
+  },
+  {
+    "sentence": "You love this song today in the office.",
+    "mean": "Bạn yêu bài hát này today in the office."
+  },
+  {
+    "sentence": "You love this song today at the restaurant.",
+    "mean": "Bạn yêu bài hát này today at the restaurant."
+  },
+  {
+    "sentence": "You love this song tomorrow at school.",
+    "mean": "Bạn yêu bài hát này tomorrow at school."
+  },
+  {
+    "sentence": "You love this song tomorrow at home.",
+    "mean": "Bạn yêu bài hát này tomorrow at home."
+  },
+  {
+    "sentence": "You love this song tomorrow at work.",
+    "mean": "Bạn yêu bài hát này tomorrow at work."
+  },
+  {
+    "sentence": "You love this song tomorrow in the office.",
+    "mean": "Bạn yêu bài hát này tomorrow in the office."
+  },
+  {
+    "sentence": "You love this song tomorrow at the restaurant.",
+    "mean": "Bạn yêu bài hát này tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You love this song this week at school.",
+    "mean": "Bạn yêu bài hát này this week at school."
+  },
+  {
+    "sentence": "You love this song this week at home.",
+    "mean": "Bạn yêu bài hát này this week at home."
+  },
+  {
+    "sentence": "You love this song this week at work.",
+    "mean": "Bạn yêu bài hát này this week at work."
+  },
+  {
+    "sentence": "You love this song this week in the office.",
+    "mean": "Bạn yêu bài hát này this week in the office."
+  },
+  {
+    "sentence": "You love this song this week at the restaurant.",
+    "mean": "Bạn yêu bài hát này this week at the restaurant."
+  },
+  {
+    "sentence": "You love this song right now at school.",
+    "mean": "Bạn yêu bài hát này right now at school."
+  },
+  {
+    "sentence": "You love this song right now at home.",
+    "mean": "Bạn yêu bài hát này right now at home."
+  },
+  {
+    "sentence": "You love this song right now at work.",
+    "mean": "Bạn yêu bài hát này right now at work."
+  },
+  {
+    "sentence": "You love this song right now in the office.",
+    "mean": "Bạn yêu bài hát này right now in the office."
+  },
+  {
+    "sentence": "You love this song right now at the restaurant.",
+    "mean": "Bạn yêu bài hát này right now at the restaurant."
+  },
+  {
+    "sentence": "You love this song later at school.",
+    "mean": "Bạn yêu bài hát này later at school."
+  },
+  {
+    "sentence": "You love this song later at home.",
+    "mean": "Bạn yêu bài hát này later at home."
+  },
+  {
+    "sentence": "You love this song later at work.",
+    "mean": "Bạn yêu bài hát này later at work."
+  },
+  {
+    "sentence": "You love this song later in the office.",
+    "mean": "Bạn yêu bài hát này later in the office."
+  },
+  {
+    "sentence": "You love this song later at the restaurant.",
+    "mean": "Bạn yêu bài hát này later at the restaurant."
+  },
+  {
+    "sentence": "You need more time today at school.",
+    "mean": "Bạn cần thêm thời gian today at school."
+  },
+  {
+    "sentence": "You need more time today at home.",
+    "mean": "Bạn cần thêm thời gian today at home."
+  },
+  {
+    "sentence": "You need more time today at work.",
+    "mean": "Bạn cần thêm thời gian today at work."
+  },
+  {
+    "sentence": "You need more time today in the office.",
+    "mean": "Bạn cần thêm thời gian today in the office."
+  },
+  {
+    "sentence": "You need more time today at the restaurant.",
+    "mean": "Bạn cần thêm thời gian today at the restaurant."
+  },
+  {
+    "sentence": "You need more time tomorrow at school.",
+    "mean": "Bạn cần thêm thời gian tomorrow at school."
+  },
+  {
+    "sentence": "You need more time tomorrow at home.",
+    "mean": "Bạn cần thêm thời gian tomorrow at home."
+  },
+  {
+    "sentence": "You need more time tomorrow at work.",
+    "mean": "Bạn cần thêm thời gian tomorrow at work."
+  },
+  {
+    "sentence": "You need more time tomorrow in the office.",
+    "mean": "Bạn cần thêm thời gian tomorrow in the office."
+  },
+  {
+    "sentence": "You need more time tomorrow at the restaurant.",
+    "mean": "Bạn cần thêm thời gian tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You need more time this week at school.",
+    "mean": "Bạn cần thêm thời gian this week at school."
+  },
+  {
+    "sentence": "You need more time this week at home.",
+    "mean": "Bạn cần thêm thời gian this week at home."
+  },
+  {
+    "sentence": "You need more time this week at work.",
+    "mean": "Bạn cần thêm thời gian this week at work."
+  },
+  {
+    "sentence": "You need more time this week in the office.",
+    "mean": "Bạn cần thêm thời gian this week in the office."
+  },
+  {
+    "sentence": "You need more time this week at the restaurant.",
+    "mean": "Bạn cần thêm thời gian this week at the restaurant."
+  },
+  {
+    "sentence": "You need more time right now at school.",
+    "mean": "Bạn cần thêm thời gian right now at school."
+  },
+  {
+    "sentence": "You need more time right now at home.",
+    "mean": "Bạn cần thêm thời gian right now at home."
+  },
+  {
+    "sentence": "You need more time right now at work.",
+    "mean": "Bạn cần thêm thời gian right now at work."
+  },
+  {
+    "sentence": "You need more time right now in the office.",
+    "mean": "Bạn cần thêm thời gian right now in the office."
+  },
+  {
+    "sentence": "You need more time right now at the restaurant.",
+    "mean": "Bạn cần thêm thời gian right now at the restaurant."
+  },
+  {
+    "sentence": "You need more time later at school.",
+    "mean": "Bạn cần thêm thời gian later at school."
+  },
+  {
+    "sentence": "You need more time later at home.",
+    "mean": "Bạn cần thêm thời gian later at home."
+  },
+  {
+    "sentence": "You need more time later at work.",
+    "mean": "Bạn cần thêm thời gian later at work."
+  },
+  {
+    "sentence": "You need more time later in the office.",
+    "mean": "Bạn cần thêm thời gian later in the office."
+  },
+  {
+    "sentence": "You need more time later at the restaurant.",
+    "mean": "Bạn cần thêm thời gian later at the restaurant."
+  },
+  {
+    "sentence": "You am ready today at school.",
+    "mean": "Bạn đã sẵn sàng today at school."
+  },
+  {
+    "sentence": "You am ready today at home.",
+    "mean": "Bạn đã sẵn sàng today at home."
+  },
+  {
+    "sentence": "You am ready today at work.",
+    "mean": "Bạn đã sẵn sàng today at work."
+  },
+  {
+    "sentence": "You am ready today in the office.",
+    "mean": "Bạn đã sẵn sàng today in the office."
+  },
+  {
+    "sentence": "You am ready today at the restaurant.",
+    "mean": "Bạn đã sẵn sàng today at the restaurant."
+  },
+  {
+    "sentence": "You am ready tomorrow at school.",
+    "mean": "Bạn đã sẵn sàng tomorrow at school."
+  },
+  {
+    "sentence": "You am ready tomorrow at home.",
+    "mean": "Bạn đã sẵn sàng tomorrow at home."
+  },
+  {
+    "sentence": "You am ready tomorrow at work.",
+    "mean": "Bạn đã sẵn sàng tomorrow at work."
+  },
+  {
+    "sentence": "You am ready tomorrow in the office.",
+    "mean": "Bạn đã sẵn sàng tomorrow in the office."
+  },
+  {
+    "sentence": "You am ready tomorrow at the restaurant.",
+    "mean": "Bạn đã sẵn sàng tomorrow at the restaurant."
+  },
+  {
+    "sentence": "You am ready this week at school.",
+    "mean": "Bạn đã sẵn sàng this week at school."
+  },
+  {
+    "sentence": "You am ready this week at home.",
+    "mean": "Bạn đã sẵn sàng this week at home."
+  },
+  {
+    "sentence": "You am ready this week at work.",
+    "mean": "Bạn đã sẵn sàng this week at work."
+  },
+  {
+    "sentence": "You am ready this week in the office.",
+    "mean": "Bạn đã sẵn sàng this week in the office."
+  },
+  {
+    "sentence": "You am ready this week at the restaurant.",
+    "mean": "Bạn đã sẵn sàng this week at the restaurant."
+  },
+  {
+    "sentence": "You am ready right now at school.",
+    "mean": "Bạn đã sẵn sàng right now at school."
+  },
+  {
+    "sentence": "You am ready right now at home.",
+    "mean": "Bạn đã sẵn sàng right now at home."
+  },
+  {
+    "sentence": "You am ready right now at work.",
+    "mean": "Bạn đã sẵn sàng right now at work."
+  },
+  {
+    "sentence": "You am ready right now in the office.",
+    "mean": "Bạn đã sẵn sàng right now in the office."
+  },
+  {
+    "sentence": "You am ready right now at the restaurant.",
+    "mean": "Bạn đã sẵn sàng right now at the restaurant."
+  },
+  {
+    "sentence": "You am ready later at school.",
+    "mean": "Bạn đã sẵn sàng later at school."
+  },
+  {
+    "sentence": "You am ready later at home.",
+    "mean": "Bạn đã sẵn sàng later at home."
+  },
+  {
+    "sentence": "You am ready later at work.",
+    "mean": "Bạn đã sẵn sàng later at work."
+  },
+  {
+    "sentence": "You am ready later in the office.",
+    "mean": "Bạn đã sẵn sàng later in the office."
+  },
+  {
+    "sentence": "You am ready later at the restaurant.",
+    "mean": "Bạn đã sẵn sàng later at the restaurant."
+  },
+  {
+    "sentence": "We need help today at school.",
+    "mean": "Chúng tôi cần giúp đỡ today at school."
+  },
+  {
+    "sentence": "We need help today at home.",
+    "mean": "Chúng tôi cần giúp đỡ today at home."
+  },
+  {
+    "sentence": "We need help today at work.",
+    "mean": "Chúng tôi cần giúp đỡ today at work."
+  },
+  {
+    "sentence": "We need help today in the office.",
+    "mean": "Chúng tôi cần giúp đỡ today in the office."
+  },
+  {
+    "sentence": "We need help today at the restaurant.",
+    "mean": "Chúng tôi cần giúp đỡ today at the restaurant."
+  },
+  {
+    "sentence": "We need help tomorrow at school.",
+    "mean": "Chúng tôi cần giúp đỡ tomorrow at school."
+  },
+  {
+    "sentence": "We need help tomorrow at home.",
+    "mean": "Chúng tôi cần giúp đỡ tomorrow at home."
+  },
+  {
+    "sentence": "We need help tomorrow at work.",
+    "mean": "Chúng tôi cần giúp đỡ tomorrow at work."
+  },
+  {
+    "sentence": "We need help tomorrow in the office.",
+    "mean": "Chúng tôi cần giúp đỡ tomorrow in the office."
+  },
+  {
+    "sentence": "We need help tomorrow at the restaurant.",
+    "mean": "Chúng tôi cần giúp đỡ tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We need help this week at school.",
+    "mean": "Chúng tôi cần giúp đỡ this week at school."
+  },
+  {
+    "sentence": "We need help this week at home.",
+    "mean": "Chúng tôi cần giúp đỡ this week at home."
+  },
+  {
+    "sentence": "We need help this week at work.",
+    "mean": "Chúng tôi cần giúp đỡ this week at work."
+  },
+  {
+    "sentence": "We need help this week in the office.",
+    "mean": "Chúng tôi cần giúp đỡ this week in the office."
+  },
+  {
+    "sentence": "We need help this week at the restaurant.",
+    "mean": "Chúng tôi cần giúp đỡ this week at the restaurant."
+  },
+  {
+    "sentence": "We need help right now at school.",
+    "mean": "Chúng tôi cần giúp đỡ right now at school."
+  },
+  {
+    "sentence": "We need help right now at home.",
+    "mean": "Chúng tôi cần giúp đỡ right now at home."
+  },
+  {
+    "sentence": "We need help right now at work.",
+    "mean": "Chúng tôi cần giúp đỡ right now at work."
+  },
+  {
+    "sentence": "We need help right now in the office.",
+    "mean": "Chúng tôi cần giúp đỡ right now in the office."
+  },
+  {
+    "sentence": "We need help right now at the restaurant.",
+    "mean": "Chúng tôi cần giúp đỡ right now at the restaurant."
+  },
+  {
+    "sentence": "We need help later at school.",
+    "mean": "Chúng tôi cần giúp đỡ later at school."
+  },
+  {
+    "sentence": "We need help later at home.",
+    "mean": "Chúng tôi cần giúp đỡ later at home."
+  },
+  {
+    "sentence": "We need help later at work.",
+    "mean": "Chúng tôi cần giúp đỡ later at work."
+  },
+  {
+    "sentence": "We need help later in the office.",
+    "mean": "Chúng tôi cần giúp đỡ later in the office."
+  },
+  {
+    "sentence": "We need help later at the restaurant.",
+    "mean": "Chúng tôi cần giúp đỡ later at the restaurant."
+  },
+  {
+    "sentence": "We am busy today today at school.",
+    "mean": "Chúng tôi hôm nay bận today at school."
+  },
+  {
+    "sentence": "We am busy today today at home.",
+    "mean": "Chúng tôi hôm nay bận today at home."
+  },
+  {
+    "sentence": "We am busy today today at work.",
+    "mean": "Chúng tôi hôm nay bận today at work."
+  },
+  {
+    "sentence": "We am busy today today in the office.",
+    "mean": "Chúng tôi hôm nay bận today in the office."
+  },
+  {
+    "sentence": "We am busy today today at the restaurant.",
+    "mean": "Chúng tôi hôm nay bận today at the restaurant."
+  },
+  {
+    "sentence": "We am busy today tomorrow at school.",
+    "mean": "Chúng tôi hôm nay bận tomorrow at school."
+  },
+  {
+    "sentence": "We am busy today tomorrow at home.",
+    "mean": "Chúng tôi hôm nay bận tomorrow at home."
+  },
+  {
+    "sentence": "We am busy today tomorrow at work.",
+    "mean": "Chúng tôi hôm nay bận tomorrow at work."
+  },
+  {
+    "sentence": "We am busy today tomorrow in the office.",
+    "mean": "Chúng tôi hôm nay bận tomorrow in the office."
+  },
+  {
+    "sentence": "We am busy today tomorrow at the restaurant.",
+    "mean": "Chúng tôi hôm nay bận tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We am busy today this week at school.",
+    "mean": "Chúng tôi hôm nay bận this week at school."
+  },
+  {
+    "sentence": "We am busy today this week at home.",
+    "mean": "Chúng tôi hôm nay bận this week at home."
+  },
+  {
+    "sentence": "We am busy today this week at work.",
+    "mean": "Chúng tôi hôm nay bận this week at work."
+  },
+  {
+    "sentence": "We am busy today this week in the office.",
+    "mean": "Chúng tôi hôm nay bận this week in the office."
+  },
+  {
+    "sentence": "We am busy today this week at the restaurant.",
+    "mean": "Chúng tôi hôm nay bận this week at the restaurant."
+  },
+  {
+    "sentence": "We am busy today right now at school.",
+    "mean": "Chúng tôi hôm nay bận right now at school."
+  },
+  {
+    "sentence": "We am busy today right now at home.",
+    "mean": "Chúng tôi hôm nay bận right now at home."
+  },
+  {
+    "sentence": "We am busy today right now at work.",
+    "mean": "Chúng tôi hôm nay bận right now at work."
+  },
+  {
+    "sentence": "We am busy today right now in the office.",
+    "mean": "Chúng tôi hôm nay bận right now in the office."
+  },
+  {
+    "sentence": "We am busy today right now at the restaurant.",
+    "mean": "Chúng tôi hôm nay bận right now at the restaurant."
+  },
+  {
+    "sentence": "We am busy today later at school.",
+    "mean": "Chúng tôi hôm nay bận later at school."
+  },
+  {
+    "sentence": "We am busy today later at home.",
+    "mean": "Chúng tôi hôm nay bận later at home."
+  },
+  {
+    "sentence": "We am busy today later at work.",
+    "mean": "Chúng tôi hôm nay bận later at work."
+  },
+  {
+    "sentence": "We am busy today later in the office.",
+    "mean": "Chúng tôi hôm nay bận later in the office."
+  },
+  {
+    "sentence": "We am busy today later at the restaurant.",
+    "mean": "Chúng tôi hôm nay bận later at the restaurant."
+  },
+  {
+    "sentence": "We want some coffee today at school.",
+    "mean": "Chúng tôi muốn uống cà phê today at school."
+  },
+  {
+    "sentence": "We want some coffee today at home.",
+    "mean": "Chúng tôi muốn uống cà phê today at home."
+  },
+  {
+    "sentence": "We want some coffee today at work.",
+    "mean": "Chúng tôi muốn uống cà phê today at work."
+  },
+  {
+    "sentence": "We want some coffee today in the office.",
+    "mean": "Chúng tôi muốn uống cà phê today in the office."
+  },
+  {
+    "sentence": "We want some coffee today at the restaurant.",
+    "mean": "Chúng tôi muốn uống cà phê today at the restaurant."
+  },
+  {
+    "sentence": "We want some coffee tomorrow at school.",
+    "mean": "Chúng tôi muốn uống cà phê tomorrow at school."
+  },
+  {
+    "sentence": "We want some coffee tomorrow at home.",
+    "mean": "Chúng tôi muốn uống cà phê tomorrow at home."
+  },
+  {
+    "sentence": "We want some coffee tomorrow at work.",
+    "mean": "Chúng tôi muốn uống cà phê tomorrow at work."
+  },
+  {
+    "sentence": "We want some coffee tomorrow in the office.",
+    "mean": "Chúng tôi muốn uống cà phê tomorrow in the office."
+  },
+  {
+    "sentence": "We want some coffee tomorrow at the restaurant.",
+    "mean": "Chúng tôi muốn uống cà phê tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We want some coffee this week at school.",
+    "mean": "Chúng tôi muốn uống cà phê this week at school."
+  },
+  {
+    "sentence": "We want some coffee this week at home.",
+    "mean": "Chúng tôi muốn uống cà phê this week at home."
+  },
+  {
+    "sentence": "We want some coffee this week at work.",
+    "mean": "Chúng tôi muốn uống cà phê this week at work."
+  },
+  {
+    "sentence": "We want some coffee this week in the office.",
+    "mean": "Chúng tôi muốn uống cà phê this week in the office."
+  },
+  {
+    "sentence": "We want some coffee this week at the restaurant.",
+    "mean": "Chúng tôi muốn uống cà phê this week at the restaurant."
+  },
+  {
+    "sentence": "We want some coffee right now at school.",
+    "mean": "Chúng tôi muốn uống cà phê right now at school."
+  },
+  {
+    "sentence": "We want some coffee right now at home.",
+    "mean": "Chúng tôi muốn uống cà phê right now at home."
+  },
+  {
+    "sentence": "We want some coffee right now at work.",
+    "mean": "Chúng tôi muốn uống cà phê right now at work."
+  },
+  {
+    "sentence": "We want some coffee right now in the office.",
+    "mean": "Chúng tôi muốn uống cà phê right now in the office."
+  },
+  {
+    "sentence": "We want some coffee right now at the restaurant.",
+    "mean": "Chúng tôi muốn uống cà phê right now at the restaurant."
+  },
+  {
+    "sentence": "We want some coffee later at school.",
+    "mean": "Chúng tôi muốn uống cà phê later at school."
+  },
+  {
+    "sentence": "We want some coffee later at home.",
+    "mean": "Chúng tôi muốn uống cà phê later at home."
+  },
+  {
+    "sentence": "We want some coffee later at work.",
+    "mean": "Chúng tôi muốn uống cà phê later at work."
+  },
+  {
+    "sentence": "We want some coffee later in the office.",
+    "mean": "Chúng tôi muốn uống cà phê later in the office."
+  },
+  {
+    "sentence": "We want some coffee later at the restaurant.",
+    "mean": "Chúng tôi muốn uống cà phê later at the restaurant."
+  },
+  {
+    "sentence": "We like learning English today at school.",
+    "mean": "Chúng tôi thích học tiếng Anh today at school."
+  },
+  {
+    "sentence": "We like learning English today at home.",
+    "mean": "Chúng tôi thích học tiếng Anh today at home."
+  },
+  {
+    "sentence": "We like learning English today at work.",
+    "mean": "Chúng tôi thích học tiếng Anh today at work."
+  },
+  {
+    "sentence": "We like learning English today in the office.",
+    "mean": "Chúng tôi thích học tiếng Anh today in the office."
+  },
+  {
+    "sentence": "We like learning English today at the restaurant.",
+    "mean": "Chúng tôi thích học tiếng Anh today at the restaurant."
+  },
+  {
+    "sentence": "We like learning English tomorrow at school.",
+    "mean": "Chúng tôi thích học tiếng Anh tomorrow at school."
+  },
+  {
+    "sentence": "We like learning English tomorrow at home.",
+    "mean": "Chúng tôi thích học tiếng Anh tomorrow at home."
+  },
+  {
+    "sentence": "We like learning English tomorrow at work.",
+    "mean": "Chúng tôi thích học tiếng Anh tomorrow at work."
+  },
+  {
+    "sentence": "We like learning English tomorrow in the office.",
+    "mean": "Chúng tôi thích học tiếng Anh tomorrow in the office."
+  },
+  {
+    "sentence": "We like learning English tomorrow at the restaurant.",
+    "mean": "Chúng tôi thích học tiếng Anh tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We like learning English this week at school.",
+    "mean": "Chúng tôi thích học tiếng Anh this week at school."
+  },
+  {
+    "sentence": "We like learning English this week at home.",
+    "mean": "Chúng tôi thích học tiếng Anh this week at home."
+  },
+  {
+    "sentence": "We like learning English this week at work.",
+    "mean": "Chúng tôi thích học tiếng Anh this week at work."
+  },
+  {
+    "sentence": "We like learning English this week in the office.",
+    "mean": "Chúng tôi thích học tiếng Anh this week in the office."
+  },
+  {
+    "sentence": "We like learning English this week at the restaurant.",
+    "mean": "Chúng tôi thích học tiếng Anh this week at the restaurant."
+  },
+  {
+    "sentence": "We like learning English right now at school.",
+    "mean": "Chúng tôi thích học tiếng Anh right now at school."
+  },
+  {
+    "sentence": "We like learning English right now at home.",
+    "mean": "Chúng tôi thích học tiếng Anh right now at home."
+  },
+  {
+    "sentence": "We like learning English right now at work.",
+    "mean": "Chúng tôi thích học tiếng Anh right now at work."
+  },
+  {
+    "sentence": "We like learning English right now in the office.",
+    "mean": "Chúng tôi thích học tiếng Anh right now in the office."
+  },
+  {
+    "sentence": "We like learning English right now at the restaurant.",
+    "mean": "Chúng tôi thích học tiếng Anh right now at the restaurant."
+  },
+  {
+    "sentence": "We like learning English later at school.",
+    "mean": "Chúng tôi thích học tiếng Anh later at school."
+  },
+  {
+    "sentence": "We like learning English later at home.",
+    "mean": "Chúng tôi thích học tiếng Anh later at home."
+  },
+  {
+    "sentence": "We like learning English later at work.",
+    "mean": "Chúng tôi thích học tiếng Anh later at work."
+  },
+  {
+    "sentence": "We like learning English later in the office.",
+    "mean": "Chúng tôi thích học tiếng Anh later in the office."
+  },
+  {
+    "sentence": "We like learning English later at the restaurant.",
+    "mean": "Chúng tôi thích học tiếng Anh later at the restaurant."
+  },
+  {
+    "sentence": "We have a meeting today at school.",
+    "mean": "Chúng tôi có cuộc họp today at school."
+  },
+  {
+    "sentence": "We have a meeting today at home.",
+    "mean": "Chúng tôi có cuộc họp today at home."
+  },
+  {
+    "sentence": "We have a meeting today at work.",
+    "mean": "Chúng tôi có cuộc họp today at work."
+  },
+  {
+    "sentence": "We have a meeting today in the office.",
+    "mean": "Chúng tôi có cuộc họp today in the office."
+  },
+  {
+    "sentence": "We have a meeting today at the restaurant.",
+    "mean": "Chúng tôi có cuộc họp today at the restaurant."
+  },
+  {
+    "sentence": "We have a meeting tomorrow at school.",
+    "mean": "Chúng tôi có cuộc họp tomorrow at school."
+  },
+  {
+    "sentence": "We have a meeting tomorrow at home.",
+    "mean": "Chúng tôi có cuộc họp tomorrow at home."
+  },
+  {
+    "sentence": "We have a meeting tomorrow at work.",
+    "mean": "Chúng tôi có cuộc họp tomorrow at work."
+  },
+  {
+    "sentence": "We have a meeting tomorrow in the office.",
+    "mean": "Chúng tôi có cuộc họp tomorrow in the office."
+  },
+  {
+    "sentence": "We have a meeting tomorrow at the restaurant.",
+    "mean": "Chúng tôi có cuộc họp tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We have a meeting this week at school.",
+    "mean": "Chúng tôi có cuộc họp this week at school."
+  },
+  {
+    "sentence": "We have a meeting this week at home.",
+    "mean": "Chúng tôi có cuộc họp this week at home."
+  },
+  {
+    "sentence": "We have a meeting this week at work.",
+    "mean": "Chúng tôi có cuộc họp this week at work."
+  },
+  {
+    "sentence": "We have a meeting this week in the office.",
+    "mean": "Chúng tôi có cuộc họp this week in the office."
+  },
+  {
+    "sentence": "We have a meeting this week at the restaurant.",
+    "mean": "Chúng tôi có cuộc họp this week at the restaurant."
+  },
+  {
+    "sentence": "We have a meeting right now at school.",
+    "mean": "Chúng tôi có cuộc họp right now at school."
+  },
+  {
+    "sentence": "We have a meeting right now at home.",
+    "mean": "Chúng tôi có cuộc họp right now at home."
+  },
+  {
+    "sentence": "We have a meeting right now at work.",
+    "mean": "Chúng tôi có cuộc họp right now at work."
+  },
+  {
+    "sentence": "We have a meeting right now in the office.",
+    "mean": "Chúng tôi có cuộc họp right now in the office."
+  },
+  {
+    "sentence": "We have a meeting right now at the restaurant.",
+    "mean": "Chúng tôi có cuộc họp right now at the restaurant."
+  },
+  {
+    "sentence": "We have a meeting later at school.",
+    "mean": "Chúng tôi có cuộc họp later at school."
+  },
+  {
+    "sentence": "We have a meeting later at home.",
+    "mean": "Chúng tôi có cuộc họp later at home."
+  },
+  {
+    "sentence": "We have a meeting later at work.",
+    "mean": "Chúng tôi có cuộc họp later at work."
+  },
+  {
+    "sentence": "We have a meeting later in the office.",
+    "mean": "Chúng tôi có cuộc họp later in the office."
+  },
+  {
+    "sentence": "We have a meeting later at the restaurant.",
+    "mean": "Chúng tôi có cuộc họp later at the restaurant."
+  },
+  {
+    "sentence": "We feel tired today at school.",
+    "mean": "Chúng tôi cảm thấy mệt today at school."
+  },
+  {
+    "sentence": "We feel tired today at home.",
+    "mean": "Chúng tôi cảm thấy mệt today at home."
+  },
+  {
+    "sentence": "We feel tired today at work.",
+    "mean": "Chúng tôi cảm thấy mệt today at work."
+  },
+  {
+    "sentence": "We feel tired today in the office.",
+    "mean": "Chúng tôi cảm thấy mệt today in the office."
+  },
+  {
+    "sentence": "We feel tired today at the restaurant.",
+    "mean": "Chúng tôi cảm thấy mệt today at the restaurant."
+  },
+  {
+    "sentence": "We feel tired tomorrow at school.",
+    "mean": "Chúng tôi cảm thấy mệt tomorrow at school."
+  },
+  {
+    "sentence": "We feel tired tomorrow at home.",
+    "mean": "Chúng tôi cảm thấy mệt tomorrow at home."
+  },
+  {
+    "sentence": "We feel tired tomorrow at work.",
+    "mean": "Chúng tôi cảm thấy mệt tomorrow at work."
+  },
+  {
+    "sentence": "We feel tired tomorrow in the office.",
+    "mean": "Chúng tôi cảm thấy mệt tomorrow in the office."
+  },
+  {
+    "sentence": "We feel tired tomorrow at the restaurant.",
+    "mean": "Chúng tôi cảm thấy mệt tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We feel tired this week at school.",
+    "mean": "Chúng tôi cảm thấy mệt this week at school."
+  },
+  {
+    "sentence": "We feel tired this week at home.",
+    "mean": "Chúng tôi cảm thấy mệt this week at home."
+  },
+  {
+    "sentence": "We feel tired this week at work.",
+    "mean": "Chúng tôi cảm thấy mệt this week at work."
+  },
+  {
+    "sentence": "We feel tired this week in the office.",
+    "mean": "Chúng tôi cảm thấy mệt this week in the office."
+  },
+  {
+    "sentence": "We feel tired this week at the restaurant.",
+    "mean": "Chúng tôi cảm thấy mệt this week at the restaurant."
+  },
+  {
+    "sentence": "We feel tired right now at school.",
+    "mean": "Chúng tôi cảm thấy mệt right now at school."
+  },
+  {
+    "sentence": "We feel tired right now at home.",
+    "mean": "Chúng tôi cảm thấy mệt right now at home."
+  },
+  {
+    "sentence": "We feel tired right now at work.",
+    "mean": "Chúng tôi cảm thấy mệt right now at work."
+  },
+  {
+    "sentence": "We feel tired right now in the office.",
+    "mean": "Chúng tôi cảm thấy mệt right now in the office."
+  },
+  {
+    "sentence": "We feel tired right now at the restaurant.",
+    "mean": "Chúng tôi cảm thấy mệt right now at the restaurant."
+  },
+  {
+    "sentence": "We feel tired later at school.",
+    "mean": "Chúng tôi cảm thấy mệt later at school."
+  },
+  {
+    "sentence": "We feel tired later at home.",
+    "mean": "Chúng tôi cảm thấy mệt later at home."
+  },
+  {
+    "sentence": "We feel tired later at work.",
+    "mean": "Chúng tôi cảm thấy mệt later at work."
+  },
+  {
+    "sentence": "We feel tired later in the office.",
+    "mean": "Chúng tôi cảm thấy mệt later in the office."
+  },
+  {
+    "sentence": "We feel tired later at the restaurant.",
+    "mean": "Chúng tôi cảm thấy mệt later at the restaurant."
+  },
+  {
+    "sentence": "We am hungry today at school.",
+    "mean": "Chúng tôi đang đói today at school."
+  },
+  {
+    "sentence": "We am hungry today at home.",
+    "mean": "Chúng tôi đang đói today at home."
+  },
+  {
+    "sentence": "We am hungry today at work.",
+    "mean": "Chúng tôi đang đói today at work."
+  },
+  {
+    "sentence": "We am hungry today in the office.",
+    "mean": "Chúng tôi đang đói today in the office."
+  },
+  {
+    "sentence": "We am hungry today at the restaurant.",
+    "mean": "Chúng tôi đang đói today at the restaurant."
+  },
+  {
+    "sentence": "We am hungry tomorrow at school.",
+    "mean": "Chúng tôi đang đói tomorrow at school."
+  },
+  {
+    "sentence": "We am hungry tomorrow at home.",
+    "mean": "Chúng tôi đang đói tomorrow at home."
+  },
+  {
+    "sentence": "We am hungry tomorrow at work.",
+    "mean": "Chúng tôi đang đói tomorrow at work."
+  },
+  {
+    "sentence": "We am hungry tomorrow in the office.",
+    "mean": "Chúng tôi đang đói tomorrow in the office."
+  },
+  {
+    "sentence": "We am hungry tomorrow at the restaurant.",
+    "mean": "Chúng tôi đang đói tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We am hungry this week at school.",
+    "mean": "Chúng tôi đang đói this week at school."
+  },
+  {
+    "sentence": "We am hungry this week at home.",
+    "mean": "Chúng tôi đang đói this week at home."
+  },
+  {
+    "sentence": "We am hungry this week at work.",
+    "mean": "Chúng tôi đang đói this week at work."
+  },
+  {
+    "sentence": "We am hungry this week in the office.",
+    "mean": "Chúng tôi đang đói this week in the office."
+  },
+  {
+    "sentence": "We am hungry this week at the restaurant.",
+    "mean": "Chúng tôi đang đói this week at the restaurant."
+  },
+  {
+    "sentence": "We am hungry right now at school.",
+    "mean": "Chúng tôi đang đói right now at school."
+  },
+  {
+    "sentence": "We am hungry right now at home.",
+    "mean": "Chúng tôi đang đói right now at home."
+  },
+  {
+    "sentence": "We am hungry right now at work.",
+    "mean": "Chúng tôi đang đói right now at work."
+  },
+  {
+    "sentence": "We am hungry right now in the office.",
+    "mean": "Chúng tôi đang đói right now in the office."
+  },
+  {
+    "sentence": "We am hungry right now at the restaurant.",
+    "mean": "Chúng tôi đang đói right now at the restaurant."
+  },
+  {
+    "sentence": "We am hungry later at school.",
+    "mean": "Chúng tôi đang đói later at school."
+  },
+  {
+    "sentence": "We am hungry later at home.",
+    "mean": "Chúng tôi đang đói later at home."
+  },
+  {
+    "sentence": "We am hungry later at work.",
+    "mean": "Chúng tôi đang đói later at work."
+  },
+  {
+    "sentence": "We am hungry later in the office.",
+    "mean": "Chúng tôi đang đói later in the office."
+  },
+  {
+    "sentence": "We am hungry later at the restaurant.",
+    "mean": "Chúng tôi đang đói later at the restaurant."
+  },
+  {
+    "sentence": "We love this song today at school.",
+    "mean": "Chúng tôi yêu bài hát này today at school."
+  },
+  {
+    "sentence": "We love this song today at home.",
+    "mean": "Chúng tôi yêu bài hát này today at home."
+  },
+  {
+    "sentence": "We love this song today at work.",
+    "mean": "Chúng tôi yêu bài hát này today at work."
+  },
+  {
+    "sentence": "We love this song today in the office.",
+    "mean": "Chúng tôi yêu bài hát này today in the office."
+  },
+  {
+    "sentence": "We love this song today at the restaurant.",
+    "mean": "Chúng tôi yêu bài hát này today at the restaurant."
+  },
+  {
+    "sentence": "We love this song tomorrow at school.",
+    "mean": "Chúng tôi yêu bài hát này tomorrow at school."
+  },
+  {
+    "sentence": "We love this song tomorrow at home.",
+    "mean": "Chúng tôi yêu bài hát này tomorrow at home."
+  },
+  {
+    "sentence": "We love this song tomorrow at work.",
+    "mean": "Chúng tôi yêu bài hát này tomorrow at work."
+  },
+  {
+    "sentence": "We love this song tomorrow in the office.",
+    "mean": "Chúng tôi yêu bài hát này tomorrow in the office."
+  },
+  {
+    "sentence": "We love this song tomorrow at the restaurant.",
+    "mean": "Chúng tôi yêu bài hát này tomorrow at the restaurant."
+  },
+  {
+    "sentence": "We love this song this week at school.",
+    "mean": "Chúng tôi yêu bài hát này this week at school."
+  },
+  {
+    "sentence": "We love this song this week at home.",
+    "mean": "Chúng tôi yêu bài hát này this week at home."
+  },
+  {
+    "sentence": "We love this song this week at work.",
+    "mean": "Chúng tôi yêu bài hát này this week at work."
+  },
+  {
+    "sentence": "We love this song this week in the office.",
+    "mean": "Chúng tôi yêu bài hát này this week in the office."
+  },
+  {
+    "sentence": "We love this song this week at the restaurant.",
+    "mean": "Chúng tôi yêu bài hát này this week at the restaurant."
+  }
+]

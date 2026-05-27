@@ -1,0 +1,153 @@
+:root {
+  --primary-color: #6fc7e1;
+  --secondary-color: #ffa883;
+  --accent-color: #ffa883;
+
+  --bg-color-main: #faf2e8;
+  --bg-color-sec: rgba(255, 250, 244, 0.92);
+  --bg-color-accent: #fde3c8;
+
+  --title-color: #102f4e;
+  --text-color: #102f4e;
+
+  --label-color: #6f7479;
+  --border-color: rgba(255, 168, 131, 0.2);
+  --hover-color: #fff1e3;
+
+  --phonetic-color: #ffa883;
+
+  --light-grey: #f7f7f7;
+  --grey: #8d96a0;
+  --medium-grey: #69737d;
+  --dark-grey: #102f4e;
+
+  --error-color: #d6493c;
+  --right-color: #29a322;
+
+  --font: 'Montserrat', sans-serif;
+
+  --nav-height: 7.8rem;
+
+  --sm-border-radius: 12px;
+  --border-radius: 24px;
+
+  --box-shadow:
+    0 10px 30px rgba(16, 47, 78, 0.08);
+
+  --box-shadow-2:
+    0 18px 50px rgba(255, 168, 131, 0.14);
+}
+
+[data-theme='dark'] {
+  --primary-color: #02b262;
+  --secondary-color: #38d990;
+  --accent-color: #ff4703;
+
+  --bg-color-main: #22272e;
+  --bg-color-sec: #2d333b;
+  --bg-color-accent: #373e46;
+
+  --title-color: #eeb655;
+  --text-color: #ffffff;
+  --hover-color: #4e5763;
+
+  --label-color: #dedede;
+  --border-color: rgba(255, 255, 255, 0.15);
+  --phonetic-color: #c7a0f7;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  font-size: 62.5%;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font);
+}
+
+body {
+  position: relative;
+  background:
+    radial-gradient(circle at top left, rgba(255, 168, 131, 0.18), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(111, 199, 225, 0.22), transparent 34%),
+    var(--bg-color-main);
+  overflow: auto;
+  color: var(--text-color);
+}
+
+#root {
+  width: 100%;
+  overflow-x: hidden;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: var(--bg-color-main);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--medium-grey);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--grey);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+p,
+ul {
+  margin: 0;
+  color: var(--text-color);
+}
+
+ul {
+  list-style: none;
+}
+
+p {
+  word-wrap: break-word;
+}
+
+li {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media only screen and (max-width: 576px) {
+  html {
+    font-size: 50%;
+  }
+}
+
+body,
+button,
+input,
+textarea,
+select,
+.MuiTypography-root,
+.MuiButton-root,
+.MuiInputBase-root,
+.MuiMenuItem-root {
+  font-family: var(--font) !important;
+}

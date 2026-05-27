@@ -1,0 +1,2783 @@
+[
+  {
+    "sentence": "How are you?",
+    "mean": "Bạn có khỏe không?",
+    "note": "Hỏi thăm sức khỏe",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How are you feeling?",
+    "mean": "Sức khỏe của bạn thế nào?",
+    "note": "Hỏi thăm sức khỏe",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How's life?",
+    "mean": "Cuộc sống thế nào?",
+    "note": "Hỏi thăm chung",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How are you doing?",
+    "mean": "Bạn vẫn bình thường chứ?",
+    "note": "Hỏi thăm thân mật",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How are things with you?",
+    "mean": "Công việc của bạn thế nào?",
+    "note": "Hỏi thăm công việc",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How have you been?",
+    "mean": "Dạo này sức khỏe thế nào?",
+    "note": "Hỏi thăm sau một thời gian",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What are you up to nowadays?",
+    "mean": "Dạo này có dự định gì không?",
+    "note": "Hỏi thăm hiện tại",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Are you well?",
+    "mean": "Bạn vẫn khỏe chứ?",
+    "note": "Hỏi thăm sức khỏe",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What's new?",
+    "mean": "Có tin gì mới không?",
+    "note": "Hỏi thăm tin tức",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "No complaints.",
+    "mean": "Không có gì phải than phiền cả.",
+    "note": "Trả lời khi được hỏi thăm",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "So so.",
+    "mean": "Bình thường.",
+    "note": "Trả lời ngắn",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Fine.",
+    "mean": "Ổn, khỏe.",
+    "note": "Trả lời ngắn",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "All right, thank you.",
+    "mean": "Tôi bình thường, cảm ơn.",
+    "note": "Trả lời lịch sự",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Pretty well, thanks.",
+    "mean": "Cũng khỏe, cảm ơn.",
+    "note": "Trả lời lịch sự",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I've never felt better.",
+    "mean": "Khỏe hơn bao giờ hết.",
+    "note": "Trả lời tích cực",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Not so good.",
+    "mean": "Không ổn lắm.",
+    "note": "Trả lời tiêu cực",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Not fine.",
+    "mean": "Không khỏe.",
+    "note": "Trả lời tiêu cực",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Exhausted.",
+    "mean": "Hết hơi.",
+    "note": "Trả lời về trạng thái mệt",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Couldn't be better.",
+    "mean": "Không thể khỏe hơn.",
+    "note": "Trả lời tích cực",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Couldn't be worse.",
+    "mean": "Không thể tệ hơn.",
+    "note": "Trả lời tiêu cực",
+    "topics": [
+      "answer"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Introducing myself.",
+    "mean": "Tự giới thiệu bản thân.",
+    "note": "Chủ đề giới thiệu bản thân",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hi! I'm Giang, and you?",
+    "mean": "Xin chào! Tôi là Giang, còn bạn?",
+    "note": "Giới thiệu thân mật",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am Giang. I am around your age.",
+    "mean": "Tôi là Giang. Tôi ngang tuổi của anh.",
+    "note": "Giới thiệu tuổi",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please call me Lan. I'm 20 years old.",
+    "mean": "Vui lòng gọi tôi là Lan. Tôi 20 tuổi.",
+    "note": "Giới thiệu tên và tuổi",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Everyone calls me Huyen. I'm over 25.",
+    "mean": "Mọi người gọi tôi là Huyền. Tôi trên 25 tuổi.",
+    "note": "Giới thiệu tên gọi",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My name is Giang. I am in my fifties.",
+    "mean": "Tên tôi là Giang. Tôi ngoài 50.",
+    "note": "Giới thiệu tuổi",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My first name is Duc, and my last name is Tran.",
+    "mean": "Tên tôi là Đức còn họ của tôi là Trần.",
+    "note": "Giới thiệu họ tên",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Let me introduce myself.",
+    "mean": "Hãy để tôi giới thiệu bản thân mình.",
+    "note": "Giới thiệu trang trọng",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'd like to take a quick moment to introduce myself.",
+    "mean": "Tôi mong muốn dành ít thời gian để giới thiệu bản thân.",
+    "note": "Giới thiệu trang trọng",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can I introduce myself?",
+    "mean": "Tôi có thể giới thiệu bản thân mình được không?",
+    "note": "Xin phép giới thiệu",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I introduce myself?",
+    "mean": "Tôi có thể giới thiệu bản thân mình được không?",
+    "note": "Xin phép giới thiệu",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Allow me to introduce myself.",
+    "mean": "Cho phép tôi giới thiệu bản thân mình.",
+    "note": "Giới thiệu trang trọng",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm a student.",
+    "mean": "Tôi là sinh viên.",
+    "note": "Thông tin cá nhân",
+    "topics": [
+      "personal"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm a tourist.",
+    "mean": "Tôi là khách du lịch.",
+    "note": "Thông tin cá nhân",
+    "topics": [
+      "personal"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm unemployed.",
+    "mean": "Tôi đang thất nghiệp.",
+    "note": "Thông tin cá nhân",
+    "topics": [
+      "personal"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I live in Ha Noi.",
+    "mean": "Tôi sống ở Hà Nội.",
+    "note": "Thông tin nơi sống",
+    "topics": [
+      "personal"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Introducing others.",
+    "mean": "Giới thiệu người khác.",
+    "note": "Chủ đề giới thiệu người khác",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "This is my friend.",
+    "mean": "Đây là bạn của tôi.",
+    "note": "Giới thiệu người khác thân mật",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Her name is Lisa.",
+    "mean": "Cô ấy tên là Lisa.",
+    "note": "Giới thiệu tên người khác",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'd like you to meet my sister, Lisa.",
+    "mean": "Tôi muốn bạn làm quen với chị gái tôi, Lisa.",
+    "note": "Giới thiệu trang trọng",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I introduce you to Max?",
+    "mean": "Tôi có thể giới thiệu bạn với Max được không?",
+    "note": "Giới thiệu người khác",
+    "topics": [
+      "introduction"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Nice to meet you.",
+    "mean": "Rất vui được gặp bạn.",
+    "note": "Chào thân thiện khi gặp lần đầu",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Glad to meet you.",
+    "mean": "Rất vui được gặp bạn.",
+    "note": "Chào thân thiện khi gặp lần đầu",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy to see you.",
+    "mean": "Rất mừng khi được gặp bạn.",
+    "note": "Chào thân thiện",
+    "topics": [
+      "greeting"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Saying goodbye.",
+    "mean": "Chào tạm biệt.",
+    "note": "Chủ đề tạm biệt",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I have to go now.",
+    "mean": "Tôi phải đi bây giờ.",
+    "note": "Khi cần rời đi",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I must be going.",
+    "mean": "Tôi phải đi đây.",
+    "note": "Khi cần rời đi",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Have a nice day.",
+    "mean": "Chúc một ngày tốt lành.",
+    "note": "Lời chúc khi tạm biệt",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Goodbye!",
+    "mean": "Tạm biệt!",
+    "note": "Chào tạm biệt",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Bye!",
+    "mean": "Chào nhé!",
+    "note": "Chào tạm biệt thân mật",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'll see you next time!",
+    "mean": "Gặp lại bạn sau nhé!",
+    "note": "Hẹn gặp lại",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "See you around.",
+    "mean": "Hẹn gặp lại.",
+    "note": "Hẹn gặp lại",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "See you.",
+    "mean": "Hẹn gặp lại.",
+    "note": "Hẹn gặp lại",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "See you later.",
+    "mean": "Hẹn gặp lại sau.",
+    "note": "Hẹn gặp lại",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "See you tomorrow.",
+    "mean": "Hẹn gặp bạn ngày mai.",
+    "note": "Hẹn gặp lại",
+    "topics": [
+      "goodbye"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Good night.",
+    "mean": "Chúc ngủ ngon!",
+    "note": "Chúc ngủ ngon",
+    "topics": [
+      "goodnight"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sweet dreams.",
+    "mean": "Chúc bạn có những giấc mơ đẹp.",
+    "note": "Chúc ngủ ngon",
+    "topics": [
+      "goodnight"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thanks.",
+    "mean": "Cảm ơn.",
+    "note": "Cảm ơn ngắn gọn",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you.",
+    "mean": "Cảm ơn bạn.",
+    "note": "Cảm ơn lịch sự",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thanks a lot.",
+    "mean": "Cảm ơn rất nhiều.",
+    "note": "Cảm ơn",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Many thanks.",
+    "mean": "Cảm ơn nhiều.",
+    "note": "Cảm ơn",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you very much.",
+    "mean": "Cảm ơn bạn rất nhiều.",
+    "note": "Cảm ơn",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you for your help.",
+    "mean": "Cảm ơn bạn vì đã giúp đỡ.",
+    "note": "Cảm ơn vì sự giúp đỡ",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you for your time.",
+    "mean": "Cảm ơn vì đã dành thời gian.",
+    "note": "Cảm ơn vì thời gian",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you for your advice.",
+    "mean": "Cảm ơn vì lời khuyên của bạn.",
+    "note": "Cảm ơn vì lời khuyên",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thanks for everything.",
+    "mean": "Cảm ơn vì tất cả mọi thứ.",
+    "note": "Cảm ơn",
+    "topics": [
+      "thanks"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "No worries.",
+    "mean": "Đừng bận tâm.",
+    "note": "Đáp lại lời cảm ơn",
+    "topics": [
+      "thanks_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You're welcome.",
+    "mean": "Không có gì.",
+    "note": "Đáp lại lời cảm ơn",
+    "topics": [
+      "thanks_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "That's all right.",
+    "mean": "Không có gì đâu.",
+    "note": "Đáp lại lời cảm ơn",
+    "topics": [
+      "thanks_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Don't worry about it.",
+    "mean": "Đừng lo lắng về điều đó.",
+    "note": "Đáp lại lời cảm ơn",
+    "topics": [
+      "thanks_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry.",
+    "mean": "Tôi xin lỗi.",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm so sorry.",
+    "mean": "Tôi rất xin lỗi.",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Terribly sorry.",
+    "mean": "Hết sức xin lỗi bạn.",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I apologize.",
+    "mean": "Xin thứ lỗi cho tôi.",
+    "note": "Xin lỗi trang trọng",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I didn't mean to do that.",
+    "mean": "Xin lỗi, tôi không có ý làm vậy.",
+    "note": "Xin lỗi giải thích",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please forgive me.",
+    "mean": "Làm ơn tha thứ cho tôi.",
+    "note": "Xin tha thứ",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I'm late.",
+    "mean": "Xin lỗi tôi tới muộn.",
+    "note": "Xin lỗi vì đến muộn",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry for keeping you waiting.",
+    "mean": "Xin lỗi vì để bạn đợi lâu.",
+    "note": "Xin lỗi vì để chờ",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How should I apologize to you?",
+    "mean": "Tôi phải xin lỗi bạn như thế nào đây?",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I didn't mean to upset you.",
+    "mean": "Tôi không có ý làm bạn phật lòng.",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I owe you an apology.",
+    "mean": "Tôi nợ bạn một lời xin lỗi.",
+    "note": "Xin lỗi",
+    "topics": [
+      "apology"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Don't worry about that.",
+    "mean": "Đừng lo lắng về điều đó.",
+    "note": "Chấp nhận lời xin lỗi",
+    "topics": [
+      "apology_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Forget about it.",
+    "mean": "Quên chuyện đó đi.",
+    "note": "Chấp nhận lời xin lỗi",
+    "topics": [
+      "apology_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can I help you?",
+    "mean": "Tôi giúp bạn được không?",
+    "note": "Đề nghị giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Could I help you with something?",
+    "mean": "Tôi có thể làm gì đó cho bạn được không?",
+    "note": "Đề nghị giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "No, thank you.",
+    "mean": "Không, cảm ơn.",
+    "note": "Từ chối giúp đỡ",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "OK. Thank you.",
+    "mean": "OK. Cảm ơn bạn.",
+    "note": "Nhận giúp đỡ",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "It's nice of you. Thank you.",
+    "mean": "Bạn thật tốt. Cảm ơn bạn.",
+    "note": "Nhận giúp đỡ",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Could you help me open the window?",
+    "mean": "Bạn có thể giúp tôi mở cửa sổ không?",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Could you help me for a second?",
+    "mean": "Bạn có thể giúp mình một lát được không?",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Could you spare a moment?",
+    "mean": "Cho tôi xin vài phút được không?",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I need some help, please.",
+    "mean": "Làm ơn, tôi cần sự giúp đỡ.",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can you please take a photo for me?",
+    "mean": "Bạn có thể chụp giúp tôi được không?",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I wonder if you could help me with this.",
+    "mean": "Tôi tự hỏi liệu bạn có thể giúp tôi được không?",
+    "note": "Xin giúp đỡ lịch sự",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Give me a hand with this, will you?",
+    "mean": "Bạn có thể giúp tôi một tay được không?",
+    "note": "Xin giúp đỡ",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Would you mind turning off the radio for me?",
+    "mean": "Bạn không phiền khi tắt giúp tôi cái radio chứ?",
+    "note": "Xin giúp đỡ lịch sự",
+    "topics": [
+      "help"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sure.",
+    "mean": "Tất nhiên rồi.",
+    "note": "Đồng ý giúp",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "All right.",
+    "mean": "Được thôi.",
+    "note": "Đồng ý giúp",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Yes, of course.",
+    "mean": "Vâng, tất nhiên rồi.",
+    "note": "Đồng ý giúp",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry. I can't help you.",
+    "mean": "Tôi xin lỗi. Tôi không thể giúp bạn.",
+    "note": "Từ chối giúp",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I cannot help.",
+    "mean": "Tôi không thể giúp.",
+    "note": "Từ chối giúp",
+    "topics": [
+      "help_reply"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please help me!",
+    "mean": "Hãy giúp tôi với!",
+    "note": "Trong trường hợp khẩn cấp",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Call an ambulance!",
+    "mean": "Gọi xe cấp cứu mau!",
+    "note": "Cấp cứu",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I need a doctor.",
+    "mean": "Tôi cần một bác sĩ.",
+    "note": "Cấp cứu",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "There's a fire!",
+    "mean": "Có cháy kìa!",
+    "note": "Cứu hỏa",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Call the fire department!",
+    "mean": "Mau gọi cứu hỏa đi!",
+    "note": "Cứu hỏa",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Call the police.",
+    "mean": "Hãy gọi cảnh sát mau.",
+    "note": "Cảnh sát",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My wallet has been stolen.",
+    "mean": "Tôi vừa bị mất ví.",
+    "note": "Báo mất trộm",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My house has been broken into.",
+    "mean": "Nhà tôi vừa bị đột nhập.",
+    "note": "Báo đột nhập",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I've been mugged.",
+    "mean": "Tôi vừa bị mất cắp/tấn công.",
+    "note": "Báo bị cướp",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'd like to report a theft.",
+    "mean": "Tôi muốn báo về một vụ mất trộm.",
+    "note": "Báo mất trộm",
+    "topics": [
+      "emergency"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Good job! Well done.",
+    "mean": "Làm tốt lắm.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Great!",
+    "mean": "Làm rất tốt!",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Not bad.",
+    "mean": "Không tồi nhỉ.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Amazing!",
+    "mean": "Thật tuyệt vời.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Nice work!",
+    "mean": "Làm tốt lắm.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Much better!",
+    "mean": "Tốt hơn nhiều rồi.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What a wonderful idea!",
+    "mean": "Một ý tưởng tuyệt vời.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Good idea!",
+    "mean": "Ý kiến hay đấy.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Come on. You can do it.",
+    "mean": "Cố lên, cậu làm được mà.",
+    "note": "Động viên",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sounds good!",
+    "mean": "Nghe ổn đấy.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "It's a good opinion.",
+    "mean": "Đó là một ý kiến hay.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You are a genius.",
+    "mean": "Bạn đúng là thiên tài.",
+    "note": "Lời khen",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You are careful.",
+    "mean": "Bạn thật cẩn thận.",
+    "note": "Khen tính cách",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You are very kind.",
+    "mean": "Bạn thật tốt bụng.",
+    "note": "Khen tính cách",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "That's nice of you.",
+    "mean": "Bạn thật tử tế.",
+    "note": "Khen tính cách",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Good luck in your exam.",
+    "mean": "Chúc cậu thi tốt nhé.",
+    "note": "Chúc thi tốt",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Everything will be fine. I believe you can do it.",
+    "mean": "Mọi thứ sẽ ổn thôi. Tôi tin cậu có thể làm được mà.",
+    "note": "Động viên",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You are very pretty.",
+    "mean": "Bạn trông thật xinh đẹp.",
+    "note": "Khen ngoại hình",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You are handsome.",
+    "mean": "Bạn đẹp trai quá.",
+    "note": "Khen ngoại hình",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How lovely you are.",
+    "mean": "Bạn thật đáng yêu.",
+    "note": "Khen ngoại hình",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You look so cool with short hair.",
+    "mean": "Kiểu tóc ngắn hợp với cậu trông thật ngầu.",
+    "note": "Khen ngoại hình",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "This soup is delicious.",
+    "mean": "Món canh này thật ngon.",
+    "note": "Khen món ăn",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Very tasty cake.",
+    "mean": "Bánh rất ngon.",
+    "note": "Khen món ăn",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "This is the best pizza I've ever eaten.",
+    "mean": "Đây là món pizza ngon nhất tôi từng ăn.",
+    "note": "Khen món ăn",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "You really know how to cook.",
+    "mean": "Bạn thật biết nấu ăn đấy.",
+    "note": "Khen nấu ăn",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What a beautiful dress!",
+    "mean": "Chiếc váy này đẹp quá.",
+    "note": "Khen đồ mới",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I really love your house.",
+    "mean": "Tôi rất thích ngôi nhà của bạn.",
+    "note": "Khen nhà cửa",
+    "topics": [
+      "compliment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Have a good trip!",
+    "mean": "Chúc bạn một chuyến đi vui vẻ.",
+    "note": "Lời chúc du lịch",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Enjoy the trip!",
+    "mean": "Hãy tận hưởng chuyến đi nhé.",
+    "note": "Lời chúc du lịch",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy wedding anniversary!",
+    "mean": "Chúc mừng ngày kỉ niệm cưới.",
+    "note": "Lời chúc kỉ niệm",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Congratulations on your graduation!",
+    "mean": "Chúc mừng bạn đã tốt nghiệp.",
+    "note": "Lời chúc tốt nghiệp",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Congratulations on your promotion!",
+    "mean": "Chúc mừng bạn đã được thăng chức.",
+    "note": "Lời chúc thăng chức",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hope you get well soon!",
+    "mean": "Hy vọng bạn mau bình phục.",
+    "note": "Lời chúc khi ốm",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Have a nice dream!",
+    "mean": "Con chúc mẹ mơ đẹp.",
+    "note": "Chúc ngủ ngon",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Good night, sweetheart!",
+    "mean": "Ngủ ngon nhé con yêu.",
+    "note": "Chúc ngủ ngon",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sweet dreams!",
+    "mean": "Mơ đẹp nhé!",
+    "note": "Chúc ngủ ngon",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy birthday!",
+    "mean": "Chúc sinh nhật vui vẻ.",
+    "note": "Lời chúc sinh nhật",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy new year!",
+    "mean": "Chúc mừng năm mới.",
+    "note": "Lời chúc năm mới",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Merry Christmas!",
+    "mean": "Chúc Giáng sinh vui vẻ.",
+    "note": "Lời chúc Giáng sinh",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Valentine's Day!",
+    "mean": "Chúc mừng ngày Valentine.",
+    "note": "Lời chúc Valentine",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Easter!",
+    "mean": "Chúc mừng ngày lễ phục sinh.",
+    "note": "Lời chúc lễ phục sinh",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Mother's Day! I love you so much.",
+    "mean": "Chúc mừng ngày của mẹ. Con yêu mẹ nhiều lắm.",
+    "note": "Lời chúc ngày của mẹ",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Vietnamese Teacher's Day!",
+    "mean": "Chúc mừng ngày nhà giáo Việt Nam.",
+    "note": "Lời chúc ngày nhà giáo",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Vietnamese Women's Day!",
+    "mean": "Chúc mừng ngày phụ nữ Việt Nam.",
+    "note": "Lời chúc ngày phụ nữ",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Happy Children's Day!",
+    "mean": "Chúc mừng ngày quốc tế thiếu nhi.",
+    "note": "Lời chúc thiếu nhi",
+    "topics": [
+      "blessing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can you arrange some time on Thursday?",
+    "mean": "Cậu có thể sắp xếp thời gian vào thứ 5 được không?",
+    "note": "Hẹn gặp",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How about Thursday?",
+    "mean": "Còn thứ 5 thì sao?",
+    "note": "Hẹn ngày",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sure.",
+    "mean": "Chắc chắn rồi.",
+    "note": "Đồng ý hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Yes, Thursday is fine.",
+    "mean": "Ồ, thứ 5 được đấy.",
+    "note": "Đồng ý hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I'm afraid not.",
+    "mean": "Xin lỗi, e rằng không được.",
+    "note": "Từ chối hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Are you free tomorrow?",
+    "mean": "Ngày mai cậu rảnh không?",
+    "note": "Hẹn gặp",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Yes, of course.",
+    "mean": "Tất nhiên là được rồi.",
+    "note": "Đồng ý hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I can't make it.",
+    "mean": "Xin lỗi không thể được.",
+    "note": "Từ chối hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can we meet on 20th of May?",
+    "mean": "Chúng mình gặp nhau vào ngày 20 tháng 5 được không?",
+    "note": "Hẹn ngày cụ thể",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "No problem.",
+    "mean": "Không vấn đề nhé.",
+    "note": "Đồng ý hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I can't manage that.",
+    "mean": "Xin lỗi. Ngày đó không được rồi.",
+    "note": "Từ chối hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What time shall we meet?",
+    "mean": "Mấy giờ chúng mình gặp nhau được vậy?",
+    "note": "Hỏi thời gian hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "10 o'clock is okay.",
+    "mean": "10 giờ nhé.",
+    "note": "Trả lời giờ hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Let's meet at 10 o'clock.",
+    "mean": "Hãy gặp nhau lúc 10 giờ nhé.",
+    "note": "Đề nghị giờ hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'll see you at 10 o'clock.",
+    "mean": "Tôi sẽ gặp cậu lúc 10 giờ.",
+    "note": "Trả lời giờ hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can we meet at 3 p.m.?",
+    "mean": "Chúng mình gặp nhau lúc 3 giờ chiều được không?",
+    "note": "Hẹn giờ",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How about 10 a.m.?",
+    "mean": "10 giờ sáng thì sao?",
+    "note": "Hẹn giờ",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "That would be good.",
+    "mean": "Được đấy.",
+    "note": "Đồng ý hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm really sorry, I can't.",
+    "mean": "Tôi thực sự không thể đến được rồi.",
+    "note": "Từ chối hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Where will we meet?",
+    "mean": "Chúng mình sẽ gặp nhau ở đâu?",
+    "note": "Hỏi địa điểm",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Where would you like to meet?",
+    "mean": "Cậu thích chúng mình gặp nhau ở đâu?",
+    "note": "Hỏi địa điểm",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "At the cinema.",
+    "mean": "Ở rạp chiếu phim nhé.",
+    "note": "Địa điểm hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "At the bookstore will be good.",
+    "mean": "Ở hiệu sách được đấy.",
+    "note": "Địa điểm hẹn",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can we meet at the bus stop?",
+    "mean": "Chúng mình gặp nhau tại trạm xe buýt được không?",
+    "note": "Hẹn địa điểm",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Yes, of course.",
+    "mean": "Được, dĩ nhiên rồi.",
+    "note": "Đồng ý",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry. Can we meet at the bookstore instead?",
+    "mean": "Xin lỗi. Thay vì đó, chúng ta gặp nhau ở hiệu sách được không?",
+    "note": "Đổi địa điểm",
+    "topics": [
+      "appointment"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I borrow your book?",
+    "mean": "Tôi có thể mượn quyển sách của cậu được không?",
+    "note": "Vay mượn đồ",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Could you lend me your pencil?",
+    "mean": "Cậu có thể cho tớ mượn bút chì được không?",
+    "note": "Vay mượn đồ",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Yes, you may.",
+    "mean": "Ừ, bạn lấy đi.",
+    "note": "Đồng ý cho mượn",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Go ahead.",
+    "mean": "Cứ dùng đi.",
+    "note": "Đồng ý cho mượn",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry. I need to use it now.",
+    "mean": "Xin lỗi, tớ cần dùng nó bây giờ.",
+    "note": "Từ chối cho mượn",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How much do you need?",
+    "mean": "Bạn cần bao nhiêu tiền?",
+    "note": "Hỏi số tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I need 500,000 dong.",
+    "mean": "Tớ cần 500.000 đồng.",
+    "note": "Trả lời số tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I borrow some money?",
+    "mean": "Tớ có thể mượn cậu một chút tiền được không?",
+    "note": "Mượn tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Okay. Here you go.",
+    "mean": "Được thôi, cầm lấy này.",
+    "note": "Cho mượn tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry, I can't.",
+    "mean": "Xin lỗi tôi không thể.",
+    "note": "Từ chối cho mượn",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I have lost my wallet.",
+    "mean": "Tôi bị mất ví rồi.",
+    "note": "Lý do vay tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm in need of money.",
+    "mean": "Tớ đang cần tiền.",
+    "note": "Lý do vay tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm short of cash at the moment.",
+    "mean": "Tớ đang kẹt tiền lúc này.",
+    "note": "Lý do vay tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "When will you pay me back?",
+    "mean": "Khi nào bạn trả lại tôi được?",
+    "note": "Hỏi thời gian trả",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I will pay you back this Wednesday.",
+    "mean": "Tớ sẽ trả lại bạn vào thứ 4 này.",
+    "note": "Thời gian trả tiền",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Is next week okay?",
+    "mean": "Tuần tới được chứ?",
+    "note": "Hỏi thời gian trả",
+    "topics": [
+      "borrowing"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Excuse me, could you repeat the question?",
+    "mean": "Xin lỗi, bạn lặp lại câu hỏi được không?",
+    "note": "Khi không hiểu",
+    "topics": [
+      "understanding"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry, I don't understand. Could you say it again?",
+    "mean": "Tôi xin lỗi, tôi không hiểu. Bạn có thể nói lại được không?",
+    "note": "Khi không hiểu",
+    "topics": [
+      "understanding"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry, I didn't catch that. Would you mind speaking more slowly?",
+    "mean": "Tôi xin lỗi, tôi không nghe kịp. Phiền bạn nói chậm hơn được không?",
+    "note": "Khi không nghe kịp",
+    "topics": [
+      "understanding"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry, I didn't understand. Could you repeat yourself a little louder, please?",
+    "mean": "Tôi xin lỗi, tôi không hiểu. Bạn có thể lặp lại lớn hơn một chút được không?",
+    "note": "Khi không hiểu",
+    "topics": [
+      "understanding"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, I don't understand what you mean.",
+    "mean": "Xin lỗi, tôi không hiểu ý bạn là gì.",
+    "note": "Khi không hiểu",
+    "topics": [
+      "understanding"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hello.",
+    "mean": "Xin chào.",
+    "note": "Trả lời điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hi.",
+    "mean": "Xin chào.",
+    "note": "Trả lời điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hi, this is Mary's house.",
+    "mean": "Xin chào, đây là nhà của Mary.",
+    "note": "Trả lời điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I speak with Lan, please?",
+    "mean": "Làm ơn cho tôi nói chuyện với Lan được không?",
+    "note": "Yêu cầu nói chuyện điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Is Lan there?",
+    "mean": "Lan có ở đó không?",
+    "note": "Yêu cầu nói chuyện điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I ask if Anna is there, please?",
+    "mean": "Làm ơn cho tôi hỏi có Anna ở đó không vậy?",
+    "note": "Yêu cầu nói chuyện điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Can I talk to Mr Bao, please?",
+    "mean": "Tôi có thể nói chuyện với ông Bảo được không?",
+    "note": "Yêu cầu nói chuyện điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, who is calling?",
+    "mean": "Xin lỗi, ai đang gọi vậy?",
+    "note": "Hỏi người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, who is this?",
+    "mean": "Xin lỗi, ai vậy?",
+    "note": "Hỏi người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "May I have your name, please?",
+    "mean": "Tôi có thể biết tên bạn được không?",
+    "note": "Hỏi tên người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "This is Lan Anh speaking.",
+    "mean": "Là Lan Anh đang nói đây.",
+    "note": "Giới thiệu người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hi, it's Nam here.",
+    "mean": "Xin chào, tôi là Nam đây.",
+    "note": "Giới thiệu người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hey, Lan. It's Khoa calling.",
+    "mean": "Lan ơi, tớ là Khoa đang gọi đây.",
+    "note": "Giới thiệu người gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry. I must have the wrong number.",
+    "mean": "Xin lỗi. Tôi gọi nhầm số.",
+    "note": "Gọi sai số",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm sorry. I think you are calling the wrong number.",
+    "mean": "Tôi xin lỗi. Tôi nghĩ bạn đang gọi nhầm số.",
+    "note": "Gọi sai số",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Hold the line, please.",
+    "mean": "Xin hãy giữ máy.",
+    "note": "Giữ máy",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Just a moment, please.",
+    "mean": "Xin đợi một chút.",
+    "note": "Giữ máy",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please wait for a few minutes.",
+    "mean": "Xin hãy đợi vài phút.",
+    "note": "Giữ máy",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He's not here. Please call back later.",
+    "mean": "Anh ấy đang không có ở đây. Làm ơn gọi lại sau nhé.",
+    "note": "Không nghe máy",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Let me call you back in 10 minutes.",
+    "mean": "Để tôi gọi lại cho bạn sau 10 phút.",
+    "note": "Gọi lại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am busy now. Can you call then?",
+    "mean": "Bây giờ tôi đang bận. Bạn có thể gọi sau không?",
+    "note": "Bận điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I can't hear you. Can you speak louder, please?",
+    "mean": "Tôi không thể nghe bạn nói. Bạn có thể nói to hơn được không?",
+    "note": "Kết nối kém",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I think the connection is bad. Can I call you back?",
+    "mean": "Tôi nghĩ đường truyền đang không ổn. Tôi có thể gọi lại cho bạn được chứ?",
+    "note": "Kết nối kém",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thank you so much. Have a nice day.",
+    "mean": "Cảm ơn bạn rất nhiều. Chúc một ngày tốt lành.",
+    "note": "Kết thúc cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Thanks for your help.",
+    "mean": "Cảm ơn sự giúp đỡ của bạn.",
+    "note": "Kết thúc cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Okay, thanks for calling.",
+    "mean": "Cảm ơn bạn đã gọi.",
+    "note": "Kết thúc cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Bye.",
+    "mean": "Chào tạm biệt.",
+    "note": "Kết thúc cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Give me a call when you're free.",
+    "mean": "Hãy gọi cho tôi khi cậu rảnh nhé.",
+    "note": "Kết thúc cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "It's nice to hear your voice.",
+    "mean": "Tôi rất vui khi nghe được giọng nói của cậu.",
+    "note": "Điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I've been trying to get in touch with you.",
+    "mean": "Tớ đã cố gắng liên lạc với cậu.",
+    "note": "Điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Did I wake you up? I'm sorry.",
+    "mean": "Liệu tớ có làm cậu thức giấc không? Tôi xin lỗi nha.",
+    "note": "Điện thoại",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'll tell her you're calling.",
+    "mean": "Tôi sẽ nhắn với cô ấy anh gọi.",
+    "note": "Nhận cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Sorry, she's not here. Do you want to leave a message?",
+    "mean": "Tôi xin lỗi, cô ấy không ở đây. Bạn có muốn để lại lời nhắn không?",
+    "note": "Nhận cuộc gọi",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please tell her that I called.",
+    "mean": "Làm ơn nói với cô ấy rằng tôi đã gọi.",
+    "note": "Để lại tin nhắn",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'd like to leave a message.",
+    "mean": "Tôi muốn để lại lời nhắn.",
+    "note": "Để lại tin nhắn",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Please tell her to call me back.",
+    "mean": "Làm ơn nhắn với cô ấy gọi lại cho tôi theo số này.",
+    "note": "Để lại tin nhắn",
+    "topics": [
+      "telephone"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is she like?",
+    "mean": "Anh ấy/cô ấy như thế nào?",
+    "note": "Hỏi tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is kind.",
+    "mean": "Anh ấy/cô ấy tốt bụng.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is friendly.",
+    "mean": "Anh ấy/cô ấy thân thiện.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is hard-working.",
+    "mean": "Anh ấy/cô ấy chăm chỉ.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is confident.",
+    "mean": "Anh ấy/cô ấy tự tin.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is clever.",
+    "mean": "Anh ấy/cô ấy thông minh.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is naughty.",
+    "mean": "Anh ấy/cô ấy nghịch ngợm.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is shy.",
+    "mean": "Anh ấy/cô ấy xấu hổ.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is lazy.",
+    "mean": "Anh ấy/cô ấy lười biếng.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is selfish.",
+    "mean": "Anh ấy/cô ấy ích kỷ.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is careless.",
+    "mean": "Anh ấy/cô ấy cẩu thả/bất cẩn.",
+    "note": "Mô tả tính cách",
+    "topics": [
+      "personality"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "How old are you?",
+    "mean": "Bạn bao nhiêu tuổi?",
+    "note": "Hỏi tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is your age?",
+    "mean": "Bạn bao nhiêu tuổi?",
+    "note": "Hỏi tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am 20 years old.",
+    "mean": "Tôi 20 tuổi.",
+    "note": "Trả lời tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am over 20 years old.",
+    "mean": "Tôi hơn 20 tuổi.",
+    "note": "Trả lời tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am almost 20.",
+    "mean": "Tôi gần 20 tuổi.",
+    "note": "Trả lời tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am in my late 20s.",
+    "mean": "Tôi gần 30 tuổi rồi.",
+    "note": "Trả lời tuổi",
+    "topics": [
+      "age"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "When is your birthday?",
+    "mean": "Sinh nhật của bạn là khi nào?",
+    "note": "Hỏi sinh nhật",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What date is your birthday?",
+    "mean": "Sinh nhật của bạn là ngày nào?",
+    "note": "Hỏi sinh nhật",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "It is on May 28th.",
+    "mean": "Nó vào 28 tháng 5.",
+    "note": "Trả lời sinh nhật",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My birthday is on the 28th of May.",
+    "mean": "Sinh nhật của tôi vào ngày 28 tháng 5.",
+    "note": "Trả lời sinh nhật",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My birthday is on May 28th.",
+    "mean": "Sinh nhật của tôi vào ngày 28 tháng 5.",
+    "note": "Trả lời sinh nhật",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My date of birth is 28/5/2006.",
+    "mean": "Ngày sinh của tôi vào ngày 28 tháng 5 năm 2006.",
+    "note": "Trả lời ngày sinh",
+    "topics": [
+      "birthday"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What does she look like?",
+    "mean": "Anh ấy/cô ấy trông như thế nào?",
+    "note": "Hỏi ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She has brown eyes.",
+    "mean": "Anh ấy/cô ấy có đôi mắt nâu.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She has big blue eyes.",
+    "mean": "Anh ấy/cô ấy có đôi mắt to, màu xanh.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She has dreamy eyes.",
+    "mean": "Cô ấy có đôi mắt mộng mơ.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He wears glasses.",
+    "mean": "Anh ấy đeo kính.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He has short hair.",
+    "mean": "Anh ấy có tóc ngắn.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He has black hair.",
+    "mean": "Anh ấy có mái tóc màu đen.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is cute.",
+    "mean": "Anh ấy/cô ấy dễ thương.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She is pretty.",
+    "mean": "Cô ấy xinh đẹp.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is handsome.",
+    "mean": "Anh ấy đẹp trai.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She is slim.",
+    "mean": "Cô ấy mảnh dẻ/thon gọn.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is fat.",
+    "mean": "Anh ấy béo.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is well-built.",
+    "mean": "Anh ấy có thân hình vạm vỡ.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "She is sporty.",
+    "mean": "Cô ấy có thân hình khỏe khoắn.",
+    "note": "Mô tả ngoại hình",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is tall.",
+    "mean": "Anh ấy/cô ấy cao.",
+    "note": "Mô tả chiều cao",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is short.",
+    "mean": "Anh ấy/cô ấy thấp.",
+    "note": "Mô tả chiều cao",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "He is average height.",
+    "mean": "Anh ấy/cô ấy có chiều cao trung bình.",
+    "note": "Mô tả chiều cao",
+    "topics": [
+      "appearance"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What do you do?",
+    "mean": "Bạn làm nghề gì?",
+    "note": "Hỏi nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a doctor.",
+    "mean": "Tôi là một bác sĩ.",
+    "note": "Trả lời nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is your job?",
+    "mean": "Nghề nghiệp của bạn là gì?",
+    "note": "Hỏi nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am self-employed.",
+    "mean": "Tôi tự làm chủ.",
+    "note": "Trả lời nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a worker.",
+    "mean": "Tôi là một công nhân.",
+    "note": "Trả lời nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm looking for a job.",
+    "mean": "Tôi đang tìm việc làm.",
+    "note": "Trả lời nghề nghiệp",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is your position?",
+    "mean": "Bạn làm ở vị trí nào?",
+    "note": "Hỏi vị trí công việc",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a manager.",
+    "mean": "Tôi làm quản lý.",
+    "note": "Trả lời vị trí",
+    "topics": [
+      "work"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is the name of your school?",
+    "mean": "Tên trường của bạn là gì?",
+    "note": "Hỏi tên trường",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "The name of my school is Quang Trung Primary School.",
+    "mean": "Trường mình tên là trường tiểu học Quang Trung.",
+    "note": "Trả lời tên trường",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Where are you studying?",
+    "mean": "Bạn học ở trường nào vậy?",
+    "note": "Hỏi nơi học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm studying at Quang Trung High School.",
+    "mean": "Mình học ở trường trung học phổ thông Quang Trung.",
+    "note": "Trả lời nơi học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Which grade are you in?",
+    "mean": "Bạn học khối nào?",
+    "note": "Hỏi khối lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am in grade 4.",
+    "mean": "Mình học khối 4.",
+    "note": "Trả lời khối lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What grade are you studying in?",
+    "mean": "Bạn đang học ở khối mấy?",
+    "note": "Hỏi khối lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am studying in grade 4.",
+    "mean": "Mình đang học khối 4.",
+    "note": "Trả lời khối lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Which class are you in?",
+    "mean": "Bạn học lớp nào?",
+    "note": "Hỏi lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am in class 3A.",
+    "mean": "Mình học lớp 3A.",
+    "note": "Trả lời lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Which class are you studying in?",
+    "mean": "Bạn đang học lớp nào?",
+    "note": "Hỏi lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am studying in class 3A.",
+    "mean": "Mình đang học lớp 3A.",
+    "note": "Trả lời lớp",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "Where are you studying?",
+    "mean": "Bạn đang học trường nào vậy?",
+    "note": "Hỏi trường đại học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I'm studying at FPT University.",
+    "mean": "Mình đang học ở trường đại học FPT.",
+    "note": "Trả lời trường đại học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What is your major?",
+    "mean": "Ngành học của bạn là gì?",
+    "note": "Hỏi ngành học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "My major is accounting.",
+    "mean": "Ngành học của mình là kế toán.",
+    "note": "Trả lời ngành học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "What year are you in?",
+    "mean": "Bạn đang học năm thứ mấy?",
+    "note": "Hỏi năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a freshman.",
+    "mean": "Mình là sinh viên năm thứ nhất.",
+    "note": "Trả lời năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a sophomore.",
+    "mean": "Mình là sinh viên năm thứ 2.",
+    "note": "Trả lời năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am in my 2nd year.",
+    "mean": "Mình là sinh viên năm thứ 2.",
+    "note": "Trả lời năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am a senior.",
+    "mean": "Mình là sinh viên năm cuối.",
+    "note": "Trả lời năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  },
+  {
+    "sentence": "I am in my 4th year.",
+    "mean": "Mình là sinh viên năm thứ 4.",
+    "note": "Trả lời năm học",
+    "topics": [
+      "education"
+    ],
+    "isChecked": true
+  }
+]

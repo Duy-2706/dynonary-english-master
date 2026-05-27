@@ -1,0 +1,41 @@
+.dyno-title {
+  font-size: 2.8rem !important;
+  line-height: 1.18 !important;
+  font-weight: 850 !important;
+  letter-spacing: -1px !important;
+  color: #102f4e !important;
+  margin-top: 1.6rem !important;
+  margin-bottom: 1.4rem !important;
+  font-family: var(--font) !important;
+}
+
+.dyno-title span,
+.dyno-title .title-en {
+  color: #6fc7e1 !important;
+  font-size: 0.82em !important;
+  font-weight: 800 !important;
+}
+
+.dyno-title .title-number {
+  color: #ffa883 !important;
+  font-size: 1em !important;
+  font-weight: 900 !important;
+}
+
+.dyno-sub-title {
+  font-size: 1.7rem !important;
+  color: #6f7479 !important;
+  line-height: 1.7 !important;
+  font-weight: 500 !important;
+  margin-bottom: 2rem !important;
+}
+
+@media (max-width: 768px) {
+  .dyno-title {
+    font-size: 2.8rem !important;
+  }
+
+  .dyno-sub-title {
+    font-size: 1.45rem !important;
+  }
+}

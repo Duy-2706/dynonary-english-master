@@ -293,7 +293,7 @@ function CourseDetail() {
                               }}>Xem thu</span>
                             )}
                           </span>
-                        }
+                          }
                         secondary={
                           <span className={classes.lessonSecondary} style={{ color: '#888' }}>
                             {getLessonTypeLabel(lesson.type)}

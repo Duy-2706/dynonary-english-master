@@ -1,47 +1,47 @@
-const { addTopicsQuery } = require('../helper/word-pack.helper');
-const SentenceModel = require('../models/sentence.model');
+const { db, COLLECTIONS } = require('../configs/firebase.config');
+
+const sentencesCol = db.collection(COLLECTIONS.SENTENCES);
+
+// ─── helpers ────────────────────────────────────────────────────────────────
+
+/**
+ * Apply topic filter to a Firestore query.
+ * Mirrors the MongoDB addTopicsQuery helper.
+ * Firestore: array-contains (single) or array-contains-any (multiple, max 10).
+ */
+function applyTopicFilter(query, topics = []) {
+  if (!topics || topics.length === 0) return query;
+  if (topics.length === 1) return query.where('topics', 'array-contains', topics[0]);
+  return query.where('topics', 'array-contains-any', topics.slice(0, 10));
+}
+
+// ─── exports ─────────────────────────────────────────────────────────────────
 
 exports.createSentence = async (sentence, mean, note, topics) => {
-  try {
-    const result = SentenceModel.create({ sentence, mean, note, topics });
-    if (result) return true;
-    return false;
-  } catch (error) {
-    throw error;
-  }
+  const ref = await sentencesCol.add({ sentence, mean, note, topics });
+  return Boolean(ref.id);
 };
 
 exports.getTotalSentences = async (topics = []) => {
-  try {
-    let query = {};
-
-    // query multiple topic
-    addTopicsQuery(topics, query);
-
-    const total = await SentenceModel.countDocuments(query);
-    return total;
-  } catch (error) {
-    throw error;
-  }
+  let q = applyTopicFilter(sentencesCol, topics);
+  const countSnap = await q.count().get();
+  return countSnap.data().count;
 };
 
 exports.getSentenceList = async (page = 1, perPage = 20, topics = []) => {
-  try {
-    const pageInt = parseInt(page),
-      perPageInt = parseInt(perPage);
-    const skip = (pageInt - 1) * perPageInt;
+  const pageInt = parseInt(page);
+  const perPageInt = parseInt(perPage);
+  const skip = (pageInt - 1) * perPageInt;
 
-    let query = {};
-    // query multiple topic
-    addTopicsQuery(topics, query);
+  let q = applyTopicFilter(sentencesCol, topics);
+  if (skip > 0) q = q.offset(skip);
+  q = q.limit(perPageInt);
 
-    const list = await SentenceModel.find(query)
-      .skip(skip)
-      .limit(perPageInt)
-      .select('-_id -isChecked -topics');
+  const snap = await q.get();
 
-    return list;
-  } catch (error) {
-    throw error;
-  }
+  // Exclude isChecked and topics (mirrors .select('-_id -isChecked -topics'))
+  return snap.docs.map((doc) => {
+    const { isChecked, topics: _t, ...rest } = doc.data();
+    return rest;
+  });
 };

@@ -1,51 +1,68 @@
-const UserModel = require('../models/account.model/user.model');
+const { db, COLLECTIONS } = require('../configs/firebase.config');
 const jwt = require('jsonwebtoken');
-const express = require('express');
 const { KEYS, ACCOUNT_TYPES } = require('../constant');
 const passport = require('passport');
 const GooglePlusTokenStrategy = require('passport-google-token').Strategy;
 const FacebookTokenStrategy = require('passport-facebook-token');
 
-// Authentication with JWT
+const usersCol = db.collection(COLLECTIONS.USERS);
+
+// ─── helpers ────────────────────────────────────────────────────────────────
+
+async function getUserByAccountId(accountId) {
+  const snap = await usersCol
+    .where('accountId', '==', accountId)
+    .limit(1)
+    .get();
+  if (snap.empty) return null;
+  const data = snap.docs[0].data();
+  return {
+    id: snap.docs[0].id,
+    username: data.username,
+    name: data.name,
+    avt: data.avt,
+    favoriteList: data.favoriteList || [],
+    coin: data.coin,
+    role: data.role,
+    accountId,
+  };
+}
+
+// ─── JWT middleware ───────────────────────────────────────────────────────────
+
+/** Requires a valid JWT — blocks request if missing/invalid */
 exports.jwtAuthentication = async (req, res, next) => {
   try {
     res.locals.isAuth = false;
-    let token = req.cookies ? req.cookies[KEYS.JWT_TOKEN] : null;
+    const token = req.cookies ? req.cookies[KEYS.JWT_TOKEN] : null;
 
-    // if not exist cookie[access_token] -> isAuth = false -> next
     if (!token) {
       next();
       return;
     }
 
-    // verify jwt
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (decoded) {
       const { accountId } = decoded.sub;
-    let user = await UserModel.findOne({ accountId }).select(
-      '-_id username name avt favoriteList coin role',
-    );
-
+      const user = await getUserByAccountId(accountId);
       if (user) {
-        user.accountId = accountId;
         res.locals.isAuth = true;
         req.user = user;
       }
     }
+
     next();
   } catch (error) {
     console.error('Authentication with JWT ERROR: ', error);
-    return res.status(401).json({
-      message: 'Unauthorized.',
-      error,
-    });
+    return res.status(401).json({ message: 'Unauthorized.', error });
   }
 };
 
+/** Allows requests with or without a JWT (optional auth) */
 exports.jwtOptional = async (req, res, next) => {
   try {
     res.locals.isAuth = false;
-    let token = req.cookies ? req.cookies[KEYS.JWT_TOKEN] : null;
+    const token = req.cookies ? req.cookies[KEYS.JWT_TOKEN] : null;
 
     if (!token) {
       next();
@@ -55,23 +72,22 @@ exports.jwtOptional = async (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
     if (decoded) {
       const { accountId } = decoded.sub;
-    let user = await UserModel.findOne({ accountId }).select(
-      '-_id username name avt favoriteList coin role',
-    );
+      const user = await getUserByAccountId(accountId);
       if (user) {
-        user.accountId = accountId;
         res.locals.isAuth = true;
         req.user = user;
       }
     }
+
     next();
   } catch (error) {
-    // Nếu token lỗi thì bỏ qua, vẫn cho tiếp tục
+    // Token error → allow request to continue without auth
     next();
   }
 };
 
-// Authentication with Google OAuth2
+// ─── Google OAuth2 ───────────────────────────────────────────────────────────
+
 passport.use(
   new GooglePlusTokenStrategy(
     {
@@ -102,13 +118,13 @@ passport.use(
         });
       } catch (error) {
         done(error, null);
-        return;
       }
     },
   ),
 );
 
-// Authentication with Facebook OAuth2
+// ─── Facebook OAuth2 ─────────────────────────────────────────────────────────
+
 passport.use(
   new FacebookTokenStrategy(
     {
@@ -134,7 +150,6 @@ passport.use(
         });
       } catch (error) {
         done(error, null);
-        return;
       }
     },
   ),

@@ -1,77 +1,82 @@
 const { MAX_TOP, HIGHSCORE_NAME } = require('../constant/highscore');
-const UserModel = require('../models/account.model/user.model');
-const HighscoreModel = require('../models/highscore.model');
+const { db, COLLECTIONS } = require('../configs/firebase.config');
+
+const highscoresCol = db.collection(COLLECTIONS.HIGHSCORES);
+const usersCol = db.collection(COLLECTIONS.USERS);
+
+// ─── helpers ────────────────────────────────────────────────────────────────
+
+async function getHighscoreByName(name) {
+  const snap = await highscoresCol.where('name', '==', name).limit(1).get();
+  if (snap.empty) return null;
+  return { id: snap.docs[0].id, _id: snap.docs[0].id, ...snap.docs[0].data() };
+}
+
+// ─── exports ─────────────────────────────────────────────────────────────────
 
 exports.updateTop = async (accountId, name, score) => {
-  try {
-    let tops = await HighscoreModel.findOne({ name });
-
-    let unit = '';
-    for (let key in HIGHSCORE_NAME) {
-      if (HIGHSCORE_NAME[key].name === name) {
-        unit = HIGHSCORE_NAME[key].unit;
-        break;
-      }
+  let unit = '';
+  for (const key in HIGHSCORE_NAME) {
+    if (HIGHSCORE_NAME[key].name === name) {
+      unit = HIGHSCORE_NAME[key].unit;
+      break;
     }
+  }
 
-    let newTops = [];
-    if (!Boolean(tops)) {
-      newTops.push({ accountId, score: Number(score) });
-      HighscoreModel.create({
-        name,
-        unit,
-        top: newTops,
-      });
+  const tops = await getHighscoreByName(name);
+
+  if (!tops) {
+    // First entry for this game
+    await highscoresCol.add({
+      name,
+      unit,
+      top: [{ accountId, score: Number(score) }],
+    });
+  } else {
+    let topList = [...(tops.top || [])];
+    const index = topList.findIndex((i) => i.accountId === accountId);
+
+    if (index === -1) {
+      topList.push({ accountId, score: Number(score) });
     } else {
-      const index = tops.top.findIndex(
-        (i) => i.accountId.toString() === accountId.toString(),
-      );
-
-      if (index === -1) {
-        tops.top.push({ accountId, score: Number(score) });
-      } else {
-        const item = tops.top[index];
-        if (Number(item.score) < Number(score)) {
-          tops.top[index].score = score;
-        }
+      if (Number(topList[index].score) < Number(score)) {
+        topList[index].score = Number(score);
       }
-      newTops = tops.top;
-
-      newTops = newTops
-        .sort((a, b) => Number(a.score) - Number(b.score))
-        .slice(0, MAX_TOP);
-
-      await HighscoreModel.updateOne({ name }, { top: newTops });
     }
-  } catch (error) {
-    throw error;
+
+    // Sort ascending by score and keep only top N
+    topList = topList
+      .sort((a, b) => Number(a.score) - Number(b.score))
+      .slice(0, MAX_TOP);
+
+    await highscoresCol.doc(tops.id).update({ top: topList });
   }
 };
 
 exports.getLeaderboardWithName = async (name = '') => {
-  try {
-    const highscores = await HighscoreModel.findOne({ name });
-    if (!Boolean(highscores)) {
-      return [];
+  const highscores = await getHighscoreByName(name);
+  if (!highscores) return [];
+
+  const { top = [] } = highscores;
+  const topList = [];
+
+  for (const entry of top) {
+    const userSnap = await usersCol
+      .where('accountId', '==', entry.accountId)
+      .limit(1)
+      .get();
+
+    let userName = 'Anonymous';
+    let avt = '';
+
+    if (!userSnap.empty) {
+      const userData = userSnap.docs[0].data();
+      userName = userData.name || 'Anonymous';
+      avt = userData.avt || '';
     }
-    const { top } = highscores;
-    const l = top.length;
-    let topList = [];
 
-    for (let i = 0; i < l; ++i) {
-      const { name, avt } = await UserModel.findOne({
-        accountId: top[i].accountId,
-      }).select('name avt -_id');
-
-      topList.push({
-        name: name || 'Anonymous',
-        avt,
-        score: top[i].score,
-      });
-    }
-
-    return topList;
-  } catch (error) {
-    throw error;
+    topList.push({ name: userName, avt, score: entry.score });
   }
+
+  return topList;
 };

@@ -129,13 +129,13 @@ exports.postLoginSocialNetwork = async (req, res) => {
       const username = `${name}-${id}`.slice(0, MAX.USER_NAME).toLowerCase();
       await createUser(accountId, username, name, avt);
     } else {
-      accountId = account._id;
+      accountId = account.id;
     }
 
     // set cookie with jwt
     const token = await jwtConfig.encodedToken(
       process.env.JWT_SECRET_KEY || 'dynonary-serect',
-      { accountId },
+      { accountId: account.id },
     );
 
     res.cookie(KEYS.JWT_TOKEN, token, {

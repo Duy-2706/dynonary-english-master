@@ -1,18 +1,19 @@
-const BlogModel = require('../models/blog.model');
+const { db, COLLECTIONS, docToObj } = require('../configs/firebase.config');
+
+const blogsCol = db.collection(COLLECTIONS.BLOGS);
 
 exports.getBlogListService = async () => {
-  try {
-    const blogs = await BlogModel.find({}).select('-html');
-    return blogs;
-  } catch (error) {
-    throw error;
-  }
+  const snap = await blogsCol.get();
+  // Exclude 'html' field from list (mimics Mongoose .select('-html'))
+  return snap.docs.map((doc) => {
+    const { html, ...rest } = doc.data();
+    return { _id: doc.id, id: doc.id, ...rest };
+  });
 };
 
-exports.getBlogHtmlService = async (_id) => {
-  try {
-    if (!Boolean(_id)) return null;
-    const { html = '' } = await BlogModel.findById(_id).select('-_id html');
-    return html;
-  } catch (error) {}
+exports.getBlogHtmlService = async (id) => {
+  if (!id) return null;
+  const doc = await blogsCol.doc(id).get();
+  if (!doc.exists) return null;
+  return doc.data().html || '';
 };

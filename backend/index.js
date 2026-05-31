@@ -7,7 +7,6 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const https = require('https');
 
 // import local file
 const { MAX } = require('./src/constant');
@@ -40,26 +39,15 @@ if (!dev) {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
   });
-
-  // Auto wake up heroku
-  // app.get('/apis/wakeup-heroku', (req, res) => res.send('ok'));
-  // const timer = 25 * 60 * 1000; // 25 minutes
-  // setInterval(() => {
-  //   https.get('https://dynonary.herokuapp.com/apis/wakeup-heroku');
-  // }, timer);
 } else {
   app.use(morgan('dev'));
 }
 
-// ================== Connect mongodb with mongoose ==================
-const mongoose = require('mongoose');
-const MONGO_URL = dev ? process.env.MONGO_URL_LOCAL : process.env.MONGO_URL;
-
-mongoose.connect(MONGO_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
+// ================== Connect Firebase / Firestore ==================
+// Firebase is initialized automatically when firebase.config.js is first imported
+// (triggered via any service file). Explicit import here ensures early init.
+require('./src/configs/firebase.config');
+console.log('Firebase Firestore connected ✓');
 
 // ================== config ==================
 app.use(express.json({ limit: MAX.SIZE_JSON_REQUEST }));
@@ -99,4 +87,3 @@ app.use(`${BASE_URL}/course`, courseApi);
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
 });
-

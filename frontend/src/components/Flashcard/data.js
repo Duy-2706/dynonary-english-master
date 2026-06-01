@@ -201,6 +201,8 @@ function FlashcardData() {
         unknownWords={unknownWords}
         onRestart={handleRestart}
         onReviewWrong={handleReviewWrong}
+        topicTitle={selectedTopic?.title}
+        packInfo={pageInfo.packInfo}
       />
     );
   }

@@ -9,14 +9,23 @@ exports.getWordPack = async (req, res, next) => {
       perPageInt = parseInt(perPage);
     const skip = (pageInt - 1) * perPageInt;
 
-    const packList = await serviceGetWordPack(
+    // Fetch more to compensate for words without pictures (Firestore doesn't
+    // support $ne / $and operators, so we filter in-memory instead)
+    const fetchLimit = perPageInt * 4;
+    const all = await serviceGetWordPack(
       JSON.parse(packInfo),
       skip,
-      perPageInt,
+      fetchLimit,
       '-_id type word mean level phonetic examples picture',
       null,
-      { $and: [{ picture: { $ne: null } }, { picture: { $ne: '' } }] },
+      null,
     );
+
+    // Prefer words with pictures; fall back to words without if needed
+    const withPic = all.filter((w) => w.picture && w.picture !== '');
+    const packList = withPic.length >= perPageInt
+      ? withPic.slice(0, perPageInt)
+      : all.slice(0, perPageInt);
 
     return res.status(200).json({ packList });
   } catch (error) {

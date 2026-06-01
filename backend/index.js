@@ -1,5 +1,6 @@
 // set environment variables
 require('dotenv').config();
+require('dotenv').config({ path: '.local.env', override: false });
 
 // import third-party
 const express = require('express');
@@ -7,7 +8,6 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
-const https = require('https');
 
 // import local file
 const { MAX } = require('./src/constant');
@@ -23,6 +23,9 @@ const highscoreApi = require('./src/apis/highscore.api');
 const passportConfig = require('./src/middlewares/passport.middleware');
 const classroomApi = require('./src/apis/classroom.api');
 const courseApi = require('./src/apis/course.api');
+const grammarApi = require('./src/apis/grammar.api');
+const adminApi = require('./src/apis/admin.api');
+const statsApi = require('./src/apis/stats.api');
 
 // ================== set port ==================
 const app = express();
@@ -40,31 +43,18 @@ if (!dev) {
   app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
   });
-
-  // Auto wake up heroku
-  // app.get('/apis/wakeup-heroku', (req, res) => res.send('ok'));
-  // const timer = 25 * 60 * 1000; // 25 minutes
-  // setInterval(() => {
-  //   https.get('https://dynonary.herokuapp.com/apis/wakeup-heroku');
-  // }, timer);
 } else {
   app.use(morgan('dev'));
 }
 
-// ================== Connect mongodb with mongoose ==================
-const mongoose = require('mongoose');
-const MONGO_URL = dev ? process.env.MONGO_URL_LOCAL : process.env.MONGO_URL;
-
-mongoose.connect(MONGO_URL, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-});
+require('./src/configs/firebase.config');
+console.log('Firebase Firestore connected ✓');
 
 // ================== config ==================
 app.use(express.json({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(express.urlencoded({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(cookieParser());
+app.options('*', cors(corsConfig));
 app.use(cors(corsConfig));
 
 // ================== Listening ... ==================
@@ -86,17 +76,16 @@ app.use(
   passportConfig.jwtAuthentication,
   highscoreApi,
 );
-// ================== classroom ==================
 app.use(
   `${BASE_URL}/classroom`,
   passportConfig.jwtAuthentication,
   classroomApi,
 );
-
-// ================== course ==================
 app.use(`${BASE_URL}/course`, courseApi);
+app.use(`${BASE_URL}/grammar`, grammarApi);
+app.use(`${BASE_URL}/admin`, adminApi);
+app.use(`${BASE_URL}/stats`, statsApi);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
 });
-

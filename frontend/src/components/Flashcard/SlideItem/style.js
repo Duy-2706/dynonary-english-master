@@ -186,4 +186,22 @@ export default makeStyles((theme) => ({
     fontSize: 13,
     color: '#9a9a9a',
   },
+  
+  favoriteBtn: {
+    position: 'absolute',
+    bottom: 16,
+    right: 20,
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: 6,
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'background 0.2s',
+    '&:hover': {
+      background: 'rgba(233,30,99,0.08)',
+    },
+  },
 }));

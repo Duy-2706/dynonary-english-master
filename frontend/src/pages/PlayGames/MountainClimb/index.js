@@ -1,5 +1,6 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -49,6 +50,7 @@ function MountainGame({ packInfo, wordList }) {
     const ok=word===item.word;
     setSelIdx(idx); setStatus('answered');
     if(ok){
+      playCorrect();
       const ns=streak+1;
       setStreak(ns);
       const bonus=ns>0&&ns%3===0?100:0;
@@ -56,12 +58,13 @@ function MountainGame({ packInfo, wordList }) {
       setSteps(p=>Math.min(p+1,N));
       setFeedback({ok:true,correct:item.word,bonus});
     } else {
+      playWrong();
       setStreak(0); setSteps(p=>Math.max(0,p-1));
       setFeedback({ok:false,correct:item.word});
     }
     advRef.current=setTimeout(()=>{
       const next=cur+1;
-      if(next>=pack.length){setStatus('done');return;}
+      if(next>=pack.length){playComplete();setStatus('done');return;}
       setCur(next); setChoices(buildC(pack[next])); setSelIdx(null); setFeedback(null); setStatus('playing');
     }, ok?800:1000);
   },[status,pack,cur,streak]);

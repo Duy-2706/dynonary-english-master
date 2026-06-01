@@ -1,7 +1,9 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 
 const CSS = `
   @keyframes throwBall { 0%{bottom:60px;left:50%;transform:translateX(-50%) scale(1);opacity:1} 70%{bottom:72%;left:50%;transform:translateX(-50%) scale(0.7);opacity:1} 100%{bottom:70%;left:50%;transform:translateX(-50%) scale(0.4);opacity:0} }
@@ -61,7 +63,7 @@ function BasketballQuizGame({ packInfo, wordList }) {
     advRef.current = setTimeout(()=>{
       setCur(prev=>{
         const next=prev+1;
-        if(next>=pack.length){setStatus('done');return prev;}
+        if(next>=pack.length){playComplete();setStatus('done');return prev;}
         setChoices(buildChoices(pack[next])); setSelected(null); setShowBall(false); setShake(false); setTimer(T); setStatus('playing');
         return next;
       });
@@ -75,10 +77,14 @@ function BasketballQuizGame({ packInfo, wordList }) {
     const ok=choice===item.word;
     setStatus('animating');
     if(ok){
+      playCorrect();
       const gain=200+Math.round((timer/T)*100);
       setScore(s=>s+gain);
       setShowBall(true);
       setTimeout(()=>setShake(true),1000);
+    }
+    else {
+      playWrong();
     }
     advance(ok,choice);
   },[status,pack,cur,timer,advance]);

@@ -1,5 +1,6 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -46,7 +47,7 @@ function FillLettersGame({ packInfo, wordList }) {
     const next = idx + 1;
     setTimeout(() => {
       setFlash(null);
-      if (next >= pack.length) { setStatus('done'); return; }
+      if (next >= pack.length) { playComplete(); setStatus('done'); return; }
       setCurrent(next);
       const b = buildBlanked(pack[next].word);
       setBlankedWord(b.blankedWord); setBlankedLetters(b.blankedLetters);
@@ -60,7 +61,7 @@ function FillLettersGame({ packInfo, wordList }) {
     const ok = input.trim().toLowerCase() === blankedLetters;
     setFeedback(ok ? 'correct' : 'wrong');
     setFlash(ok ? '#26de81' : '#fc5c65');
-    if (ok) setScore(s => s + 100);
+    if (ok) { playCorrect(); setScore(s => s + 100); } else { playWrong(); }
     advance(current, wordPack);
   }, [status, input, blankedLetters, current, wordPack, advance]);
 

@@ -1,5 +1,6 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -61,12 +62,14 @@ function MemoryMatchGame({ packInfo, wordList }) {
           setCards(cs => {
             const [a, b] = next.map(x => cs.find(c => c.id === x));
             if (a?.pairId === b?.pairId) {
+              playCorrect();
               setScore(s => s + 100);
-              setMatched(m => { if (m + 1 >= TOTAL) setStatus('done'); return m + 1; });
+              setMatched(m => { if (m + 1 >= TOTAL) { playComplete(); setStatus('done'); } return m + 1; });
               const updated = cs.map(c => next.includes(c.id) ? { ...c, matched: true, flipped: true } : c);
               setFlipped([]); block.current = false;
               return updated;
             }
+            playWrong();
             const updated = cs.map(c => next.includes(c.id) ? { ...c, flipped: false } : c);
             setFlipped([]); block.current = false;
             return updated;

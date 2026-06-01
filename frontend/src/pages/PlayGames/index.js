@@ -3,107 +3,103 @@ import useScrollTop from 'hooks/useScrollTop';
 import useTitle from 'hooks/useTitle';
 import React, { useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import basketballCover from 'assets/images/games/Bong_ro.png';
+import friendsCover from 'assets/images/games/Choi_cung_ban_be.png';
+import listenCover from 'assets/images/games/Nghe_va_chon.png';
+import mountainCover from 'assets/images/games/Leo_nui.png';
+import memoryCover from 'assets/images/games/Lat_the_ghi_nho.png';
+import wordOrderCover from 'assets/images/games/Sap_xep_tu.png';
+import wordMatchingCover from 'assets/images/games/Ghep_tu.png';
+import correctWordCover from 'assets/images/games/Hay_chon_tu_dung.png';
+import fillLetter from 'assets/images/games/Tim_tu_con_thieu.png';
 
 const { GAMES } = ROUTES;
+const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
 
 const GAME_LIST = [
   {
-    title: 'Chọn Từ Đúng',
-    subTitle: 'Chọn 1 đáp án đúng nghĩa trong 4 lựa chọn.',
-    icon: '✅',
-    color: '#667eea',
-    bg: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-    light: '#eef0ff',
-    to: GAMES.CORRECT_WORD,
-    tag: null,
+    title: 'Hãy Chọn Từ Đúng',
+    subTitle: 'Chọn đáp án đúng trong 4 lựa chọn.',
+      cover: correctWordCover,
+      theme: '#31c41f',
+      shadow: '#14840f',
+      to: GAMES.CORRECT_WORD,
+      tag: null,
+      coverFit: 'contain',
+      coverScale: 0.86,
+      coverPosition: 'left center',
+      coverInset: 14,
+      coverBg: '#2bbf1f',
   },
   {
     title: 'Ghép Từ',
-    subTitle: 'Ghép ký tự thành từ đúng nghĩa.',
-    icon: '🔡',
-    color: '#f5576c',
-    bg: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-    light: '#fff0f2',
+    subTitle: 'Ghép các mảnh chữ để tạo thành từ đúng.',
+    cover: wordMatchingCover,
+    theme: '#0877ff',
+    shadow: '#003f9e',
     to: GAMES.WORD_MATCHING,
     tag: null,
   },
   {
-    title: 'Tay Nhanh Hơn Não',
-    subTitle: 'Chọn hình ảnh đúng trong thời gian nhanh nhất.',
-    icon: '⚡',
-    color: '#00b4d8',
-    bg: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-    light: '#e6f9ff',
-    to: GAMES.FAST_GAME,
-    tag: null,
-  },
-  {
     title: 'Sắp Xếp Từ',
-    subTitle: 'Kéo thả các từ để tạo thành câu đúng.',
-    icon: '🔤',
-    color: '#f77f00',
-    bg: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-    light: '#fff8e6',
+    subTitle: 'Sắp xếp các chữ cái thành từ đúng.',
+    cover: wordOrderCover,
+    theme: '#ff7a00',
+    shadow: '#b64a00',
     to: GAMES.WORD_ORDER,
     tag: 'HOT',
   },
   {
-    title: 'Điền Chữ Thiếu',
-    subTitle: 'Điền các chữ cái bị thiếu vào từ đúng.',
-    icon: '✏️',
-    color: '#2dc653',
-    bg: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-    light: '#edfff5',
+    title: 'Lật Thẻ Ghi Nhớ',
+    subTitle: 'Lật thẻ để tìm cặp từ và hình ảnh khớp nhau.',
+    cover: memoryCover,
+    theme: '#ff1493',
+    shadow: '#9b0054',
+    to: GAMES.MEMORY_MATCH,
+    tag: null,
+  },
+   {
+    title: 'Điền từ còn thiếu',
+    subTitle: 'Ghép các mảnh chữ để tạo thành từ đúng.',
+    cover: fillLetter,
+    theme: '#14d9e0',
+    shadow: '#008d95',
     to: GAMES.FILL_LETTERS,
     tag: null,
   },
   {
-    title: 'Lật Thẻ Ghi Nhớ',
-    subTitle: 'Lật thẻ để tìm cặp từ và nghĩa khớp nhau.',
-    icon: '🃏',
-    color: '#9b59b6',
-    bg: 'linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%)',
-    light: '#f8f0ff',
-    to: GAMES.MEMORY_MATCH,
-    tag: null,
-  },
-  {
     title: 'Ném Bóng Từ Vựng',
-    subTitle: 'Chọn đáp án đúng, bóng sẽ bay vào rổ!',
-    icon: '🏀',
-    color: '#f39c12',
-    bg: 'linear-gradient(135deg, #f7971e 0%, #ffd200 100%)',
-    light: '#fff9e6',
+    subTitle: 'Chọn đúng để ném bóng vào rổ.',
+    cover: basketballCover,
+    theme: '#ff7a00',
+    shadow: '#aa3c00',
     to: GAMES.BASKETBALL,
     tag: 'HOT',
   },
   {
     title: 'Leo Núi Từ Vựng',
-    subTitle: 'Trả lời đúng liên tiếp để leo đến đỉnh núi!',
-    icon: '🏔️',
-    color: '#11998e',
-    bg: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
-    light: '#eafff7',
+    subTitle: 'Trả lời đúng để leo lên đỉnh núi.',
+    cover: mountainCover,
+    theme: '#0877ff',
+    shadow: '#003f9e',
     to: GAMES.MOUNTAIN,
     tag: null,
   },
   {
     title: 'Nghe Và Chọn',
-    subTitle: 'Nghe phát âm và chọn hình ảnh đúng.',
-    icon: '🔊',
-    color: '#c471f5',
-    bg: 'linear-gradient(135deg, #c471f5 0%, #fa71cd 100%)',
-    light: '#fdf0ff',
+    subTitle: 'Nghe phát âm và chọn đáp án đúng.',
+    cover: listenCover,
+    theme: '#7b1cff',
+    shadow: '#360087',
     to: GAMES.LISTEN_CHOOSE,
     tag: null,
   },
   {
     title: 'Chơi Cùng Bạn Bè',
-    subTitle: 'Thi đấu trực tuyến theo thời gian thực!',
-    icon: '🎮',
-    color: '#e84393',
-    bg: 'linear-gradient(135deg, #f953c6 0%, #b91d73 100%)',
-    light: '#fff0f8',
+    subTitle: 'Thi đấu vui cùng bạn bè theo thời gian thực.',
+    cover: friendsCover,
+    theme: '#006dff',
+    shadow: '#00378a',
     to: GAMES.MULTIPLAYER,
     tag: 'MỚI',
   },
@@ -119,27 +115,29 @@ function CloudSVG({ style }) {
   );
 }
 
-function TagBadge({ tag }) {
+function TagBadge({ tag, color }) {
   if (!tag) return null;
-  const isNew = tag === 'MỚI';
+
   return (
-    <span style={{
-      position: 'absolute',
-      top: 12,
-      right: 12,
-      padding: '4px 12px',
-      borderRadius: 20,
-      fontSize: '0.82rem',
-      fontWeight: 800,
-      letterSpacing: '0.5px',
-      background: isNew
-        ? 'linear-gradient(90deg, #f953c6, #b91d73)'
-        : 'linear-gradient(90deg, #ff416c, #ff4b2b)',
-      color: '#fff',
-      boxShadow: '0 2px 10px rgba(0,0,0,0.22)',
-      zIndex: 2,
-      fontFamily: "'Montserrat', sans-serif",
-    }}>
+    <span
+      style={{
+        position: 'absolute',
+        top: 18,
+        right: 18,
+        padding: '8px 16px',
+        borderRadius: 999,
+        fontSize: '1rem',
+        fontWeight: 900,
+        background: tag === 'MỚI'
+          ? 'linear-gradient(180deg, #ff4fc3, #c40075)'
+          : 'linear-gradient(180deg, #ffdf3b, #ff8a00)',
+        color: '#fff',
+        border: '3px solid #fff',
+        boxShadow: `0 5px 0 ${color}`,
+        zIndex: 5,
+        fontFamily: GAME_FONT,
+      }}
+    >
       {tag}
     </span>
   );
@@ -158,98 +156,109 @@ function GameCard({ game, practicePackInfo }) {
   };
 
   return (
-    <div onClick={handleClick} style={{ textDecoration: 'none', cursor: 'pointer' }}>
+    <div
+      onClick={handleClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        cursor: 'pointer',
+        borderRadius: 34,
+        background: '#fff',
+        padding: 10,
+        border: `5px solid ${game.theme}`,
+        boxShadow: hovered
+          ? `0 12px 0 ${game.shadow}, 0 26px 48px ${game.theme}66`
+          : `0 8px 0 ${game.shadow}, 0 18px 34px rgba(0,0,0,.20)`,
+        transform: hovered ? 'translateY(-8px) scale(1.025)' : 'none',
+        transition: 'all .22s cubic-bezier(.34,1.56,.64,1)',
+        position: 'relative',
+        overflow: 'hidden',
+        fontFamily: GAME_FONT,
+      }}
+    >
+      <TagBadge tag={game.tag} color={game.theme} />
+
       <div
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
         style={{
-          borderRadius: 22,
+          borderRadius: 24,
           overflow: 'hidden',
-          background: '#fff',
-          boxShadow: hovered
-            ? `0 16px 48px ${game.color}55, 0 4px 12px rgba(0,0,0,0.08)`
-            : '0 4px 20px rgba(0,0,0,0.08)',
-          transform: hovered ? 'translateY(-8px) scale(1.02)' : 'none',
-          transition: 'all 0.25s cubic-bezier(.34,1.56,.64,1)',
-          cursor: 'pointer',
+          background: game.theme,
+          aspectRatio: '1 / 1',
           position: 'relative',
-          fontFamily: "'Montserrat', sans-serif",
-          border: `2px solid ${hovered ? game.color + '44' : 'transparent'}`,
         }}
       >
-        <TagBadge tag={game.tag} />
-
-        {/* Colored header area */}
-        <div style={{
-          background: game.bg,
-          height: 180,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{
-            width: 110,
-            height: 110,
-            borderRadius: '50%',
-            background: 'rgba(255,255,255,0.28)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 6px 24px rgba(0,0,0,0.18)',
-            border: '3px solid rgba(255,255,255,0.45)',
-            transform: hovered ? 'scale(1.12) rotate(-6deg)' : 'scale(1)',
-            transition: 'transform 0.3s ease',
-          }}>
-            <span style={{ fontSize: '4rem', lineHeight: 1 }}>{game.icon}</span>
-          </div>
-          <div style={{ position: 'absolute', top: 10, left: 12, width: 10, height: 10, borderRadius: '50%', background: 'rgba(255,255,255,0.4)' }} />
-          <div style={{ position: 'absolute', bottom: 12, right: 16, width: 18, height: 18, borderRadius: '50%', background: 'rgba(255,255,255,0.28)' }} />
-          <div style={{ position: 'absolute', top: 22, right: 24, width: 8, height: 8, borderRadius: '50%', background: 'rgba(255,255,255,0.5)' }} />
-        </div>
-
-        {/* Card body */}
-        <div style={{ padding: '22px 24px 24px' }}>
-          <p style={{
-            margin: '0 0 8px',
-            fontSize: '1.25rem',
-            fontWeight: 800,
-            color: '#1a1a2e',
-            lineHeight: 1.3,
-          }}>
-            {game.title}
-          </p>
-          <p style={{
-            margin: '0 0 18px',
-            fontSize: '1rem',
-            color: '#555',
-            lineHeight: 1.55,
-          }}>
-            {game.subTitle}
-          </p>
-          <button style={{
+        <img
+          src={game.cover}
+          alt={game.title}
+          style={{
             width: '100%',
-            padding: '13px 0',
-            borderRadius: 14,
-            border: 'none',
-            background: hovered ? game.bg : game.light,
-            color: hovered ? '#fff' : game.color,
-            fontWeight: 800,
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+            transform: hovered ? 'scale(1.06)' : 'scale(1)',
+            transition: 'transform .25s ease',
+          }}
+        />
+
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: hovered
+              ? 'linear-gradient(180deg, transparent 45%, rgba(0,0,0,.45))'
+              : 'linear-gradient(180deg, transparent 60%, rgba(0,0,0,.35))',
+            transition: 'background .2s ease',
+          }}
+        />
+      </div>
+
+      <div style={{ padding: '20px 18px 18px' }}>
+        <h3
+          style={{
+            margin: '0 0 6px',
+            fontSize: '1.7rem',
+            lineHeight: 1.05,
+            fontWeight: 900,
+            color: game.theme,
+            textShadow: '0 2px 0 rgba(0,0,0,.10)',
+          }}
+        >
+          {game.title}
+        </h3>
+
+        <p
+          style={{
+            margin: '0 0 18px',
+            color: '#263238',
             fontSize: '1.05rem',
+            lineHeight: 1.45,
+            fontWeight: 800,
+          }}
+        >
+          {game.subTitle}
+        </p>
+
+        <button
+          style={{
+            width: '100%',
+            border: 'none',
+            borderRadius: 999,
+            padding: '13px 18px',
+            background: `linear-gradient(180deg, ${game.theme}, ${game.shadow})`,
+            color: '#fff',
+            fontSize: '1.18rem',
+            fontWeight: 900,
+            fontFamily: GAME_FONT,
             cursor: 'pointer',
-            transition: 'all 0.2s',
-            fontFamily: "'Montserrat', sans-serif",
-            letterSpacing: '0.3px',
-          }}>
-            {hovered ? '▶ Chơi ngay!' : 'Chơi ngay →'}
-          </button>
-        </div>
+            boxShadow: `0 5px 0 ${game.shadow}`,
+          }}
+        >
+          ▶ Chơi ngay
+        </button>
       </div>
     </div>
   );
 }
-
 function PlayGamesPage() {
   useTitle('Game');
   useScrollTop();
@@ -258,61 +267,73 @@ function PlayGamesPage() {
   const practiceTitle = location.state?.practiceTitle || null;
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(160deg, #dbeafe 0%, #ede9fe 40%, #d1fae5 100%)',
-      fontFamily: "'Montserrat', sans-serif",
-      paddingBottom: 80,
-    }}>
+   <div
+      style={{
+        minHeight: '100vh',
+        background: '#042b33',
+        backgroundImage: `
+          radial-gradient(circle at 12% 18%, rgba(25,199,168,.28) 0 4px, transparent 5px),
+          radial-gradient(circle at 80% 28%, rgba(255,191,31,.18) 0 5px, transparent 6px),
+          radial-gradient(circle at 30% 70%, rgba(255,255,255,.12) 0 3px, transparent 4px)
+        `,
+        backgroundSize: '90px 90px, 130px 130px, 100px 100px',
+        fontFamily: GAME_FONT,
+        paddingBottom: 90,
+      }}
+    >
       {/* Hero banner */}
-      <div style={{
-        background: 'linear-gradient(135deg, #4facfe 0%, #667eea 60%, #764ba2 100%)',
-        padding: '72px 24px 110px',
+    <div
+      style={{
+        background: 'linear-gradient(180deg, #063c46 0%, #042b33 100%)',
+        padding: '76px 24px 120px',
         textAlign: 'center',
         position: 'relative',
         overflow: 'hidden',
-      }}>
-        <CloudSVG style={{ position: 'absolute', top: 10, left: '5%', width: 130, opacity: 0.55, pointerEvents: 'none' }} />
-        <CloudSVG style={{ position: 'absolute', top: 20, right: '8%', width: 110, opacity: 0.45, pointerEvents: 'none' }} />
-        <CloudSVG style={{ position: 'absolute', bottom: 28, left: '22%', width: 95, opacity: 0.35, pointerEvents: 'none' }} />
-
-        <div style={{
+      }}
+    >
+      <div
+        style={{
           display: 'inline-block',
-          background: 'rgba(255,255,255,0.22)',
-          border: '1.5px solid rgba(255,255,255,0.45)',
-          borderRadius: 28,
-          padding: '10px 28px',
+          background: 'linear-gradient(180deg, #ffdf3b, #ff8a00)',
+          border: '4px solid #fff',
+          borderRadius: 999,
+          padding: '10px 30px',
           color: '#fff',
-          fontSize: '1.1rem',
-          fontWeight: 700,
+          fontSize: '1.25rem',
+          fontWeight: 900,
           marginBottom: 24,
-          backdropFilter: 'blur(8px)',
-          position: 'relative',
-        }}>
-          🎯 {GAME_LIST.length} trò chơi · Miễn phí
-        </div>
+          boxShadow: '0 6px 0 #bd5f00',
+        }}
+      >
+        {/* 🎮 {GAME_LIST.length} trò chơi vui nhộn */}
+      </div>
 
-        <h1 style={{
-          fontSize: 'clamp(2.6rem, 6vw, 4rem)',
+      <h1
+        style={{
+          fontSize: 'clamp(4rem, 7vw, 7rem)',
           fontWeight: 900,
           color: '#fff',
-          margin: '0 0 16px',
-          textShadow: '0 4px 20px rgba(0,0,0,0.22)',
-          letterSpacing: '-0.5px',
-          position: 'relative',
-        }}>
-          🎮 Kho Game Tiếng Anh
-        </h1>
-        <p style={{
-          fontSize: 'clamp(1.2rem, 2.5vw, 1.55rem)',
-          color: 'rgba(255,255,255,0.9)',
+          margin: '0 0 14px',
+          lineHeight: .92,
+          textTransform: 'uppercase',
+          textShadow: '0 7px 0 #00b894, 0 14px 0 rgba(0,0,0,.28)',
+        }}
+      >
+        Kho Game Tiếng Anh
+      </h1>
+
+      <p
+        style={{
+          fontSize: 'clamp(1.5rem, 3vw, 2.1rem)',
+          color: '#20e0bd',
           margin: 0,
-          position: 'relative',
-          fontWeight: 500,
-        }}>
-          Học từ vựng vui hơn với các trò chơi tương tác hấp dẫn!
-        </p>
-      </div>
+          fontWeight: 900,
+          textShadow: '0 3px 0 rgba(0,0,0,.25)',
+        }}
+      >
+        Học từ vựng vui hơn với hình ảnh, âm thanh và thử thách!
+      </p>
+    </div>
 
       {/* Wave divider */}
       <div style={{
@@ -334,14 +355,18 @@ function PlayGamesPage() {
           </div>
         </div>
       )}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-        gap: 28,
-        maxWidth: 1260,
-        margin: '-36px auto 0',
-        padding: '0 28px',
-      }}>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+          gap: 34,
+          maxWidth: 1320,
+          margin: '-58px auto 0',
+          padding: '0 28px',
+          position: 'relative',
+          zIndex: 2,
+        }}
+      >
         {GAME_LIST.map((game, i) => (
           <GameCard key={game.to} game={game} practicePackInfo={practicePackInfo} />
         ))}

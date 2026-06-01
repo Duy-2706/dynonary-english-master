@@ -38,5 +38,6 @@ courseApi.post('/:courseId/enroll', auth, courseController.enrollCourse);
 
 // ===== PROGRESS =====
 courseApi.post('/:courseId/lessons/:lessonId/progress', auth, courseController.updateLessonProgress);
+courseApi.get('/:courseId/students-progress', auth, courseController.getStudentsProgress);
 
 module.exports = courseApi;

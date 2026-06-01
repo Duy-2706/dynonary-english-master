@@ -4,27 +4,35 @@ const grammarCol = db.collection(COLLECTIONS.GRAMMAR_LESSONS);
 const progressCol = db.collection(COLLECTIONS.GRAMMAR_PROGRESS);
 
 exports.getLessons = async (filters = {}) => {
+  // Dùng TỐI ĐA 1 điều kiện equality để tránh composite index
+  // Mọi filter khác và sort đều làm trong memory
   let query = grammarCol;
-  if (filters.status) query = query.where('status', '==', filters.status);
-  if (filters.teacherAccountId) query = query.where('teacherAccountId', '==', filters.teacherAccountId);
-  if (filters.year) query = query.where('year', '==', Number(filters.year));
-  if (filters.month) query = query.where('month', '==', Number(filters.month));
-  if (filters.weekNumber) query = query.where('weekNumber', '==', Number(filters.weekNumber));
+  if (filters.teacherAccountId) {
+    query = query.where('teacherAccountId', '==', filters.teacherAccountId);
+  } else if (filters.status) {
+    query = query.where('status', '==', filters.status);
+  }
 
-  query = query.orderBy('createdAt', 'desc');
   const snap = await query.get();
   let lessons = snap.docs.map(docToObj);
 
-  // In-memory filters that can't be combined cleanly with Firestore
+  // In-memory filters
+  if (filters.status && !filters.teacherAccountId) {
+    // đã filter bởi Firestore ở trên rồi
+  } else if (filters.status) {
+    lessons = lessons.filter(l => l.status === filters.status);
+  }
+  if (filters.year) lessons = lessons.filter(l => l.year === Number(filters.year));
+  if (filters.month) lessons = lessons.filter(l => l.month === Number(filters.month));
+  if (filters.weekNumber) lessons = lessons.filter(l => l.weekNumber === Number(filters.weekNumber));
   if (filters.gradeLevel && filters.gradeLevel !== 'all') {
     lessons = lessons.filter(l => l.gradeLevel === filters.gradeLevel || l.gradeLevel === 'all');
   }
-  if (filters.topic) {
-    lessons = lessons.filter(l => l.topic === filters.topic);
-  }
-  if (filters.module) {
-    lessons = lessons.filter(l => l.module === filters.module);
-  }
+  if (filters.topic) lessons = lessons.filter(l => l.topic === filters.topic);
+  if (filters.module) lessons = lessons.filter(l => l.module === filters.module);
+
+  // Sort mới nhất trước (không cần Firestore index)
+  lessons.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
 
   return lessons;
 };

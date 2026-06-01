@@ -1,5 +1,6 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -63,10 +64,10 @@ function WordOrderGame({ packInfo, wordList }) {
     const attempt = assembled.map(c => c.letter).join('');
     const ok = !timedOut && attempt.toLowerCase() === entry.word.toLowerCase();
     setFeedback(ok);
-    if (ok) setScore(s => s + 100 + Math.round((timer / 30) * 50));
+    if (ok) { playCorrect(); setScore(s => s + 100 + Math.round((timer / 30) * 50)); } else { playWrong(); }
     setTimeout(() => {
       const next = current + 1;
-      if (next >= wordPack.length) { setStatus('done'); return; }
+      if (next >= wordPack.length) { playComplete(); setStatus('done'); return; }
       setCurrent(next);
       setAvailable(buildChips(wordPack[next].word));
       setAssembled([]);

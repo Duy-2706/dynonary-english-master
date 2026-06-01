@@ -1,8 +1,8 @@
 import grammarApi from 'apis/grammarApi';
 import useTitle from 'hooks/useTitle';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+// import { useSelector } from 'react-redux';
+// import { useHistory } from 'react-router-dom';
 
 const GRADE_LEVELS = ['all', '6', '7', '8', '9', '10', '11', '12'];
 const GRADE_LABELS = {
@@ -100,8 +100,8 @@ const S = {
 
 function TeacherGrammarPage() {
   useTitle('Quản lý ngữ pháp');
-  const userInfo = useSelector((s) => s.userInfo);
-  const history = useHistory();
+//   const userInfo = useSelector((s) => s.userInfo);
+//   const history = useHistory();
 
   const [lessons, setLessons] = useState([]);
   const [selected, setSelected] = useState(null); // lesson being edited
@@ -110,7 +110,7 @@ function TeacherGrammarPage() {
   const [deleting, setDeleting] = useState(false);
   const [msg, setMsg] = useState('');
 
-  const isAllowed = userInfo?.role === 'teacher' || userInfo?.role === 'admin';
+// const isAllowed = userInfo?.role === 'teacher' || userInfo?.role === 'admin';
 
   const loadLessons = useCallback(async () => {
     try {
@@ -121,7 +121,8 @@ function TeacherGrammarPage() {
     }
   }, []);
 
-  useEffect(() => { if (isAllowed) loadLessons(); }, [isAllowed, loadLessons]);
+  //useEffect(() => { if (isAllowed) loadLessons(); }, [isAllowed, loadLessons]);
+  useEffect(() => { loadLessons(); }, [loadLessons]);
 
   const handleNew = () => {
     setSelected(null);
@@ -175,16 +176,21 @@ function TeacherGrammarPage() {
       const payload = { ...form };
       if (statusOverride) payload.status = statusOverride;
       if (selected) {
-        await grammarApi.updateLesson(selected.id, payload);
-        setMsg('✅ Đã lưu thay đổi!');
+        // await grammarApi.updateLesson(selected.id, payload);
+        const res = await grammarApi.updateLesson(selected.id, payload);
+        setSelected(res.data.lesson);
+        setForm({ ...EMPTY_FORM, ...res.data.lesson });
+        setMsg('Đã lưu thay đổi!');
       } else {
         const res = await grammarApi.createLesson(payload);
-        setSelected(res.data.lesson);
-        setMsg('✅ Tạo bài học thành công!');
+        const created = res.data.lesson;
+        setSelected(created);
+        setForm({ ...EMPTY_FORM, ...created });
+        setMsg('Tạo bài học thành công!');
       }
       await loadLessons();
-    } catch {
-      setMsg('❌ Lỗi khi lưu. Vui lòng thử lại.');
+     } catch (err) {
+      setMsg('❌ Lỗi khi lưu: ' + (err?.response?.data?.message || err?.message || 'Thử lại.'));
     } finally {
       setSaving(false);
     }
@@ -206,15 +212,15 @@ function TeacherGrammarPage() {
     }
   };
 
-  if (!isAllowed) {
-    return (
-      <div style={S.noAccess}>
-        <div style={{ fontSize: '3rem' }}>🚫</div>
-        <div style={{ fontWeight: 700, color: '#555' }}>Chỉ giáo viên mới có thể truy cập trang này.</div>
-        <button style={S.saveBtn('#667eea')} onClick={() => history.push('/')}>Về trang chủ</button>
-      </div>
-    );
-  }
+//   if (!isAllowed) {
+//     return (
+//       <div style={S.noAccess}>
+//         <div style={{ fontSize: '3rem' }}>🚫</div>
+//         <div style={{ fontWeight: 700, color: '#555' }}>Chỉ giáo viên mới có thể truy cập trang này.</div>
+//         <button style={S.saveBtn('#667eea')} onClick={() => history.push('/')}>Về trang chủ</button>
+//       </div>
+//     );
+//   }
 
   return (
     <div style={S.page}>

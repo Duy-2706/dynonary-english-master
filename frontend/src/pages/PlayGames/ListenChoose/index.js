@@ -1,5 +1,6 @@
 import gameApi from 'apis/gameApi';
 import GameSetup from 'components/PlayGames/GameSetup';
+import { playComplete, playCorrect, playWrong } from 'helper/gameSound';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
@@ -61,10 +62,10 @@ function ListenChooseGame({ packInfo, wordList }) {
   const handleSelect=(idx)=>{
     if(answered)return;
     setSelIdx(idx); setAnswered(true);
-    if(qset[idx]?.isCorrect)setScore(s=>s+200);
+    if(qset[idx]?.isCorrect){ playCorrect(); setScore(s=>s+200); } else { playWrong(); }
     setTimeout(()=>{
       const next=cur+1;
-      if(next>=questions.length){setStatus('done');return;}
+      if(next>=questions.length){playComplete();setStatus('done');return;}
       setCur(next);
       const s=buildSet(pack,questions[next]); setQset(s);
       setSelIdx(null); setAnswered(false);

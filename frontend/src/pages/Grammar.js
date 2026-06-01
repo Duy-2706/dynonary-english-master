@@ -1,6 +1,7 @@
 import grammarApi from 'apis/grammarApi';
 import useTitle from 'hooks/useTitle';
 import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 const GRADE_LEVELS = ['all', '6', '7', '8', '9', '10', '11', '12'];
 const GRADE_LABELS = {
@@ -270,6 +271,7 @@ function LessonModal({ lesson, onClose }) {
 
 function GrammarPage() {
   useTitle('Ngữ pháp tiếng Anh');
+  const history = useHistory();
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [gradeFilter, setGradeFilter] = useState('all');
@@ -323,6 +325,11 @@ function GrammarPage() {
       <div style={S.hero}>
         <h1 style={S.heroTitle}>📚 Ngữ pháp tiếng Anh</h1>
         <p style={S.heroSub}>Học ngữ pháp theo khối lớp, chủ đề và bài tập tương tác</p>
+        <button
+          onClick={() => history.push('/teacher/grammar')}
+          style={{ marginTop: 16, padding: '10px 24px', borderRadius: 20, border: 'none', background: 'rgba(255,255,255,0.2)', color: '#fff', fontWeight: 700, cursor: 'pointer', fontSize: '0.9rem' }}>
+          Quản lý bài học ngữ pháp
+        </button>
       </div>
 
       <div style={S.body}>

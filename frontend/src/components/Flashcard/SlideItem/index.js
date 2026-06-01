@@ -1,6 +1,11 @@
+import accountApi from 'apis/accountApi';
 import Speaker from 'components/UI/Speaker';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAddFavorites } from 'redux/slices/userInfo.slice';
 import useStyle from './style';
 
 function SliceExample({ word, example }) {
@@ -23,16 +28,58 @@ function SliceExample({ word, example }) {
   );
 }
 
-function SlideItem({ mean, word, type, phonetic, example, picture }) {
-  const classes = useStyle({ picture });
+function SlideItem({ mean, word, type, phonetic: phoneProp, example, picture: picProp }) {
   const [flipped, setFlipped] = useState(false);
+  const [phonetic, setPhonetic] = useState(phoneProp || '');
+  const [picture, setPicture] = useState(
+    picProp || `https://picsum.photos/seed/${encodeURIComponent(word || 'english')}/640/480`,
+  );
+
+  const classes = useStyle({ picture });
+  const dispatch = useDispatch();
+  const { favoriteList, username, isAuth } = useSelector((s) => s.userInfo);
+  const isFavorite = Array.isArray(favoriteList) && favoriteList.includes(word);
+
   const stopFlip = (event) => {
     event.stopPropagation();
   };
 
   useEffect(() => {
     setFlipped(false);
-  }, [word]);
+   setPhonetic(phoneProp || '');
+    setPicture(
+      picProp || `https://picsum.photos/seed/${encodeURIComponent(word || 'english')}/640/480`,
+    );
+
+    if (!phoneProp && word) {
+      fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word.toLowerCase())}`)
+        .then((r) => {
+          if (!r.ok) throw new Error('not found');
+          return r.json();
+        })
+        .then((data) => {
+          if (!Array.isArray(data) || !data[0]) return;
+          const phonetics = data[0].phonetics || [];
+          const text =
+            data[0].phonetic ||
+            phonetics.find((p) => p.text)?.text ||
+            phonetics.find((p) => p.audio)?.text ||
+            '';
+          if (text) setPhonetic(text);
+        })
+        .catch(() => {});
+    }
+  }, [word, phoneProp, picProp]);
+
+  const handleToggleFavorite = async (e) => {
+    e.stopPropagation();
+    if (!isAuth) return;
+    const isAdd = !isFavorite;
+    try {
+      await accountApi.putToggleWordFavorite(username, word, isAdd);
+      dispatch(setAddFavorites({ word, isAdd }));
+    } catch {}
+  };
 
   return (
     <div className={classes.root}>
@@ -58,6 +105,19 @@ function SlideItem({ mean, word, type, phonetic, example, picture }) {
               )}
 
               <p className={classes.hint}>Bấm vào thẻ để xem nghĩa</p>
+
+              {isAuth && (
+                <button
+                  className={classes.favoriteBtn}
+                  onClick={handleToggleFavorite}
+                  title={isFavorite ? 'Bỏ yêu thích' : 'Thêm yêu thích'}
+                >
+                  {isFavorite
+                    ? <FavoriteIcon style={{ color: '#e91e63', fontSize: 22 }} />
+                    : <FavoriteBorderIcon style={{ color: '#bbb', fontSize: 22 }} />
+                  }
+                </button>
+              )}
             </div>
           </div>
 

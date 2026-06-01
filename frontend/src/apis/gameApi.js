@@ -57,6 +57,14 @@ const gameApi = {
       },
     });
   },
+
+  createRoom: (data) => axiosClient.post(`${URL}/room/create`, data),
+  joinRoom: (data) => axiosClient.post(`${URL}/room/join`, data),
+  getRoom: (pin) => axiosClient.get(`${URL}/room/${pin}`),
+  startRoom: (data) => axiosClient.post(`${URL}/room/start`, data),
+  submitAnswer: (data) => axiosClient.post(`${URL}/room/answer`, data),
+  nextQuestion: (data) => axiosClient.post(`${URL}/room/next`, data),
 };
+
 
 export default gameApi;

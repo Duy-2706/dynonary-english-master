@@ -32,6 +32,17 @@ const CourseLearnPage = React.lazy(() => import('pages/Course/CourseLearnPage'))
 const TeacherCoursesPage = React.lazy(() => import('pages/Course/TeacherCoursesPage'));
 const TeacherCourseDetailPage = React.lazy(() => import('pages/Course/TeacherCourseDetailPage'));
 
+const WordOrderPage = React.lazy(() => import('pages/PlayGames/WordOrder'));
+const FillLettersPage = React.lazy(() => import('pages/PlayGames/FillLetters'));
+const MemoryMatchPage = React.lazy(() => import('pages/PlayGames/MemoryMatch'));
+const BasketballPage = React.lazy(() => import('pages/PlayGames/BasketballQuiz'));
+const MountainPage = React.lazy(() => import('pages/PlayGames/MountainClimb'));
+const ListenChoosePage = React.lazy(() => import('pages/PlayGames/ListenChoose'));
+const MultiplayerPage = React.lazy(() => import('pages/PlayGames/Multiplayer'));
+const TeacherGrammarPage = React.lazy(() => import('pages/Teacher/Grammar'));
+const AdminUsersPage = React.lazy(() => import('pages/Admin/Users'));
+const StatsPage = React.lazy(() => import('pages/Stats'));
+
 // routes for app
 const routes = [
   {
@@ -189,6 +200,66 @@ const routes = [
     exact: true,
     isProtect: true,
     component: () => <TeacherCoursesPage />,
+  },
+  {
+    path: ROUTES.GAMES.WORD_ORDER,
+    exact: true,
+    isProtect: false,
+    component: () => <WordOrderPage />,
+  },
+  {
+    path: ROUTES.GAMES.FILL_LETTERS,
+    exact: true,
+    isProtect: false,
+    component: () => <FillLettersPage />,
+  },
+  {
+    path: ROUTES.GAMES.MEMORY_MATCH,
+    exact: true,
+    isProtect: false,
+    component: () => <MemoryMatchPage />,
+  },
+  {
+    path: ROUTES.GAMES.BASKETBALL,
+    exact: true,
+    isProtect: false,
+    component: () => <BasketballPage />,
+  },
+  {
+    path: ROUTES.GAMES.MOUNTAIN,
+    exact: true,
+    isProtect: false,
+    component: () => <MountainPage />,
+  },
+  {
+    path: ROUTES.GAMES.LISTEN_CHOOSE,
+    exact: true,
+    isProtect: false,
+    component: () => <ListenChoosePage />,
+  },
+  {
+    path: ROUTES.GAMES.MULTIPLAYER,
+    exact: true,
+    isProtect: false,
+    component: () => <MultiplayerPage />,
+  },
+   {
+    path: ROUTES.TEACHER.GRAMMAR,
+    exact: false,
+    isProtect: true,
+    component: () => <TeacherGrammarPage />,
+  },
+  {
+    path: ROUTES.ADMIN.USERS,
+    exact: false,
+    isProtect: true,
+    component: () => <AdminUsersPage />,
+  },
+  {
+    path: ROUTES.STATS,
+    exact: false,
+    isProtect: true,
+    component: () => <StatsPage />,
   },
 ];
 

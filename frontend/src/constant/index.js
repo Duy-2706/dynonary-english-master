@@ -69,7 +69,7 @@ export const ROUTES = {
   IRREGULAR: '/irregular-verbs',
   USER_ACCOUNT: '/profile',
   LEADERBOARD: '/leaderboard',
-  GAMES: {
+    GAMES: {
     HOME: '/games',
     CORRECT_WORD: '/games/correct-word',
     CORRECT_WORD_ADV: '/games/correct-word-advance',
@@ -79,14 +79,26 @@ export const ROUTES = {
     WORD_MATCHING: '/games/word-match',
     GRAMMARLY: '/games/grammarly',
     VIP: '/games/vip',
+    WORD_ORDER: '/games/word-order',
+    FILL_LETTERS: '/games/fill-letters',
+    MEMORY_MATCH: '/games/memory-match',
+    BASKETBALL: '/games/basketball-quiz',
+    MOUNTAIN: '/games/mountain-climb',
+    LISTEN_CHOOSE: '/games/listen-choose',
+    MULTIPLAYER: '/games/multiplayer',
   },
   CLASSROOM: '/classrooms',
   COURSES: '/courses',
+  STATS: '/stats',
   COURSE_DETAIL: '/courses/:id',
   COURSE_LEARN: '/courses/:id/learn/:lessonId',
   TEACHER: {
     COURSES: '/teacher/courses',
     COURSE_DETAIL: '/teacher/courses/:id',
+    GRAMMAR: '/teacher/grammar',
+  },
+  ADMIN: {
+    USERS: '/admin/users',
   },
   
 };

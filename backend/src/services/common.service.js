@@ -8,10 +8,6 @@ const wordsCol = db.collection(COLLECTIONS.WORDS);
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
-/**
- * Convert packInfo into filter descriptors and a topicList.
- * Mirrors convertPackInfoToQueryStr from the old MongoDB helper.
- */
 function buildPackFilters(packInfo = {}) {
   const { topics, ...rest } = packInfo;
   const filters = [];
@@ -31,7 +27,6 @@ function buildPackFilters(packInfo = {}) {
   return { filters, topicList };
 }
 
-/** Apply equality filter array to a Firestore query */
 function applyFilters(colRef, filters) {
   let q = colRef;
   for (const { field, op, value } of filters) {
@@ -40,7 +35,12 @@ function applyFilters(colRef, filters) {
   return q;
 }
 
-/** Pick / omit keys from an object (mirrors Mongoose .select()) */
+function applyTopicFilter(q, topicList) {
+  if (topicList.length === 0) return q;
+  if (topicList.length === 1) return q.where('topics', 'array-contains', topicList[0]);
+  return q.where('topics', 'array-contains-any', topicList.slice(0, 30));
+}
+
 function pickFields(obj, select = '') {
   if (!select) return obj;
 
@@ -112,7 +112,6 @@ exports.getWordPack = async (
 ) => {
   const { filters, topicList } = buildPackFilters(packInfo);
 
-  // Merge expandQuery into filters
   if (expandQuery && typeof expandQuery === 'object') {
     for (const key in expandQuery) {
       filters.push({ field: key, op: '==', value: expandQuery[key] });
@@ -121,18 +120,13 @@ exports.getWordPack = async (
 
   let q = applyFilters(wordsCol, filters);
 
-  // Topic filter (Firestore array operators)
-  if (topicList.length === 1) {
-    q = q.where('topics', 'array-contains', topicList[0]);
-  } else if (topicList.length > 1) {
-    // Firestore supports up to 30 values in 'in' / 'array-contains-any'
-    q = q.where('topics', 'array-contains-any', topicList.slice(0, 10));
+  // Topic filter — covers both string ('1') and number (1) storage formats
+  q = applyTopicFilter(q, topicList);
+
+  if (sortType !== null && sortType !== undefined) {
+    q = q.orderBy('word', sortType === -1 ? 'desc' : 'asc');
   }
 
-  // Sorting (must match any inequality filter field, or use default)
-  q = q.orderBy('word', sortType === -1 ? 'desc' : 'asc');
-
-  // Pagination
   if (skip > 0) q = q.offset(skip);
   q = q.limit(limit);
 
@@ -144,18 +138,13 @@ exports.countWordPack = async (packInfo = {}) => {
   const { filters, topicList } = buildPackFilters(packInfo);
   let q = applyFilters(wordsCol, filters);
 
-  if (topicList.length === 1) {
-    q = q.where('topics', 'array-contains', topicList[0]);
-  } else if (topicList.length > 1) {
-    q = q.where('topics', 'array-contains-any', topicList.slice(0, 10));
-  }
+  q = applyTopicFilter(q, topicList);
 
   const countSnap = await q.count().get();
   return countSnap.data().count;
 };
 
 exports.saveVerifyCode = async (code = '', email = '') => {
-  // Delete any existing code for this email
   const existing = await verifyCodesCol
     .where('email', '==', email.toLowerCase())
     .get();
@@ -166,7 +155,6 @@ exports.saveVerifyCode = async (code = '', email = '') => {
     await batch.commit();
   }
 
-  // Save new code
   const ref = await verifyCodesCol.add({
     code,
     email: email.toLowerCase(),
@@ -189,7 +177,6 @@ exports.checkVerifyCode = async (code = '', email = '') => {
 
   const item = snap.docs[0].data();
 
-  // Firestore timestamps may be Timestamp objects
   const createdDate = item.createdDate?.toDate
     ? item.createdDate.toDate().getTime()
     : new Date(item.createdDate).getTime();

@@ -1,5 +1,6 @@
 // set environment variables
 require('dotenv').config();
+require('dotenv').config({ path: '.local.env', override: false });
 
 // import third-party
 const express = require('express');
@@ -22,6 +23,9 @@ const highscoreApi = require('./src/apis/highscore.api');
 const passportConfig = require('./src/middlewares/passport.middleware');
 const classroomApi = require('./src/apis/classroom.api');
 const courseApi = require('./src/apis/course.api');
+const grammarApi = require('./src/apis/grammar.api');
+const adminApi = require('./src/apis/admin.api');
+const statsApi = require('./src/apis/stats.api');
 
 // ================== set port ==================
 const app = express();
@@ -43,9 +47,6 @@ if (!dev) {
   app.use(morgan('dev'));
 }
 
-// ================== Connect Firebase / Firestore ==================
-// Firebase is initialized automatically when firebase.config.js is first imported
-// (triggered via any service file). Explicit import here ensures early init.
 require('./src/configs/firebase.config');
 console.log('Firebase Firestore connected ✓');
 
@@ -53,6 +54,7 @@ console.log('Firebase Firestore connected ✓');
 app.use(express.json({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(express.urlencoded({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(cookieParser());
+app.options('*', cors(corsConfig));
 app.use(cors(corsConfig));
 
 // ================== Listening ... ==================
@@ -74,15 +76,15 @@ app.use(
   passportConfig.jwtAuthentication,
   highscoreApi,
 );
-// ================== classroom ==================
 app.use(
   `${BASE_URL}/classroom`,
   passportConfig.jwtAuthentication,
   classroomApi,
 );
-
-// ================== course ==================
 app.use(`${BASE_URL}/course`, courseApi);
+app.use(`${BASE_URL}/grammar`, grammarApi);
+app.use(`${BASE_URL}/admin`, adminApi);
+app.use(`${BASE_URL}/stats`, statsApi);
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/src/build', 'index.html'));

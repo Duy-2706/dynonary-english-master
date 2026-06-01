@@ -16,6 +16,9 @@ function LoginData() {
 
       const apiRes = await accountApi.postLogin(email.toLowerCase(), password);
       if (apiRes && apiRes.status === 200) {
+        if (apiRes.data?.token) {
+          localStorage.setItem('jwt_token', apiRes.data.token);
+        }
         dispatch(
           setMessage({ message: 'Đăng nhập thành công', type: 'success' }),
         );

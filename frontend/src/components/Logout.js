@@ -20,6 +20,7 @@ function Logout() {
       try {
         const apiRes = await accountApi.postLogout();
         if (apiRes.status === 200) {
+          localStorage.removeItem('jwt_token');
           dispatch(
             setMessage({ type: 'success', message: 'Đăng xuất thành công' }),
           );

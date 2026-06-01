@@ -50,6 +50,8 @@ const COLLECTIONS = {
   ENROLLMENTS: 'enrollments',
   LESSON_PROGRESS: 'lessonProgress',
   CLASSROOMS: 'classrooms',
+  GRAMMAR_LESSONS: 'grammarLessons',
+  GRAMMAR_PROGRESS: 'grammarProgress',
 };
 
 /**

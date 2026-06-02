@@ -89,5 +89,8 @@ const courseApi = {
   rejectEnrollment: (enrollmentId) => {
     return axiosClient.put(`${URL}/enrollments/${enrollmentId}/reject`);
   },
+   getStudentsProgress: (courseId) => {
+    return axiosClient.get(`${URL}/${courseId}/students-progress`);
+  },
 };
 export default courseApi;

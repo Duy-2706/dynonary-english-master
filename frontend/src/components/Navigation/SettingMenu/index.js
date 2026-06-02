@@ -14,6 +14,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useStyle from './style';
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 function SettingMenu({ anchorEl, onClose }) {
   const classes = useStyle();
@@ -49,7 +50,7 @@ function SettingMenu({ anchorEl, onClose }) {
       </Link>
 
       {/* Khóa học của tôi - học sinh */}
-      {isAuth && role !== 'teacher' && (
+      {isAuth && role === 'student' && (
         <Link to="/my-courses">
           <MenuItem className={classes.menuItem}>
             <SchoolIcon className={classes.icon} fontSize="small" />
@@ -59,11 +60,21 @@ function SettingMenu({ anchorEl, onClose }) {
       )}
 
       {/* Quản lý khóa học - chỉ giáo viên */}
-      {isAuth && role === 'teacher' && (
+      {isAuth && (role === 'teacher' || role === 'admin') && (
         <Link to="/teacher/courses">
           <MenuItem className={classes.menuItem}>
             <SchoolIcon className={classes.icon} fontSize="small" />
             <p className={classes.text}>Quản lý khóa học</p>
+          </MenuItem>
+        </Link>
+      )}
+      
+        {/* Quản lý người dùng - chỉ admin */}
+      {isAuth && role === 'admin' && (
+        <Link to="/admin/users">
+          <MenuItem className={classes.menuItem}>
+            <SupervisorAccountIcon className={classes.icon} fontSize="small" />
+            <p className={classes.text}>Quản lý người dùng</p>
           </MenuItem>
         </Link>
       )}

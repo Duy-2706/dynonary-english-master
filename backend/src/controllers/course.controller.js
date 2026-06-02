@@ -248,3 +248,16 @@ exports.rejectEnrollment = async (req, res) => {
     return res.status(500).json({ message: 'Loi tu choi.' });
   }
 };
+
+
+exports.getStudentsProgress = async (req, res) => {
+  try {
+    if (!checkAuth(req, res)) return;
+    const result = await courseService.getStudentsProgress(req.params.courseId, req.user.accountId);
+    if (!result) return res.status(403).json({ message: 'Khong co quyen hoac khong tim thay khoa hoc.' });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('getStudentsProgress error:', error.message);
+    return res.status(500).json({ message: 'Loi lay tien do hoc sinh.' });
+  }
+};

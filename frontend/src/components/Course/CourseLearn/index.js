@@ -853,6 +853,15 @@ function FlashcardMode({ words, onComplete }) {
       </div>
 
       <div className={classes.flashcard} onClick={() => setShowMean(!showMean)}>
+        {word.picture && (
+          <img
+            src={word.picture}
+            alt={word.word}
+            style={{ width: 140, height: 120, objectFit: 'cover', borderRadius: 12, marginBottom: 12, boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}
+            onError={(e) => { e.target.style.display = 'none'; }}
+          />
+        )}
+        
         <div className={classes.wordText}>{word.word}</div>
 
         {word.phonetic && <div className={classes.phoneticText}>/{word.phonetic}/</div>}

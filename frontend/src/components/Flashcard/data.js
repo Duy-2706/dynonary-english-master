@@ -2,7 +2,7 @@ import commonApi from 'apis/commonApi';
 import flashcardApi from 'apis/flashcardApi';
 import { equalArray } from 'helper';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessage } from 'redux/slices/message.slice';
 import { setWordPack } from 'redux/slices/wordPack.slice';
 import {
@@ -15,14 +15,19 @@ import {
 import Flashcard from '.';
 import TopicPicker from './TopicPicker';
 import StudyResult from './StudyResult';
+import gameRoomApi from 'apis/gameRoomApi';
 
 const perPage = 7;
 
 // màn hình: 'pick' | 'study' | 'result'
 function FlashcardData() {
   const dispatch = useDispatch();
+  const userInfo = useSelector((s) => s.userInfo);
+  const isLoggedIn = Boolean(userInfo?.isAuth);
   const [screen, setScreen] = useState('pick');
   const [selectedTopic, setSelectedTopic] = useState(null);
+  const [flashcardSession, setFlashcardSession] = useState(null);
+  const [coinsEarned, setCoinsEarned] = useState(0);
 
   const list = useRef([]);
   const [currentList, setCurrentList] = useState([]);
@@ -143,8 +148,26 @@ function FlashcardData() {
     setUnknownWords((prev) => [...prev, word]);
   };
 
-  const handleFinish = () => {
+    const handleFinish = async () => {
     dispatch(finishSession());
+     if (isLoggedIn && selectedTopic) {
+      try {
+        const sessionKey = `flashcard_${selectedTopic.key}`;
+        let sessionId = flashcardSession?.id;
+        if (!sessionId) {
+          const startRes = await gameRoomApi.startOrResumeFlashcard({
+            sessionKey,
+            totalCards: total > 0 ? total : knownWords.length + unknownWords.length,
+          });
+          sessionId = startRes.data?.session?.id;
+          setFlashcardSession(startRes.data?.session);
+        }
+        if (sessionId) {
+          const res = await gameRoomApi.completeFlashcard(sessionId, { knownCount: knownWords.length });
+          setCoinsEarned(res.data?.coinsAwarded || 0);
+        }
+      } catch {}
+    }
     setScreen('result');
   };
 
@@ -155,6 +178,8 @@ function FlashcardData() {
     setUnknownWords([]);
     setPageInfo({ page: 1, packInfo: pageInfo.packInfo });
     setTotal(-1);
+    setFlashcardSession(null);
+    setCoinsEarned(0);
     setScreen('study');
   };
 
@@ -203,6 +228,7 @@ function FlashcardData() {
         onReviewWrong={handleReviewWrong}
         topicTitle={selectedTopic?.title}
         packInfo={pageInfo.packInfo}
+        coinsEarned={coinsEarned}
       />
     );
   }

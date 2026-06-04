@@ -5,7 +5,7 @@ import React from 'react';
 import useStyle from './style';
 
 function GalleryItem({ word, mean, phonetic, type, picture, showMean }) {
-  const classes = useStyle({ picture });
+  const classes = useStyle({ picture, word });
   const { voice, speed, volume } = useSpeaker();
 
   const handleSpeakWord = () => {

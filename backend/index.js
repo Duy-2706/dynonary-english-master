@@ -50,6 +50,11 @@ if (!dev) {
 require('./src/configs/firebase.config');
 console.log('Firebase Firestore connected ✓');
 
+const adminService = require('./src/services/admin.service');
+adminService.seedGrammarTenses()
+  .then((r) => console.log('Grammar seed:', r.message))
+  .catch(() => {});
+
 // ================== config ==================
 app.use(express.json({ limit: MAX.SIZE_JSON_REQUEST }));
 app.use(express.urlencoded({ limit: MAX.SIZE_JSON_REQUEST }));

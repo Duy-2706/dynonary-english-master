@@ -42,6 +42,7 @@ const MultiplayerPage = React.lazy(() => import('pages/PlayGames/Multiplayer'));
 const TeacherGrammarPage = React.lazy(() => import('pages/Teacher/Grammar'));
 const AdminUsersPage = React.lazy(() => import('pages/Admin/Users'));
 const StatsPage = React.lazy(() => import('pages/Stats'));
+const TeacherGameRoomsPage = React.lazy(() => import('pages/Teacher/GameRooms'));
 
 // routes for app
 const routes = [
@@ -248,6 +249,12 @@ const routes = [
     exact: false,
     isProtect: true,
     component: () => <TeacherGrammarPage />,
+  },
+  {
+    path: ROUTES.TEACHER.GAME_ROOMS,
+    exact: false,
+    isProtect: true,
+    component: () => <TeacherGameRoomsPage />,
   },
   {
     path: ROUTES.ADMIN.USERS,

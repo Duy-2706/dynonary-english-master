@@ -97,3 +97,15 @@ exports.nextQuestion = async (roomId, hostId) => {
   }
   return { isEnd };
 };
+
+
+/**
+ * Force-end a room (used when teacher cancels live session).
+ * @param {string} roomId
+ */
+exports.endRoom = async (roomId) => {
+  try {
+    const doc = await gameRoomsCol.doc(roomId).get();
+    if (doc.exists) await doc.ref.update({ status: 'ended' });
+  } catch {}
+};

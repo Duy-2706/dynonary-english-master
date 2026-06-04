@@ -33,3 +33,13 @@ exports.getSystemStats = async (req, res) => {
     return res.status(503).json({ message: 'Lỗi dịch vụ' });
   }
 };
+
+exports.seedGrammarTenses = async (req, res) => {
+  try {
+    const result = await adminService.seedGrammarTenses();
+    return res.status(200).json(result);
+  } catch (error) {
+    console.error('ADMIN SEED GRAMMAR ERROR:', error);
+    return res.status(503).json({ message: 'Lỗi khi tạo dữ liệu mẫu' });
+  }
+};

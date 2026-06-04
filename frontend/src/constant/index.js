@@ -96,6 +96,7 @@ export const ROUTES = {
     COURSES: '/teacher/courses',
     COURSE_DETAIL: '/teacher/courses/:id',
     GRAMMAR: '/teacher/grammar',
+    GAME_ROOMS: '/teacher/game-rooms',
   },
   ADMIN: {
     USERS: '/admin/users',

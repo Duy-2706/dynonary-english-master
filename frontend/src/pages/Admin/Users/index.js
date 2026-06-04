@@ -40,6 +40,16 @@ const S = {
     padding: '6px 10px', borderRadius: 8, border: '1.5px solid #e0e0e0',
     fontSize: '0.85rem', cursor: 'pointer', background: '#fff',
   },
+  lockBtn: (locked) => ({
+    padding: '6px 12px', borderRadius: 8, border: 'none', cursor: 'pointer',
+    fontWeight: 700, fontSize: '0.82rem',
+    background: locked ? '#d4f5eb' : '#fde8e4',
+    color: locked ? '#00b894' : '#e17055',
+  }),
+  lockedBadge: {
+    display: 'inline-block', background: '#fde8e4', color: '#e17055',
+    borderRadius: 20, padding: '2px 8px', fontSize: '0.75rem', fontWeight: 700, marginLeft: 6,
+  },
   pagination: { maxWidth: 1100, margin: '20px auto 0', display: 'flex', justifyContent: 'center', gap: 8 },
   pageBtn: (active) => ({
     padding: '7px 14px', borderRadius: 8, border: 'none', cursor: 'pointer', fontWeight: 700,
@@ -68,8 +78,10 @@ function AdminUsersPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState(null); // { ok, text }
-  const [updating, setUpdating] = useState(null); // userId being updated
+  const [msg, setMsg] = useState(null);
+  const [updating, setUpdating] = useState(null);
+  const [lockingUser, setLockingUser] = useState(null);
+  const [seeding, setSeeding] = useState(false);
 
   const isAdmin = userInfo?.role === 'admin';
 
@@ -115,12 +127,46 @@ function AdminUsersPage() {
     }
   };
 
+  const handleSeedGrammar = async () => {
+    setSeeding(true);
+    setMsg(null);
+    try {
+      const res = await adminApi.seedGrammarTenses();
+      setMsg({ ok: true, text: res.data?.message || 'Đã tạo dữ liệu ngữ pháp mẫu!' });
+    } catch (err) {
+      setMsg({ ok: false, text: err?.response?.data?.message || 'Lỗi khi tạo dữ liệu mẫu.' });
+    } finally {
+      setSeeding(false);
+    }
+  };
+
+  const handleLock = async (userId, isCurrentlyLocked) => {
+    setLockingUser(userId);
+    setMsg(null);
+    try {
+      if (isCurrentlyLocked) {
+        await adminApi.unlockUser(userId);
+        setMsg({ ok: true, text: 'Đã mở khóa người dùng!' });
+      } else {
+        await adminApi.lockUser(userId);
+        setMsg({ ok: true, text: 'Đã khóa người dùng!' });
+      }
+      loadUsers();
+    } catch (err) {
+      setMsg({ ok: false, text: err?.response?.data?.message || 'Lỗi khi thay đổi trạng thái khóa.' });
+    } finally {
+      setLockingUser(null);
+    }
+  };
+
   if (!isAdmin) {
     return (
       <div style={S.noAccess}>
         <div style={{ fontSize: '3rem' }}>🔒</div>
         <div style={{ fontWeight: 700, color: '#555' }}>Chỉ admin mới có thể truy cập trang này.</div>
-        <button style={{ padding: '10px 24px', borderRadius: 10, border: 'none', background: '#667eea', color: '#fff', fontWeight: 700, cursor: 'pointer' }} onClick={() => history.push('/')}>
+        <button
+          style={{ padding: '10px 24px', borderRadius: 10, border: 'none', background: '#667eea', color: '#fff', fontWeight: 700, cursor: 'pointer' }}
+          onClick={() => history.push('/')}>
           Về trang chủ
         </button>
       </div>
@@ -164,6 +210,13 @@ function AdminUsersPage() {
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
         />
+        <button
+          style={{ padding: '10px 16px', borderRadius: 10, border: 'none', background: '#667eea', color: '#fff', fontWeight: 700, cursor: seeding ? 'not-allowed' : 'pointer', opacity: seeding ? 0.7 : 1, whiteSpace: 'nowrap' }}
+          disabled={seeding}
+          onClick={handleSeedGrammar}
+        >
+          {seeding ? '⏳ Đang tạo...' : '📚 Tạo dữ liệu ngữ pháp mẫu'}
+        </button>
       </div>
 
       <div style={S.table}>
@@ -172,17 +225,19 @@ function AdminUsersPage() {
             <tr>
               <th style={S.th}>#</th>
               <th style={S.th}>Tên</th>
+              <th style={S.th}>Email</th>
               <th style={S.th}>Username</th>
               <th style={S.th}>Xu</th>
-              <th style={S.th}>Quyền hiện tại</th>
+              <th style={S.th}>Quyền</th>
               <th style={S.th}>Thay đổi quyền</th>
+              <th style={S.th}>Trạng thái</th>
             </tr>
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>⏳ Đang tải...</td></tr>
+              <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>⏳ Đang tải...</td></tr>
             ) : users.length === 0 ? (
-              <tr><td colSpan={6} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>Không tìm thấy người dùng</td></tr>
+              <tr><td colSpan={8} style={{ textAlign: 'center', padding: 40, color: '#aaa' }}>Không tìm thấy người dùng</td></tr>
             ) : (
               users.map((u, i) => (
                 <tr key={u.id} style={S.tr(i % 2 === 0)}>
@@ -190,7 +245,9 @@ function AdminUsersPage() {
                   <td style={{ ...S.td, fontWeight: 600 }}>
                     {u.avt && <img src={u.avt} alt="" style={{ width: 28, height: 28, borderRadius: '50%', marginRight: 8, verticalAlign: 'middle', objectFit: 'cover' }} />}
                     {u.name || '—'}
+                    {u.isLocked && <span style={S.lockedBadge}>🔒 Đã khóa</span>}
                   </td>
+                  <td style={S.td}>{u.email || '—'}</td>
                   <td style={S.td}>{u.username || '—'}</td>
                   <td style={S.td}>{u.coin ?? '—'}</td>
                   <td style={S.td}>
@@ -210,6 +267,15 @@ function AdminUsersPage() {
                       <option value="admin">Admin</option>
                     </select>
                     {updating === u.id && <span style={{ marginLeft: 8, color: '#aaa', fontSize: '0.8rem' }}>...</span>}
+                  </td>
+                  <td style={S.td}>
+                    <button
+                      style={S.lockBtn(u.isLocked)}
+                      disabled={lockingUser === u.id}
+                      onClick={() => handleLock(u.id, u.isLocked)}
+                    >
+                      {u.isLocked ? '🔓 Mở khóa' : '🔒 Khóa'}
+                    </button>
                   </td>
                 </tr>
               ))

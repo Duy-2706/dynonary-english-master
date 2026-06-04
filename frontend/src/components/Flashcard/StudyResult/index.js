@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'constant';
 import useStyle from './style';
 
-function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topicTitle, packInfo }) {
+function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topicTitle, packInfo, coinsEarned = 0 }) {
   const classes = useStyle();
   const history = useHistory();
 
@@ -58,6 +58,13 @@ function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topic
           <div className={classes.statLabel}>📚 Tổng từ</div>
         </div>
       </div>
+
+            {/* Xu thưởng */}
+      {coinsEarned > 0 && (
+        <div style={{ background: 'rgba(247,183,49,0.12)', border: '1px solid #f7b731', borderRadius: 12, padding: '12px 20px', textAlign: 'center', margin: '0 0 16px', fontWeight: 800, color: '#f7b731', fontSize: '1rem' }}>
+          🪙 Bạn nhận được <span style={{ fontSize: '1.25rem' }}>{coinsEarned} xu</span> cho buổi học này!
+        </div>
+      )}
 
       <div className={classes.btnRow}>
         <Button variant="outlined" className="_btn _btn-stand" startIcon={<ReplayIcon />} onClick={onRestart}>

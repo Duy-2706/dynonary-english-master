@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useStyle from './style';
 import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 
 function SettingMenu({ anchorEl, onClose }) {
   const classes = useStyle();
@@ -65,6 +66,16 @@ function SettingMenu({ anchorEl, onClose }) {
           <MenuItem className={classes.menuItem}>
             <SchoolIcon className={classes.icon} fontSize="small" />
             <p className={classes.text}>Quản lý khóa học</p>
+          </MenuItem>
+        </Link>
+      )}
+
+      {/* Quản lý phòng game - giáo viên và admin */}
+      {isAuth && (role === 'teacher' || role === 'admin') && (
+        <Link to="/teacher/game-rooms">
+          <MenuItem className={classes.menuItem}>
+            <SportsEsportsIcon className={classes.icon} fontSize="small" />
+            <p className={classes.text}>Quản lý phòng game</p>
           </MenuItem>
         </Link>
       )}

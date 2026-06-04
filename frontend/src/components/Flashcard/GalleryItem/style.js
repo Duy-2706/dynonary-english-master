@@ -17,8 +17,11 @@ export default makeStyles((theme) => ({
     },
 
     '& .bg': {
-      backgroundImage: (props) =>
-        `url("${cloudinaryImgOptimize(props.picture, -1, 288)}")`,
+      backgroundImage: (props) => {
+        const src = cloudinaryImgOptimize(props.picture, -1, 288);
+        if (src) return `url("${src}")`;
+        return `url("https://picsum.photos/seed/${encodeURIComponent(props.word || 'english')}/288/288")`;
+      },
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',

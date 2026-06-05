@@ -113,13 +113,7 @@ const FEATURE_LIST = [
     to: ROUTES.CONTRIBUTION,
     theme: 'pink',
   },
-  {
-    title: 'Quản lý lớp học',
-    subTitle:
-      'Tạo lớp học riêng, quản lý học viên và xây dựng không gian học tập',
-    imgUrl: classroomIcon,
-    to: ROUTES.CLASSROOM,
-  },
+
 ];
 
 function HomePage() {

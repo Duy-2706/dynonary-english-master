@@ -89,6 +89,7 @@ export const ROUTES = {
   },
   CLASSROOM: '/classrooms',
   COURSES: '/courses',
+  MY_COURSES: '/my-courses',
   STATS: '/stats',
   COURSE_DETAIL: '/courses/:id',
   COURSE_LEARN: '/courses/:id/learn/:lessonId',

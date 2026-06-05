@@ -9,7 +9,7 @@ const TOTAL = 8;
 
 const CSS = `
   .mm-scene {
-    perspective: 900px;
+    perspective: 1000px;
   }
 
   .mm-inner {
@@ -17,7 +17,7 @@ const CSS = `
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: transform .45s cubic-bezier(.34,1.56,.64,1);
+    transition: transform .38s cubic-bezier(.34,1.56,.64,1);
   }
 
   .mm-inner.flipped {
@@ -29,7 +29,7 @@ const CSS = `
     inset: 0;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: 24px;
+    border-radius: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -40,45 +40,176 @@ const CSS = `
     overflow: hidden;
   }
 
+  .mm-face::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 14px;
+    pointer-events: none;
+  }
+
+  .mm-face::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 16% 18%, rgba(12,132,255,.07) 0 2px, transparent 3px),
+      radial-gradient(circle at 78% 22%, rgba(25,199,168,.08) 0 2px, transparent 3px),
+      radial-gradient(circle at 38% 74%, rgba(255,138,0,.07) 0 2px, transparent 3px);
+    background-size: 34px 34px, 40px 40px, 38px 38px;
+    opacity: .85;
+  }
+
   .mm-back {
     background:
-      radial-gradient(circle at 28% 22%, rgba(255,255,255,.38), transparent 18%),
-      linear-gradient(180deg,#ff5fa2,#d10075);
-    border: 5px solid #fff;
-    box-shadow: inset -8px -10px 16px rgba(0,0,0,.15);
+      linear-gradient(135deg, transparent 0 28%, rgba(25,199,168,.16) 28% 52%, transparent 52%),
+      linear-gradient(180deg,#17252d 0%, #0b1419 100%);
+    border: 4px solid rgba(25,199,168,.78);
+    box-shadow:
+      inset 0 0 0 3px rgba(255,255,255,.05),
+      inset -6px -8px 14px rgba(0,0,0,.18),
+      0 5px 0 rgba(25,199,168,.16);
+  }
+
+  .mm-back::before {
+    border: 2px solid rgba(255,255,255,.12);
+  }
+
+  .mm-en,
+  .mm-vn {
+    transform: rotateY(180deg);
+    background:
+      linear-gradient(135deg, transparent 0 31%, rgba(10,132,255,.12) 31% 56%, transparent 56%),
+      linear-gradient(180deg,#ffffff 0%, #eef7f4 100%);
+    box-shadow:
+      inset 0 0 0 3px rgba(255,255,255,.72),
+      inset -6px -8px 13px rgba(0,0,0,.04),
+      0 5px 0 rgba(0,0,0,.08);
   }
 
   .mm-en {
-    background:
-      radial-gradient(circle at 28% 22%, rgba(255,255,255,.34), transparent 18%),
-      linear-gradient(180deg,#ffdf3b,#ff8a00);
-    transform: rotateY(180deg);
-    border: 5px solid #fff;
-    box-shadow: inset -8px -10px 16px rgba(0,0,0,.16);
+    border: 4px solid #ffb45c;
   }
 
   .mm-vn {
-    background:
-      radial-gradient(circle at 28% 22%, rgba(255,255,255,.34), transparent 18%),
-      linear-gradient(180deg,#0a84ff,#00439d);
-    transform: rotateY(180deg);
-    border: 5px solid #fff;
-    box-shadow: inset -8px -10px 16px rgba(0,0,0,.16);
+    border: 4px solid #49a8ff;
+  }
+
+  .mm-en::before {
+    border: 2px solid rgba(255,138,0,.18);
+  }
+
+  .mm-vn::before {
+    border: 2px solid rgba(10,132,255,.18);
+  }
+
+  .mm-card-text {
+    position: relative;
+    z-index: 2;
+    color: #12313a;
+    font-weight: 900;
+    font-size: clamp(.88rem, 1.65vw, 1.22rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+    text-shadow: none;
+    max-width: 100%;
+  }
+
+  .mm-card-type {
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    z-index: 3;
+    color: #ffffff;
+    border-radius: 999px;
+    padding: 3px 7px;
+    font-size: .62rem;
+    font-weight: 900;
+    line-height: 1;
+    border: 2px solid #fff;
+  }
+
+  .mm-card-type.en {
+    background: linear-gradient(180deg,#ffb02e,#ef7200);
+    box-shadow: 0 2px 0 rgba(181,85,0,.22);
+  }
+
+  .mm-card-type.vn {
+    background: linear-gradient(180deg,#49a8ff,#0059b8);
+    box-shadow: 0 2px 0 rgba(0,69,150,.22);
   }
 
   .mm-matched .mm-en,
   .mm-matched .mm-vn {
-    opacity: .72;
+    opacity: .82;
     filter: saturate(.85);
   }
 
+  .mm-matched .mm-en::after,
+  .mm-matched .mm-vn::after {
+    content: "✓";
+    position: absolute;
+    right: 7px;
+    top: 7px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #1f9d45;
+    border: 3px solid #ffffff;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 900;
+    box-shadow: 0 3px 0 rgba(0,0,0,.16);
+    opacity: 1;
+  }
+
   @keyframes mmPop {
-    0% { transform: scale(.92); opacity: 0; }
+    0% { transform: scale(.94); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
 
   .mm-pop {
-    animation: mmPop .28s ease;
+    animation: mmPop .24s ease;
+  }
+
+  @media (max-width: 860px) {
+    .memory-board {
+      grid-template-columns: repeat(4, 1fr) !important;
+      gap: 10px !important;
+      padding: 14px !important;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .memory-board {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .mm-face {
+      border-radius: 15px;
+      padding: 8px;
+    }
+
+    .mm-card-text {
+      font-size: clamp(.72rem, 3vw, 1rem);
+      line-height: 1.05;
+    }
+
+    .mm-card-type {
+      display: none;
+    }
+
+    .mm-matched .mm-en::after,
+    .mm-matched .mm-vn::after {
+      width: 22px;
+      height: 22px;
+      font-size: .86rem;
+      border-width: 2px;
+    }
   }
 `;
 
@@ -86,132 +217,141 @@ const S = {
   page: {
     minHeight: '100vh',
     background: `
-      radial-gradient(circle at 18% 20%, rgba(255,255,255,.22), transparent 16%),
-      radial-gradient(circle at 80% 16%, rgba(255,223,90,.24), transparent 18%),
-      linear-gradient(135deg,#ff1493 0%,#ff4fac 48%,#ff86c8 100%)
+      radial-gradient(circle at 14% 18%, rgba(25,199,168,.16) 0 4px, transparent 5px),
+      radial-gradient(circle at 82% 22%, rgba(255,138,0,.12) 0 5px, transparent 6px),
+      radial-gradient(circle at 28% 72%, rgba(255,20,147,.09) 0 4px, transparent 5px),
+      linear-gradient(180deg, #05090d 0%, #071217 45%, #05090d 100%)
     `,
-    padding: '24px 16px 42px',
+    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
+    padding: '14px 16px 32px',
     boxSizing: 'border-box',
     fontFamily: GAME_FONT,
+    color: '#ffffff',
   },
 
   topBar: {
     width: '100%',
-    maxWidth: 860,
-    margin: '0 auto 12px',
+    maxWidth: 980,
+    margin: '0 auto 8px',
   },
 
   backBtn: {
-    background: 'linear-gradient(180deg,#ffffff,#ffe2f1)',
-    color: '#9b0054',
-    border: '4px solid #fff',
+    background: 'linear-gradient(180deg,#17252d,#0b1419)',
+    color: '#d8fffa',
+    border: '3px solid rgba(25,199,168,.75)',
     borderRadius: 999,
-    padding: '10px 20px',
-    fontSize: '1rem',
+    padding: '8px 18px',
+    fontSize: '.92rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(155,0,84,.22)',
+    boxShadow: '0 5px 0 rgba(25,199,168,.16)',
+    textShadow: 'none',
   },
 
   title: {
-    color: '#fff',
+    color: '#ffffff',
     fontWeight: 900,
-    fontSize: 'clamp(2.3rem,5vw,4.3rem)',
-    margin: '0 0 14px',
+    fontSize: 'clamp(1.85rem, 4vw, 3.35rem)',
+    margin: '0 0 10px',
     textAlign: 'center',
     lineHeight: .95,
-    textShadow: '0 6px 0 #9b0054, 0 12px 24px rgba(0,0,0,.26)',
+    letterSpacing: '.1px',
+    textShadow: '0 2px 0 rgba(25,199,168,.32)',
   },
 
   stats: {
     display: 'flex',
-    gap: 14,
-    marginBottom: 24,
+    gap: 10,
+    marginBottom: 14,
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
 
   stat: {
-    background: '#fff',
-    color: '#9b0054',
-    padding: '8px 18px',
+    background: 'linear-gradient(180deg,#f8fffc,#e9f4f1)',
+    color: '#12313a',
+    padding: '6px 14px',
     borderRadius: 999,
-    border: '3px solid #ffe2f1',
+    border: '3px solid rgba(255,255,255,.94)',
     fontWeight: 900,
-    fontSize: '1.05rem',
-    boxShadow: '0 5px 0 rgba(155,0,84,.28)',
+    fontSize: '.92rem',
+    boxShadow: '0 4px 0 rgba(25,199,168,.18)',
+    textShadow: 'none',
   },
 
   board: {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: 16,
+    gap: 12,
     width: '100%',
-    maxWidth: 760,
+    maxWidth: 880,
     margin: '0 auto',
-    background: '#fff',
-    borderRadius: 36,
-    padding: 22,
-    border: '6px solid #ff1493',
-    boxShadow: '0 10px 0 #9b0054, 0 22px 42px rgba(0,0,0,.25)',
+    background: 'linear-gradient(180deg, rgba(18,31,38,.98), rgba(10,19,24,.98))',
+    borderRadius: 28,
+    padding: 16,
+    border: '5px solid rgba(25,199,168,.56)',
+    boxShadow: '0 8px 0 rgba(25,199,168,.18), 0 20px 42px rgba(0,0,0,.42)',
     boxSizing: 'border-box',
   },
 
   endOverlay: {
     position: 'fixed',
     inset: 0,
-    background: 'rgba(46,0,35,.78)',
+    background: 'rgba(0,0,0,.76)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     zIndex: 9999,
     padding: 24,
+    backdropFilter: 'blur(4px)',
   },
 
   endCard: {
-    background: '#fff',
-    borderRadius: 36,
-    padding: '46px 42px',
+    background: 'linear-gradient(180deg,#fbfffd,#eef7f4)',
+    borderRadius: 30,
+    padding: '36px 32px',
     textAlign: 'center',
-    border: '6px solid #ff1493',
-    boxShadow: '0 10px 0 #9b0054, 0 22px 45px rgba(0,0,0,.28)',
-    maxWidth: 480,
+    border: '5px solid rgba(25,199,168,.78)',
+    boxShadow: '0 8px 0 rgba(25,199,168,.20), 0 24px 48px rgba(0,0,0,.32)',
+    maxWidth: 440,
     width: '100%',
   },
 
   endButtons: {
     display: 'flex',
-    gap: 14,
+    gap: 12,
     justifyContent: 'center',
     flexWrap: 'wrap',
-    marginTop: 24,
+    marginTop: 22,
   },
 
   mainBtn: {
     background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
     color: '#fff',
-    border: '4px solid #fff',
+    border: '3px solid #fff',
     borderRadius: 999,
-    padding: '14px 30px',
-    fontSize: '1.15rem',
+    padding: '12px 24px',
+    fontSize: '1rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 #bd5f00',
+    boxShadow: '0 6px 0 #bd5f00',
+    textShadow: 'none',
   },
 
   secondaryBtn: {
-    background: 'linear-gradient(180deg,#ffffff,#ffe2f1)',
-    color: '#9b0054',
-    border: '4px solid #fff',
+    background: 'linear-gradient(180deg,#17252d,#0b1419)',
+    color: '#d8fffa',
+    border: '3px solid rgba(25,199,168,.75)',
     borderRadius: 999,
-    padding: '14px 30px',
-    fontSize: '1.15rem',
+    padding: '12px 24px',
+    fontSize: '1rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 rgba(155,0,84,.18)',
+    boxShadow: '0 6px 0 rgba(25,199,168,.18)',
+    textShadow: 'none',
   },
 };
 
@@ -295,6 +435,7 @@ function MemoryMatchGame({ packInfo, wordList }) {
                     playComplete();
                     setStatus('done');
                   }
+
                   return m + 1;
                 });
 
@@ -304,6 +445,7 @@ function MemoryMatchGame({ packInfo, wordList }) {
 
                 setFlipped([]);
                 block.current = false;
+
                 return updated;
               }
 
@@ -315,9 +457,10 @@ function MemoryMatchGame({ packInfo, wordList }) {
 
               setFlipped([]);
               block.current = false;
+
               return updated;
             });
-          }, 900);
+          }, 850);
         }
 
         return next;
@@ -332,8 +475,9 @@ function MemoryMatchGame({ packInfo, wordList }) {
     return (
       <div style={{ ...S.page, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <style>{CSS}</style>
-        <div style={{ color: '#fff', fontWeight: 900, fontSize: '1.4rem' }}>
-          🃏 Đang xáo thẻ...
+
+        <div style={{ color: '#ffffff', fontWeight: 900, fontSize: '1.25rem', textShadow: 'none' }}>
+          Đang xáo thẻ...
         </div>
       </div>
     );
@@ -343,12 +487,20 @@ function MemoryMatchGame({ packInfo, wordList }) {
     return (
       <div style={{ ...S.page, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <style>{CSS}</style>
+
         <div style={S.endCard}>
-          <div style={{ fontSize: '4rem' }}>😢</div>
-          <h2 style={{ color: '#d63031', fontWeight: 900 }}>Lỗi tải dữ liệu</h2>
+          <h2 style={{ color: '#d63031', fontWeight: 900, fontSize: '1.6rem', marginTop: 0 }}>
+            Lỗi tải dữ liệu
+          </h2>
+
           <div style={S.endButtons}>
-            <button onClick={init} style={S.mainBtn}>Thử lại</button>
-            <button onClick={() => history.push('/games')} style={S.secondaryBtn}>Về kho game</button>
+            <button onClick={init} style={S.mainBtn}>
+              Thử lại
+            </button>
+
+            <button onClick={() => history.push('/games')} style={S.secondaryBtn}>
+              Về kho game
+            </button>
           </div>
         </div>
       </div>
@@ -361,7 +513,7 @@ function MemoryMatchGame({ packInfo, wordList }) {
 
       <div style={S.topBar}>
         <button style={S.backBtn} onClick={() => history.push('/games')}>
-          ← Về kho game
+          Về kho game
         </button>
       </div>
 
@@ -369,11 +521,11 @@ function MemoryMatchGame({ packInfo, wordList }) {
 
       <div style={S.stats}>
         <span style={S.stat}>Đã ghép: {matched}/{TOTAL}</span>
-        <span style={S.stat}>⭐ {score}</span>
-        <span style={S.stat}>🔄 {moves} lượt</span>
+        <span style={S.stat}>Điểm: {score}</span>
+        <span style={S.stat}>Lượt: {moves}</span>
       </div>
 
-      <div style={S.board}>
+      <div style={S.board} className="memory-board">
         {cards.map((card) => (
           <div
             key={card.id}
@@ -396,10 +548,12 @@ function MemoryMatchGame({ packInfo, wordList }) {
                 <div className="mm-face mm-back">
                   <span
                     style={{
-                      fontSize: 'clamp(2rem,5vw,3.2rem)',
-                      color: '#fff',
+                      fontSize: 'clamp(1.7rem, 4vw, 3rem)',
+                      color: '#d8fffa',
                       fontWeight: 900,
-                      textShadow: '0 4px 0 rgba(0,0,0,.22)',
+                      textShadow: 'none',
+                      position: 'relative',
+                      zIndex: 2,
                     }}
                   >
                     ?
@@ -407,15 +561,11 @@ function MemoryMatchGame({ packInfo, wordList }) {
                 </div>
 
                 <div className={`mm-face ${card.type === 'en' ? 'mm-en' : 'mm-vn'}`}>
-                  <span
-                    style={{
-                      color: '#fff',
-                      fontWeight: 900,
-                      fontSize: 'clamp(.72rem,2.2vw,1.05rem)',
-                      lineHeight: 1.2,
-                      textShadow: '0 2px 0 rgba(0,0,0,.25)',
-                    }}
-                  >
+                  <span className={`mm-card-type ${card.type === 'en' ? 'en' : 'vn'}`}>
+                    {card.type === 'en' ? 'EN' : 'VI'}
+                  </span>
+
+                  <span className="mm-card-text">
                     {card.content}
                   </span>
                 </div>
@@ -428,17 +578,31 @@ function MemoryMatchGame({ packInfo, wordList }) {
       {status === 'done' && (
         <div style={S.endOverlay}>
           <div style={S.endCard} className="mm-pop">
-            <div style={{ fontSize: '4.4rem' }}>🎉</div>
-            <h2 style={{ color: '#ff1493', fontSize: '2.3rem', fontWeight: 900, margin: '8px 0' }}>
+            <h2
+              style={{
+                color: '#12313a',
+                fontSize: '2rem',
+                fontWeight: 900,
+                margin: '0 0 10px',
+                lineHeight: 1,
+                textShadow: 'none',
+              }}
+            >
               Hoàn thành!
             </h2>
-            <div style={{ color: '#ff8a00', fontSize: '2rem', fontWeight: 900 }}>
-              ⭐ {score} điểm · 🔄 {moves} lượt
+
+            <div style={{ color: '#12313a', fontSize: '1.2rem', fontWeight: 900 }}>
+              {score} điểm · {moves} lượt
             </div>
 
             <div style={S.endButtons}>
-              <button onClick={init} style={S.mainBtn}>Chơi lại</button>
-              <button onClick={() => history.push('/games')} style={S.secondaryBtn}>Về kho game</button>
+              <button onClick={init} style={S.mainBtn}>
+                Chơi lại
+              </button>
+
+              <button onClick={() => history.push('/games')} style={S.secondaryBtn}>
+                Về kho game
+              </button>
             </div>
           </div>
         </div>
@@ -458,7 +622,7 @@ function MemoryMatchPage() {
   };
 
   if (!packInfo && !wordList) {
-    return <GameSetup title="🃏 Lật Thẻ Ghi Nhớ — Chọn chủ đề" onStart={handleStart} />;
+    return <GameSetup title="Lật Thẻ Ghi Nhớ — Chọn chủ đề" onStart={handleStart} />;
   }
 
   return <MemoryMatchGame packInfo={packInfo} wordList={wordList} />;

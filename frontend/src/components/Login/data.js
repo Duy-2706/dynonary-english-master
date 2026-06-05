@@ -28,7 +28,8 @@ function LoginData() {
         }, UX.DELAY_TIME);
       }
     } catch (error) {
-      const message = error.response?.data?.message || 'Thất bại, thử lại !';
+      const data = error.response?.data;
+      const message = data?.message || 'Thất bại, thử lại !';
       dispatch(setMessage({ message, type: 'error' }));
       setLoading(false);
     }

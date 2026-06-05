@@ -34,6 +34,32 @@ exports.getSystemStats = async (req, res) => {
   }
 };
 
+exports.getCourseStats = async (req, res) => {
+  try {
+    const stats = await adminService.getCourseStats();
+    return res.status(200).json({ stats });
+  } catch (error) {
+    console.error('ADMIN COURSE STATS ERROR:', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getGameStats = async (req, res) => {
+  try {
+    const stats = await adminService.getGameStats();
+    return res.status(200).json({ stats });
+  } catch (error) {
+    console.error('ADMIN GAME STATS ERROR:', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.trackCourseView = async (req, res) => {
+  await adminService.trackCourseView(req.params.courseId);
+  return res.status(200).json({ ok: true });
+};
+
+
 exports.seedGrammarTenses = async (req, res) => {
   try {
     const result = await adminService.seedGrammarTenses();

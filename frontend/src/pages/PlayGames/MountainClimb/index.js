@@ -10,16 +10,16 @@ const N = 15;
 const CSS = `
   @keyframes climberBounce {
     0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, -8px); }
+    50% { transform: translate(-50%, -7px); }
   }
 
   @keyframes cloudMove {
-    0% { transform: translateX(-12px); }
-    100% { transform: translateX(12px); }
+    0% { transform: translateX(-10px); }
+    100% { transform: translateX(10px); }
   }
 
   @keyframes mtPop {
-    0% { transform: scale(.92); opacity: 0; }
+    0% { transform: scale(.94); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
 
@@ -32,24 +32,47 @@ const CSS = `
   }
 
   .mt-pop {
-    animation: mtPop .28s ease;
+    animation: mtPop .25s ease;
+  }
+
+  @media (max-width: 900px) {
+    .mountain-main-layout {
+      grid-template-columns: 1fr !important;
+    }
+
+    .mountain-stage {
+      height: 360px !important;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .mountain-page {
+      padding: 14px 12px 30px !important;
+    }
+
+    .mountain-stage {
+      height: 320px !important;
+      border-radius: 28px !important;
+    }
+
+    .mountain-choices {
+      grid-template-columns: 1fr !important;
+    }
   }
 `;
-
-const CHOICE_COLORS = ['#0a84ff', '#ffb400', '#28c76f', '#ff4fa3'];
 
 const S = {
   page: {
     minHeight: '100vh',
     background: `
-      radial-gradient(circle at 16% 18%, rgba(255,255,255,.35), transparent 14%),
-      radial-gradient(circle at 82% 14%, rgba(255,255,255,.28), transparent 18%),
+      radial-gradient(circle at 16% 18%, rgba(255,255,255,.28), transparent 14%),
+      radial-gradient(circle at 82% 14%, rgba(255,255,255,.22), transparent 18%),
       linear-gradient(180deg, #0a84ff 0%, #31c5ff 46%, #def8ff 100%)
     `,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    padding: '24px 16px 40px',
+    padding: '14px 16px 32px',
     boxSizing: 'border-box',
     fontFamily: GAME_FONT,
     overflowX: 'hidden',
@@ -57,42 +80,40 @@ const S = {
 
   topBar: {
     width: '100%',
-    maxWidth: 860,
+    maxWidth: 1180,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 12,
-    gap: 12,
-    flexWrap: 'wrap',
+    marginBottom: 8,
   },
 
   backBtn: {
     background: 'linear-gradient(180deg,#ffffff,#dff4ff)',
     color: '#00439d',
-    border: '4px solid #fff',
+    border: '3px solid #fff',
     borderRadius: 999,
-    padding: '10px 20px',
-    fontSize: '1rem',
+    padding: '8px 18px',
+    fontSize: '.92rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(0,67,157,.22)',
+    boxShadow: '0 5px 0 rgba(0,67,157,.22)',
   },
 
   title: {
     color: '#fff',
     fontWeight: 900,
-    fontSize: 'clamp(2.35rem, 5vw, 4.4rem)',
-    margin: '0 0 12px',
+    fontSize: 'clamp(1.85rem, 4vw, 3.35rem)',
+    margin: '0 0 8px',
     textAlign: 'center',
     lineHeight: 0.95,
-    textShadow: '0 6px 0 #00439d, 0 12px 24px rgba(0,0,0,.25)',
+    textShadow: '0 2px 0 rgba(0,67,157,.35)',
   },
 
   statBar: {
     display: 'flex',
-    gap: 14,
-    marginBottom: 20,
+    gap: 10,
+    marginBottom: 12,
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
@@ -100,25 +121,32 @@ const S = {
   stat: {
     background: '#fff',
     color: '#00439d',
-    padding: '8px 18px',
+    padding: '6px 14px',
     borderRadius: 999,
     border: '3px solid #cceeff',
     fontWeight: 900,
-    fontSize: '1.05rem',
-    boxShadow: '0 5px 0 rgba(0,67,157,.35)',
+    fontSize: '.92rem',
+    boxShadow: '0 4px 0 rgba(0,67,157,.28)',
+  },
+
+  mainLayout: {
+    width: '100%',
+    maxWidth: 1180,
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 1.35fr) minmax(330px, .65fr)',
+    gap: 18,
+    alignItems: 'stretch',
   },
 
   stage: {
     position: 'relative',
     width: '100%',
-    maxWidth: 860,
-    height: 400,
-    borderRadius: 40,
+    height: 430,
+    borderRadius: 38,
     border: '6px solid #fff',
     overflow: 'hidden',
     background: 'linear-gradient(180deg, #0f8cff 0%, #86dcff 56%, #0c7e36 100%)',
-    boxShadow: '0 10px 0 #00439d, 0 22px 42px rgba(0,0,0,.28)',
-    marginBottom: 24,
+    boxShadow: '0 9px 0 #00439d, 0 20px 38px rgba(0,0,0,.25)',
   },
 
   cloud: (left, top, width, opacity = 0.9) => ({
@@ -138,98 +166,98 @@ const S = {
 
   mountainBackLeft: {
     position: 'absolute',
-    left: -80,
+    left: -90,
     bottom: 0,
     width: 0,
     height: 0,
-    borderLeft: '220px solid transparent',
-    borderRight: '220px solid transparent',
-    borderBottom: '250px solid #2e71b6',
+    borderLeft: '250px solid transparent',
+    borderRight: '250px solid transparent',
+    borderBottom: '280px solid #2e71b6',
     opacity: 0.88,
     zIndex: 1,
   },
 
   mountainBackRight: {
     position: 'absolute',
-    right: -100,
+    right: -120,
     bottom: 0,
     width: 0,
     height: 0,
-    borderLeft: '240px solid transparent',
-    borderRight: '240px solid transparent',
-    borderBottom: '275px solid #1c5a98',
+    borderLeft: '270px solid transparent',
+    borderRight: '270px solid transparent',
+    borderBottom: '305px solid #1c5a98',
     opacity: 0.9,
     zIndex: 1,
   },
 
   mountainMain: {
     position: 'absolute',
-    left: '18%',
+    left: '20%',
     bottom: 0,
     width: 0,
     height: 0,
-    borderLeft: '280px solid transparent',
-    borderRight: '280px solid transparent',
-    borderBottom: '350px solid #255d98',
+    borderLeft: '310px solid transparent',
+    borderRight: '310px solid transparent',
+    borderBottom: '380px solid #255d98',
     zIndex: 3,
   },
 
   mountainFace1: {
     position: 'absolute',
-    left: '36%',
+    left: '39%',
     bottom: 0,
     width: 0,
     height: 0,
-    borderLeft: '90px solid transparent',
-    borderRight: '90px solid transparent',
-    borderBottom: '290px solid #376fb0',
+    borderLeft: '95px solid transparent',
+    borderRight: '95px solid transparent',
+    borderBottom: '315px solid #376fb0',
     zIndex: 4,
   },
 
   mountainFace2: {
     position: 'absolute',
-    left: '48%',
+    left: '50%',
     bottom: 0,
     width: 0,
     height: 0,
-    borderLeft: '70px solid transparent',
-    borderRight: '70px solid transparent',
-    borderBottom: '240px solid #184777',
+    borderLeft: '78px solid transparent',
+    borderRight: '78px solid transparent',
+    borderBottom: '260px solid #184777',
     zIndex: 4,
   },
 
   snowCap: {
     position: 'absolute',
-    left: '45.2%',
-    bottom: 258,
+    left: '47%',
+    bottom: 280,
     width: 0,
     height: 0,
-    borderLeft: '84px solid transparent',
-    borderRight: '84px solid transparent',
-    borderBottom: '96px solid #fff',
+    borderLeft: '92px solid transparent',
+    borderRight: '92px solid transparent',
+    borderBottom: '104px solid #fff',
     zIndex: 5,
   },
 
   snowCap2: {
     position: 'absolute',
-    left: '41.5%',
-    bottom: 235,
+    left: '43.5%',
+    bottom: 252,
     width: 0,
     height: 0,
-    borderLeft: '42px solid transparent',
-    borderRight: '42px solid transparent',
-    borderBottom: '48px solid #eef6ff',
+    borderLeft: '46px solid transparent',
+    borderRight: '46px solid transparent',
+    borderBottom: '54px solid #eef6ff',
     zIndex: 5,
   },
 
   path: {
     position: 'absolute',
     left: '18%',
-    bottom: 56,
-    width: '58%',
-    height: 230,
-    borderLeft: '12px solid #ffcf2f',
-    borderTop: '12px solid #ffcf2f',
+    bottom: 58,
+    width: '60%',
+    height: 255,
+    borderLeft: '11px solid #ffcf2f',
+    borderTop: '11px solid #ffcf2f',
     borderRadius: '100px 0 0 0',
     transform: 'skewY(-22deg)',
     boxShadow: '0 5px 0 #bd7800',
@@ -264,8 +292,8 @@ const S = {
     position: 'absolute',
     left,
     bottom,
-    width: 32,
-    height: 32,
+    width: 29,
+    height: 29,
     borderRadius: '50%',
     background: 'linear-gradient(180deg,#ffe36f,#ff9900)',
     border: '4px solid #fff',
@@ -277,8 +305,8 @@ const S = {
     position: 'absolute',
     left: `${left}%`,
     bottom,
-    width: 58,
-    height: 58,
+    width: 54,
+    height: 54,
     borderRadius: '50%',
     background: 'linear-gradient(180deg,#ffe36f,#ff9900)',
     border: '5px solid #fff',
@@ -286,7 +314,7 @@ const S = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '1.8rem',
+    fontSize: '1.6rem',
     transition: 'left .45s ease, bottom .45s ease',
     zIndex: 8,
   }),
@@ -294,9 +322,9 @@ const S = {
   flagPole: {
     position: 'absolute',
     right: 88,
-    top: 40,
-    width: 8,
-    height: 76,
+    top: 42,
+    width: 7,
+    height: 72,
     borderRadius: 999,
     background: 'linear-gradient(180deg,#f7f7f7,#b7c3d1)',
     zIndex: 8,
@@ -305,9 +333,9 @@ const S = {
   flag: {
     position: 'absolute',
     right: 48,
-    top: 42,
-    width: 52,
-    height: 34,
+    top: 44,
+    width: 50,
+    height: 32,
     background: 'linear-gradient(180deg,#ff5c5c,#d81d1d)',
     borderRadius: '0 10px 10px 0',
     clipPath: 'polygon(0 0, 100% 0, 78% 50%, 100% 100%, 0 100%)',
@@ -317,63 +345,86 @@ const S = {
 
   stageLabel: {
     position: 'absolute',
-    left: 24,
-    bottom: 18,
+    left: 22,
+    bottom: 16,
     color: '#fff',
-    fontSize: '1.15rem',
+    fontSize: '.98rem',
     fontWeight: 900,
-    textShadow: '0 3px 0 rgba(0,0,0,.25)',
+    textShadow: '0 2px 0 rgba(0,0,0,.25)',
     zIndex: 9,
   },
 
   qaCard: {
     width: '100%',
-    maxWidth: 860,
     background: '#fff',
-    borderRadius: 34,
-    padding: '28px',
+    borderRadius: 28,
+    padding: '20px',
     border: '5px solid #0a84ff',
-    boxShadow: '0 8px 0 #00439d',
+    boxShadow: '0 7px 0 #00439d',
     boxSizing: 'border-box',
+    alignSelf: 'stretch',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 
   questionLabel: {
     color: '#0a84ff',
     fontWeight: 900,
-    fontSize: '1rem',
+    fontSize: '.82rem',
     textTransform: 'uppercase',
     letterSpacing: 1,
     textAlign: 'center',
   },
 
   questionText: {
-    color: '#073b75',
-    fontSize: 'clamp(1.45rem, 3vw, 2.15rem)',
+    color: '#062f5f',
+    fontSize: 'clamp(1.25rem, 2.3vw, 1.75rem)',
     fontWeight: 900,
-    marginTop: 6,
+    marginTop: 5,
     textAlign: 'center',
+    lineHeight: 1.15,
+    textShadow: 'none',
   },
 
   choices: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-    gap: 16,
-    marginTop: 24,
+    gridTemplateColumns: '1fr',
+    gap: 10,
+    marginTop: 18,
   },
 
+  choiceBtn: (background, st, textColor = '#073b75') => ({
+    background,
+    color: textColor,
+    border: '4px solid #ffffff',
+    borderRadius: 18,
+    padding: '12px 12px',
+    fontSize: '1.05rem',
+    fontWeight: 900,
+    fontFamily: GAME_FONT,
+    cursor: st === 'idle' ? 'pointer' : 'default',
+    boxShadow: '0 5px 0 rgba(0,67,157,.18)',
+    textShadow: 'none',
+    transition: 'transform .15s ease, filter .15s ease',
+    lineHeight: 1.15,
+  }),
+
   feedback: (ok) => ({
-    marginTop: 20,
-    padding: '14px 18px',
-    borderRadius: 20,
+    marginTop: 14,
+    padding: '11px 14px',
+    borderRadius: 18,
     background: ok
       ? 'linear-gradient(180deg,#36e27d,#0ca84f)'
       : 'linear-gradient(180deg,#ff6b6b,#d63031)',
     color: '#fff',
     fontWeight: 900,
-    fontSize: '1.12rem',
+    fontSize: '.98rem',
     textAlign: 'center',
-    border: '4px solid #fff',
-    boxShadow: '0 6px 0 rgba(0,0,0,.22)',
+    border: '3px solid #fff',
+    boxShadow: '0 5px 0 rgba(0,0,0,.22)',
+    lineHeight: 1.25,
+    textShadow: 'none',
   }),
 
   endPage: {
@@ -388,52 +439,55 @@ const S = {
 
   endCard: {
     background: '#fff',
-    borderRadius: 36,
-    padding: '46px 42px',
+    borderRadius: 30,
+    padding: '36px 32px',
     textAlign: 'center',
-    border: '6px solid #0a84ff',
-    boxShadow: '0 10px 0 #00439d, 0 22px 45px rgba(0,0,0,.28)',
-    maxWidth: 480,
+    border: '5px solid #0a84ff',
+    boxShadow: '0 8px 0 #00439d, 0 20px 40px rgba(0,0,0,.25)',
+    maxWidth: 430,
     width: '100%',
   },
 
   endButtons: {
     display: 'flex',
-    gap: 14,
+    gap: 12,
     justifyContent: 'center',
     flexWrap: 'wrap',
-    marginTop: 24,
+    marginTop: 22,
   },
 
   mainBtn: {
     background: 'linear-gradient(180deg,#0a84ff,#00439d)',
     color: '#fff',
-    border: '4px solid #fff',
+    border: '3px solid #fff',
     borderRadius: 999,
-    padding: '14px 30px',
-    fontSize: '1.15rem',
+    padding: '12px 24px',
+    fontSize: '1rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 #00306f',
+    boxShadow: '0 6px 0 #00306f',
+    textShadow: 'none',
   },
 
   secondaryBtn: {
     background: 'linear-gradient(180deg,#ffffff,#dff4ff)',
     color: '#00439d',
-    border: '4px solid #fff',
+    border: '3px solid #fff',
     borderRadius: 999,
-    padding: '14px 30px',
-    fontSize: '1.15rem',
+    padding: '12px 24px',
+    fontSize: '1rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 rgba(0,67,157,.18)',
+    boxShadow: '0 6px 0 rgba(0,67,157,.18)',
+    textShadow: 'none',
   },
 };
 
 function buildChoices(item) {
   if (!item) return [];
+
   return [...(item.wrongList || []).slice(0, 3).map((w) => w.word || w), item.word].sort(
     () => Math.random() - 0.5
   );
@@ -552,15 +606,24 @@ function MountainGame({ packInfo, wordList }) {
   };
 
   const pct = steps / N;
-  const climberLeft = 18 + pct * 58;
-  const climberBottom = 48 + pct * 240;
+  const climberLeft = 18 + pct * 60;
+  const climberBottom = 50 + pct * 265;
 
   if (status === 'loading') {
     return (
       <div style={S.endPage}>
         <style>{CSS}</style>
-        <div style={{ textAlign: 'center', color: '#fff', fontWeight: 900, fontSize: '1.4rem' }}>
-          🏔️ Đang chuẩn bị đường leo...
+
+        <div
+          style={{
+            textAlign: 'center',
+            color: '#fff',
+            fontWeight: 900,
+            fontSize: '1.2rem',
+            textShadow: 'none',
+          }}
+        >
+          Đang chuẩn bị đường leo...
         </div>
       </div>
     );
@@ -570,15 +633,25 @@ function MountainGame({ packInfo, wordList }) {
     return (
       <div style={S.endPage}>
         <style>{CSS}</style>
+
         <div style={S.endCard}>
-          <div style={{ fontSize: '4rem' }}>😢</div>
-          <h2 style={{ color: '#d63031', margin: '8px 0 20px', fontWeight: 900 }}>
+          <h2
+            style={{
+              color: '#d63031',
+              margin: '0 0 18px',
+              fontWeight: 900,
+              fontSize: '1.7rem',
+              textShadow: 'none',
+            }}
+          >
             Không thể tải dữ liệu!
           </h2>
+
           <div style={S.endButtons}>
             <button onClick={init} style={S.mainBtn}>
               Thử lại
             </button>
+
             <button onClick={() => history.push('/games')} style={S.secondaryBtn}>
               Về kho game
             </button>
@@ -590,26 +663,64 @@ function MountainGame({ packInfo, wordList }) {
 
   if (status === 'done') {
     const max = pack.length * 100;
-    const rate = score / max;
 
     return (
       <div style={S.endPage}>
         <style>{CSS}</style>
+
         <div style={S.endCard} className="mt-pop">
-          <div style={{ fontSize: '4.4rem' }}>{rate >= 0.8 ? '🏆' : rate >= 0.5 ? '🌟' : '💪'}</div>
-          <h2 style={{ color: '#00439d', fontSize: '2.3rem', fontWeight: 900, margin: '8px 0' }}>
+          <h2
+            style={{
+              color: '#00439d',
+              fontSize: '2rem',
+              fontWeight: 900,
+              margin: '0 0 10px',
+              textShadow: 'none',
+            }}
+          >
             Hoàn thành!
           </h2>
-          <p style={{ color: '#073b75', fontWeight: 800, marginBottom: 4 }}>
+
+          <p
+            style={{
+              color: '#073b75',
+              fontWeight: 800,
+              marginBottom: 4,
+              fontSize: '.98rem',
+              textShadow: 'none',
+            }}
+          >
             Bạn leo tới {steps}/{N} bậc
           </p>
-          <div style={{ color: '#0a84ff', fontSize: '3.6rem', fontWeight: 900 }}>{score}</div>
-          <p style={{ color: '#073b75', fontWeight: 800, marginBottom: 8 }}>Tối đa {max} điểm</p>
+
+          <div
+            style={{
+              color: '#0a84ff',
+              fontSize: '3rem',
+              fontWeight: 900,
+              textShadow: 'none',
+            }}
+          >
+            {score}
+          </div>
+
+          <p
+            style={{
+              color: '#073b75',
+              fontWeight: 800,
+              marginBottom: 8,
+              fontSize: '.95rem',
+              textShadow: 'none',
+            }}
+          >
+            Tối đa {max} điểm
+          </p>
 
           <div style={S.endButtons}>
             <button onClick={init} style={S.mainBtn}>
-              Chơi lại 🏔️
+              Chơi lại
             </button>
+
             <button onClick={() => history.push('/games')} style={S.secondaryBtn}>
               Về kho game
             </button>
@@ -622,20 +733,22 @@ function MountainGame({ packInfo, wordList }) {
   const item = pack[cur];
 
   return (
-    <div style={S.page}>
+    <div style={S.page} className="mountain-page">
       <style>{CSS}</style>
 
       <div style={S.topBar}>
         <button style={S.backBtn} onClick={() => history.push('/games')}>
-          ← Về kho game
+          Về kho game
         </button>
       </div>
 
-      <h1 style={S.title}>Leo Núi Từ Vựng</h1>
+      <h1 style={S.title}>
+        Leo Núi Từ Vựng
+      </h1>
 
       <div style={S.statBar}>
         <span style={S.stat}>Câu {cur + 1}/{pack.length}</span>
-        <span style={S.stat}>⭐ {score}</span>
+        <span style={S.stat}>{score} điểm</span>
         <span
           style={{
             ...S.stat,
@@ -643,101 +756,107 @@ function MountainGame({ packInfo, wordList }) {
             color: streak >= 3 ? '#fff' : '#00439d',
           }}
         >
-          🔥 {streak} liên tiếp{streak >= 3 ? ' +100!' : ''}
+          {streak} liên tiếp{streak >= 3 ? ' +100' : ''}
         </span>
       </div>
 
-      <div style={S.stage}>
-        <div className="mt-cloud" style={S.cloud('7%', 52, 96, 0.92)} />
-        <div className="mt-cloud" style={S.cloud('72%', 72, 112, 0.82)} />
+      <div style={S.mainLayout} className="mountain-main-layout">
+        <div style={S.stage} className="mountain-stage">
+          <div className="mt-cloud" style={S.cloud('7%', 52, 96, 0.92)} />
+          <div className="mt-cloud" style={S.cloud('72%', 72, 112, 0.82)} />
 
-        <div style={S.mountainBackLeft} />
-        <div style={S.mountainBackRight} />
-        <div style={S.mountainMain} />
-        <div style={S.mountainFace1} />
-        <div style={S.mountainFace2} />
-        <div style={S.snowCap} />
-        <div style={S.snowCap2} />
-        <div style={S.path} />
+          <div style={S.mountainBackLeft} />
+          <div style={S.mountainBackRight} />
+          <div style={S.mountainMain} />
+          <div style={S.mountainFace1} />
+          <div style={S.mountainFace2} />
+          <div style={S.snowCap} />
+          <div style={S.snowCap2} />
+          <div style={S.path} />
 
-        <div style={S.tree('8%', 28, 1.2)} />
-        <div style={S.tree2('10.3%', 28, 1.2)} />
-        <div style={S.tree('15%', 24, 1)} />
-        <div style={S.tree2('17%', 24, 1)} />
-        <div style={S.tree('80%', 22, 1.15)} />
-        <div style={S.tree2('82%', 22, 1.15)} />
-        <div style={S.tree('87%', 18, 1)} />
-        <div style={S.tree2('88.7%', 18, 1)} />
+          <div style={S.tree('8%', 28, 1.2)} />
+          <div style={S.tree2('10.3%', 28, 1.2)} />
+          <div style={S.tree('15%', 24, 1)} />
+          <div style={S.tree2('17%', 24, 1)} />
+          <div style={S.tree('80%', 22, 1.15)} />
+          <div style={S.tree2('82%', 22, 1.15)} />
+          <div style={S.tree('87%', 18, 1)} />
+          <div style={S.tree2('88.7%', 18, 1)} />
 
-        <div style={S.marker('20%', 64)} />
-        <div style={S.marker('32%', 110)} />
-        <div style={S.marker('44%', 158)} />
-        <div style={S.marker('57%', 204)} />
-        <div style={S.marker('70%', 250)} />
+          <div style={S.marker('20%', 64)} />
+          <div style={S.marker('32%', 116)} />
+          <div style={S.marker('44%', 168)} />
+          <div style={S.marker('57%', 220)} />
+          <div style={S.marker('70%', 272)} />
 
-        <div className="mt-climber" style={S.climber(climberLeft, climberBottom)}>
-          🧗
-        </div>
-
-        <div style={S.flagPole} />
-        <div style={S.flag} />
-
-        <div style={S.stageLabel}>{Math.round(pct * 100)}% đường leo</div>
-      </div>
-
-      <div style={S.qaCard}>
-        <div style={S.questionLabel}>Từ nào có nghĩa là</div>
-        <div style={S.questionText}>"{item?.mean}"</div>
-
-        <div style={S.choices}>
-          {choices.map((c, i) => {
-            const st = getState(c, i);
-            const baseColor = CHOICE_COLORS[i % CHOICE_COLORS.length];
-
-            const background =
-              st === 'correct'
-                ? 'linear-gradient(180deg,#36e27d,#0ca84f)'
-                : st === 'wrong'
-                ? 'linear-gradient(180deg,#ff6b6b,#d63031)'
-                : st === 'dim'
-                ? 'linear-gradient(180deg,#b0b0b0,#777)'
-                : `linear-gradient(180deg, ${baseColor}, ${baseColor}cc)`;
-
-            return (
-              <button
-                key={i}
-                onClick={() => handleChoice(c, i)}
-                disabled={status === 'answered'}
-                style={{
-                  background,
-                  color: '#fff',
-                  border: '4px solid #fff',
-                  borderRadius: 24,
-                  padding: '18px 14px',
-                  fontSize: 'clamp(1.05rem, 2.5vw, 1.35rem)',
-                  fontWeight: 900,
-                  fontFamily: GAME_FONT,
-                  cursor: st === 'idle' ? 'pointer' : 'default',
-                  boxShadow: '0 7px 0 rgba(0,0,0,.22)',
-                  textShadow: '0 2px 0 rgba(0,0,0,.25)',
-                  transition: 'transform .15s ease, filter .15s ease',
-                }}
-              >
-                {c}
-              </button>
-            );
-          })}
-        </div>
-
-        {feedback && (
-          <div style={S.feedback(feedback.ok)} className="mt-pop">
-            {feedback.ok
-              ? feedback.bonus
-                ? `✅ Chính xác! +100 điểm 🔥 Streak +${feedback.bonus}!`
-                : '✅ Chính xác! +100 điểm'
-              : `❌ Sai rồi! Đáp án: "${feedback.correct}"`}
+          <div className="mt-climber" style={S.climber(climberLeft, climberBottom)}>
+            🧗
           </div>
-        )}
+
+          <div style={S.flagPole} />
+          <div style={S.flag} />
+
+          <div style={S.stageLabel}>{Math.round(pct * 100)}% đường leo</div>
+        </div>
+
+        <div style={S.qaCard}>
+          <div style={S.questionLabel}>Từ nào có nghĩa là</div>
+
+          <div style={S.questionText}>
+            “{item?.mean}”
+          </div>
+
+          <div style={S.choices} className="mountain-choices">
+            {choices.map((c, i) => {
+              const st = getState(c, i);
+
+              const background =
+                st === 'correct'
+                  ? 'linear-gradient(180deg,#d8ffe8,#8df0b3)'
+                  : st === 'wrong'
+                  ? 'linear-gradient(180deg,#ffe1e1,#ffaaaa)'
+                  : st === 'dim'
+                  ? 'linear-gradient(180deg,#eef2f6,#d5dde6)'
+                  : i === 0
+                  ? 'linear-gradient(180deg,#e5f2ff,#b8dcff)'
+                  : i === 1
+                  ? 'linear-gradient(180deg,#fff4cc,#ffe08a)'
+                  : i === 2
+                  ? 'linear-gradient(180deg,#ddffe9,#aaf2c4)'
+                  : 'linear-gradient(180deg,#ffe5f3,#ffc1df)';
+
+              const textColor =
+                st === 'correct'
+                  ? '#075c2c'
+                  : st === 'wrong'
+                  ? '#8a1111'
+                  : st === 'dim'
+                  ? '#64748b'
+                  : '#073b75';
+
+              return (
+                <button
+                  key={i}
+                  onClick={() => handleChoice(c, i)}
+                  disabled={status === 'answered'}
+                  style={S.choiceBtn(background, st, textColor)}
+                >
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+
+          {feedback && (
+            <div style={S.feedback(feedback.ok)} className="mt-pop">
+              {feedback.ok
+                ? feedback.bonus
+                  ? `Chính xác! +100 điểm. Thưởng liên tiếp +${feedback.bonus}!`
+                  : 'Chính xác! +100 điểm'
+                : `Sai rồi! Đáp án: "${feedback.correct}"`}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -754,7 +873,7 @@ function MountainPage() {
   };
 
   if (!packInfo && !wordList) {
-    return <GameSetup title="🏔️ Leo Núi Từ Vựng — Chọn chủ đề" onStart={handleStart} />;
+    return <GameSetup title="Leo Núi Từ Vựng — Chọn chủ đề" onStart={handleStart} />;
   }
 
   return <MountainGame packInfo={packInfo} wordList={wordList} />;

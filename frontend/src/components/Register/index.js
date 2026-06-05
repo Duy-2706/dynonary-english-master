@@ -14,38 +14,40 @@ import * as yup from 'yup';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { formStyle } from 'components/UI/style';
 
+const ALLOWED_DOMAINS = /^[a-zA-Z0-9._%+\-]+@(gmail\.com|yahoo\.com|outlook\.com|hotmail\.com|icloud\.com|live\.com|protonmail\.com|yahoo\.com\.vn|ymail\.com)$/i;
+
 const schema = yup.object().shape({
   email: yup
     .string()
     .trim()
     .required('Nhập email')
-    .email('Email không hợp lệ')
-    .max(MAX.EMAIL_LEN, `Email tối đa ${MAX.EMAIL_LEN}`),
+    .matches(ALLOWED_DOMAINS, 'Email không đúng định dạng (ví dụ: abc@gmail.com)')
+    .max(MAX.EMAIL_LEN, `Email tối đa ${MAX.EMAIL_LEN} ký tự`),
   name: yup
     .string()
     .trim()
     .required('Nhập họ tên')
     .max(MAX.NAME_LEN, `Họ tên tối đa ${MAX.NAME_LEN} ký tự`)
-    .matches(REGEX.NAME, 'Họ tên không chứ số và ký tự đặc biệt'),
+    .matches(REGEX.NAME, 'Họ tên không chứa số và ký tự đặc biệt'),
   password: yup
     .string()
-    .trim()
     .required('Nhập mật khẩu')
-    .min(MIN.PASSWORD_LEN, `Mật khẩu ít nhất ${MIN.PASSWORD_LEN} ký tự`)
-    .max(MAX.PASSWORD_LEN, `Mật khẩu tối đa ${MAX.PASSWORD_LEN}`),
+    .min(8, 'Mật khẩu ít nhất 8 ký tự')
+    .max(MAX.PASSWORD_LEN, `Mật khẩu tối đa ${MAX.PASSWORD_LEN} ký tự`)
+    .matches(
+      /^(?=.*[A-Za-z])(?=.*\d)/,
+      'Mật khẩu phải có ít nhất 1 chữ cái và 1 số',
+    ),
 });
 
 function Register({ onRegister, loading }) {
   const classes = makeStyles(formStyle)();
-
   const [visiblePw, setVisiblePw] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
+  } = useForm({ resolver: yupResolver(schema) });
 
   return (
     <form
@@ -63,7 +65,7 @@ function Register({ onRegister, loading }) {
         <InputCustom
           label="Email"
           size="small"
-          placeholder="Nhập email"
+          placeholder="Nhập email (gmail.com, yahoo.com, outlook.com...)"
           error={Boolean(errors.email)}
           inputProps={{
             name: 'email',
@@ -94,7 +96,7 @@ function Register({ onRegister, loading }) {
         <InputCustom
           label="Mật khẩu"
           size="small"
-          placeholder="Nhập mật khẩu"
+          placeholder="Ít nhất 8 ký tự, gồm chữ và số"
           error={Boolean(errors.password)}
           inputProps={{
             name: 'password',
@@ -119,6 +121,9 @@ function Register({ onRegister, loading }) {
         {errors.password && (
           <p className="text-error">{errors.password?.message}</p>
         )}
+        <p style={{ fontSize: '0.78rem', color: '#888', margin: '4px 0 0' }}>
+          Mật khẩu ít nhất 8 ký tự, phải có chữ cái và chữ số
+        </p>
       </div>
 
       <Button

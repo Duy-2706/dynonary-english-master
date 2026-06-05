@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { cloudinaryImgOptimize } from 'helper';
 
 export default makeStyles((theme) => ({
   root: {
@@ -14,7 +13,6 @@ export default makeStyles((theme) => ({
     height: 430,
     perspective: 1400,
     cursor: 'pointer',
-
     [theme.breakpoints.down('sm')]: {
       height: 520,
     },
@@ -47,22 +45,52 @@ export default makeStyles((theme) => ({
   cardFront: {
     display: 'grid',
     gridTemplateColumns: '42% 58%',
-
     [theme.breakpoints.down('sm')]: {
       gridTemplateColumns: '1fr',
       gridTemplateRows: '45% 55%',
     },
   },
 
-  picture: {
+  imageWrap: {
+    position: 'relative',
     width: '100%',
     height: '100%',
-    backgroundImage: (props) =>
-      `url("${cloudinaryImgOptimize(props.picture, -1, 640)}")`,
-    backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    backgroundColor: '#f4f8f5',
+    overflow: 'hidden',
+  },
+
+  picture: {
+     position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center',
+    display: 'block',
+        opacity: 0,
+    transition: 'opacity 0.35s ease',
+  },
+
+   pictureVisible: {
+    opacity: 1,
+  },
+
+  picturePlaceholder: {
+     position: 'absolute',
+    inset: 0,
+    width: '100%',
+    height: '100%',
+    background: 'linear-gradient(135deg, #e0f4ec 0%, #c8e6f5 100%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    '& span': {
+      fontSize: 96,
+      fontWeight: 900,
+      color: 'rgba(0,171,107,0.18)',
+      lineHeight: 1,
+      userSelect: 'none',
+      textTransform: 'uppercase',
+    },
   },
 
   frontContent: {
@@ -94,7 +122,6 @@ export default makeStyles((theme) => ({
     gap: 8,
     margin: 0,
     lineHeight: 1.15,
-
     [theme.breakpoints.down('sm')]: {
       fontSize: 34,
     },
@@ -127,8 +154,7 @@ export default makeStyles((theme) => ({
     alignItems: 'center',
     padding: '3.2rem',
     textAlign: 'center',
-    background:
-      'radial-gradient(circle at top left, rgba(0,171,107,0.14), transparent 36%), #ffffff',
+    background: 'radial-gradient(circle at top left, rgba(0,171,107,0.14), transparent 36%), #ffffff',
     fontFamily: 'inherit',
   },
 
@@ -147,7 +173,6 @@ export default makeStyles((theme) => ({
     textTransform: 'capitalize',
     margin: '0 0 16px',
     lineHeight: 1.2,
-
     [theme.breakpoints.down('sm')]: {
       fontSize: 30,
     },
@@ -175,7 +200,6 @@ export default makeStyles((theme) => ({
     lineHeight: 1.55,
     color: 'var(--text-color)',
     margin: '12px 0 0',
-
     '& b': {
       color: 'var(--primary-color)',
     },
@@ -186,7 +210,7 @@ export default makeStyles((theme) => ({
     fontSize: 13,
     color: '#9a9a9a',
   },
-  
+
   favoriteBtn: {
     position: 'absolute',
     bottom: 16,

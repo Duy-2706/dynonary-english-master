@@ -198,6 +198,132 @@ const GRAMMAR_TENSES = [
   },
 ];
 
+exports.getCourseStats = async () => {
+  const { admin } = require('../configs/firebase.config');
+  const [coursesSnap, enrollmentsSnap] = await Promise.all([
+    db.collection(COLLECTIONS.COURSES).get(),
+    db.collection(COLLECTIONS.ENROLLMENTS).get(),
+  ]);
+
+  const courses = coursesSnap.docs.map(docToObj);
+  const enrollments = enrollmentsSnap.docs.map((d) => d.data());
+
+  const enrollCountMap = {};
+  const completedCountMap = {};
+  enrollments.forEach((e) => {
+    const cid = e.courseId;
+    if (!cid) return;
+    enrollCountMap[cid] = (enrollCountMap[cid] || 0) + 1;
+    if (e.status === 'completed') completedCountMap[cid] = (completedCountMap[cid] || 0) + 1;
+  });
+
+  const totalEnrollments = enrollments.length;
+  const totalCompleted = enrollments.filter((e) => e.status === 'completed').length;
+  const completionRate = totalEnrollments > 0 ? Math.round((totalCompleted / totalEnrollments) * 100) : 0;
+
+  const topCourses = courses
+    .map((c) => ({
+      id: c.id,
+      title: c.title || 'Không tên',
+      status: c.status || 'draft',
+      enrollments: enrollCountMap[c.id] || 0,
+      completed: completedCountMap[c.id] || 0,
+      viewCount: c.viewCount || 0,
+    }))
+    .sort((a, b) => b.enrollments - a.enrollments)
+    .slice(0, 10);
+
+  // Enrollments by month — last 6 months
+  const monthMap = {};
+  const now = new Date();
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    monthMap[key] = 0;
+  }
+  enrollments.forEach((e) => {
+    const at = e.enrolledAt || e.createdAt;
+    if (!at) return;
+    const d = new Date(at);
+    const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+    if (monthMap[key] !== undefined) monthMap[key]++;
+  });
+
+  return {
+    totalCourses: courses.length,
+    publishedCourses: courses.filter((c) => c.status === 'published').length,
+    totalEnrollments,
+    totalCompleted,
+    completionRate,
+    topCourses,
+    enrollmentsByMonth: Object.entries(monthMap).map(([month, count]) => ({ month, count })),
+  };
+};
+
+exports.getGameStats = async () => {
+  const highscoresSnap = await db.collection(COLLECTIONS.HIGHSCORES).get();
+  const highscores = highscoresSnap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+  let totalPlayers = 0;
+  const gameBreakdown = [];
+
+  highscores.forEach((hs) => {
+    const top = hs.top || [];
+    const playerCount = top.length;
+    const avgScore = playerCount > 0
+      ? Math.round(top.reduce((s, t) => s + (t.score || 0), 0) / playerCount)
+      : 0;
+    const maxScore = playerCount > 0 ? Math.max(...top.map((t) => t.score || 0)) : 0;
+    totalPlayers += playerCount;
+    gameBreakdown.push({ gameName: hs.name, unit: hs.unit || '', playerCount, avgScore, maxScore });
+  });
+  gameBreakdown.sort((a, b) => b.playerCount - a.playerCount);
+
+  // Top players across all games (max score per accountId)
+  const playerMap = {};
+  highscores.forEach((hs) => {
+    (hs.top || []).forEach((entry) => {
+      const prev = playerMap[entry.accountId];
+      if (!prev || prev.score < entry.score) {
+        playerMap[entry.accountId] = { accountId: entry.accountId, score: entry.score, gameName: hs.name };
+      }
+    });
+  });
+
+  const topPlayers = Object.values(playerMap)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 10);
+
+  const usersCol = db.collection(COLLECTIONS.USERS);
+  for (const p of topPlayers) {
+    const snap = await usersCol.where('accountId', '==', p.accountId).limit(1).get();
+    if (!snap.empty) {
+      p.username = snap.docs[0].data().name || 'Ẩn danh';
+      p.avt = snap.docs[0].data().avt || '';
+    } else {
+      p.username = 'Ẩn danh';
+    }
+  }
+
+  return {
+    totalGames: highscores.length,
+    totalPlayers,
+    gameBreakdown,
+    topPlayers,
+  };
+};
+
+exports.trackCourseView = async (courseId) => {
+  try {
+    const { admin } = require('../configs/firebase.config');
+    const FieldValue = admin.firestore.FieldValue;
+    await db.collection(COLLECTIONS.COURSES).doc(courseId).update({
+      viewCount: FieldValue.increment(1),
+    });
+  } catch (_) {}
+};
+
+
 exports.seedGrammarTenses = async () => {
   const grammarCol = db.collection(COLLECTIONS.GRAMMAR_LESSONS);
   const existing = await grammarCol.where('teacherAccountId', '==', 'system').get();

@@ -5,9 +5,10 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SlideItem from '../SlideItem';
 import useStyle from './style';
+import { prefetchImage } from '../imageCache';
 
 const perPage = 7;
 
@@ -21,6 +22,14 @@ function SlideShow({
   const count = totalCurrentSlide + current;
   const isLast = count + 1 >= total;
   const percent = total > 0 ? Math.round(((count + 1) / total) * 100) : 0;
+
+  useEffect(() => {
+    if (!list || list.length === 0) return;
+    for (let i = 1; i <= 3; i++) {
+      const next = list[current + i];
+      if (next && next.word && !next.picture) prefetchImage(next.word);
+    }
+  }, [current, list]);
 
   const onPrev = () => {
     if (current !== 0) {

@@ -29,12 +29,6 @@ exports.findAccount = async (email) => {
   return findOneBy(accountsCol, 'email', email.toLowerCase());
 };
 
-/**
- * Create a new account document in Firestore.
- * Returns the Firestore document ID (used as accountId throughout the app).
- * Note: password hashing was previously done in the Mongoose pre-save hook;
- *       it is now handled explicitly here.
- */
 exports.createAccount = async (
   email,
   password,
@@ -46,10 +40,11 @@ exports.createAccount = async (
     email: email.toLowerCase(),
     password: hashedPw,
     authType,
+    isVerified: true,
     createdDate: new Date(),
   });
 
-  return ref.id; // Firestore document ID serves as accountId
+  return ref.id; 
 };
 
 exports.createUser = async (accountId, username, name, avt = '') => {
@@ -151,6 +146,13 @@ exports.updateProfile = async (
 
   await snap.docs[0].ref.update({ name: newName, username: newUsername });
   return { status: true, message: 'success' };
+};
+
+exports.verifyAccount = async (email) => {
+  const snap = await accountsCol.where('email', '==', email.toLowerCase()).limit(1).get();
+  if (snap.empty) return false;
+  await snap.docs[0].ref.update({ isVerified: true });
+  return true;
 };
 
 exports.getProfile = async (accountId = '') => {

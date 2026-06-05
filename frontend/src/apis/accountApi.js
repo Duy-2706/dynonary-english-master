@@ -7,6 +7,10 @@ const accountApi = {
     return axiosClient.post(`${URL}/register`, { email, name, password });
   },
 
+  postVerifyRegister: (email, code) => {
+    return axiosClient.post(`${URL}/verify-register`, { email, code });
+  },
+
   postLogin: (email, password) => {
     return axiosClient.post(`${URL}/login`, { email, password });
   },

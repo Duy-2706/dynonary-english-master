@@ -31,6 +31,7 @@ const CourseDetailPage = React.lazy(() => import('pages/Course/CourseDetailPage'
 const CourseLearnPage = React.lazy(() => import('pages/Course/CourseLearnPage'));
 const TeacherCoursesPage = React.lazy(() => import('pages/Course/TeacherCoursesPage'));
 const TeacherCourseDetailPage = React.lazy(() => import('pages/Course/TeacherCourseDetailPage'));
+const MyCoursesPage = React.lazy(() => import('pages/Course/MyCoursesPage'));
 
 const WordOrderPage = React.lazy(() => import('pages/PlayGames/WordOrder'));
 const FillLettersPage = React.lazy(() => import('pages/PlayGames/FillLetters'));
@@ -185,10 +186,16 @@ const routes = [
     component: () => <CourseDetailPage />,
   },
   {
-  path: ROUTES.COURSES,
-  exact: true,
-  isProtect: false,
-  component: () => <CoursePage />,
+   path: ROUTES.COURSES,
+    exact: true,
+    isProtect: false,
+    component: () => <CoursePage />,
+  },
+  {
+    path: ROUTES.MY_COURSES,
+    exact: true,
+    isProtect: true,
+    component: () => <MyCoursesPage />,
   },
   {
     path: '/teacher/courses/:id',

@@ -9,21 +9,40 @@ const N = 20;
 
 const CSS = `
   @keyframes flPop {
-    0% { transform: scale(.92); opacity: 0; }
+    0% { transform: scale(.94); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
 
-  @keyframes flFloat {
-    0%, 100% { transform: translateY(0) rotate(-2deg); }
-    50% { transform: translateY(-8px) rotate(2deg); }
-  }
-
   .fl-pop {
-    animation: flPop .28s ease;
+    animation: flPop .24s ease;
   }
 
-  .fl-float {
-    animation: flFloat 2.2s ease-in-out infinite;
+  @media (max-width: 980px) {
+    .fill-main-layout {
+      grid-template-columns: 1fr !important;
+    }
+
+    .fill-input-row {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .fill-page {
+      padding: 18px 12px 34px !important;
+    }
+
+    .fill-card {
+      padding: 22px 18px !important;
+      border-radius: 28px !important;
+    }
+
+    .fill-letter-box {
+      width: 44px !important;
+      height: 52px !important;
+      font-size: 1.55rem !important;
+      border-radius: 15px !important;
+    }
   }
 `;
 
@@ -31,28 +50,48 @@ const S = {
   page: {
     minHeight: '100vh',
     background: `
-      radial-gradient(circle at 18% 18%, rgba(255,255,255,.25), transparent 16%),
-      radial-gradient(circle at 82% 16%, rgba(255,255,255,.20), transparent 18%),
-      radial-gradient(circle at 65% 82%, rgba(255,220,0,.28), transparent 22%),
-      linear-gradient(135deg, #48c8c8ba 0%, #61dbd3 48%, #bce5eb 100%)
+      radial-gradient(circle at 14% 18%, rgba(25,199,168,.18) 0 4px, transparent 5px),
+      radial-gradient(circle at 82% 22%, rgba(255,138,0,.16) 0 5px, transparent 6px),
+      radial-gradient(circle at 28% 72%, rgba(255,20,147,.13) 0 4px, transparent 5px),
+      radial-gradient(circle at 92% 76%, rgba(25,199,168,.12) 0 4px, transparent 5px),
+      linear-gradient(180deg, #05090d 0%, #260044 48%, #430878 100%)
     `,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
+    backgroundSize: '90px 90px, 130px 130px, 110px 110px, 120px 120px, auto',
+    padding: '18px 28px 36px',
     boxSizing: 'border-box',
     fontFamily: GAME_FONT,
-    overflowX: 'hidden',
+  },
+
+  topBar: {
+    width: '100%',
+    maxWidth: 1320,
+    margin: '0 auto 12px',
+  },
+
+  backBtn: {
+    display: 'inline-block',
+    background: 'linear-gradient(180deg,#ffffff,#efe8ff)',
+    color: '#4a1178',
+    border: '4px solid #ffffff',
+    borderRadius: 999,
+    padding: '12px 26px',
+    fontSize: '1.35rem',
+    fontWeight: 900,
+    cursor: 'pointer',
+    fontFamily: GAME_FONT,
+    boxShadow: '0 6px 0 rgba(42,0,69,.22)',
+    textDecoration: 'none',
   },
 
   card: {
     width: '100%',
-    maxWidth: 820,
-    background: '#fff',
-    borderRadius: 38,
-    padding: '34px',
-    border: '6px solid #008d95',
-    boxShadow: '0 10px 0 #68cbb4, 0 24px 48px rgba(0,0,0,.28)',
+    maxWidth: 1320,
+    margin: '0 auto',
+    background: 'linear-gradient(180deg,#ffffff,#f7f2ff)',
+    borderRadius: 36,
+    padding: '26px 34px 32px',
+    border: '6px solid rgba(255,255,255,.98)',
+    boxShadow: '0 10px 0 #36005e, 0 24px 44px rgba(0,0,0,.24)',
     boxSizing: 'border-box',
     position: 'relative',
     overflow: 'hidden',
@@ -62,259 +101,302 @@ const S = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 14,
+    gap: 18,
     flexWrap: 'wrap',
-    marginBottom: 22,
+    marginBottom: 16,
     position: 'relative',
     zIndex: 2,
   },
 
   title: {
-    color: '#0003039e',
-    fontSize: 'clamp(2rem, 4vw, 3.2rem)',
+    color: '#7b1cff',
+    fontSize: 'clamp(2.4rem, 4.8vw, 4.1rem)',
     fontWeight: 900,
     margin: 0,
     lineHeight: 0.95,
-    textShadow: '0 3px 0 rgba(25, 61, 63, 0.18)',
+    textShadow: '0 3px 0 rgba(54,0,135,.13)',
   },
 
   statGroup: {
     display: 'flex',
-    gap: 10,
+    gap: 12,
     flexWrap: 'wrap',
   },
 
   stat: {
     background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
     color: '#fff',
-    padding: '8px 16px',
+    padding: '11px 24px',
     borderRadius: 999,
-    border: '3px solid #fff',
-    fontSize: '1rem',
+    border: '4px solid #fff',
+    fontSize: '1.42rem',
     fontWeight: 900,
-    boxShadow: '0 5px 0 #bd5f00',
+    boxShadow: '0 6px 0 #bd5f00',
   },
 
   progressOuter: {
     height: 18,
-    background: '#379b8f',
+    background: '#e9d9ff',
     borderRadius: 999,
-    marginBottom: 26,
-    border: '3px solid #a3eed7',
+    marginBottom: 22,
+    border: '4px solid #ffffff',
     overflow: 'hidden',
     position: 'relative',
     zIndex: 2,
+    boxShadow: '0 5px 0 rgba(54,0,94,.16)',
   },
 
   progressInner: (pct) => ({
     height: '100%',
     width: `${pct}%`,
-    background: 'linear-gradient(90deg,#ffdf3b,#ff8a00)',
+    background: 'linear-gradient(90deg,#7b1cff,#ff4fa3,#ff8a00)',
     borderRadius: 999,
     transition: 'width .35s ease',
   }),
 
-  meaningBox: {
-    background: 'linear-gradient(180deg,#fff6fb,#ffe1f1)',
-    border: '5px solid #82f1ed',
-    borderRadius: 30,
-    padding: '24px 26px',
-    marginBottom: 28,
-    textAlign: 'center',
-    boxShadow: '0 7px 0 rgba(16, 63, 66, 0.18)',
+  mainLayout: {
+    display: 'grid',
+    gridTemplateColumns: 'minmax(0, 1.25fr) minmax(360px, .75fr)',
+    gap: 24,
+    alignItems: 'stretch',
     position: 'relative',
     zIndex: 2,
   },
 
+  leftPanel: {
+    background: 'linear-gradient(180deg,#ffffff,#f4ecff)',
+    border: '5px solid #e7d7ff',
+    borderRadius: 30,
+    padding: '24px 26px',
+    boxShadow: '0 8px 0 rgba(54,0,94,.12)',
+  },
+
+  rightPanel: {
+    background: 'linear-gradient(180deg,#17252d,#0b1419)',
+    border: '5px solid rgba(25,199,168,.62)',
+    borderRadius: 30,
+    padding: '24px 26px',
+    boxShadow: '0 8px 0 rgba(25,199,168,.16)',
+    color: '#ffffff',
+  },
+
   label: {
-    color: '#046d6d',
+    color: '#4c1178',
     fontWeight: 900,
-    fontSize: '1rem',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
+    fontSize: '1.35rem',
+    letterSpacing: 0.2,
+    marginBottom: 10,
   },
 
   meaning: {
-    color: '#0e4743',
-    fontSize: 'clamp(1.45rem, 3vw, 2.15rem)',
+    color: '#1e1b4b',
+    fontSize: 'clamp(2rem, 3.3vw, 3rem)',
     fontWeight: 900,
-    marginTop: 6,
+    lineHeight: 1.15,
+    marginBottom: 24,
   },
 
   letterWrap: {
     display: 'flex',
     flexWrap: 'wrap',
-    gap: 10,
+    gap: 12,
     justifyContent: 'center',
-    marginBottom: 30,
-    position: 'relative',
-    zIndex: 2,
+    alignItems: 'center',
   },
 
   letterBox: (blanked, flash) => ({
-    width: 54,
-    height: 62,
-    borderRadius: 18,
+    width: 58,
+    height: 66,
+    borderRadius: 20,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '1.9rem',
+    fontSize: '2rem',
     fontWeight: 900,
     background: blanked
       ? flash || 'linear-gradient(180deg,#ffdf3b,#ff8a00)'
-      : 'linear-gradient(180deg,#0877ff,#00439d)',
+      : 'linear-gradient(180deg,#0a84ff,#00439d)',
     color: '#fff',
     border: '4px solid #fff',
     boxShadow: blanked
       ? '0 7px 0 #bd5f00'
       : '0 7px 0 #00306f',
     transition: 'background .25s ease, transform .2s ease',
-    textShadow: '0 2px 0 rgba(0,0,0,.22)',
+    textShadow: 'none',
   }),
 
-  inputLabel: {
-    color: '#215c5e',
-    fontSize: '1.05rem',
+  nonLetter: {
+    color: '#4c1178',
+    fontSize: '2rem',
     fontWeight: 900,
-    marginBottom: 10,
-    position: 'relative',
-    zIndex: 2,
+    alignSelf: 'center',
+  },
+
+  inputLabel: {
+    color: '#d8fffa',
+    fontSize: '1.35rem',
+    fontWeight: 900,
+    lineHeight: 1.3,
+    marginBottom: 14,
   },
 
   inputRow: {
     display: 'grid',
-    gridTemplateColumns: '1fr auto auto',
-    gap: 12,
-    marginBottom: 20,
-    position: 'relative',
-    zIndex: 2,
+    gridTemplateColumns: '1fr',
+    gap: 14,
   },
 
   input: (flash) => ({
     minWidth: 0,
-    background: '#fff',
-    border: `4px solid ${flash || '#aee8e2'}`,
-    borderRadius: 20,
-    padding: '15px 18px',
-    fontSize: '1.25rem',
+    background: '#ffffff',
+    border: `5px solid ${flash || '#19c7a8'}`,
+    borderRadius: 24,
+    padding: '18px 22px',
+    fontSize: '1.7rem',
     fontWeight: 900,
-    color: '#254046',
+    color: '#17252d',
     outline: 'none',
-    letterSpacing: 3,
+    letterSpacing: 4,
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(51, 80, 81, 0.71)',
+    boxShadow: '0 8px 0 rgba(25,199,168,.18)',
+    boxSizing: 'border-box',
+    width: '100%',
   }),
 
+  buttonRow: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gap: 14,
+  },
+
   skipBtn: {
-    background: 'linear-gradient(180deg,#b0b0b0,#777)',
+    background: 'linear-gradient(180deg,#475569,#1f2937)',
     color: '#fff',
     border: '4px solid #fff',
-    borderRadius: 20,
-    padding: '14px 20px',
-    fontSize: '1.05rem',
+    borderRadius: 999,
+    padding: '16px 22px',
+    fontSize: '1.35rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(0,0,0,.22)',
+    boxShadow: '0 7px 0 rgba(0,0,0,.28)',
   },
 
   checkBtn: {
     background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
     color: '#fff',
     border: '4px solid #fff',
-    borderRadius: 20,
-    padding: '14px 22px',
-    fontSize: '1.05rem',
+    borderRadius: 999,
+    padding: '16px 22px',
+    fontSize: '1.35rem',
     fontWeight: 900,
     cursor: 'pointer',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 #bd5f00',
+    boxShadow: '0 7px 0 #bd5f00',
   },
 
   feedback: (ok) => ({
-    padding: '14px 18px',
-    borderRadius: 22,
+    marginTop: 18,
+    padding: '18px 22px',
+    borderRadius: 24,
     background: ok
       ? 'linear-gradient(180deg,#36e27d,#0ca84f)'
       : 'linear-gradient(180deg,#ff6b6b,#d63031)',
     color: '#fff',
     fontWeight: 900,
-    fontSize: '1.12rem',
+    fontSize: '1.55rem',
     textAlign: 'center',
     border: '4px solid #fff',
-    boxShadow: '0 6px 0 rgba(0,0,0,.22)',
-    position: 'relative',
-    zIndex: 2,
+    boxShadow: '0 7px 0 rgba(0,0,0,.22)',
+    lineHeight: 1.25,
   }),
 
-  decorStar: {
-    position: 'absolute',
-    right: 24,
-    top: 24,
-    fontSize: '3rem',
-    opacity: 0.28,
-    zIndex: 1,
-  },
-
-  decorCard1: {
-    position: 'absolute',
-    right: 42,
-    bottom: 44,
-    width: 96,
-    height: 118,
-    borderRadius: 22,
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    transform: 'rotate(10deg)',
-    opacity: 0.14,
-    zIndex: 1,
-  },
-
-  decorCard2: {
-    position: 'absolute',
-    left: 32,
-    bottom: 46,
-    width: 88,
-    height: 108,
-    borderRadius: 22,
-    background: 'linear-gradient(180deg,#0877ff,#00439d)',
-    transform: 'rotate(-12deg)',
-    opacity: 0.13,
-    zIndex: 1,
+  helperText: {
+    color: '#bff8ee',
+    fontSize: '1.18rem',
+    fontWeight: 850,
+    lineHeight: 1.45,
+    marginTop: 14,
   },
 
   endPage: {
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #ff3b8a 0%, #ff1493 48%, #ff7ab8 100%)',
+    background: `
+      radial-gradient(circle at 14% 18%, rgba(25,199,168,.18) 0 4px, transparent 5px),
+      radial-gradient(circle at 82% 22%, rgba(255,138,0,.16) 0 5px, transparent 6px),
+      radial-gradient(circle at 28% 72%, rgba(255,20,147,.13) 0 4px, transparent 5px),
+      linear-gradient(180deg, #05090d 0%, #260044 48%, #430878 100%)
+    `,
+    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
     fontFamily: GAME_FONT,
+    boxSizing: 'border-box',
+  },
+
+  loadingText: {
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: 900,
+    fontSize: '1.8rem',
   },
 
   endCard: {
-    background: '#fff',
+    background: 'linear-gradient(180deg,#ffffff,#f7f2ff)',
     borderRadius: 36,
     padding: '46px 42px',
     textAlign: 'center',
-    border: '6px solid #ff1493',
-    boxShadow: '0 10px 0 #9b0054, 0 22px 45px rgba(0,0,0,.28)',
-    maxWidth: 460,
+    border: '6px solid rgba(255,255,255,.98)',
+    boxShadow: '0 10px 0 #36005e, 0 24px 44px rgba(0,0,0,.24)',
+    maxWidth: 560,
     width: '100%',
+  },
+
+  endTitle: {
+    color: '#7b1cff',
+    fontSize: '3.4rem',
+    fontWeight: 900,
+    margin: '8px 0',
+    lineHeight: 1,
+  },
+
+  endScore: {
+    color: '#ff8a00',
+    fontSize: '4.2rem',
+    fontWeight: 900,
+    lineHeight: 1,
+    marginTop: 12,
+  },
+
+  endText: {
+    color: '#4c1178',
+    fontWeight: 900,
+    fontSize: '1.45rem',
+    lineHeight: 1.3,
+    margin: '18px 0 0',
+  },
+
+  endButtons: {
+    display: 'flex',
+    gap: 16,
+    justifyContent: 'center',
+    flexWrap: 'wrap',
+    marginTop: 28,
   },
 
   mainBtn: {
     display: 'inline-block',
-    marginTop: 24,
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
+    background: 'linear-gradient(180deg,#d056ff,#7b1cff)',
     color: '#fff',
-    padding: '14px 38px',
+    padding: '18px 36px',
     borderRadius: 999,
     textDecoration: 'none',
     fontWeight: 900,
-    fontSize: '1.2rem',
+    fontSize: '1.7rem',
     border: '4px solid #fff',
-    boxShadow: '0 7px 0 #bd5f00',
+    boxShadow: '0 8px 0 #360087',
   },
 };
 
@@ -412,7 +494,7 @@ function FillLettersGame({ packInfo, wordList }) {
       setInput('');
       setFeedback(null);
       setStatus('playing');
-    }, 1400);
+    }, 1300);
   }, []);
 
   const handleCheck = useCallback(() => {
@@ -449,8 +531,9 @@ function FillLettersGame({ packInfo, wordList }) {
     return (
       <div style={S.endPage}>
         <style>{CSS}</style>
-        <div style={{ textAlign: 'center', color: '#fff', fontWeight: 900, fontSize: '1.4rem' }}>
-          ✏️ Đang chuẩn bị từ vựng...
+
+        <div style={S.loadingText}>
+          Đang chuẩn bị từ vựng...
         </div>
       </div>
     );
@@ -460,18 +543,25 @@ function FillLettersGame({ packInfo, wordList }) {
     return (
       <div style={S.endPage}>
         <style>{CSS}</style>
+
         <div style={S.endCard} className="fl-pop">
-          <div style={{ fontSize: '4.4rem' }}>{score >= 1500 ? '🏆' : score >= 800 ? '🌟' : '💪'}</div>
-          <h2 style={{ color: '#14ffe7', fontSize: '2.3rem', fontWeight: 900, margin: '8px 0' }}>
+          <h2 style={S.endTitle}>
             Hoàn thành!
           </h2>
-          <div style={{ color: '#ff8a00', fontSize: '3.6rem', fontWeight: 900 }}>{score} điểm</div>
-          <p style={{ color: '#64103e', fontWeight: 800, marginBottom: 8 }}>
+
+          <div style={S.endScore}>
+            {score} điểm
+          </div>
+
+          <p style={S.endText}>
             Bạn đã hoàn thành trò chơi điền chữ.
           </p>
-          <Link to="/games" style={S.mainBtn}>
-            Chơi game khác
-          </Link>
+
+          <div style={S.endButtons}>
+            <Link to="/games" style={S.mainBtn}>
+              Về kho game
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -481,20 +571,29 @@ function FillLettersGame({ packInfo, wordList }) {
   const pct = Math.round(((current + 1) / wordPack.length) * 100);
 
   return (
-    <div style={S.page}>
+    <div style={S.page} className="fill-page">
       <style>{CSS}</style>
 
-      <div style={S.card} className="fl-pop">
-        <div style={S.decorStar}>⭐</div>
-        <div style={S.decorCard1} />
-        <div style={S.decorCard2} />
+      <div style={S.topBar}>
+        <Link to="/games" style={S.backBtn}>
+          Về kho game
+        </Link>
+      </div>
 
+      <div style={S.card} className="fill-card fl-pop">
         <div style={S.titleRow}>
-          <h1 style={S.title}>Điền từ còn thiếu</h1>
+          <h1 style={S.title}>
+            Điền từ còn thiếu
+          </h1>
 
           <div style={S.statGroup}>
-            <span style={S.stat}>Câu {current + 1}/{wordPack.length}</span>
-            <span style={S.stat}>⭐ {score}</span>
+            <span style={S.stat}>
+              Câu {current + 1}/{wordPack.length}
+            </span>
+
+            <span style={S.stat}>
+              {score} điểm
+            </span>
           </div>
         </div>
 
@@ -502,71 +601,88 @@ function FillLettersGame({ packInfo, wordList }) {
           <div style={S.progressInner(pct)} />
         </div>
 
-        <div style={S.meaningBox}>
-          <div style={S.label}>Điền chữ còn thiếu cho từ có nghĩa là</div>
-          <div style={S.meaning}>"{entry?.mean}"</div>
-        </div>
+        <div style={S.mainLayout} className="fill-main-layout">
+          <div style={S.leftPanel}>
+            <div style={S.label}>
+              Điền chữ còn thiếu cho từ có nghĩa là
+            </div>
 
-        <div style={S.letterWrap}>
-          {blankedWord.map((item, i) =>
-            !/[a-zA-Z]/.test(item.letter) ? (
-              <span
-                key={i}
-                style={{
-                  color: '#008d95',
-                  fontSize: '1.8rem',
-                  fontWeight: 900,
-                  alignSelf: 'center',
-                }}
-              >
-                {item.letter}
-              </span>
-            ) : (
-              <div key={i} style={S.letterBox(item.blanked, flash)}>
-                {item.blanked ? '_' : item.letter}
-              </div>
-            )
-          )}
-        </div>
+            <div style={S.meaning}>
+              “{entry?.mean}”
+            </div>
 
-        <div style={S.inputLabel}>Nhập các chữ bị thiếu theo đúng thứ tự:</div>
-
-        <div style={S.inputRow}>
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && input.trim() && handleCheck()}
-            disabled={status === 'checking'}
-            autoFocus
-            autoComplete="off"
-            spellCheck={false}
-            placeholder={`${blankedLetters.length} chữ cái`}
-            style={S.input(flash)}
-          />
-
-          <button onClick={handleSkip} disabled={status === 'checking'} style={S.skipBtn}>
-            Bỏ qua
-          </button>
-
-          <button
-            onClick={handleCheck}
-            disabled={status === 'checking' || !input.trim()}
-            style={{
-              ...S.checkBtn,
-              opacity: status === 'checking' || !input.trim() ? 0.65 : 1,
-            }}
-          >
-            Kiểm tra
-          </button>
-        </div>
-
-        {feedback && (
-          <div style={S.feedback(feedback === 'correct')} className="fl-pop">
-            {feedback === 'correct'
-              ? '✅ Chính xác! +100 điểm'
-              : `❌ Sai rồi! Đáp án đúng: ${blankedLetters}`}
+            <div style={S.letterWrap}>
+              {blankedWord.map((item, i) =>
+                !/[a-zA-Z]/.test(item.letter) ? (
+                  <span key={i} style={S.nonLetter}>
+                    {item.letter}
+                  </span>
+                ) : (
+                  <div
+                    key={i}
+                    style={S.letterBox(item.blanked, flash)}
+                    className="fill-letter-box"
+                  >
+                    {item.blanked ? '_' : item.letter}
+                  </div>
+                )
+              )}
+            </div>
           </div>
-        )}
+
+          <div style={S.rightPanel}>
+            <div style={S.inputLabel}>
+              Nhập các chữ bị thiếu theo đúng thứ tự
+            </div>
+
+            <div style={S.inputRow} className="fill-input-row">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && input.trim() && handleCheck()}
+                disabled={status === 'checking'}
+                autoFocus
+                autoComplete="off"
+                spellCheck={false}
+                placeholder={`${blankedLetters.length} chữ cái`}
+                style={S.input(flash)}
+              />
+
+              <div style={S.buttonRow}>
+                <button
+                  onClick={handleSkip}
+                  disabled={status === 'checking'}
+                  style={S.skipBtn}
+                >
+                  Bỏ qua
+                </button>
+
+                <button
+                  onClick={handleCheck}
+                  disabled={status === 'checking' || !input.trim()}
+                  style={{
+                    ...S.checkBtn,
+                    opacity: status === 'checking' || !input.trim() ? 0.65 : 1,
+                  }}
+                >
+                  Kiểm tra
+                </button>
+              </div>
+            </div>
+
+            <div style={S.helperText}>
+              Nhìn phần nghĩa, đoán từ tiếng Anh rồi nhập đúng các chữ đang bị ẩn.
+            </div>
+
+            {feedback && (
+              <div style={S.feedback(feedback === 'correct')} className="fl-pop">
+                {feedback === 'correct'
+                  ? 'Chính xác! +100 điểm'
+                  : `Sai rồi! Đáp án đúng: ${blankedLetters}`}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

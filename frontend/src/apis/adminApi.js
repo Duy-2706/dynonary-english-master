@@ -10,6 +10,18 @@ const adminApi = {
   getGameStats: () => axiosClient.get(`${URL}/stats/games`),
   trackCourseView: (courseId) => axiosClient.post(`${URL}/track/course-view/${courseId}`),
   seedGrammarTenses: () => axiosClient.post(`${URL}/seed-grammar`),
+
+   // Account creation
+  createTeachers: (teachers) => axiosClient.post(`${URL}/accounts/teachers`, { teachers }),
+  createStudents: (students, classroomId, classroomName) =>
+    axiosClient.post(`${URL}/accounts/students`, { students, classroomId, classroomName }),
+    // Teacher update / delete
+  updateTeacher: (id, data) => axiosClient.put(`${URL}/teachers/${id}`, data),
+  deleteTeacher: (id) => axiosClient.delete(`${URL}/teachers/${id}`),
+  // Classrooms
+  getClassrooms: () => axiosClient.get(`${URL}/classrooms`),
+  createClassroom: (data) => axiosClient.post(`${URL}/classrooms`, data),
+
 };
 
 export default adminApi;

@@ -1,17 +1,171 @@
 const { db, COLLECTIONS, docToObj } = require('../configs/firebase.config');
+const { hashPassword, generateTeacherEmail, generateStudentEmail, generateStudentPassword, normalizeVN } = require('../helper');
 
 const usersCol = db.collection(COLLECTIONS.USERS);
+const accountsCol = db.collection(COLLECTIONS.ACCOUNTS);
+const classroomsCol = db.collection(COLLECTIONS.CLASSROOMS);
+
+// ─── helpers ─────────────────────────────────────────────────────────────────
+
+/** Ensure email is unique; append numeric suffix if taken */
+async function uniqueEmail(baseEmail) {
+  const [local, domain] = baseEmail.split('@');
+  let email = baseEmail;
+  let counter = 2;
+  while (true) {
+    const snap = await accountsCol.where('email', '==', email).limit(1).get();
+    if (snap.empty) return email;
+    email = `${local}${counter}@${domain}`;
+    counter++;
+  }
+}
+
+async function makeAccountAndUser(email, password, name, role, extraUserFields = {}) {
+  const hashedPw = await hashPassword(password);
+  const accountRef = await accountsCol.add({
+    email: email.toLowerCase(),
+    password: hashedPw,
+    authType: 'local',
+    isVerified: true,
+    createdDate: new Date(),
+  });
+  const accountId = accountRef.id;
+  const username = normalizeVN(name.split(/\s+/).pop()) + accountId.slice(-5);
+  await usersCol.add({
+    accountId,
+    name,
+    username,
+    avt: '',
+    coin: 100,
+    favoriteList: [],
+    role,
+    ...extraUserFields,
+  });
+  return { accountId, email, password, username };
+}
+
+// ─── Admin account creation ────────────────────────────────────────────────
+
+
+exports.updateTeacher = async (userId, { name, subject }) => {
+  const doc = await usersCol.doc(userId).get();
+  if (!doc.exists) throw new Error('Người dùng không tồn tại');
+  if (doc.data().role !== 'teacher') throw new Error('Người dùng không phải giáo viên');
+  await doc.ref.update({ name: name || doc.data().name, subject: subject || '', updatedAt: new Date().toISOString() });
+  return docToObj(await usersCol.doc(userId).get());
+};
+
+exports.deleteTeacher = async (userId, adminAccountId) => {
+  const doc = await usersCol.doc(userId).get();
+  if (!doc.exists) throw new Error('Người dùng không tồn tại');
+  if (doc.data().role !== 'teacher') throw new Error('Người dùng không phải giáo viên');
+  if (doc.data().accountId === adminAccountId) throw new Error('Không thể xóa tài khoản của chính mình');
+  const accountId = doc.data().accountId;
+  await doc.ref.delete();
+  if (accountId) {
+    try { await accountsCol.doc(accountId).delete(); } catch (_) {}
+  }
+};
+
+exports.adminCreateTeachers = async (teachers = []) => {
+  const results = [];
+  const defaultPw = 'GiaoVien@TCA123';
+  for (const t of teachers) {
+    const base = generateTeacherEmail(t.name);
+    const email = await uniqueEmail(base);
+    const created = await makeAccountAndUser(email, defaultPw, t.name, 'teacher', {
+      subject: t.subject || '',
+    });
+    results.push({ name: t.name, email: created.email, password: defaultPw, username: created.username });
+  }
+  return results;
+};
+
+/**
+ * Create student accounts and assign to a classroom.
+ * @param {Array<{name:string, dob:string}>} students  dob format "dd/mm/yyyy"
+ * @param {string} classroomId  Firestore doc id of the classroom
+ * @param {string} classroomName  Display name e.g. "10A1"
+ */
+exports.adminCreateStudents = async (students = [], classroomId = '', classroomName = '') => {
+  const results = [];
+  for (const s of students) {
+    const base = generateStudentEmail(s.name, s.dob);
+    const email = await uniqueEmail(base);
+    const password = generateStudentPassword(s.dob);
+    const created = await makeAccountAndUser(email, password, s.name, 'student', {
+      classroomId,
+      classroomName,
+      dob: s.dob,
+    });
+    results.push({ name: s.name, dob: s.dob, email: created.email, password, username: created.username, classroomName });
+
+    // Add student to classroom's students array
+    if (classroomId) {
+      try {
+        const { admin } = require('../configs/firebase.config');
+        await classroomsCol.doc(classroomId).update({
+          students: admin.firestore.FieldValue.arrayUnion({
+            accountId: created.accountId,
+            username: created.username,
+            name: s.name,
+            joinedAt: new Date().toISOString(),
+          }),
+        });
+      } catch {}
+    }
+  }
+  return results;
+};
+
+// ─── Classroom management ─────────────────────────────────────────────────
+
+exports.getAdminClassrooms = async () => {
+  const snap = await classroomsCol.orderBy('name').get();
+  return snap.docs.map(docToObj);
+};
+
+exports.adminCreateClassroom = async ({ name, grade, teacherAccountId = '', teacherName = '' }) => {
+  const now = new Date().toISOString();
+  const ref = await classroomsCol.add({
+    name,
+    grade: grade || '',
+    teacherAccountId,
+    teacherName,
+    students: [],
+    status: 'active',
+    createdAt: now,
+    updatedAt: now,
+  });
+  return docToObj(await classroomsCol.doc(ref.id).get());
+};
 
 exports.getUsers = async (page = 1, limit = 20, search = '') => {
   const snap = await usersCol.orderBy('name').get();
   let users = snap.docs.map(docToObj);
+
+    // Join with accounts collection to get email
+  users = await Promise.all(
+    users.map(async (user) => {
+      if (!user.accountId) return { ...user, email: '' };
+      try {
+        const accountDoc = await accountsCol.doc(user.accountId).get();
+        const email = accountDoc.exists ? (accountDoc.data().email || '') : '';
+        return { ...user, email };
+      } catch {
+        return { ...user, email: '' };
+      }
+    }),
+  );
+
 
   if (search) {
     const lower = search.toLowerCase();
     users = users.filter(
       (u) =>
         (u.name || '').toLowerCase().includes(lower) ||
-        (u.username || '').toLowerCase().includes(lower),
+        (u.username || '').toLowerCase().includes(lower) ||
+        (u.email || '').toLowerCase().includes(lower),
     );
   }
 

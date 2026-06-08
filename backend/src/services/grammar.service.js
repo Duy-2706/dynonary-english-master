@@ -2,10 +2,10 @@ const { db, COLLECTIONS, docToObj } = require('../configs/firebase.config');
 
 const grammarCol = db.collection(COLLECTIONS.GRAMMAR_LESSONS);
 const progressCol = db.collection(COLLECTIONS.GRAMMAR_PROGRESS);
+const assignmentsCol = db.collection(COLLECTIONS.GRAMMAR_ASSIGNMENTS);
+const submissionsCol = db.collection(COLLECTIONS.GRAMMAR_SUBMISSIONS);
 
 exports.getLessons = async (filters = {}) => {
-  // Dùng TỐI ĐA 1 điều kiện equality để tránh composite index
-  // Mọi filter khác và sort đều làm trong memory
   let query = grammarCol;
   if (filters.teacherAccountId) {
     query = query.where('teacherAccountId', '==', filters.teacherAccountId);
@@ -16,7 +16,6 @@ exports.getLessons = async (filters = {}) => {
   const snap = await query.get();
   let lessons = snap.docs.map(docToObj);
 
-  // In-memory filters
   if (filters.status && !filters.teacherAccountId) {
     // đã filter bởi Firestore ở trên rồi
   } else if (filters.status) {
@@ -164,4 +163,132 @@ exports.getTopics = async () => {
     result[grade] = Array.from(set);
   }
   return result;
+};
+
+exports.createAssignment = async (teacherAccountId, teacherName, data) => {
+  const now = new Date().toISOString();
+  const doc = {
+    lessonId: data.lessonId || null,
+    classroomId: data.classroomId || '',
+    classroomName: data.classroomName || '',
+    teacherAccountId,
+    teacherName,
+    title: data.title || '',
+    description: data.description || '',
+    gradeLevel: data.gradeLevel || 'all',
+    weekNumber: data.weekNumber ? Number(data.weekNumber) : null,
+    year: data.year ? Number(data.year) : new Date().getFullYear(),
+    dueDate: data.dueDate || null,
+    exercises: (data.exercises || []).map((ex, i) => ({
+      id: ex.id || `ex_${i}_${Date.now()}`,
+      question: ex.question || '',
+      type: ex.type || 'mcq',
+      options: ex.options || [],
+      answer: ex.answer || '',
+      explanation: ex.explanation || '',
+    })),
+    status: data.status || 'active',
+    createdAt: now,
+    updatedAt: now,
+  };
+  const ref = await assignmentsCol.add(doc);
+  return { ...doc, id: ref.id, _id: ref.id };
+};
+
+exports.getTeacherAssignments = async (teacherAccountId) => {
+  const snap = await assignmentsCol.where('teacherAccountId', '==', teacherAccountId).get();
+  return snap.docs.map(docToObj).sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+};
+
+exports.getClassroomAssignments = async (classroomId) => {
+  const snap = await assignmentsCol.where('classroomId', '==', classroomId).get();
+  return snap.docs
+    .map(docToObj)
+    .filter((a) => a.status !== 'draft')
+    .sort((a, b) => ((a.dueDate || '') > (b.dueDate || '') ? 1 : -1));
+};
+
+exports.updateAssignment = async (id, teacherAccountId, data) => {
+  const doc = await assignmentsCol.doc(id).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài tập');
+  if (doc.data().teacherAccountId !== teacherAccountId) throw new Error('Không có quyền');
+  const updates = { ...data, updatedAt: new Date().toISOString() };
+  delete updates.teacherAccountId;
+  delete updates.teacherName;
+  delete updates.createdAt;
+  if (updates.exercises) {
+    updates.exercises = updates.exercises.map((ex, i) => ({
+      id: ex.id || `ex_${i}_${Date.now()}`,
+      question: ex.question || '',
+      type: ex.type || 'mcq',
+      options: ex.options || [],
+      answer: ex.answer || '',
+      explanation: ex.explanation || '',
+    }));
+  }
+  await doc.ref.update(updates);
+  return docToObj(await assignmentsCol.doc(id).get());
+};
+
+exports.deleteAssignment = async (id, teacherAccountId) => {
+  const doc = await assignmentsCol.doc(id).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài tập');
+  if (doc.data().teacherAccountId !== teacherAccountId) throw new Error('Không có quyền');
+  await doc.ref.delete();
+};
+
+exports.submitAssignment = async (assignmentId, studentAccountId, studentName, data) => {
+  const doc = await assignmentsCol.doc(assignmentId).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài tập');
+  const assignment = doc.data();
+  const now = new Date().toISOString();
+  const isLate = assignment.dueDate ? now > assignment.dueDate : false;
+
+  const exercises = assignment.exercises || [];
+  const answers = data.answers || [];
+  let correct = 0;
+  const evaluated = answers.map((a) => {
+    const ex = exercises.find((e) => e.id === a.questionId);
+    const isCorrect = ex ? a.answer.trim().toLowerCase() === ex.answer.trim().toLowerCase() : false;
+    if (isCorrect) correct++;
+    return { ...a, isCorrect };
+  });
+
+  const submissionDoc = {
+    assignmentId,
+    classroomId: assignment.classroomId,
+    studentAccountId,
+    studentName: studentName || '',
+    answers: evaluated,
+    score: correct,
+    maxScore: exercises.length,
+    isLate,
+    submittedAt: now,
+  };
+
+  const existing = await submissionsCol
+    .where('assignmentId', '==', assignmentId)
+    .where('studentAccountId', '==', studentAccountId)
+    .limit(1)
+    .get();
+
+  if (!existing.empty) {
+    await existing.docs[0].ref.update(submissionDoc);
+    return { ...submissionDoc, id: existing.docs[0].id, _id: existing.docs[0].id };
+  }
+  const ref = await submissionsCol.add(submissionDoc);
+  return { ...submissionDoc, id: ref.id, _id: ref.id };
+};
+
+exports.getAssignmentSubmissions = async (assignmentId, teacherAccountId) => {
+  const doc = await assignmentsCol.doc(assignmentId).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài tập');
+  if (doc.data().teacherAccountId !== teacherAccountId) throw new Error('Không có quyền');
+  const snap = await submissionsCol.where('assignmentId', '==', assignmentId).get();
+  return snap.docs.map(docToObj).sort((a, b) => (a.submittedAt > b.submittedAt ? 1 : -1));
+};
+
+exports.getMySubmissions = async (studentAccountId) => {
+  const snap = await submissionsCol.where('studentAccountId', '==', studentAccountId).get();
+  return snap.docs.map(docToObj);
 };

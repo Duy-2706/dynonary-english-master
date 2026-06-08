@@ -19,4 +19,16 @@ grammarApi.delete('/lessons/:id', jwtAuthentication, grammarController.deleteLes
 // Student progress
 grammarApi.post('/lessons/:id/progress', jwtAuthentication, grammarController.submitProgress);
 
+// Assignments – teacher CRUD
+grammarApi.post('/assignments', jwtAuthentication, grammarController.createAssignment);
+grammarApi.get('/assignments/mine', jwtAuthentication, grammarController.getTeacherAssignments);
+grammarApi.put('/assignments/:id', jwtAuthentication, grammarController.updateAssignment);
+grammarApi.delete('/assignments/:id', jwtAuthentication, grammarController.deleteAssignment);
+grammarApi.get('/assignments/:id/submissions', jwtAuthentication, grammarController.getAssignmentSubmissions);
+
+// Assignments – student
+grammarApi.get('/assignments/classroom/:classroomId', jwtAuthentication, grammarController.getClassroomAssignments);
+grammarApi.post('/assignments/:id/submit', jwtAuthentication, grammarController.submitAssignment);
+grammarApi.get('/submissions/mine', jwtAuthentication, grammarController.getMySubmissions);
+
 module.exports = grammarApi;

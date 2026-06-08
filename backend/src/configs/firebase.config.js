@@ -1,15 +1,5 @@
 const admin = require('firebase-admin');
 
-/**
- * Firebase Admin SDK initialization
- * Credentials are loaded from environment variables for security.
- * Set the following env vars in your .env file:
- *   FIREBASE_PROJECT_ID
- *   FIREBASE_PRIVATE_KEY_ID
- *   FIREBASE_PRIVATE_KEY
- *   FIREBASE_CLIENT_EMAIL
- *   FIREBASE_CLIENT_ID
- */
 if (!admin.apps.length) {
   const serviceAccount = {
     type: 'service_account',
@@ -52,13 +42,10 @@ const COLLECTIONS = {
   CLASSROOMS: 'classrooms',
   GRAMMAR_LESSONS: 'grammarLessons',
   GRAMMAR_PROGRESS: 'grammarProgress',
+  GRAMMAR_ASSIGNMENTS: 'grammarAssignments',
+  GRAMMAR_SUBMISSIONS: 'grammarSubmissions',
 };
 
-/**
- * Convert a Firestore DocumentSnapshot to a plain object.
- * Adds both `id` (Firestore convention) and `_id` (MongoDB backward-compat alias)
- * so the existing frontend code that uses `item._id` continues to work.
- */
 function docToObj(doc) {
   if (!doc || !doc.exists) return null;
   return { _id: doc.id, id: doc.id, ...doc.data() };

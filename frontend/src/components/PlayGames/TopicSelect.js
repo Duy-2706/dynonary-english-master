@@ -451,7 +451,22 @@ function TopicSelect({ title, onStart }) {
 
     try {
       const res = await courseApi.getStudentCourses();
-      setCourses(res.data?.courses || res.data || []);
+      // setCourses(res.data?.courses || res.data || []);
+      const enrollments = res.data?.enrollments || [];
+      const courseDetails = await Promise.all(
+        enrollments
+          .map((e) => e.courseId)
+          .filter(Boolean)
+          .map(async (course) => {
+            try {
+              const detailRes = await courseApi.getCourseDetail(course._id || course.id);
+              return detailRes.data?.course || null;
+            } catch {
+              return null;
+            }
+          }),
+      );
+      setCourses(courseDetails.filter(Boolean));
     } catch {
       setCourses([]);
     } finally {

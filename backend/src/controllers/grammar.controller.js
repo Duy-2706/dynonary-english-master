@@ -81,3 +81,91 @@ exports.getTopics = async (req, res) => {
     return res.status(503).json({ message: 'Lỗi dịch vụ' });
   }
 };
+
+exports.createAssignment = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const assignment = await grammarService.createAssignment(req.user.accountId, req.user.name || '', req.body);
+    return res.status(201).json({ assignment });
+  } catch (error) {
+    console.error('CREATE ASSIGNMENT ERROR:', error);
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getTeacherAssignments = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const assignments = await grammarService.getTeacherAssignments(req.user.accountId);
+    return res.status(200).json({ assignments });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getClassroomAssignments = async (req, res) => {
+  try {
+    const assignments = await grammarService.getClassroomAssignments(req.params.classroomId);
+    return res.status(200).json({ assignments });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.updateAssignment = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const assignment = await grammarService.updateAssignment(req.params.id, req.user.accountId, req.body);
+    return res.status(200).json({ assignment });
+  } catch (error) {
+    if (error.message === 'Không có quyền') return res.status(403).json({ message: error.message });
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.deleteAssignment = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    await grammarService.deleteAssignment(req.params.id, req.user.accountId);
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    if (error.message === 'Không có quyền') return res.status(403).json({ message: error.message });
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.submitAssignment = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const result = await grammarService.submitAssignment(
+      req.params.id,
+      req.user.accountId,
+      req.body.studentName || req.user.name || '',
+      req.body,
+    );
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getAssignmentSubmissions = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const submissions = await grammarService.getAssignmentSubmissions(req.params.id, req.user.accountId);
+    return res.status(200).json({ submissions });
+  } catch (error) {
+    if (error.message === 'Không có quyền') return res.status(403).json({ message: error.message });
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getMySubmissions = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const submissions = await grammarService.getMySubmissions(req.user.accountId);
+    return res.status(200).json({ submissions });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};

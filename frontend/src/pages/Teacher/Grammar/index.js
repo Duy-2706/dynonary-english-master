@@ -1,480 +1,217 @@
+import adminApi from 'apis/adminApi';
 import grammarApi from 'apis/grammarApi';
 import useTitle from 'hooks/useTitle';
 import React, { useCallback, useEffect, useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { useHistory } from 'react-router-dom';
 
-const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
-
-const GRADE_LEVELS = ['all', '6', '7', '8', '9', '10', '11', '12'];
-
+const GRADE_LEVELS = ['all', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const GRADE_LABELS = {
   all: 'Tất cả khối',
-  6: 'Khối 6',
-  7: 'Khối 7',
-  8: 'Khối 8',
-  9: 'Khối 9',
-  10: 'Khối 10',
-  11: 'Khối 11',
-  12: 'Khối 12',
+  '1': 'Khối 1', '2': 'Khối 2', '3': 'Khối 3', '4': 'Khối 4', '5': 'Khối 5',
+  '6': 'Khối 6', '7': 'Khối 7', '8': 'Khối 8', '9': 'Khối 9',
 };
-
 const MONTHS = ['', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
 
 const EMPTY_FORM = {
-  title: '',
-  description: '',
-  videoUrl: '',
-  content: '',
-  gradeLevel: 'all',
-  topic: '',
-  module: '',
-  weekNumber: '',
-  month: '',
-  year: new Date().getFullYear(),
-  exercises: [],
-  status: 'draft',
+  title: '', description: '', videoUrl: '', content: '',
+  gradeLevel: 'all', topic: '', module: '',
+  weekNumber: '', month: '', year: new Date().getFullYear(),
+  exercises: [], status: 'draft',
 };
 
-const EMPTY_EX = {
-  question: '',
-  type: 'mcq',
-  options: ['', '', '', ''],
-  answer: '',
-  explanation: '',
+const EMPTY_ASSIGN_FORM = {
+  title: '', description: '', classroomId: '', classroomName: '',
+  gradeLevel: 'all', weekNumber: '', year: new Date().getFullYear(),
+  dueDate: '', exercises: [], status: 'active',
 };
+
+const EMPTY_EX = { question: '', type: 'mcq', options: ['', '', '', ''], answer: '', explanation: '' };
 
 const S = {
-  page: {
-    minHeight: '100vh',
-    background: `
-      radial-gradient(circle at 12% 18%, rgba(25,199,168,.22) 0 4px, transparent 5px),
-      radial-gradient(circle at 86% 24%, rgba(255,191,31,.16) 0 5px, transparent 6px),
-      radial-gradient(circle at 34% 74%, rgba(255,255,255,.10) 0 3px, transparent 4px),
-      linear-gradient(180deg, #063c46 0%, #042b33 100%)
-    `,
-    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
-    fontFamily: GAME_FONT,
-    display: 'flex',
-    color: '#032f35',
+  page: { minHeight: '100vh', background: '#f4f6fb', fontFamily: "'Segoe UI', sans-serif", display: 'flex', flexDirection: 'column' },
+  modebar: {
+    display: 'flex', gap: 0, background: '#1a1a2e', padding: '0 24px',
+    borderBottom: '2px solid #667eea', flexShrink: 0,
   },
-
+  modeBtn: (active) => ({
+    padding: '14px 24px', border: 'none', cursor: 'pointer', fontWeight: 800,
+    fontSize: '0.92rem', fontFamily: 'inherit', background: 'transparent',
+    color: active ? '#667eea' : '#888',
+    borderBottom: active ? '3px solid #667eea' : '3px solid transparent',
+    transition: 'all 0.15s',
+  }),
+  body: { display: 'flex', flex: 1, minHeight: 0 },
   sidebar: {
-    width: 340,
-    background: 'linear-gradient(180deg, #16c7ae 0%, #049178 100%)',
-    color: '#fff',
-    padding: '28px 0',
-    flexShrink: 0,
-    height: '100vh',
-    position: 'sticky',
-    top: 0,
-    overflowY: 'auto',
-    borderRight: '6px solid rgba(255,255,255,.65)',
-    boxShadow: '10px 0 30px rgba(0,0,0,.22)',
+    width: 280, background: '#1a1a2e', color: '#fff', padding: '24px 0',
+    flexShrink: 0, height: 'calc(100vh - 51px)', position: 'sticky', top: 0, overflowY: 'auto',
   },
-
-  sidebarTop: {
-    padding: '0 24px 22px',
-  },
-
-  sidebarBadge: {
-    display: 'inline-block',
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    padding: '8px 18px',
-    fontWeight: 900,
-    fontSize: '1.05rem',
-    boxShadow: '0 6px 0 #bd5f00',
-    marginBottom: 14,
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  sidebarTitle: {
-    fontWeight: 900,
-    fontSize: '2.15rem',
-    lineHeight: 1,
-    color: '#fff',
-    margin: 0,
-    textShadow: '0 4px 0 rgba(0,0,0,.25)',
-  },
-
-  sidebarSub: {
-    color: '#f4fffd',
-    fontWeight: 900,
-    fontSize: '1.08rem',
-    marginTop: 10,
-    lineHeight: 1.45,
-    textShadow: '0 2px 0 rgba(0,0,0,.15)',
-  },
-
+  sidebarTitle: { padding: '0 20px 16px', fontWeight: 900, fontSize: '1.1rem', color: '#667eea' },
   addBtn: {
-    margin: '0 22px 22px',
-    display: 'block',
-    padding: '16px 20px',
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    cursor: 'pointer',
-    fontWeight: 900,
-    fontSize: '1.18rem',
-    width: 'calc(100% - 44px)',
-    textAlign: 'center',
-    fontFamily: GAME_FONT,
-    boxShadow: '0 8px 0 #bd5f00',
-    textShadow: '0 2px 0 rgba(0,0,0,.2)',
+    margin: '0 16px 16px', display: 'block', padding: '10px 16px',
+    background: 'linear-gradient(135deg,#667eea,#764ba2)', color: '#fff',
+    border: 'none', borderRadius: 10, cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem',
+    width: 'calc(100% - 32px)', textAlign: 'center',
   },
-
-  emptySidebar: {
-    margin: '14px 22px',
-    padding: '20px',
-    color: '#fff',
-    fontSize: '1.05rem',
-    fontWeight: 900,
-    background: 'rgba(255,255,255,.16)',
-    borderRadius: 22,
-    border: '3px dashed rgba(255,255,255,.55)',
-    lineHeight: 1.45,
-  },
-
   lessonItem: (active) => ({
-    margin: '0 18px 12px',
-    padding: '17px 18px',
-    cursor: 'pointer',
-    borderRadius: 24,
-    border: active ? '4px solid #fff' : '3px solid rgba(255,255,255,.34)',
-    background: active ? 'rgba(255,255,255,.28)' : 'rgba(255,255,255,.13)',
-    transition: 'all .18s ease',
-    boxShadow: active ? '0 8px 0 rgba(0,0,0,.16)' : 'none',
+    padding: '12px 20px', cursor: 'pointer', borderLeft: active ? '3px solid #667eea' : '3px solid transparent',
+    background: active ? 'rgba(102,126,234,0.15)' : 'transparent', transition: 'all 0.15s',
   }),
-
-  lessonItemTitle: {
-    fontSize: '1.15rem',
-    fontWeight: 900,
-    color: '#fff',
-    marginBottom: 7,
-    lineHeight: 1.28,
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  lessonItemMeta: {
-    fontSize: '.95rem',
-    color: '#f1fffc',
-    fontWeight: 900,
-    lineHeight: 1.35,
-  },
-
-  statusDot: (status) => ({
-    display: 'inline-block',
-    width: 11,
-    height: 11,
-    borderRadius: '50%',
-    background: status === 'published' ? '#36e27d' : '#ffdf3b',
-    marginRight: 8,
-    boxShadow: '0 0 0 3px rgba(255,255,255,.35)',
+  lessonItemTitle: { fontSize: '0.9rem', fontWeight: 600, color: '#eee', marginBottom: 3, lineHeight: 1.3 },
+  lessonItemMeta: { fontSize: '0.75rem', color: '#888' },
+  statusDot: (s) => ({
+    display: 'inline-block', width: 7, height: 7, borderRadius: '50%',
+    background: s === 'published' || s === 'active' ? '#00b894' : '#f39c12', marginRight: 4,
   }),
-
-  main: {
-    flex: 1,
-    padding: '38px 46px 80px',
-    overflowY: 'auto',
-  },
-
-  hero: {
-    background: 'linear-gradient(180deg, #ffffff 0%, #eefdf9 100%)',
-    borderRadius: 36,
-    border: '7px solid rgba(255,255,255,.96)',
-    boxShadow: '0 12px 0 rgba(7,148,127,.55), 0 24px 48px rgba(0,0,0,.22)',
-    padding: '38px 42px',
-    marginBottom: 34,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-
-  heroDecor: {
-    position: 'absolute',
-    right: 36,
-    top: 26,
-    fontSize: '5rem',
-    opacity: 0.16,
-    transform: 'rotate(-10deg)',
-  },
-
-  mainHeader: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: 22,
-    flexWrap: 'wrap',
-    position: 'relative',
-    zIndex: 2,
-  },
-
-  mainTitle: {
-    fontSize: 'clamp(3rem, 4.8vw, 4.8rem)',
-    fontWeight: 900,
-    color: '#06434b',
-    margin: 0,
-    lineHeight: 0.95,
-    letterSpacing: '.2px',
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
-  },
-
-  mainSub: {
-    color: '#07685d',
-    fontWeight: 900,
-    fontSize: '1.25rem',
-    margin: '14px 0 0',
-    lineHeight: 1.45,
-  },
-
-  miniStats: {
-    display: 'flex',
-    gap: 14,
-    flexWrap: 'wrap',
-  },
-
-  miniStat: {
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    padding: '11px 20px',
-    fontWeight: 900,
-    fontSize: '1.08rem',
-    boxShadow: '0 7px 0 #bd5f00',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  msg: (ok) => ({
-    marginBottom: 22,
-    padding: '16px 20px',
-    borderRadius: 22,
-    background: ok ? '#d4f5eb' : '#fde8e4',
-    color: ok ? '#0f766e' : '#dc2626',
-    fontWeight: 900,
-    fontSize: '1.08rem',
-    border: `4px solid ${ok ? '#a8e8db' : '#f9bdb4'}`,
-    boxShadow: '0 6px 0 rgba(0,0,0,.10)',
-  }),
-
-  formCard: {
-    background: '#fff',
-    borderRadius: 36,
-    padding: '42px',
-    boxShadow: '0 12px 0 rgba(7,148,127,.42), 0 24px 48px rgba(0,0,0,.20)',
-    border: '7px solid rgba(255,255,255,.95)',
-  },
-
-  row2: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gap: 22,
-  },
-
-  row3: {
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr 1fr',
-    gap: 18,
-  },
-
-  fieldLabel: {
-    display: 'block',
-    fontWeight: 900,
-    color: '#023b42',
-    fontSize: '1.12rem',
-    marginBottom: 10,
-    lineHeight: 1.3,
-  },
-
+  main: { flex: 1, padding: '28px 32px', overflowY: 'auto' },
+  mainHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
+  mainTitle: { fontSize: '1.6rem', fontWeight: 900, color: '#333', margin: 0 },
+  formCard: { background: '#fff', borderRadius: 16, padding: '28px', boxShadow: '0 2px 16px rgba(0,0,0,0.07)' },
+  row2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
+  row3: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 },
+  fieldLabel: { display: 'block', fontWeight: 700, color: '#555', fontSize: '0.85rem', marginBottom: 6 },
   input: {
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '17px 20px',
-    borderRadius: 22,
-    border: '4px solid #d6f3ed',
-    fontSize: '1.18rem',
-    outline: 'none',
-    color: '#033b42',
-    fontWeight: 900,
-    fontFamily: GAME_FONT,
-    transition: 'border-color .2s, box-shadow .2s',
-    boxShadow: '0 5px 0 rgba(7,148,127,.10)',
-    background: '#fff',
+    width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: 8,
+    border: '1.5px solid #e0e0e0', fontSize: '0.92rem', outline: 'none',
   },
-
   select: {
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '17px 20px',
-    borderRadius: 22,
-    border: '4px solid #d6f3ed',
-    fontSize: '1.18rem',
-    background: '#fff',
-    color: '#033b42',
-    fontWeight: 900,
-    fontFamily: GAME_FONT,
-    outline: 'none',
-    boxShadow: '0 5px 0 rgba(7,148,127,.10)',
+    width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: 8,
+    border: '1.5px solid #e0e0e0', fontSize: '0.92rem', background: '#fff',
   },
-
   textarea: {
-    width: '100%',
-    boxSizing: 'border-box',
-    padding: '18px 20px',
-    borderRadius: 26,
-    border: '4px solid #d6f3ed',
-    fontSize: '1.18rem',
-    outline: 'none',
-    minHeight: 190,
-    resize: 'vertical',
-    fontFamily: GAME_FONT,
-    color: '#033b42',
-    fontWeight: 900,
-    lineHeight: 1.65,
-    boxShadow: '0 5px 0 rgba(7,148,127,.10)',
-    background: '#fff',
+    width: '100%', boxSizing: 'border-box', padding: '10px 12px', borderRadius: 8,
+    border: '1.5px solid #e0e0e0', fontSize: '0.9rem', outline: 'none',
+    minHeight: 120, resize: 'vertical', fontFamily: 'inherit',
   },
-
-  divider: {
-    height: 5,
-    background: 'linear-gradient(90deg,#19c7a8,#ffdf3b,#ff8a00)',
-    margin: '36px 0',
-    borderRadius: 999,
-  },
-
-  sectionTitle: {
-    fontWeight: 900,
-    color: '#023b42',
-    fontSize: '1.65rem',
-    margin: '0 0 22px',
-  },
-
+  divider: { height: 1, background: '#f0f0f0', margin: '24px 0' },
+  sectionTitle: { fontWeight: 800, color: '#333', fontSize: '1rem', margin: '0 0 16px' },
   exCard: {
-    border: '5px solid #d6f3ed',
-    borderRadius: 30,
-    padding: '26px',
-    marginBottom: 20,
-    background: 'linear-gradient(180deg,#f3fffc,#ffffff)',
-    boxShadow: '0 8px 0 rgba(7,148,127,.14)',
+    border: '1.5px solid #e8e8f0', borderRadius: 12, padding: '18px',
+    marginBottom: 14, background: '#fafafe',
   },
-
-  exRow: {
-    display: 'flex',
-    gap: 12,
-    alignItems: 'center',
-    marginBottom: 16,
-    flexWrap: 'wrap',
-  },
-
-  exNumber: {
-    color: '#fff',
-    background: 'linear-gradient(180deg,#19c7a8,#07947f)',
-    minWidth: 48,
-    height: 48,
-    borderRadius: '50%',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 900,
-    fontSize: '1.15rem',
-    border: '4px solid #fff',
-    boxShadow: '0 5px 0 rgba(0,0,0,.16)',
-  },
-
+  exRow: { display: 'flex', gap: 10, alignItems: 'center', marginBottom: 10 },
   removeBtn: {
-    background: 'linear-gradient(180deg,#ff8a8a,#e53935)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    padding: '10px 18px',
-    cursor: 'pointer',
-    fontWeight: 900,
-    fontSize: '1rem',
-    whiteSpace: 'nowrap',
-    fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(141,22,22,.28)',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+    background: '#fee2e2', color: '#e17055', border: 'none', borderRadius: 6,
+    padding: '6px 12px', cursor: 'pointer', fontWeight: 700, fontSize: '0.82rem', whiteSpace: 'nowrap',
   },
-
   addExBtn: {
-    background: 'linear-gradient(180deg,#ffffff,#eefdf9)',
-    color: '#056d5e',
-    border: '4px solid #19c7a8',
-    borderRadius: 999,
-    padding: '13px 24px',
-    cursor: 'pointer',
-    fontWeight: 900,
-    fontSize: '1.12rem',
-    marginRight: 12,
-    marginBottom: 12,
-    fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(7,148,127,.20)',
+    background: '#ede9ff', color: '#667eea', border: 'none', borderRadius: 8,
+    padding: '10px 18px', cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem', marginRight: 10,
   },
-
-  btnRow: {
-    display: 'flex',
-    gap: 16,
-    marginTop: 32,
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-
-  saveBtn: (type) => ({
-    padding: '16px 34px',
-    borderRadius: 999,
-    border: '4px solid #fff',
-    cursor: 'pointer',
-    background:
-      type === 'publish'
-        ? 'linear-gradient(180deg,#ffdf3b,#ff8a00)'
-        : 'linear-gradient(180deg,#19c7a8,#07947f)',
-    color: '#fff',
-    fontWeight: 900,
-    fontSize: '1.18rem',
-    fontFamily: GAME_FONT,
-    boxShadow:
-      type === 'publish'
-        ? '0 8px 0 #bd5f00'
-        : '0 8px 0 #087565',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+  btnRow: { display: 'flex', gap: 12, marginTop: 24, flexWrap: 'wrap' },
+  saveBtn: (bg) => ({
+    padding: '12px 28px', borderRadius: 10, border: 'none', cursor: 'pointer',
+    background: bg, color: '#fff', fontWeight: 800, fontSize: '0.95rem',
   }),
-
   deleteBtn: {
-    padding: '16px 30px',
-    borderRadius: 999,
-    border: '4px solid #fff',
-    cursor: 'pointer',
-    background: 'linear-gradient(180deg,#ff8a8a,#e53935)',
-    color: '#fff',
-    fontWeight: 900,
-    fontSize: '1.18rem',
-    marginLeft: 'auto',
-    fontFamily: GAME_FONT,
-    boxShadow: '0 8px 0 rgba(141,22,22,.36)',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+    padding: '12px 20px', borderRadius: 10, border: '2px solid #e17055',
+    cursor: 'pointer', background: 'transparent', color: '#e17055',
+    fontWeight: 700, fontSize: '0.9rem', marginLeft: 'auto',
   },
-
-  noAccess: {
-    minHeight: '100vh',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    background: '#042b33',
-    flexDirection: 'column',
-    gap: 12,
-    fontFamily: GAME_FONT,
+  subTable: { width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem', marginTop: 12 },
+  subTh: {
+    padding: '9px 12px', textAlign: 'left', fontWeight: 800, fontSize: '0.76rem',
+    color: '#e0f2fe', background: '#0f172a', borderBottom: '1px solid #1e293b',
+    textTransform: 'uppercase', letterSpacing: '0.03em', whiteSpace: 'nowrap',
   },
+  subTd: { padding: '10px 12px', color: '#374151', borderBottom: '1px solid #f0f0f0', verticalAlign: 'middle' },
+  exportBtn: {
+    padding: '9px 18px', borderRadius: 8, border: '1px solid #059669',
+    background: '#ecfdf5', color: '#047857', fontWeight: 700, cursor: 'pointer',
+    fontFamily: 'inherit', fontSize: '0.86rem',
+  },
+  msgBox: (ok) => ({
+    marginBottom: 16, padding: '10px 16px', borderRadius: 8,
+    background: ok ? '#d4f5eb' : '#fde8e4', color: ok ? '#00b894' : '#e17055', fontWeight: 700,
+  }),
 };
 
-function TeacherGrammarPage() {
-  useTitle('Quản lý ngữ pháp');
+// ─── Exercise builder (shared between lessons and assignments) ────────────────
+function ExerciseBuilder({ exercises, onChange }) {
+  const addEx = (type) => {
+    onChange([...exercises, { ...EMPTY_EX, id: `new_${Date.now()}`, type }]);
+  };
+  const updateEx = (idx, key, val) => {
+    const exs = [...exercises];
+    exs[idx] = { ...exs[idx], [key]: val };
+    onChange(exs);
+  };
+  const updateOpt = (idx, oi, val) => {
+    const exs = [...exercises];
+    const opts = [...(exs[idx].options || [])];
+    opts[oi] = val;
+    exs[idx] = { ...exs[idx], options: opts };
+    onChange(exs);
+  };
+  const removeEx = (idx) => onChange(exercises.filter((_, i) => i !== idx));
 
-  // const userInfo = useSelector((s) => s.userInfo);
-  // const history = useHistory();
+  return (
+    <div>
+      <div style={S.sectionTitle}>✏️ Bài tập ({exercises.length} câu)</div>
+      {exercises.map((ex, idx) => (
+        <div key={ex.id || idx} style={S.exCard}>
+          <div style={S.exRow}>
+            <strong style={{ color: '#667eea', minWidth: 24 }}>#{idx + 1}</strong>
+            <select style={{ ...S.select, flex: '0 0 150px' }} value={ex.type} onChange={(e) => updateEx(idx, 'type', e.target.value)}>
+              <option value="mcq">Trắc nghiệm</option>
+              <option value="fill_blank">Điền vào chỗ trống</option>
+            </select>
+            <button style={S.removeBtn} onClick={() => removeEx(idx)}>✕ Xóa</button>
+          </div>
+          <div style={{ marginBottom: 10 }}>
+            <label style={S.fieldLabel}>Câu hỏi</label>
+            <input style={S.input} placeholder="Nhập câu hỏi..." value={ex.question} onChange={(e) => updateEx(idx, 'question', e.target.value)} />
+          </div>
+          {ex.type === 'mcq' && (
+            <div style={{ marginBottom: 10 }}>
+              <label style={S.fieldLabel}>Các lựa chọn (A, B, C, D)</label>
+              {(ex.options || ['', '', '', '']).map((opt, oi) => (
+                <input key={oi} style={{ ...S.input, marginBottom: 6 }}
+                  placeholder={`Lựa chọn ${String.fromCharCode(65 + oi)}`}
+                  value={opt} onChange={(e) => updateOpt(idx, oi, e.target.value)} />
+              ))}
+            </div>
+          )}
+          <div style={S.row2}>
+            <div>
+              <label style={S.fieldLabel}>Đáp án đúng</label>
+              {ex.type === 'mcq' ? (
+                <select style={S.select} value={ex.answer} onChange={(e) => updateEx(idx, 'answer', e.target.value)}>
+                  <option value="">-- Chọn đáp án --</option>
+                  {(ex.options || []).filter(Boolean).map((opt, oi) => (
+                    <option key={oi} value={opt}>{opt}</option>
+                  ))}
+                </select>
+              ) : (
+                <input style={S.input} placeholder="Nhập đáp án..." value={ex.answer} onChange={(e) => updateEx(idx, 'answer', e.target.value)} />
+              )}
+            </div>
+            <div>
+              <label style={S.fieldLabel}>Giải thích (tùy chọn)</label>
+              <input style={S.input} placeholder="Giải thích đáp án..." value={ex.explanation} onChange={(e) => updateEx(idx, 'explanation', e.target.value)} />
+            </div>
+          </div>
+        </div>
+      ))}
+      <div>
+        <button style={S.addExBtn} onClick={() => addEx('mcq')}>+ Trắc nghiệm</button>
+        <button style={S.addExBtn} onClick={() => addEx('fill_blank')}>+ Điền từ</button>
+      </div>
+    </div>
+  );
+}
 
+function fmtDatetime(iso) {
+  if (!iso) return '—';
+  const d = new Date(iso);
+  return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+}
+
+function toInputDatetime(iso) {
+  if (!iso) return '';
+  return iso.slice(0, 16);
+}
+
+// ─── Lessons section (existing functionality) ─────────────────────────────────
+function LessonsSection() {
   const [lessons, setLessons] = useState([]);
   const [selected, setSelected] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
@@ -482,434 +219,397 @@ function TeacherGrammarPage() {
   const [deleting, setDeleting] = useState(false);
   const [msg, setMsg] = useState('');
 
-  // const isAllowed = userInfo?.role === 'teacher' || userInfo?.role === 'admin';
-
   const loadLessons = useCallback(async () => {
     try {
       const res = await grammarApi.getMyLessons();
       setLessons(res.data?.lessons || []);
-    } catch {
-      setLessons([]);
-    }
+    } catch { setLessons([]); }
   }, []);
 
-  // useEffect(() => { if (isAllowed) loadLessons(); }, [isAllowed, loadLessons]);
-  useEffect(() => {
-    loadLessons();
-  }, [loadLessons]);
+  useEffect(() => { loadLessons(); }, [loadLessons]);
 
-  const handleNew = () => {
-    setSelected(null);
-    setForm(EMPTY_FORM);
-    setMsg('');
-  };
-
-  const handleSelect = (lesson) => {
-    setSelected(lesson);
-    setForm({ ...EMPTY_FORM, ...lesson });
-    setMsg('');
-  };
-
-  const setField = (key, value) => setForm((prev) => ({ ...prev, [key]: value }));
-
-  const addExercise = (type) => {
-    setForm((prev) => ({
-      ...prev,
-      exercises: [...prev.exercises, { ...EMPTY_EX, id: `new_${Date.now()}`, type }],
-    }));
-  };
-
-  const updateEx = (idx, key, value) => {
-    setForm((prev) => {
-      const exs = [...prev.exercises];
-      exs[idx] = { ...exs[idx], [key]: value };
-      return { ...prev, exercises: exs };
-    });
-  };
-
-  const updateExOption = (idx, optIdx, value) => {
-    setForm((prev) => {
-      const exs = [...prev.exercises];
-      const opts = [...(exs[idx].options || [])];
-      opts[optIdx] = value;
-      exs[idx] = { ...exs[idx], options: opts };
-      return { ...prev, exercises: exs };
-    });
-  };
-
-  const removeEx = (idx) => {
-    setForm((prev) => ({
-      ...prev,
-      exercises: prev.exercises.filter((_, i) => i !== idx),
-    }));
-  };
+  const handleNew = () => { setSelected(null); setForm(EMPTY_FORM); setMsg(''); };
+  const handleSelect = (l) => { setSelected(l); setForm({ ...EMPTY_FORM, ...l }); setMsg(''); };
+  const setField = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
 
   const handleSave = async (statusOverride) => {
-    setSaving(true);
-    setMsg('');
-
+    setSaving(true); setMsg('');
     try {
       const payload = { ...form };
-
       if (statusOverride) payload.status = statusOverride;
-
       if (selected) {
         const res = await grammarApi.updateLesson(selected.id, payload);
-        setSelected(res.data.lesson);
-        setForm({ ...EMPTY_FORM, ...res.data.lesson });
+        setSelected(res.data.lesson); setForm({ ...EMPTY_FORM, ...res.data.lesson });
         setMsg('✅ Đã lưu thay đổi!');
       } else {
         const res = await grammarApi.createLesson(payload);
-        const created = res.data.lesson;
-        setSelected(created);
-        setForm({ ...EMPTY_FORM, ...created });
+        setSelected(res.data.lesson); setForm({ ...EMPTY_FORM, ...res.data.lesson });
         setMsg('✅ Tạo bài học thành công!');
       }
-
       await loadLessons();
     } catch (err) {
-      setMsg(`❌ Lỗi khi lưu: ${err?.response?.data?.message || err?.message || 'Thử lại.'}`);
-    } finally {
-      setSaving(false);
-    }
+      setMsg('❌ Lỗi: ' + (err?.response?.data?.message || err?.message || 'Thử lại.'));
+    } finally { setSaving(false); }
   };
 
   const handleDelete = async () => {
     if (!selected || !window.confirm('Xóa bài học này?')) return;
-
     setDeleting(true);
-
     try {
       await grammarApi.deleteLesson(selected.id);
-      setSelected(null);
-      setForm(EMPTY_FORM);
-      await loadLessons();
-      setMsg('✅ Đã xóa bài học.');
-    } catch {
-      setMsg('❌ Không thể xóa.');
-    } finally {
-      setDeleting(false);
-    }
+      setSelected(null); setForm(EMPTY_FORM); await loadLessons();
+      setMsg('🗑️ Đã xóa bài học.');
+    } catch { setMsg('❌ Không thể xóa.'); }
+    finally { setDeleting(false); }
   };
 
-  // if (!isAllowed) {
-  //   return (
-  //     <div style={S.noAccess}>
-  //       <div style={{ fontSize: '3rem' }}>🚫</div>
-  //       <div style={{ fontWeight: 700, color: '#fff' }}>Chỉ giáo viên mới có thể truy cập trang này.</div>
-  //       <button style={S.saveBtn('publish')} onClick={() => history.push('/')}>Về trang chủ</button>
-  //     </div>
-  //   );
-  // }
+  return (
+    <div style={S.body}>
+      <div style={S.sidebar}>
+        <div style={S.sidebarTitle}>📖 Bài học của tôi</div>
+        <button style={S.addBtn} onClick={handleNew}>+ Tạo bài mới</button>
+        {lessons.length === 0 && <div style={{ padding: '12px 20px', color: '#666', fontSize: '0.85rem' }}>Chưa có bài học nào</div>}
+        {lessons.map((l) => (
+          <div key={l.id} style={S.lessonItem(selected?.id === l.id)} onClick={() => handleSelect(l)}>
+            <div style={S.lessonItemTitle}>{l.title || 'Chưa đặt tên'}</div>
+            <div style={S.lessonItemMeta}>
+              <span style={S.statusDot(l.status)} />
+              {l.status === 'published' ? 'Đã xuất bản' : 'Bản nháp'}{' · '}{GRADE_LABELS[l.gradeLevel] || l.gradeLevel}
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={S.main}>
+        <div style={S.mainHeader}>
+          <h1 style={S.mainTitle}>{selected ? '✏️ Chỉnh sửa bài học' : '➕ Tạo bài học mới'}</h1>
+        </div>
+        {msg && <div style={S.msgBox(msg.startsWith('✅') || msg.startsWith('🗑️'))}>{msg}</div>}
+        <div style={S.formCard}>
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Tiêu đề bài học *</label>
+            <input style={S.input} placeholder="VD: Thì hiện tại đơn - Present Simple" value={form.title} onChange={(e) => setField('title', e.target.value)} />
+          </div>
+          <div style={{ ...S.row2, marginBottom: 16 }}>
+            <div>
+              <label style={S.fieldLabel}>Khối lớp</label>
+              <select style={S.select} value={form.gradeLevel} onChange={(e) => setField('gradeLevel', e.target.value)}>
+                {GRADE_LEVELS.map((g) => <option key={g} value={g}>{GRADE_LABELS[g]}</option>)}
+              </select>
+            </div>
+            <div>
+              <label style={S.fieldLabel}>Chủ đề (Topic)</label>
+              <input style={S.input} placeholder="VD: Thì, Câu điều kiện..." value={form.topic} onChange={(e) => setField('topic', e.target.value)} />
+            </div>
+          </div>
+          <div style={{ ...S.row3, marginBottom: 16 }}>
+            <div>
+              <label style={S.fieldLabel}>Module / Chương</label>
+              <input style={S.input} placeholder="VD: Chương 1" value={form.module} onChange={(e) => setField('module', e.target.value)} />
+            </div>
+            <div>
+              <label style={S.fieldLabel}>Tuần học</label>
+              <input style={S.input} type="number" min="1" max="52" placeholder="1-52" value={form.weekNumber} onChange={(e) => setField('weekNumber', e.target.value)} />
+            </div>
+            <div>
+              <label style={S.fieldLabel}>Tháng</label>
+              <select style={S.select} value={form.month} onChange={(e) => setField('month', e.target.value)}>
+                <option value="">-- Chọn tháng --</option>
+                {MONTHS.slice(1).map((m, i) => <option key={i + 1} value={i + 1}>{m}</option>)}
+              </select>
+            </div>
+          </div>
+          <div style={{ ...S.row2, marginBottom: 16 }}>
+            <div>
+              <label style={S.fieldLabel}>Năm học</label>
+              <input style={S.input} type="number" min="2020" max="2035" value={form.year} onChange={(e) => setField('year', e.target.value)} />
+            </div>
+            <div>
+              <label style={S.fieldLabel}>Video URL (YouTube)</label>
+              <input style={S.input} placeholder="https://youtube.com/watch?v=..." value={form.videoUrl} onChange={(e) => setField('videoUrl', e.target.value)} />
+            </div>
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Mô tả ngắn</label>
+            <input style={S.input} placeholder="Mô tả nội dung bài học..." value={form.description} onChange={(e) => setField('description', e.target.value)} />
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Nội dung lý thuyết (hỗ trợ HTML)</label>
+            <textarea style={S.textarea} placeholder="Nhập nội dung lý thuyết..." value={form.content} onChange={(e) => setField('content', e.target.value)} />
+          </div>
+          <div style={S.divider} />
+          <ExerciseBuilder exercises={form.exercises} onChange={(exs) => setField('exercises', exs)} />
+          <div style={S.btnRow}>
+            <button style={S.saveBtn('rgba(102,126,234,0.15)')} onClick={() => handleSave('draft')} disabled={saving}>{saving ? '...' : '💾 Lưu nháp'}</button>
+            <button style={S.saveBtn('linear-gradient(135deg,#667eea,#764ba2)')} onClick={() => handleSave('published')} disabled={saving}>{saving ? '...' : '🚀 Xuất bản'}</button>
+            {selected && <button style={S.deleteBtn} onClick={handleDelete} disabled={deleting}>{deleting ? '...' : '🗑️ Xóa bài học'}</button>}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-  const publishedCount = lessons.filter((l) => l.status === 'published').length;
-  const draftCount = lessons.length - publishedCount;
+// ─── Assignments section ──────────────────────────────────────────────────────
+function AssignmentsSection() {
+  const [assignments, setAssignments] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+  const [selected, setSelected] = useState(null);
+  const [form, setForm] = useState(EMPTY_ASSIGN_FORM);
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [msg, setMsg] = useState('');
+  const [submissions, setSubmissions] = useState(null);
+  const [loadingSub, setLoadingSub] = useState(false);
+
+  const load = useCallback(async () => {
+    try {
+      const [aRes, cRes] = await Promise.all([grammarApi.getMyAssignments(), adminApi.getClassrooms()]);
+      setAssignments(aRes.data?.assignments || []);
+      setClassrooms(cRes.data?.classrooms || []);
+    } catch { setAssignments([]); }
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const handleNew = () => { setSelected(null); setForm(EMPTY_ASSIGN_FORM); setMsg(''); setSubmissions(null); };
+
+  const handleSelect = (a) => {
+    setSelected(a);
+    setForm({ ...EMPTY_ASSIGN_FORM, ...a, dueDate: toInputDatetime(a.dueDate) });
+    setMsg(''); setSubmissions(null);
+  };
+
+  const setField = (key, val) => setForm((prev) => ({ ...prev, [key]: val }));
+
+  const handleClassroomChange = (id) => {
+    const cls = classrooms.find((c) => c.id === id);
+    setForm((prev) => ({ ...prev, classroomId: id, classroomName: cls?.name || '' }));
+  };
+
+  const handleSave = async (statusOverride) => {
+    if (!form.title.trim()) { setMsg('⚠️ Nhập tiêu đề bài tập.'); return; }
+    if (!form.classroomId) { setMsg('⚠️ Chọn lớp để giao bài.'); return; }
+    setSaving(true); setMsg('');
+    try {
+      const payload = { ...form, dueDate: form.dueDate ? new Date(form.dueDate).toISOString() : null };
+      if (statusOverride) payload.status = statusOverride;
+      if (selected) {
+        const res = await grammarApi.updateAssignment(selected.id, payload);
+        setSelected(res.data.assignment);
+        setForm({ ...EMPTY_ASSIGN_FORM, ...res.data.assignment, dueDate: toInputDatetime(res.data.assignment.dueDate) });
+        setMsg('✅ Đã cập nhật bài tập!');
+      } else {
+        const res = await grammarApi.createAssignment(payload);
+        setSelected(res.data.assignment);
+        setForm({ ...EMPTY_ASSIGN_FORM, ...res.data.assignment, dueDate: toInputDatetime(res.data.assignment.dueDate) });
+        setMsg('✅ Đã tạo bài tập!');
+      }
+      await load();
+    } catch (err) {
+      setMsg('❌ Lỗi: ' + (err?.response?.data?.message || 'Thử lại.'));
+    } finally { setSaving(false); }
+  };
+
+  const handleDelete = async () => {
+    if (!selected || !window.confirm('Xóa bài tập này?')) return;
+    setDeleting(true);
+    try {
+      await grammarApi.deleteAssignment(selected.id);
+      setSelected(null); setForm(EMPTY_ASSIGN_FORM); setSubmissions(null); await load();
+      setMsg('🗑️ Đã xóa bài tập.');
+    } catch { setMsg('❌ Không thể xóa.'); }
+    finally { setDeleting(false); }
+  };
+
+  const handleLoadSubmissions = async () => {
+    if (!selected) return;
+    setLoadingSub(true);
+    try {
+      const res = await grammarApi.getSubmissions(selected.id);
+      setSubmissions(res.data?.submissions || []);
+    } catch { setSubmissions([]); }
+    finally { setLoadingSub(false); }
+  };
+
+  const exportExcel = () => {
+    if (!submissions || !selected) return;
+    import('xlsx').then((XLSX) => {
+      const rows = [['STT', 'Học sinh', 'Điểm', 'Tổng điểm', '% Đúng', 'Nộp muộn', 'Thời gian nộp']];
+      submissions.forEach((s, i) => {
+        const pct = s.maxScore ? Math.round((s.score / s.maxScore) * 100) : 0;
+        rows.push([i + 1, s.studentName || s.studentAccountId, s.score, s.maxScore, `${pct}%`, s.isLate ? 'Muộn' : 'Đúng hạn', fmtDatetime(s.submittedAt)]);
+      });
+      const ws = XLSX.utils.aoa_to_sheet(rows);
+      ws['!cols'] = [{ wch: 5 }, { wch: 28 }, { wch: 8 }, { wch: 10 }, { wch: 8 }, { wch: 10 }, { wch: 20 }];
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Diem');
+      XLSX.writeFile(wb, `diem_${selected.title.replace(/\s+/g, '_')}.xlsx`);
+    });
+  };
 
   return (
-    <div style={S.page}>
+    <div style={S.body}>
       <div style={S.sidebar}>
-        <div style={S.sidebarTop}>
-          <div style={S.sidebarBadge}>TEACHER</div>
-          <h2 style={S.sidebarTitle}>Grammar Studio</h2>
-          <div style={S.sidebarSub}>Tạo bài học ngữ pháp sinh động cho học sinh</div>
-        </div>
-
-        <button style={S.addBtn} onClick={handleNew}>
-          + Tạo bài mới
-        </button>
-
-        {lessons.length === 0 && (
-          <div style={S.emptySidebar}>
-            Chưa có bài học nào. Hãy tạo bài đầu tiên nhé!
-          </div>
-        )}
-
-        {lessons.map((lesson) => (
-          <div
-            key={lesson.id}
-            style={S.lessonItem(selected?.id === lesson.id)}
-            onClick={() => handleSelect(lesson)}
-          >
-            <div style={S.lessonItemTitle}>{lesson.title || 'Chưa đặt tên'}</div>
+        <div style={S.sidebarTitle}>📋 Bài tập giao lớp</div>
+        <button style={S.addBtn} onClick={handleNew}>+ Tạo bài tập mới</button>
+        {assignments.length === 0 && <div style={{ padding: '12px 20px', color: '#666', fontSize: '0.85rem' }}>Chưa có bài tập nào</div>}
+        {assignments.map((a) => (
+          <div key={a.id} style={S.lessonItem(selected?.id === a.id)} onClick={() => handleSelect(a)}>
+            <div style={S.lessonItemTitle}>{a.title || 'Chưa đặt tên'}</div>
             <div style={S.lessonItemMeta}>
-              <span style={S.statusDot(lesson.status)} />
-              {lesson.status === 'published' ? 'Đã xuất bản' : 'Bản nháp'}
-              {' · '}
-              {GRADE_LABELS[lesson.gradeLevel] || lesson.gradeLevel}
+              <span style={S.statusDot(a.status)} />
+              {a.classroomName || '—'}{' · '}
+              {a.dueDate ? fmtDatetime(a.dueDate) : 'Không hạn'}
             </div>
           </div>
         ))}
       </div>
 
       <div style={S.main}>
-        <div style={S.hero}>
-          <div style={S.heroDecor}>✏️</div>
-
-          <div style={S.mainHeader}>
-            <div>
-              <h1 style={S.mainTitle}>
-                {selected ? 'Chỉnh Sửa Bài Học' : 'Tạo Bài Học Mới'}
-              </h1>
-              <p style={S.mainSub}>
-                Đồng bộ nội dung, video và bài tập ngữ pháp theo từng khối lớp.
-              </p>
-            </div>
-
-            <div style={S.miniStats}>
-              <span style={S.miniStat}>📚 {lessons.length} bài</span>
-              <span style={S.miniStat}>🚀 {publishedCount} xuất bản</span>
-              <span style={S.miniStat}>📝 {draftCount} nháp</span>
-            </div>
-          </div>
+        <div style={S.mainHeader}>
+          <h1 style={S.mainTitle}>{selected ? '✏️ Chỉnh sửa bài tập' : '➕ Tạo bài tập mới'}</h1>
         </div>
-
-        {msg && <div style={S.msg(msg.startsWith('✅'))}>{msg}</div>}
+        {msg && <div style={S.msgBox(msg.startsWith('✅') || msg.startsWith('🗑️'))}>{msg}</div>}
 
         <div style={S.formCard}>
-          <div style={{ marginBottom: 18 }}>
-            <label style={S.fieldLabel}>Tiêu đề bài học *</label>
-            <input
-              style={S.input}
-              placeholder="VD: Thì hiện tại đơn - Present Simple"
-              value={form.title}
-              onChange={(e) => setField('title', e.target.value)}
-            />
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Tiêu đề bài tập *</label>
+            <input style={S.input} placeholder="VD: Bài tập tuần 5 - Thì hiện tại đơn" value={form.title} onChange={(e) => setField('title', e.target.value)} />
           </div>
 
-          <div style={{ ...S.row2, marginBottom: 18 }}>
+          <div style={{ ...S.row2, marginBottom: 16 }}>
+            <div>
+              <label style={S.fieldLabel}>Lớp giao bài *</label>
+              <select style={S.select} value={form.classroomId} onChange={(e) => handleClassroomChange(e.target.value)}>
+                <option value="">-- Chọn lớp --</option>
+                {classrooms.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+              </select>
+            </div>
             <div>
               <label style={S.fieldLabel}>Khối lớp</label>
-              <select
-                style={S.select}
-                value={form.gradeLevel}
-                onChange={(e) => setField('gradeLevel', e.target.value)}
-              >
-                {GRADE_LEVELS.map((g) => (
-                  <option key={g} value={g}>
-                    {GRADE_LABELS[g]}
-                  </option>
-                ))}
+              <select style={S.select} value={form.gradeLevel} onChange={(e) => setField('gradeLevel', e.target.value)}>
+                {GRADE_LEVELS.map((g) => <option key={g} value={g}>{GRADE_LABELS[g]}</option>)}
               </select>
-            </div>
-
-            <div>
-              <label style={S.fieldLabel}>Chủ đề (Topic)</label>
-              <input
-                style={S.input}
-                placeholder="VD: Thì, Câu điều kiện, Mệnh đề..."
-                value={form.topic}
-                onChange={(e) => setField('topic', e.target.value)}
-              />
             </div>
           </div>
 
-          <div style={{ ...S.row3, marginBottom: 18 }}>
+          <div style={{ ...S.row3, marginBottom: 16 }}>
             <div>
-              <label style={S.fieldLabel}>Module / Chương</label>
-              <input
-                style={S.input}
-                placeholder="VD: Chương 1"
-                value={form.module}
-                onChange={(e) => setField('module', e.target.value)}
-              />
+              <label style={S.fieldLabel}>Hạn nộp bài *</label>
+              <input style={S.input} type="datetime-local" value={form.dueDate} onChange={(e) => setField('dueDate', e.target.value)} />
             </div>
-
             <div>
               <label style={S.fieldLabel}>Tuần học</label>
-              <input
-                style={S.input}
-                type="number"
-                min="1"
-                max="52"
-                placeholder="1-52"
-                value={form.weekNumber}
-                onChange={(e) => setField('weekNumber', e.target.value)}
-              />
+              <input style={S.input} type="number" min="1" max="52" placeholder="1-52" value={form.weekNumber} onChange={(e) => setField('weekNumber', e.target.value)} />
             </div>
-
-            <div>
-              <label style={S.fieldLabel}>Tháng</label>
-              <select
-                style={S.select}
-                value={form.month}
-                onChange={(e) => setField('month', e.target.value)}
-              >
-                <option value="">-- Chọn tháng --</option>
-                {MONTHS.slice(1).map((m, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {m}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div style={{ ...S.row2, marginBottom: 18 }}>
             <div>
               <label style={S.fieldLabel}>Năm học</label>
-              <input
-                style={S.input}
-                type="number"
-                min="2020"
-                max="2030"
-                value={form.year}
-                onChange={(e) => setField('year', e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label style={S.fieldLabel}>Video URL (YouTube)</label>
-              <input
-                style={S.input}
-                placeholder="https://youtube.com/watch?v=..."
-                value={form.videoUrl}
-                onChange={(e) => setField('videoUrl', e.target.value)}
-              />
+              <input style={S.input} type="number" min="2020" max="2035" value={form.year} onChange={(e) => setField('year', e.target.value)} />
             </div>
           </div>
 
-          <div style={{ marginBottom: 18 }}>
-            <label style={S.fieldLabel}>Mô tả ngắn</label>
-            <input
-              style={S.input}
-              placeholder="Mô tả nội dung bài học..."
-              value={form.description}
-              onChange={(e) => setField('description', e.target.value)}
-            />
-          </div>
-
-          <div style={{ marginBottom: 18 }}>
-            <label style={S.fieldLabel}>Nội dung lý thuyết (hỗ trợ HTML)</label>
-            <textarea
-              style={S.textarea}
-              placeholder="Nhập nội dung lý thuyết, có thể dùng <b>, <ul>, <li>..."
-              value={form.content}
-              onChange={(e) => setField('content', e.target.value)}
-            />
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Mô tả / Hướng dẫn</label>
+            <textarea style={{ ...S.textarea, minHeight: 80 }} placeholder="Hướng dẫn làm bài..." value={form.description} onChange={(e) => setField('description', e.target.value)} />
           </div>
 
           <div style={S.divider} />
-
-          <div style={S.sectionTitle}>✏️ Bài tập ({form.exercises.length} câu)</div>
-
-          {form.exercises.map((ex, idx) => (
-            <div key={ex.id || idx} style={S.exCard}>
-              <div style={S.exRow}>
-                <strong style={S.exNumber}>{idx + 1}</strong>
-
-                <select
-                  style={{ ...S.select, flex: '0 0 190px' }}
-                  value={ex.type}
-                  onChange={(e) => updateEx(idx, 'type', e.target.value)}
-                >
-                  <option value="mcq">Trắc nghiệm</option>
-                  <option value="fill_blank">Điền vào chỗ trống</option>
-                </select>
-
-                <button style={S.removeBtn} onClick={() => removeEx(idx)}>
-                  ✕ Xóa
-                </button>
-              </div>
-
-              <div style={{ marginBottom: 12 }}>
-                <label style={S.fieldLabel}>Câu hỏi</label>
-                <input
-                  style={S.input}
-                  placeholder="Nhập câu hỏi..."
-                  value={ex.question}
-                  onChange={(e) => updateEx(idx, 'question', e.target.value)}
-                />
-              </div>
-
-              {ex.type === 'mcq' && (
-                <div style={{ marginBottom: 12 }}>
-                  <label style={S.fieldLabel}>Các lựa chọn (A, B, C, D)</label>
-                  {(ex.options || ['', '', '', '']).map((opt, optIndex) => (
-                    <input
-                      key={optIndex}
-                      style={{ ...S.input, marginBottom: 8 }}
-                      placeholder={`Lựa chọn ${String.fromCharCode(65 + optIndex)}`}
-                      value={opt}
-                      onChange={(e) => updateExOption(idx, optIndex, e.target.value)}
-                    />
-                  ))}
-                </div>
-              )}
-
-              <div style={S.row2}>
-                <div>
-                  <label style={S.fieldLabel}>Đáp án đúng</label>
-
-                  {ex.type === 'mcq' ? (
-                    <select
-                      style={S.select}
-                      value={ex.answer}
-                      onChange={(e) => updateEx(idx, 'answer', e.target.value)}
-                    >
-                      <option value="">-- Chọn đáp án --</option>
-                      {(ex.options || []).filter(Boolean).map((opt, optIndex) => (
-                        <option key={optIndex} value={opt}>
-                          {opt}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input
-                      style={S.input}
-                      placeholder="Nhập đáp án..."
-                      value={ex.answer}
-                      onChange={(e) => updateEx(idx, 'answer', e.target.value)}
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <label style={S.fieldLabel}>Giải thích</label>
-                  <input
-                    style={S.input}
-                    placeholder="Giải thích tại sao đáp án này đúng..."
-                    value={ex.explanation}
-                    onChange={(e) => updateEx(idx, 'explanation', e.target.value)}
-                  />
-                </div>
-              </div>
-            </div>
-          ))}
-
-          <div>
-            <button style={S.addExBtn} onClick={() => addExercise('mcq')}>
-              + Trắc nghiệm
-            </button>
-            <button style={S.addExBtn} onClick={() => addExercise('fill_blank')}>
-              + Điền từ
-            </button>
-          </div>
+          <ExerciseBuilder exercises={form.exercises} onChange={(exs) => setField('exercises', exs)} />
 
           <div style={S.btnRow}>
-            <button
-              style={S.saveBtn('draft')}
-              onClick={() => handleSave('draft')}
-              disabled={saving}
-            >
-              {saving ? 'Đang lưu...' : '💾 Lưu nháp'}
-            </button>
-
-            <button
-              style={S.saveBtn('publish')}
-              onClick={() => handleSave('published')}
-              disabled={saving}
-            >
-              {saving ? 'Đang xuất bản...' : '🚀 Xuất bản'}
-            </button>
-
-            {selected && (
-              <button style={S.deleteBtn} onClick={handleDelete} disabled={deleting}>
-                {deleting ? 'Đang xóa...' : '🗑️ Xóa bài học'}
-              </button>
-            )}
+            <button style={S.saveBtn('rgba(102,126,234,0.15)')} onClick={() => handleSave('draft')} disabled={saving}>{saving ? '...' : '💾 Lưu nháp'}</button>
+            <button style={S.saveBtn('linear-gradient(135deg,#667eea,#764ba2)')} onClick={() => handleSave('active')} disabled={saving}>{saving ? '...' : '🚀 Kích hoạt'}</button>
+            {selected && <button style={S.deleteBtn} onClick={handleDelete} disabled={deleting}>{deleting ? '...' : '🗑️ Xóa bài tập'}</button>}
           </div>
         </div>
+
+        {/* Submissions */}
+        {selected && (
+          <div style={{ ...S.formCard, marginTop: 24 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+              <div style={{ fontWeight: 800, fontSize: '1rem', color: '#333' }}>
+                📊 Điểm học sinh {submissions ? `(${submissions.length} bài nộp)` : ''}
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button style={S.saveBtn('linear-gradient(135deg,#667eea,#764ba2)')} onClick={handleLoadSubmissions} disabled={loadingSub}>
+                  {loadingSub ? 'Đang tải...' : '🔄 Tải điểm'}
+                </button>
+                {submissions && submissions.length > 0 && (
+                  <button style={S.exportBtn} onClick={exportExcel}>📥 Xuất Excel</button>
+                )}
+              </div>
+            </div>
+
+            {submissions === null && (
+              <div style={{ color: '#888', fontSize: '0.9rem', textAlign: 'center', padding: '20px 0' }}>
+                Nhấn "Tải điểm" để xem kết quả của học sinh.
+              </div>
+            )}
+
+            {submissions !== null && submissions.length === 0 && (
+              <div style={{ color: '#888', fontSize: '0.9rem', textAlign: 'center', padding: '20px 0' }}>
+                Chưa có học sinh nào nộp bài.
+              </div>
+            )}
+
+            {submissions !== null && submissions.length > 0 && (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={S.subTable}>
+                  <thead>
+                    <tr>
+                      {['#', 'Học sinh', 'Điểm', 'Tổng', '%', 'Trạng thái', 'Thời gian nộp'].map((h) => (
+                        <th key={h} style={S.subTh}>{h}</th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {submissions.map((s, i) => {
+                      const pct = s.maxScore ? Math.round((s.score / s.maxScore) * 100) : 0;
+                      return (
+                        <tr key={s.id}>
+                          <td style={S.subTd}>{i + 1}</td>
+                          <td style={{ ...S.subTd, fontWeight: 700 }}>{s.studentName || s.studentAccountId}</td>
+                          <td style={{ ...S.subTd, fontWeight: 800, color: '#1d4ed8' }}>{s.score}</td>
+                          <td style={S.subTd}>{s.maxScore}</td>
+                          <td style={{ ...S.subTd, fontWeight: 700, color: pct >= 80 ? '#047857' : pct >= 50 ? '#d97706' : '#b91c1c' }}>{pct}%</td>
+                          <td style={S.subTd}>
+                            <span style={{
+                              padding: '3px 10px', borderRadius: 999, fontSize: '0.76rem', fontWeight: 700,
+                              background: s.isLate ? '#fff7ed' : '#ecfdf5',
+                              color: s.isLate ? '#c2410c' : '#047857',
+                              border: s.isLate ? '1px solid #fed7aa' : '1px solid #a7f3d0',
+                            }}>
+                              {s.isLate ? '⚠️ Muộn' : '✓ Đúng hạn'}
+                            </span>
+                          </td>
+                          <td style={{ ...S.subTd, color: '#64748b', fontSize: '0.84rem' }}>{fmtDatetime(s.submittedAt)}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
       </div>
+    </div>
+  );
+}
+
+// ─── Main page ────────────────────────────────────────────────────────────────
+function TeacherGrammarPage() {
+  useTitle('Quản lý ngữ pháp');
+  const [mode, setMode] = useState('lessons');
+
+  return (
+    <div style={S.page}>
+      <div style={S.modebar}>
+        <button style={S.modeBtn(mode === 'lessons')} onClick={() => setMode('lessons')}>📖 Bài học lý thuyết</button>
+        <button style={S.modeBtn(mode === 'assignments')} onClick={() => setMode('assignments')}>📋 Bài tập giao lớp</button>
+      </div>
+      {mode === 'lessons' && <LessonsSection />}
+      {mode === 'assignments' && <AssignmentsSection />}
     </div>
   );
 }

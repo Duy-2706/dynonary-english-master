@@ -13,4 +13,12 @@ adminApi.get('/stats/games', ...adminOnly, adminController.getGameStats);
 adminApi.post('/track/course-view/:courseId', jwtAuthentication, adminController.trackCourseView);
 
 adminApi.post('/seed-grammar', ...adminOnly, adminController.seedGrammarTenses);
+
+adminApi.post('/accounts/teachers', ...adminOnly, adminController.createTeachers);
+adminApi.post('/accounts/students', ...adminOnly, adminController.createStudents);
+adminApi.get('/classrooms', ...adminOnly, adminController.getClassrooms);
+adminApi.post('/classrooms', ...adminOnly, adminController.createClassroom);
+adminApi.put('/teachers/:id', ...adminOnly, adminController.updateTeacher);
+adminApi.delete('/teachers/:id', ...adminOnly, adminController.deleteTeacher);
+
 module.exports = adminApi;

@@ -21,7 +21,7 @@ const EMPTY_FORM = {
 const EMPTY_ASSIGN_FORM = {
   title: '', description: '', classroomId: '', classroomName: '',
   gradeLevel: 'all', weekNumber: '', year: new Date().getFullYear(),
-  dueDate: '', exercises: [], status: 'active',
+  dueDate: '', exercises: [], status: 'active', lessonId: '',
 };
 
 const EMPTY_EX = { question: '', type: 'mcq', options: ['', '', '', ''], answer: '', explanation: '' };
@@ -124,7 +124,6 @@ const S = {
   }),
 };
 
-// ─── Exercise builder (shared between lessons and assignments) ────────────────
 function ExerciseBuilder({ exercises, onChange }) {
   const addEx = (type) => {
     onChange([...exercises, { ...EMPTY_EX, id: `new_${Date.now()}`, type }]);
@@ -210,7 +209,6 @@ function toInputDatetime(iso) {
   return iso.slice(0, 16);
 }
 
-// ─── Lessons section (existing functionality) ─────────────────────────────────
 function LessonsSection() {
   const [lessons, setLessons] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -349,7 +347,6 @@ function LessonsSection() {
   );
 }
 
-// ─── Assignments section ──────────────────────────────────────────────────────
 function AssignmentsSection() {
   const [assignments, setAssignments] = useState([]);
   const [classrooms, setClassrooms] = useState([]);
@@ -360,12 +357,14 @@ function AssignmentsSection() {
   const [msg, setMsg] = useState('');
   const [submissions, setSubmissions] = useState(null);
   const [loadingSub, setLoadingSub] = useState(false);
+  const [lessons, setLessons] = useState([]);
 
   const load = useCallback(async () => {
     try {
-      const [aRes, cRes] = await Promise.all([grammarApi.getMyAssignments(), adminApi.getClassrooms()]);
+      const [aRes, cRes, lRes] = await Promise.all([grammarApi.getMyAssignments(), adminApi.getClassrooms(), grammarApi.getMyLessons()]);
       setAssignments(aRes.data?.assignments || []);
       setClassrooms(cRes.data?.classrooms || []);
+      setLessons(lRes.data?.lessons || []);
     } catch { setAssignments([]); }
   }, []);
 
@@ -493,6 +492,19 @@ function AssignmentsSection() {
             </div>
           </div>
 
+          <div style={{ marginBottom: 16 }}>
+            <label style={S.fieldLabel}>Gắn với bài học ngữ pháp (tùy chọn)</label>
+            <select style={S.select} value={form.lessonId} onChange={(e) => setField('lessonId', e.target.value)}>
+              <option value="">-- Không gắn với bài học cụ thể --</option>
+              {lessons.map((l) => (
+                <option key={l.id} value={l.id}>{l.title}{l.gradeLevel !== 'all' ? ` (${GRADE_LABELS[l.gradeLevel] || l.gradeLevel})` : ''}</option>
+              ))}
+            </select>
+            <div style={{ marginTop: 5, fontSize: '0.8rem', color: '#888' }}>
+              Khi chọn bài học, học sinh sẽ thấy bài tập này ngay trong trang chi tiết bài học đó.
+            </div>
+          </div>
+
           <div style={{ ...S.row3, marginBottom: 16 }}>
             <div>
               <label style={S.fieldLabel}>Hạn nộp bài *</label>
@@ -523,7 +535,6 @@ function AssignmentsSection() {
           </div>
         </div>
 
-        {/* Submissions */}
         {selected && (
           <div style={{ ...S.formCard, marginTop: 24 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
@@ -545,13 +556,11 @@ function AssignmentsSection() {
                 Nhấn "Tải điểm" để xem kết quả của học sinh.
               </div>
             )}
-
             {submissions !== null && submissions.length === 0 && (
               <div style={{ color: '#888', fontSize: '0.9rem', textAlign: 'center', padding: '20px 0' }}>
                 Chưa có học sinh nào nộp bài.
               </div>
             )}
-
             {submissions !== null && submissions.length > 0 && (
               <div style={{ overflowX: 'auto' }}>
                 <table style={S.subTable}>
@@ -597,7 +606,6 @@ function AssignmentsSection() {
   );
 }
 
-// ─── Main page ────────────────────────────────────────────────────────────────
 function TeacherGrammarPage() {
   useTitle('Quản lý ngữ pháp');
   const [mode, setMode] = useState('lessons');

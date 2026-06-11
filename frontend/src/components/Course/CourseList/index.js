@@ -10,447 +10,293 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import SchoolIcon from '@material-ui/icons/School';
 import PersonIcon from '@material-ui/icons/Person';
 import BookIcon from '@material-ui/icons/Book';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import PeopleIcon from '@material-ui/icons/People';
-import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom';
 import courseApi from 'apis/courseApi';
 
-const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
+const AVATAR_GRADS = [
+  'linear-gradient(135deg,#667eea,#764ba2)',
+  'linear-gradient(135deg,#f093fb,#f5576c)',
+  'linear-gradient(135deg,#4facfe,#00f2fe)',
+  'linear-gradient(135deg,#43e97b,#38f9d7)',
+  'linear-gradient(135deg,#fa709a,#fee140)',
+  'linear-gradient(135deg,#a18cd1,#fbc2eb)',
+  'linear-gradient(135deg,#fda085,#f6d365)',
+  'linear-gradient(135deg,#89f7fe,#66a6ff)',
+];
 
-const LEVEL_COLORS = {
-  A1: ['#19c7a8', '#07947f'],
-  A2: ['#0a84ff', '#00439d'],
-  B1: ['#ff8a00', '#bd5f00'],
-  B2: ['#ff1493', '#9b0054'],
-  C1: ['#7b1cff', '#360087'],
-  C2: ['#34c759', '#087a3c'],
-  'Tất cả': ['#19c7a8', '#07947f'],
-};
+function teacherColor(name = '') {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffffffff;
+  return AVATAR_GRADS[Math.abs(h) % AVATAR_GRADS.length];
+}
 
-const useStyle = makeStyles(() => ({
-  page: {
-    minHeight: '100vh',
-    background: `
-      radial-gradient(circle at 12% 18%, rgba(25,199,168,.22) 0 4px, transparent 5px),
-      radial-gradient(circle at 86% 24%, rgba(255,191,31,.16) 0 5px, transparent 6px),
-      radial-gradient(circle at 34% 74%, rgba(255,255,255,.10) 0 3px, transparent 4px),
-      linear-gradient(180deg, #063c46 0%, #042b33 100%)
-    `,
-    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
-    padding: '42px 0 90px',
-    fontFamily: GAME_FONT,
-  },
+function getInitials(name = '') {
+  const parts = name.trim().split(/\s+/);
+  if (parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  return name.slice(0, 2).toUpperCase();
+}
 
-  wrapper: {
-    maxWidth: 1380,
-    margin: '0 auto',
-    padding: '0 34px',
-  },
-
-  hero: {
-    background: 'linear-gradient(180deg,#ffffff 0%,#eefdf9 100%)',
-    borderRadius: 38,
-    border: '7px solid rgba(255,255,255,.96)',
-    boxShadow: '0 12px 0 rgba(7,148,127,.55), 0 24px 48px rgba(0,0,0,.22)',
-    padding: '44px 48px',
-    marginBottom: 44,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-
-  heroDecor: {
-    position: 'absolute',
-    right: 42,
-    top: 22,
-    fontSize: '6rem',
-    opacity: 0.14,
-    transform: 'rotate(-10deg)',
-  },
-
-  heroBadge: {
-    display: 'inline-block',
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    padding: '9px 20px',
-    fontWeight: 900,
-    fontSize: '1.12rem',
-    boxShadow: '0 7px 0 #bd5f00',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-    marginBottom: 18,
-  },
-
-  pageTitle: {
-    fontSize: 'clamp(3.2rem, 5.6vw, 5.6rem)',
-    fontWeight: 900,
-    margin: 0,
-    lineHeight: 0.9,
-    color: '#06434b',
-    letterSpacing: '.2px',
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
-  },
-
-  pageSubtitle: {
-    color: '#07685d',
-    margin: '18px 0 0',
-    fontSize: '1.38rem',
-    fontWeight: 900,
-    lineHeight: 1.45,
-    maxWidth: 760,
-  },
-
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    padding: 90,
-  },
-
-  empty: {
-    background: '#fff',
-    borderRadius: 34,
-    padding: 74,
-    textAlign: 'center',
-    border: '6px dashed #19c7a8',
-    boxShadow: '0 10px 0 rgba(7,148,127,.35), 0 22px 45px rgba(0,0,0,.18)',
-    color: '#06434b',
-    fontSize: '1.35rem',
-    fontWeight: 900,
-  },
-
-  courseCard: {
+const useStyle = makeStyles((theme) => ({
+  wrapper: { padding: '32px 0' },
+  pageTitle: { fontSize: '2.2rem', fontWeight: 700, marginBottom: 8 },
+  pageSubtitle: { color: theme.palette.text.secondary, marginBottom: 32, fontSize: '1.05rem' },
+  card: {
+    borderRadius: 16,
+    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    transition: 'transform 0.2s, box-shadow 0.2s',
     height: '100%',
     display: 'flex',
     flexDirection: 'column',
-    borderRadius: '34px !important',
-    border: '6px solid #19c7a8',
-    boxShadow: '0 10px 0 #07947f, 0 22px 40px rgba(0,0,0,.24)',
-    overflow: 'hidden',
-    background: '#fff',
-    transition: 'transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease',
     cursor: 'pointer',
-    '&:hover': {
-      transform: 'translateY(-8px) scale(1.018)',
-      boxShadow: '0 14px 0 #07947f, 0 30px 56px rgba(0,0,0,.30)',
-    },
+    '&:hover': { transform: 'translateY(-4px)', boxShadow: '0 8px 30px rgba(0,0,0,0.15)' },
   },
-
-  mediaWrap: {
-    position: 'relative',
-    height: 230,
-    overflow: 'hidden',
-    background: 'linear-gradient(135deg,#19c7a8,#087565)',
-  },
-
-  media: {
-    height: '100%',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    transition: 'transform .25s ease',
-  },
-
-  placeholderMedia: {
-    height: '100%',
-    background: `
-      radial-gradient(circle at 22% 20%, rgba(255,255,255,.28), transparent 18%),
-      linear-gradient(135deg,#19c7a8,#087565)
-    `,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  mediaOverlay: {
-    position: 'absolute',
-    inset: 0,
-    background: 'linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.34) 100%)',
-  },
-
-  levelChip: {
-    position: 'absolute',
-    top: 16,
-    left: 16,
-    height: 'auto !important',
-    borderRadius: '999px !important',
-    border: '4px solid #fff !important',
-    color: '#fff !important',
-    fontFamily: `${GAME_FONT} !important`,
-    fontWeight: '900 !important',
-    fontSize: '1.02rem !important',
-    padding: '6px 5px !important',
-    boxShadow: '0 6px 0 rgba(0,0,0,.20)',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  freeBadge: {
-    position: 'absolute',
-    right: 16,
-    top: 16,
-    background: 'linear-gradient(180deg,#36e27d,#0ca84f)',
-    color: '#fff',
-    border: '4px solid #fff',
-    borderRadius: 999,
-    padding: '7px 16px',
-    fontWeight: 900,
-    fontSize: '1rem',
-    boxShadow: '0 6px 0 #087a3c',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  cardContent: {
-    flex: 1,
-    padding: '26px !important',
-  },
-
-  courseTitle: {
-    fontWeight: 900,
-    fontSize: '1.85rem',
-    margin: '0 0 16px',
-    lineHeight: 1.15,
-    color: '#06434b',
-  },
-
+  media: { height: 200, backgroundColor: '#e3f2fd' },
+  cardContent: { flex: 1, padding: '16px !important' },
+  courseTitle: { fontWeight: 700, fontSize: '1.25rem', marginBottom: 10, lineHeight: 1.4 },
   courseMeta: {
+    display: 'flex', alignItems: 'center', gap: 6,
+    color: theme.palette.text.secondary, fontSize: '0.95rem', marginBottom: 6,
+  },
+  price: { fontWeight: 700, fontSize: '1.15rem', color: theme.palette.primary.main },
+  freeTag: { fontWeight: 700, fontSize: '1.15rem', color: '#4caf50' },
+  loading: { display: 'flex', justifyContent: 'center', padding: 60 },
+  empty: { textAlign: 'center', padding: 60, color: theme.palette.text.secondary },
+
+  // Teacher card styles
+  teacherCard: {
+    borderRadius: 20,
+    boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+    transition: 'transform 0.2s, box-shadow 0.2s',
+    cursor: 'pointer',
+    overflow: 'hidden',
+    border: '1px solid rgba(0,0,0,0.06)',
+    '&:hover': { transform: 'translateY(-6px)', boxShadow: '0 12px 36px rgba(0,0,0,0.14)' },
+  },
+  teacherCardTop: {
+    padding: '28px 20px 20px',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    gap: 8,
-    color: '#07545c',
-    fontSize: '1.16rem',
-    fontWeight: 900,
-    marginBottom: 9,
-    lineHeight: 1.45,
+    textAlign: 'center',
   },
-
-  description: {
-    fontSize: '1.08rem',
-    color: '#24474c',
-    marginTop: 16,
-    lineHeight: 1.6,
-    fontWeight: 800,
-  },
-
-  price: {
-    display: 'inline-block',
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00)',
-    color: '#fff',
-    borderRadius: 999,
-    padding: '9px 17px',
-    fontSize: '1.12rem',
-    fontWeight: 900,
-    border: '3px solid #fff',
-    boxShadow: '0 5px 0 #bd5f00',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  freeTag: {
-    display: 'inline-block',
-    background: 'linear-gradient(180deg,#36e27d,#0ca84f)',
-    color: '#fff',
-    borderRadius: 999,
-    padding: '9px 17px',
-    fontSize: '1.12rem',
-    fontWeight: 900,
-    border: '3px solid #fff',
-    boxShadow: '0 5px 0 #087a3c',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-  },
-
-  cardActions: {
-    padding: '0 24px 26px !important',
+  teacherCardBottom: {
+    padding: '14px 20px 18px',
+    borderTop: '1px solid rgba(0,0,0,0.06)',
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 14,
   },
-
-  viewBtn: {
-    marginLeft: 'auto !important',
-    background: 'linear-gradient(180deg,#19c7a8,#07947f) !important',
-    color: '#fff !important',
-    border: '4px solid #fff !important',
-    borderRadius: '999px !important',
-    padding: '11px 20px !important',
-    fontSize: '1.08rem !important',
-    fontWeight: '900 !important',
-    fontFamily: `${GAME_FONT} !important`,
-    textTransform: 'none !important',
-    boxShadow: '0 6px 0 #087565 !important',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+  backBtn: {
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+    padding: '8px 20px', borderRadius: 24, border: 'none',
+    background: 'rgba(0,0,0,0.06)', color: 'inherit',
+    cursor: 'pointer', fontWeight: 700, fontSize: '0.9rem',
+    fontFamily: 'inherit',
+    '&:hover': { background: 'rgba(0,0,0,0.10)' },
   },
 }));
 
-function getLevelGradient(level) {
-  const colors = LEVEL_COLORS[level] || LEVEL_COLORS['Tất cả'];
-  return `linear-gradient(180deg, ${colors[0]}, ${colors[1]})`;
+// ─── Teacher card ─────────────────────────────────────────────────────────────
+function TeacherCard({ teacher, onClick }) {
+  const classes = useStyle();
+  const grad = teacherColor(teacher.name);
+  const levels = [...new Set(teacher.courses.map((c) => c.level).filter(Boolean))];
+
+  return (
+    <Card className={classes.teacherCard} onClick={onClick}>
+      <div className={classes.teacherCardTop} style={{ background: grad }}>
+        <div style={{
+          width: 72, height: 72, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.25)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '1.7rem', fontWeight: 900, color: '#fff',
+          marginBottom: 12, border: '3px solid rgba(255,255,255,0.5)',
+        }}>
+          {getInitials(teacher.name)}
+        </div>
+        <div style={{ fontWeight: 800, fontSize: '1.1rem', color: '#fff', marginBottom: 4 }}>
+          {teacher.name}
+        </div>
+        <div style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.8)' }}>Giáo viên</div>
+      </div>
+
+      <div style={{ padding: '14px 20px 10px', display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>
+        {levels.map((lv) => (
+          <Chip key={lv} label={lv} size="small" color="primary" style={{ fontWeight: 700 }} />
+        ))}
+        {levels.length === 0 && <span style={{ fontSize: '0.8rem', color: '#aaa' }}>—</span>}
+      </div>
+
+      <div className={classes.teacherCardBottom}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.88rem', color: '#555', fontWeight: 600 }}>
+          <MenuBookIcon style={{ fontSize: 16, color: '#667eea' }} />
+          {teacher.courses.length} khóa học
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: '0.88rem', color: '#555', fontWeight: 600 }}>
+          <PeopleIcon style={{ fontSize: 16, color: '#43e97b' }} />
+          {teacher.totalStudents} học viên
+        </div>
+        <Button variant="contained" size="small" className="_btn _btn-primary" style={{ borderRadius: 20, fontSize: '0.78rem' }}>
+          Xem khóa học
+        </Button>
+      </div>
+    </Card>
+  );
 }
 
-function formatPrice(course) {
-  if (course.isFree) return 'Miễn phí';
-
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-  }).format(course.price || 0);
+// ─── Course card ──────────────────────────────────────────────────────────────
+function CourseCard({ course, onView }) {
+  const classes = useStyle();
+  return (
+    <Card className={classes.card} onClick={() => onView(course._id)}>
+      {course.thumbnail ? (
+        <CardMedia className={classes.media} image={course.thumbnail} title={course.title} />
+      ) : (
+        <div className={classes.media} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <BookIcon style={{ fontSize: 64, color: '#90caf9' }} />
+        </div>
+      )}
+      <CardContent className={classes.cardContent}>
+        <Chip label={course.level} size="small" color="primary" style={{ marginBottom: 8 }} />
+        <h3 className={classes.courseTitle}>{course.title}</h3>
+        <div className={classes.courseMeta}>
+          <MenuBookIcon style={{ fontSize: 18 }} />
+          <span>{course.totalLessons} bài học</span>
+          <span style={{ margin: '0 4px' }}>·</span>
+          <PeopleIcon style={{ fontSize: 18 }} />
+          <span>{course.totalStudents} học viên</span>
+        </div>
+        <p style={{ fontSize: '0.9rem', color: '#666', marginTop: 8, lineHeight: 1.5 }}>
+          {course.description?.slice(0, 90)}{course.description?.length > 90 ? '...' : ''}
+        </p>
+      </CardContent>
+      <CardActions style={{ padding: '8px 16px 16px' }}>
+        {course.isFree ? (
+          <span className={classes.freeTag}>Miễn phí</span>
+        ) : (
+          <span className={classes.price}>
+            {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(course.price)}
+          </span>
+        )}
+        <Button
+          variant="contained"
+          className="_btn _btn-primary"
+          style={{ marginLeft: 'auto' }}
+          onClick={(e) => { e.stopPropagation(); onView(course._id); }}>
+          Xem khóa học
+        </Button>
+      </CardActions>
+    </Card>
+  );
 }
 
+// ─── Main component ───────────────────────────────────────────────────────────
 function CourseList() {
   const classes = useStyle();
   const history = useHistory();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedTeacherId, setSelectedTeacherId] = useState(null);
 
   useEffect(() => {
-    let mounted = true;
-
     (async () => {
-      setLoading(true);
-
       try {
-        const res = await courseApi.getPublishedCourses();
-
-        if (mounted && res.status === 200) {
-          setCourses(res.data.courses || []);
-        }
-      } catch (e) {
-        if (mounted) setCourses([]);
-      }
-
-      if (mounted) setLoading(false);
+        const res = await courseApi.getPublishedCourses(1, 500);
+        if (res.status === 200) setCourses(res.data.courses || []);
+      } catch (e) {}
+      setLoading(false);
     })();
-
-    return () => {
-      mounted = false;
-    };
   }, []);
 
-  const goToDetail = (id) => {
-    history.push(`/courses/${id}/detail`);
-  };
+  // Auto-group courses by teacher — no admin config needed
+  const teacherMap = {};
+  courses.forEach((c) => {
+    const tid = c.teacherAccountId || c.teacherName;
+    if (!teacherMap[tid]) {
+      teacherMap[tid] = { id: tid, name: c.teacherName, courses: [], totalStudents: 0 };
+    }
+    teacherMap[tid].courses.push(c);
+    teacherMap[tid].totalStudents += c.totalStudents || 0;
+  });
+  const teachers = Object.values(teacherMap).sort((a, b) => b.courses.length - a.courses.length);
 
-  return (
-    <div className={classes.page}>
-      <div className={classes.wrapper}>
-        <div className={classes.hero}>
-          <div className={classes.heroDecor}>📚</div>
+  const selectedTeacher = selectedTeacherId ? teacherMap[selectedTeacherId] : null;
 
-          <div className={classes.heroBadge}>COURSE LIBRARY</div>
+  const goToDetail = (id) => history.push(`/courses/${id}/detail`);
 
-          <h1 className={classes.pageTitle}>Khóa Học Tiếng Anh</h1>
+  if (loading) {
+    return <div className={classes.loading}><CircularProgress /></div>;
+  }
 
-          <p className={classes.pageSubtitle}>
-            Chọn khóa học phù hợp, học từng bài rõ ràng và luyện tập bằng video,
-            flashcard, trắc nghiệm, điền từ.
-          </p>
-        </div>
+  // ── Teacher list view ──────────────────────────────────────────────────────
+  if (!selectedTeacher) {
+    return (
+      <div className={`container ${classes.wrapper}`}>
+        <h1 className={classes.pageTitle}>📚 Khóa học tiếng Anh</h1>
+        <p className={classes.pageSubtitle}>
+          Chọn giáo viên để xem các khóa học phù hợp với bạn
+        </p>
 
-        {loading ? (
-          <div className={classes.loading}>
-            <CircularProgress style={{ color: '#fff' }} size={58} thickness={5} />
-          </div>
-        ) : courses.length === 0 ? (
+        {teachers.length === 0 ? (
           <div className={classes.empty}>
-            <SchoolIcon style={{ fontSize: 82, opacity: 0.45, marginBottom: 14 }} />
-            <p style={{ margin: 0 }}>Chưa có khóa học nào được xuất bản.</p>
-            <p style={{ margin: '10px 0 0', color: '#087565' }}>
-              Hãy quay lại sau nhé!
-            </p>
+            <SchoolIcon style={{ fontSize: 64, opacity: 0.3 }} />
+            <p>Chưa có khóa học nào được xuất bản.</p>
           </div>
         ) : (
-          <Grid container spacing={4}>
-            {courses.map((course) => {
-              const levelGradient = getLevelGradient(course.level);
-
-              return (
-                <Grid item xs={12} sm={6} md={4} key={course._id}>
-                  <Card
-                    className={classes.courseCard}
-                    onClick={() => goToDetail(course._id)}
-                    style={{
-                      borderColor: LEVEL_COLORS[course.level]?.[0] || '#19c7a8',
-                      boxShadow: `0 10px 0 ${
-                        LEVEL_COLORS[course.level]?.[1] || '#07947f'
-                      }, 0 22px 40px rgba(0,0,0,.24)`,
-                    }}
-                  >
-                    <div className={classes.mediaWrap}>
-                      {course.thumbnail ? (
-                        <CardMedia
-                          className={classes.media}
-                          image={course.thumbnail}
-                          title={course.title}
-                        />
-                      ) : (
-                        <div className={classes.placeholderMedia} style={{ background: levelGradient }}>
-                          <BookIcon style={{ fontSize: 86, color: '#fff', opacity: 0.92 }} />
-                        </div>
-                      )}
-
-                      <div className={classes.mediaOverlay} />
-
-                      <Chip
-                        label={course.level || 'Tất cả'}
-                        size="small"
-                        className={classes.levelChip}
-                        style={{ background: levelGradient }}
-                      />
-
-                      {course.isFree && <div className={classes.freeBadge}>FREE</div>}
-                    </div>
-
-                    <CardContent className={classes.cardContent}>
-                      <h3 className={classes.courseTitle}>{course.title}</h3>
-
-                      <div className={classes.courseMeta}>
-                        <PersonIcon style={{ fontSize: 22 }} />
-                        <span>{course.teacherName || 'Giáo viên'}</span>
-                      </div>
-
-                      <div className={classes.courseMeta}>
-                        <MenuBookIcon style={{ fontSize: 22 }} />
-                        <span>{course.totalLessons || 0} bài học</span>
-                      </div>
-
-                      <div className={classes.courseMeta}>
-                        <PeopleIcon style={{ fontSize: 22 }} />
-                        <span>{course.totalStudents || 0} học viên</span>
-                      </div>
-
-                      <p className={classes.description}>
-                        {course.description
-                          ? `${course.description.slice(0, 110)}${
-                              course.description.length > 110 ? '...' : ''
-                            }`
-                          : 'Khóa học giúp bạn luyện tiếng Anh theo từng bài học rõ ràng, dễ theo dõi.'}
-                      </p>
-                    </CardContent>
-
-                    <CardActions
-                      className={classes.cardActions}
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      {course.isFree ? (
-                        <span className={classes.freeTag}>Miễn phí</span>
-                      ) : (
-                        <span className={classes.price}>{formatPrice(course)}</span>
-                      )}
-
-                      <Button
-                        variant="contained"
-                        className={classes.viewBtn}
-                        startIcon={<PlayArrowIcon />}
-                        onClick={() => goToDetail(course._id)}
-                      >
-                        Xem khóa học
-                      </Button>
-                    </CardActions>
-                  </Card>
-                </Grid>
-              );
-            })}
+          <Grid container spacing={3}>
+            {teachers.map((t) => (
+              <Grid item xs={12} sm={6} md={4} key={t.id}>
+                <TeacherCard teacher={t} onClick={() => setSelectedTeacherId(t.id)} />
+              </Grid>
+            ))}
           </Grid>
         )}
       </div>
+    );
+  }
+
+  // ── Teacher's courses view ─────────────────────────────────────────────────
+  const grad = teacherColor(selectedTeacher.name);
+  return (
+    <div className={`container ${classes.wrapper}`}>
+      {/* Back + teacher header */}
+      <div style={{ marginBottom: 28 }}>
+        <button className={classes.backBtn} onClick={() => setSelectedTeacherId(null)}>
+          <ArrowBackIcon style={{ fontSize: 18 }} /> Tất cả giáo viên
+        </button>
+
+        <div style={{
+          marginTop: 20, borderRadius: 20, padding: '24px 28px',
+          background: grad, display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap',
+        }}>
+          <div style={{
+            width: 64, height: 64, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.25)', border: '3px solid rgba(255,255,255,0.5)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '1.5rem', fontWeight: 900, color: '#fff', flexShrink: 0,
+          }}>
+            {getInitials(selectedTeacher.name)}
+          </div>
+          <div>
+            <div style={{ fontSize: '1.4rem', fontWeight: 900, color: '#fff' }}>{selectedTeacher.name}</div>
+            <div style={{ color: 'rgba(255,255,255,0.85)', fontSize: '0.9rem', marginTop: 2 }}>
+              {selectedTeacher.courses.length} khóa học · {selectedTeacher.totalStudents} học viên
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Grid container spacing={3}>
+        {selectedTeacher.courses.map((course) => (
+          <Grid item xs={12} sm={6} md={4} key={course._id}>
+            <CourseCard course={course} onView={goToDetail} />
+          </Grid>
+        ))}
+      </Grid>
     </div>
   );
 }

@@ -191,6 +191,7 @@ const S = {
 function formatNumber(v){ return v==null?0:Number(v).toLocaleString('vi-VN'); }
 function getInitial(name,username,email){ return(name||username||email||'U').trim().charAt(0).toUpperCase(); }
 
+// ─── shared input/button styles used inside modals ────────────────────────────
 const inp = {padding:'9px 11px',borderRadius:8,border:'1px solid #cbd5e1',fontSize:'0.88rem',fontFamily:'inherit',outline:'none',background:'#fff',color:'#111'};
 
 const TABS=[
@@ -198,6 +199,7 @@ const TABS=[
   {id:'classes', label:'🏫 Lớp học'},
   {id:'teachers',label:'👨‍🏫 Giáo viên'},
   {id:'students',label:'🎒 Tạo tài khoản HS'},
+  {id:'grammar', label:'📚 Ngữ pháp'},
 ];
 
 function TabBar({active,onChange}){
@@ -482,6 +484,7 @@ function TeachersTab(){
 
   useEffect(()=>{loadTeachers();},[loadTeachers]);
 
+  // ── Excel template download ──────────────────────────────────────────────────
   const downloadTemplate=()=>{
     import('xlsx').then((XLSX)=>{
       const data=[
@@ -498,6 +501,7 @@ function TeachersTab(){
     });
   };
 
+  // ── Excel upload ─────────────────────────────────────────────────────────────
   const handleXlsx=(e)=>{
     const file=e.target.files?.[0];
     if(!file)return;
@@ -526,6 +530,7 @@ function TeachersTab(){
     e.target.value='';
   };
 
+  // ── Create ───────────────────────────────────────────────────────────────────
   const handleCreate=async()=>{
     const valid=createRows.filter((r)=>r.name.trim());
     if(!valid.length){setMsg({ok:false,text:'Nhập ít nhất một tên giáo viên.'});return;}
@@ -540,6 +545,7 @@ function TeachersTab(){
     finally{setCreating(false);}
   };
 
+  // ── Edit ─────────────────────────────────────────────────────────────────────
   const openEdit=(t)=>{ setEditTarget(t); setEditForm({name:t.name||'',subject:t.subject||''}); };
 
   const handleEdit=async()=>{
@@ -554,6 +560,7 @@ function TeachersTab(){
     finally{setEditing(false);}
   };
 
+  // ── Delete ───────────────────────────────────────────────────────────────────
   const handleDelete=async()=>{
     if(!deleteTarget)return;
     setDeleting(true);
@@ -566,6 +573,7 @@ function TeachersTab(){
     finally{setDeleting(false);}
   };
 
+  // ── copy helper ──────────────────────────────────────────────────────────────
   const copyResults=()=>{
     if(!createResults)return;
     navigator.clipboard.writeText(createResults.map((r)=>`${r.name}\t${r.email}\t${r.password}`).join('\n')).catch(()=>{});
@@ -575,6 +583,7 @@ function TeachersTab(){
     <>
       {msg&&<div style={S.msgBanner(msg.ok)}>{msg.text}</div>}
 
+      {/* Header + create button */}
       <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16,flexWrap:'wrap',gap:10}}>
         <div style={{fontWeight:800,color:'#1e3a8a',fontSize:'1rem'}}>
           Danh sách giáo viên ({teachers.length})
@@ -586,6 +595,7 @@ function TeachersTab(){
         </button>
       </div>
 
+      {/* Teacher list */}
       <div style={S.tableCard}>
         <div style={S.tableWrap}>
           <table style={S.table}>
@@ -625,16 +635,19 @@ function TeachersTab(){
       {showCreate&&(
         <div style={S.overlay} onClick={(e)=>{ if(e.target===e.currentTarget)setShowCreate(false); }}>
           <div style={S.modal}>
+            {/* Modal header */}
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:18}}>
               <h2 style={{margin:0,fontSize:'1.2rem',fontWeight:800,color:'#0f172a'}}>Tạo tài khoản giáo viên</h2>
               <button onClick={()=>setShowCreate(false)}
                 style={{background:'none',border:'none',fontSize:'1.5rem',cursor:'pointer',color:'#64748b',lineHeight:1}}>✕</button>
             </div>
 
+            {/* Default password notice */}
             <div style={{marginBottom:14,padding:'10px 14px',background:'#eff6ff',borderRadius:10,fontSize:'0.88rem',color:'#1d4ed8',fontWeight:600}}>
               Mật khẩu mặc định: <code style={{background:'#dbeafe',padding:'2px 7px',borderRadius:4}}>GiaoVien@TCA123</code>
             </div>
 
+            {/* Excel actions */}
             <div style={{display:'flex',gap:8,marginBottom:14,flexWrap:'wrap'}}>
               <button onClick={downloadTemplate}
                 style={{padding:'8px 14px',borderRadius:8,border:'1px solid #059669',background:'#ecfdf5',color:'#047857',fontWeight:700,cursor:'pointer',fontFamily:'inherit',fontSize:'0.86rem'}}>
@@ -647,6 +660,7 @@ function TeachersTab(){
               <input ref={xlsxRef} type="file" accept=".xlsx,.xls,.csv" style={{display:'none'}} onChange={handleXlsx}/>
             </div>
 
+            {/* Input table */}
             <div style={{overflowX:'auto',marginBottom:14}}>
               <table style={S.table}>
                 <thead>
@@ -689,6 +703,7 @@ function TeachersTab(){
               </table>
             </div>
 
+            {/* Actions */}
             <div style={{display:'flex',gap:10,marginBottom:createResults?20:0}}>
               <button onClick={()=>setCreateRows((prev)=>[...prev,{name:'',subject:'Tiếng Anh'}])}
                 style={{padding:'9px 16px',borderRadius:8,border:'1px dashed #94a3b8',background:'#f8fafc',fontWeight:700,cursor:'pointer',fontFamily:'inherit',color:'#475569'}}>
@@ -700,6 +715,7 @@ function TeachersTab(){
               </button>
             </div>
 
+            {/* Results */}
             {createResults&&(
               <div style={{marginTop:4}}>
                 <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
@@ -961,6 +977,440 @@ function StudentsTab(){
   );
 }
 
+// ─── Rich text editor (WYSIWYG) ──────────────────────────────────────────────
+const GE_CSS=`
+.ge-content{min-height:200px;padding:14px 16px;outline:none;font-size:0.93rem;line-height:1.8;color:#1a202c;font-family:'Segoe UI',sans-serif;}
+.ge-content p{margin:5px 0;}
+.ge-content strong{font-weight:800;}
+.ge-content em{font-style:italic;}
+.ge-content s{text-decoration:line-through;}
+.ge-content ul,.ge-content ol{padding-left:22px;margin:6px 0;}
+.ge-content li{margin:3px 0;}
+.ge-content table{border-collapse:collapse;width:100%;margin:12px 0;font-size:0.9rem;}
+.ge-content th,.ge-content td{border:1px solid #d1d5db;padding:8px 12px;text-align:left;}
+.ge-content th{background:#f1f5f9;font-weight:700;}
+.ge-content blockquote{border-left:4px solid #667eea;margin:10px 0;padding:8px 14px;background:rgba(102,126,234,0.07);border-radius:0 8px 8px 0;color:#334155;}
+.ge-content img{max-width:100%;height:auto;border-radius:8px;margin:8px 0;display:block;}
+.ge-content [contenteditable=false]{pointer-events:none;}
+`;
+
+function RichTextEditor({value,onChange,onUploadImage}){
+  const editorRef=useRef(null);
+  const [showHtml,setShowHtml]=useState(false);
+  const [tableRows,setTableRows]=useState(3);
+  const [tableCols,setTableCols]=useState(3);
+  const [showTableDlg,setShowTableDlg]=useState(false);
+  const [uploading,setUploading]=useState(false);
+  const fileRef=useRef(null);
+
+  // On mount: set initial content
+  useEffect(()=>{
+    if(editorRef.current) editorRef.current.innerHTML=value||'';
+    // eslint-disable-next-line
+  },[]);
+
+  const notify=()=>{if(editorRef.current) onChange(editorRef.current.innerHTML);};
+
+  const exec=(cmd,val=null)=>{
+    if(showHtml) return;
+    editorRef.current.focus();
+    document.execCommand(cmd,false,val);
+    notify();
+  };
+
+  const setFontSize=(px)=>{
+    if(showHtml)return;
+    editorRef.current.focus();
+    document.execCommand('fontSize',false,'7');
+    editorRef.current.querySelectorAll('font[size="7"]').forEach(el=>{
+      const span=document.createElement('span');
+      span.style.fontSize=px;
+      span.innerHTML=el.innerHTML;
+      el.parentNode.replaceChild(span,el);
+    });
+    notify();
+  };
+
+  const insertTable=()=>{
+    const r=Math.max(1,tableRows),c=Math.max(1,tableCols);
+    let h='<table><thead><tr>';
+    for(let i=0;i<c;i++) h+=`<th>Tiêu đề ${i+1}</th>`;
+    h+='</tr></thead><tbody>';
+    for(let i=0;i<r-1;i++){h+='<tr>';for(let j=0;j<c;j++) h+='<td>Nội dung</td>';h+='</tr>';}
+    h+='</tbody></table><p></p>';
+    editorRef.current.focus();
+    document.execCommand('insertHTML',false,h);
+    notify();
+    setShowTableDlg(false);
+  };
+
+  const switchToHtml=()=>setShowHtml(true);
+  const switchToVisual=()=>{
+    if(editorRef.current) editorRef.current.innerHTML=value||'';
+    setShowHtml(false);
+  };
+
+  const handleImageFile=async(e)=>{
+    const file=e.target.files[0];if(!file)return;
+    setUploading(true);
+    const reader=new FileReader();
+    reader.onload=async(ev)=>{
+      try{
+        const url=await onUploadImage(ev.target.result);
+        const img=`<img src="${url}" alt="" style="max-width:100%;height:auto;border-radius:8px;margin:8px 0;display:block;"/>`;
+        editorRef.current.focus();
+        document.execCommand('insertHTML',false,img);
+        notify();
+      }catch{alert('Lỗi upload ảnh. Kiểm tra cấu hình Firebase Storage và env FIREBASE_STORAGE_BUCKET.');}
+      finally{setUploading(false);}
+    };
+    reader.readAsDataURL(file);
+    e.target.value='';
+  };
+
+  const TB=(onClick,label,title,style={})=>(
+    <button type="button" title={title} onClick={onClick}
+      style={{padding:'4px 9px',border:'1px solid #d1d5db',borderRadius:5,background:'#fff',
+        cursor:'pointer',fontWeight:700,fontSize:'0.8rem',color:'#374151',lineHeight:1.4,...style}}>
+      {label}
+    </button>
+  );
+
+  return(
+    <div style={{border:'1.5px solid #e0e0e0',borderRadius:8,overflow:'visible',background:'#fff'}}>
+      <style>{GE_CSS}</style>
+      {/* Toolbar */}
+      <div style={{display:'flex',gap:3,padding:'6px 10px',background:'#f8f9fa',borderBottom:'1.5px solid #e0e0e0',flexWrap:'wrap',alignItems:'center'}}>
+        {/* Font size */}
+        <select onChange={e=>{if(e.target.value){setFontSize(e.target.value);e.target.value='';}}}
+          defaultValue=""
+          style={{padding:'3px 5px',border:'1px solid #d1d5db',borderRadius:5,background:'#fff',fontSize:'0.78rem',cursor:'pointer',color:'#374151',height:26}}>
+          <option value="" disabled>Cỡ chữ</option>
+          {['10px','12px','14px','16px','18px','20px','24px','28px','32px','36px','48px'].map(s=>(
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+        <div style={{width:1,height:18,background:'#d1d5db',margin:'0 2px'}}/>
+        {TB(()=>exec('bold'),<b>B</b>,'Đậm (Ctrl+B)')}
+        {TB(()=>exec('italic'),<i>I</i>,'Nghiêng (Ctrl+I)')}
+        {TB(()=>exec('underline'),<u>U</u>,'Gạch chân (Ctrl+U)')}
+        {TB(()=>exec('strikeThrough'),<s>S</s>,'Gạch ngang')}
+        <div style={{width:1,height:18,background:'#d1d5db',margin:'0 2px'}}/>
+        {TB(()=>exec('justifyLeft'),'←','Căn trái')}
+        {TB(()=>exec('justifyCenter'),'≡','Căn giữa')}
+        {TB(()=>exec('justifyRight'),'→','Căn phải')}
+        {TB(()=>exec('justifyFull'),'☰','Căn đều')}
+        <div style={{width:1,height:18,background:'#d1d5db',margin:'0 2px'}}/>
+        {TB(()=>exec('formatBlock','BLOCKQUOTE'),'❝','Trích dẫn')}
+        {TB(()=>exec('insertUnorderedList'),'• ≡','Danh sách')}
+        {TB(()=>exec('insertOrderedList'),'1. ≡','Danh sách số')}
+        {TB(()=>exec('indent'),'→|','Thụt lề')}
+        {TB(()=>exec('outdent'),'|←','Bỏ thụt lề')}
+        <div style={{width:1,height:18,background:'#d1d5db',margin:'0 2px'}}/>
+        {/* Table */}
+        <div style={{position:'relative'}}>
+          {TB(()=>setShowTableDlg(v=>!v),'⊞ Bảng','Chèn bảng')}
+          {showTableDlg&&(
+            <div style={{position:'absolute',top:'110%',left:0,background:'#fff',border:'1.5px solid #e0e0e0',borderRadius:10,padding:14,zIndex:200,boxShadow:'0 8px 24px rgba(0,0,0,0.12)',minWidth:190}}>
+              <div style={{fontWeight:800,fontSize:'0.82rem',marginBottom:10,color:'#333'}}>Kích thước bảng</div>
+              <div style={{display:'flex',gap:6,alignItems:'center',marginBottom:10}}>
+                <input type="number" min={1} max={10} value={tableRows} onChange={e=>setTableRows(Number(e.target.value))}
+                  style={{width:48,padding:'5px 7px',border:'1px solid #d1d5db',borderRadius:5,fontSize:'0.82rem'}}/>
+                <span style={{fontSize:'0.78rem',color:'#64748b'}}>hàng ×</span>
+                <input type="number" min={1} max={8} value={tableCols} onChange={e=>setTableCols(Number(e.target.value))}
+                  style={{width:48,padding:'5px 7px',border:'1px solid #d1d5db',borderRadius:5,fontSize:'0.82rem'}}/>
+                <span style={{fontSize:'0.78rem',color:'#64748b'}}>cột</span>
+              </div>
+              <button onClick={insertTable} style={{width:'100%',padding:'7px',background:'#667eea',color:'#fff',border:'none',borderRadius:6,cursor:'pointer',fontWeight:700,fontSize:'0.82rem'}}>
+                Chèn bảng
+              </button>
+            </div>
+          )}
+        </div>
+        <div style={{width:1,height:18,background:'#d1d5db',margin:'0 2px'}}/>
+        {/* Image upload */}
+        {TB(()=>fileRef.current?.click(),uploading?'⏳':'📷 Ảnh','Upload ảnh lên Firebase Storage',{background:'#ede9ff',borderColor:'#667eea',color:'#667eea',opacity:uploading?0.6:1,cursor:uploading?'not-allowed':'pointer'})}
+        <input ref={fileRef} type="file" accept="image/*" style={{display:'none'}} onChange={handleImageFile}/>
+        {/* HTML toggle */}
+        <div style={{marginLeft:'auto'}}>
+          {TB(showHtml?switchToVisual:switchToHtml,showHtml?'👁 Visual':'</> HTML','Chỉnh sửa HTML thô',showHtml?{background:'#dcfce7',borderColor:'#16a34a',color:'#16a34a'}:{background:'#fef9c3',borderColor:'#ca8a04',color:'#854d0e'})}
+        </div>
+      </div>
+
+      {/* Visual editor */}
+      <div ref={editorRef} contentEditable={!showHtml} suppressContentEditableWarning
+        onInput={notify}
+        className="ge-content"
+        style={{display:showHtml?'none':'block'}}
+      />
+
+      {/* HTML source view */}
+      {showHtml&&(
+        <textarea value={value} onChange={e=>{onChange(e.target.value);if(editorRef.current) editorRef.current.innerHTML=e.target.value;}}
+          style={{display:'block',width:'100%',boxSizing:'border-box',minHeight:200,padding:'14px 16px',border:'none',resize:'vertical',fontFamily:'monospace',fontSize:'0.82rem',outline:'none',color:'#1e293b',background:'#f8fafc'}}
+        />
+      )}
+    </div>
+  );
+}
+
+// ─── Grammar admin tab ────────────────────────────────────────────────────────
+const GL=['all','1','2','3','4','5','6','7','8','9'];
+const GL_LABEL={all:'Tất cả','1':'Khối 1','2':'Khối 2','3':'Khối 3','4':'Khối 4','5':'Khối 5','6':'Khối 6','7':'Khối 7','8':'Khối 8','9':'Khối 9'};
+const MONTHS_G=['','T1','T2','T3','T4','T5','T6','T7','T8','T9','T10','T11','T12'];
+const EMPTY_GL={title:'',description:'',videoUrl:'',content:'',gradeLevel:'all',topic:'',module:'',weekNumber:'',month:'',year:new Date().getFullYear(),exercises:[],status:'published'};
+const EMPTY_EX_G={question:'',type:'mcq',options:['','','',''],answer:'',explanation:''};
+
+const Gs={
+  wrap:{display:'flex',gap:0,minHeight:'calc(100vh - 200px)',background:'#fff',borderRadius:16,overflow:'hidden',boxShadow:'0 2px 16px rgba(0,0,0,0.08)'},
+  sidebar:{width:260,background:'#1a1a2e',flexShrink:0,overflowY:'auto',display:'flex',flexDirection:'column'},
+  sidebarTop:{padding:'16px 14px 10px',borderBottom:'1px solid #2d2d4e'},
+  addBtn:{display:'block',width:'100%',padding:'9px 12px',background:'linear-gradient(135deg,#667eea,#764ba2)',color:'#fff',border:'none',borderRadius:8,cursor:'pointer',fontWeight:700,fontSize:'0.88rem',marginBottom:8},
+  gTab:(a)=>({padding:'5px 9px',border:'none',borderRadius:6,cursor:'pointer',fontWeight:700,fontSize:'0.75rem',background:a?'#667eea':'rgba(255,255,255,0.1)',color:'#fff',marginRight:4,marginBottom:4}),
+  searchSide:{width:'100%',boxSizing:'border-box',padding:'7px 10px',borderRadius:6,border:'1px solid #2d2d4e',background:'rgba(255,255,255,0.06)',color:'#fff',fontSize:'0.82rem',outline:'none'},
+  item:(a)=>({padding:'10px 14px',cursor:'pointer',borderLeft:a?'3px solid #667eea':'3px solid transparent',background:a?'rgba(102,126,234,0.15)':'transparent',transition:'all 0.12s'}),
+  itemTitle:{fontSize:'0.85rem',fontWeight:600,color:'#eee',marginBottom:2,lineHeight:1.3},
+  itemMeta:{fontSize:'0.72rem',color:'#888'},
+  main:{flex:1,padding:'24px 28px',overflowY:'auto',background:'#f9fafc'},
+  formCard:{background:'#fff',borderRadius:14,padding:'24px',boxShadow:'0 2px 12px rgba(0,0,0,0.06)'},
+  row2:{display:'grid',gridTemplateColumns:'1fr 1fr',gap:14},
+  row3:{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12},
+  lbl:{display:'block',fontWeight:700,color:'#555',fontSize:'0.82rem',marginBottom:5},
+  inp:{width:'100%',boxSizing:'border-box',padding:'9px 11px',borderRadius:8,border:'1.5px solid #e0e0e0',fontSize:'0.88rem',outline:'none'},
+  sel:{width:'100%',boxSizing:'border-box',padding:'9px 11px',borderRadius:8,border:'1.5px solid #e0e0e0',fontSize:'0.88rem',background:'#fff'},
+  ta:{width:'100%',boxSizing:'border-box',padding:'9px 11px',borderRadius:8,border:'1.5px solid #e0e0e0',fontSize:'0.86rem',outline:'none',minHeight:140,resize:'vertical',fontFamily:'monospace'},
+  divider:{height:1,background:'#f0f0f0',margin:'20px 0'},
+  secTitle:{fontWeight:800,color:'#333',fontSize:'0.95rem',margin:'0 0 14px'},
+  exCard:{border:'1.5px solid #e8e8f0',borderRadius:10,padding:'16px',marginBottom:12,background:'#fafafe'},
+  exRow:{display:'flex',gap:8,alignItems:'center',marginBottom:8},
+  rmBtn:{background:'#fee2e2',color:'#e17055',border:'none',borderRadius:6,padding:'5px 10px',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',whiteSpace:'nowrap'},
+  addExBtn:{background:'#ede9ff',color:'#667eea',border:'none',borderRadius:8,padding:'9px 16px',cursor:'pointer',fontWeight:700,fontSize:'0.86rem',marginRight:8},
+  btnRow:{display:'flex',gap:10,marginTop:20,flexWrap:'wrap'},
+  saveBtn:{padding:'10px 24px',borderRadius:9,border:'none',cursor:'pointer',fontWeight:800,fontSize:'0.9rem',background:'linear-gradient(135deg,#667eea,#764ba2)',color:'#fff'},
+  delBtn:{padding:'10px 20px',borderRadius:9,border:'none',cursor:'pointer',fontWeight:800,fontSize:'0.9rem',background:'#fee2e2',color:'#e17055'},
+  emptyState:{textAlign:'center',padding:'60px 20px',color:'#aaa'},
+  uploadBtn:{padding:'6px 12px',borderRadius:6,border:'1.5px solid #667eea',background:'#ede9ff',color:'#667eea',cursor:'pointer',fontWeight:700,fontSize:'0.78rem',whiteSpace:'nowrap'},
+  statusDot:(s)=>({display:'inline-block',width:6,height:6,borderRadius:'50%',background:s==='published'?'#00b894':'#f39c12',marginRight:4}),
+};
+
+function GrammarAdminTab(){
+  const[lessons,setLessons]=useState([]);
+  const[loading,setLoading]=useState(true);
+  const[selected,setSelected]=useState(null);
+  const[form,setForm]=useState(EMPTY_GL);
+  const[isNew,setIsNew]=useState(false);
+  const[saving,setSaving]=useState(false);
+  const[deleting,setDeleting]=useState(false);
+  const[msg,setMsg]=useState(null);
+  const[filterGrade,setFilterGrade]=useState('all');
+  const[search,setSearch]=useState('');
+
+  const load=useCallback(async()=>{
+    setLoading(true);
+    try{const r=await adminApi.getGrammarLessons();setLessons(r.data?.lessons||[]);}
+    catch{setMsg({ok:false,text:'Không tải được dữ liệu.'});}
+    finally{setLoading(false);}
+  },[]);
+  useEffect(()=>{load();},[load]);
+
+  const selectLesson=(l)=>{
+    setSelected(l);setIsNew(false);setMsg(null);
+    setForm({title:l.title||'',description:l.description||'',videoUrl:l.videoUrl||'',content:l.content||'',gradeLevel:l.gradeLevel||'all',topic:l.topic||'',module:l.module||'',weekNumber:l.weekNumber||'',month:l.month||'',year:l.year||new Date().getFullYear(),exercises:l.exercises||[],status:l.status||'published'});
+  };
+  const startNew=()=>{setSelected(null);setIsNew(true);setForm(EMPTY_GL);setMsg(null);};
+
+  const setF=(k,v)=>setForm(f=>({...f,[k]:v}));
+
+  const handleSave=async()=>{
+    if(!form.title.trim())return setMsg({ok:false,text:'Nhập tiêu đề bài học.'});
+    setSaving(true);setMsg(null);
+    try{
+      if(isNew){await adminApi.createGrammarLesson(form);setMsg({ok:true,text:'Đã tạo bài học.'});setIsNew(false);}
+      else{await adminApi.updateGrammarLesson(selected.id,form);setMsg({ok:true,text:'Đã lưu thay đổi.'});}
+      await load();
+    }catch{setMsg({ok:false,text:'Lỗi lưu bài học.'});}
+    finally{setSaving(false);}
+  };
+
+  const handleDelete=async()=>{
+    if(!selected||!window.confirm(`Xóa bài học "${selected.title}"?`))return;
+    setDeleting(true);
+    try{await adminApi.deleteGrammarLesson(selected.id);setSelected(null);setIsNew(false);setForm(EMPTY_GL);setMsg({ok:true,text:'Đã xóa.'});await load();}
+    catch{setMsg({ok:false,text:'Lỗi xóa.'});}
+    finally{setDeleting(false);}
+  };
+
+  const handleUploadImage=async(base64)=>{
+    const r=await adminApi.uploadGrammarImage(base64);
+    const url=r.data?.url;
+    if(!url) throw new Error('No URL');
+    return url;
+  };
+
+  const addEx=(type)=>setForm(f=>({...f,exercises:[...f.exercises,{...EMPTY_EX_G,type,options:type==='mcq'?['','','','']:[]}]}));
+  const updEx=(i,k,v)=>setForm(f=>{const exs=[...f.exercises];exs[i]={...exs[i],[k]:v};return{...f,exercises:exs};});
+  const updOpt=(i,j,v)=>setForm(f=>{const exs=[...f.exercises];const opts=[...exs[i].options];opts[j]=v;exs[i]={...exs[i],options:opts};return{...f,exercises:exs};});
+  const rmEx=(i)=>setForm(f=>({...f,exercises:f.exercises.filter((_,idx)=>idx!==i)}));
+
+  const filtered=lessons
+    .filter(l=>{
+      if(filterGrade!=='all'&&l.gradeLevel!==filterGrade)return false;
+      if(search&&!l.title.toLowerCase().includes(search.toLowerCase()))return false;
+      return true;
+    })
+    .sort((a,b)=>{
+      const ga=a.gradeLevel==='all'?99:parseInt(a.gradeLevel)||99;
+      const gb=b.gradeLevel==='all'?99:parseInt(b.gradeLevel)||99;
+      if(ga!==gb)return ga-gb;
+      const wa=parseInt(a.weekNumber)||0;
+      const wb=parseInt(b.weekNumber)||0;
+      if(wa!==wb)return wa-wb;
+      return(a.title||'').localeCompare(b.title||'');
+    });
+
+  const showForm=isNew||selected;
+
+  return(
+    <div style={Gs.wrap}>
+      {/* Sidebar */}
+      <div style={Gs.sidebar}>
+        <div style={Gs.sidebarTop}>
+          <button style={Gs.addBtn} onClick={startNew}>+ Thêm bài học mới</button>
+          <input style={Gs.searchSide} placeholder="Tìm bài học..." value={search} onChange={e=>setSearch(e.target.value)}/>
+          <div style={{marginTop:8,display:'flex',flexWrap:'wrap'}}>
+            {GL.map(g=><button key={g} style={Gs.gTab(filterGrade===g)} onClick={()=>setFilterGrade(g)}>{GL_LABEL[g]}</button>)}
+          </div>
+        </div>
+        <div style={{flex:1,overflowY:'auto',paddingTop:8}}>
+          {loading&&<div style={{color:'#888',padding:'20px 14px',fontSize:'0.82rem'}}>Đang tải...</div>}
+          {!loading&&filtered.length===0&&<div style={{color:'#888',padding:'20px 14px',fontSize:'0.82rem'}}>Không có bài học.</div>}
+          {filtered.map(l=>(
+            <div key={l.id} style={Gs.item(selected?.id===l.id)} onClick={()=>selectLesson(l)}>
+              <div style={Gs.itemTitle}><span style={Gs.statusDot(l.status)}/>{l.title}</div>
+              <div style={Gs.itemMeta}>{GL_LABEL[l.gradeLevel]||l.gradeLevel} · {l.topic||'–'}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Main editor */}
+      <div style={Gs.main}>
+        {msg&&<div style={{marginBottom:14,padding:'10px 14px',borderRadius:10,fontWeight:700,fontSize:'0.88rem',background:msg.ok?'#ecfdf5':'#fef2f2',color:msg.ok?'#047857':'#b91c1c',border:msg.ok?'1px solid #a7f3d0':'1px solid #fecaca'}}>{msg.text}</div>}
+
+        {!showForm&&(
+          <div style={Gs.emptyState}>
+            <div style={{fontSize:'2.5rem',marginBottom:12}}>📚</div>
+            <div style={{fontWeight:700,marginBottom:8}}>Chọn bài học để chỉnh sửa</div>
+            <div style={{fontSize:'0.88rem'}}>hoặc nhấn "+ Thêm bài học mới"</div>
+          </div>
+        )}
+
+        {showForm&&(
+          <div style={Gs.formCard}>
+            <div style={{fontWeight:900,fontSize:'1.1rem',color:'#333',marginBottom:20}}>
+              {isNew?'Tạo bài học mới':'Chỉnh sửa: '+selected?.title}
+            </div>
+
+            <div style={Gs.row2}>
+              <div><label style={Gs.lbl}>Tiêu đề *</label>
+                <input style={Gs.inp} value={form.title} onChange={e=>setF('title',e.target.value)} placeholder="VD: Unit 1 – In the school playground"/></div>
+              <div><label style={Gs.lbl}>Khối lớp</label>
+                <select style={Gs.sel} value={form.gradeLevel} onChange={e=>setF('gradeLevel',e.target.value)}>
+                  {GL.map(g=><option key={g} value={g}>{GL_LABEL[g]}</option>)}
+                </select></div>
+            </div>
+
+            <div style={{...Gs.row3,marginTop:12}}>
+              <div><label style={Gs.lbl}>Chủ điểm ngữ pháp</label>
+                <input style={Gs.inp} value={form.topic} onChange={e=>setF('topic',e.target.value)} placeholder="VD: Động từ To Be"/></div>
+              <div><label style={Gs.lbl}>Module</label>
+                <input style={Gs.inp} value={form.module} onChange={e=>setF('module',e.target.value)}/></div>
+              <div><label style={Gs.lbl}>Trạng thái</label>
+                <select style={Gs.sel} value={form.status} onChange={e=>setF('status',e.target.value)}>
+                  <option value="published">Đã xuất bản</option>
+                  <option value="draft">Nháp</option>
+                </select></div>
+            </div>
+
+            <div style={{...Gs.row3,marginTop:12}}>
+              <div><label style={Gs.lbl}>Tuần</label>
+                <input style={Gs.inp} type="number" value={form.weekNumber} onChange={e=>setF('weekNumber',e.target.value)}/></div>
+              <div><label style={Gs.lbl}>Tháng</label>
+                <select style={Gs.sel} value={form.month} onChange={e=>setF('month',e.target.value)}>
+                  {MONTHS_G.map((m,i)=><option key={i} value={i}>{m||'–'}</option>)}
+                </select></div>
+              <div><label style={Gs.lbl}>Năm</label>
+                <input style={Gs.inp} type="number" value={form.year} onChange={e=>setF('year',Number(e.target.value))}/></div>
+            </div>
+
+            <div style={{marginTop:12}}>
+              <label style={Gs.lbl}>Mô tả ngắn</label>
+              <input style={Gs.inp} value={form.description} onChange={e=>setF('description',e.target.value)} placeholder="Tóm tắt nội dung bài học"/>
+            </div>
+
+            <div style={{marginTop:12}}>
+              <label style={Gs.lbl}>URL Video YouTube</label>
+              <input style={Gs.inp} value={form.videoUrl} onChange={e=>setF('videoUrl',e.target.value)} placeholder="https://www.youtube.com/watch?v=..."/>
+            </div>
+
+            <div style={{marginTop:12}}>
+              <label style={Gs.lbl}>Nội dung lý thuyết</label>
+              <RichTextEditor
+                key={selected?.id||(isNew?'__new__':'__empty__')}
+                value={form.content}
+                onChange={v=>setF('content',v)}
+                onUploadImage={handleUploadImage}
+              />
+              <div style={{fontSize:'0.75rem',color:'#999',marginTop:4}}>Gõ nội dung bình thường. Dùng toolbar để in đậm, tạo bảng, chèn ảnh... Nút &lt;/&gt; HTML để xem/sửa mã thô.</div>
+            </div>
+
+            <div style={Gs.divider}/>
+
+            {/* Exercises */}
+            <div style={Gs.secTitle}>Bài tập ({form.exercises.length})</div>
+            {form.exercises.map((ex,i)=>(
+              <div key={i} style={Gs.exCard}>
+                <div style={Gs.exRow}>
+                  <select style={{...Gs.sel,width:140,flex:'none'}} value={ex.type} onChange={e=>updEx(i,'type',e.target.value)}>
+                    <option value="mcq">Trắc nghiệm</option>
+                    <option value="fill_blank">Điền từ</option>
+                  </select>
+                  <input style={{...Gs.inp,flex:1}} placeholder="Câu hỏi..." value={ex.question} onChange={e=>updEx(i,'question',e.target.value)}/>
+                  <button style={Gs.rmBtn} onClick={()=>rmEx(i)}>Xóa</button>
+                </div>
+                {ex.type==='mcq'&&(
+                  <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginBottom:8}}>
+                    {(ex.options||['','','','']).map((opt,j)=>(
+                      <input key={j} style={Gs.inp} placeholder={`Đáp án ${j+1}`} value={opt} onChange={e=>updOpt(i,j,e.target.value)}/>
+                    ))}
+                  </div>
+                )}
+                <div style={Gs.row2}>
+                  <div><label style={Gs.lbl}>Đáp án đúng</label>
+                    <input style={Gs.inp} value={ex.answer} onChange={e=>updEx(i,'answer',e.target.value)}/></div>
+                  <div><label style={Gs.lbl}>Giải thích</label>
+                    <input style={Gs.inp} value={ex.explanation} onChange={e=>updEx(i,'explanation',e.target.value)}/></div>
+                </div>
+              </div>
+            ))}
+            <div>
+              <button style={Gs.addExBtn} onClick={()=>addEx('mcq')}>+ Trắc nghiệm</button>
+              <button style={Gs.addExBtn} onClick={()=>addEx('fill_blank')}>+ Điền từ</button>
+            </div>
+
+            <div style={Gs.btnRow}>
+              <button style={Gs.saveBtn} disabled={saving} onClick={handleSave}>{saving?'Đang lưu...':'💾 Lưu bài học'}</button>
+              {!isNew&&selected&&(
+                <button style={Gs.delBtn} disabled={deleting} onClick={handleDelete}>{deleting?'Đang xóa...':'🗑 Xóa bài học'}</button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 function AdminUsersPage(){
   useTitle('Quản lý người dùng');
@@ -1001,6 +1451,7 @@ function AdminUsersPage(){
         {activeTab==='classes' &&<ClassroomsTab/>}
         {activeTab==='teachers'&&<TeachersTab/>}
         {activeTab==='students'&&<StudentsTab/>}
+        {activeTab==='grammar' &&<GrammarAdminTab/>}
       </div>
     </div>
   );

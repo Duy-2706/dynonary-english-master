@@ -1,4 +1,5 @@
 const grammarService = require('../services/grammar.service');
+const commonService = require('../services/common.service');
 
 exports.getLessons = async (req, res) => {
   try {
@@ -167,5 +168,66 @@ exports.getMySubmissions = async (req, res) => {
     return res.status(200).json({ submissions });
   } catch (error) {
     return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.getLessonClassroomAssignments = async (req, res) => {
+  try {
+    const { lessonId, classroomId } = req.params;
+    const assignments = await grammarService.getLessonAssignmentsForClassroom(lessonId, classroomId);
+    return res.status(200).json({ assignments });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+// ─── Admin controllers (bypass owner check) ──────────────────────────────────
+
+exports.adminGetAllLessons = async (req, res) => {
+  try {
+    const lessons = await grammarService.getAllLessonsAdmin();
+    return res.status(200).json({ lessons });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.adminCreateLesson = async (req, res) => {
+  try {
+    const lesson = await grammarService.createLesson(req.user.accountId, req.user.name || 'Admin', req.body);
+    return res.status(201).json({ lesson });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.adminUpdateLesson = async (req, res) => {
+  try {
+    const lesson = await grammarService.updateLessonAdmin(req.params.id, req.body);
+    return res.status(200).json({ lesson });
+  } catch (error) {
+    if (error.message === 'Không tìm thấy bài học') return res.status(404).json({ message: error.message });
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.adminDeleteLesson = async (req, res) => {
+  try {
+    await grammarService.deleteLessonAdmin(req.params.id);
+    return res.status(200).json({ ok: true });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
+  }
+};
+
+exports.adminUploadImage = async (req, res) => {
+  try {
+    const { image } = req.body;
+    if (!image) return res.status(400).json({ message: 'Thiếu dữ liệu ảnh' });
+    const url = await commonService.uploadImage(image, 'grammar_content');
+    return res.status(200).json({ url });
+  } catch (error) {
+    console.error('ADMIN UPLOAD IMAGE ERROR:', error);
+    return res.status(503).json({ message: 'Lỗi upload ảnh' });
   }
 };

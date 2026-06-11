@@ -44,6 +44,7 @@ const COLLECTIONS = {
   GRAMMAR_PROGRESS: 'grammarProgress',
   GRAMMAR_ASSIGNMENTS: 'grammarAssignments',
   GRAMMAR_SUBMISSIONS: 'grammarSubmissions',
+  
 };
 
 function docToObj(doc) {

@@ -292,3 +292,47 @@ exports.getMySubmissions = async (studentAccountId) => {
   const snap = await submissionsCol.where('studentAccountId', '==', studentAccountId).get();
   return snap.docs.map(docToObj);
 };
+
+exports.getLessonAssignmentsForClassroom = async (lessonId, classroomId) => {
+  const snap = await assignmentsCol
+    .where('lessonId', '==', lessonId)
+    .where('classroomId', '==', classroomId)
+    .get();
+  return snap.docs
+    .map(docToObj)
+    .filter((a) => a.status !== 'draft')
+    .sort((a, b) => ((a.dueDate || '') > (b.dueDate || '') ? 1 : -1));
+};
+
+exports.getAllLessonsAdmin = async () => {
+  const snap = await grammarCol.get();
+  const lessons = snap.docs.map(docToObj);
+  lessons.sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+  return lessons;
+};
+
+exports.updateLessonAdmin = async (lessonId, data) => {
+  const doc = await grammarCol.doc(lessonId).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài học');
+  const { teacherAccountId: _a, teacherName: _b, createdAt: _c, ...rest } = data;
+  const updates = { ...rest, updatedAt: new Date().toISOString() };
+  if (updates.exercises) {
+    updates.exercises = updates.exercises.map((ex, i) => ({
+      id: ex.id || `ex_${i}_${Date.now()}`,
+      question: ex.question || '',
+      type: ex.type || 'mcq',
+      options: ex.options || [],
+      answer: ex.answer || '',
+      explanation: ex.explanation || '',
+    }));
+  }
+  await doc.ref.update(updates);
+  return docToObj(await grammarCol.doc(lessonId).get());
+};
+
+exports.deleteLessonAdmin = async (lessonId) => {
+  const doc = await grammarCol.doc(lessonId).get();
+  if (!doc.exists) throw new Error('Không tìm thấy bài học');
+  await doc.ref.delete();
+};
+

@@ -15,6 +15,16 @@ const MONTHS = ['', 'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 
 
 const SITE_GRAD = 'linear-gradient(135deg, #102f4e 0%, #6fc7e1 100%)';
 
+const GRAMMAR_CONTENT_CSS = `
+.grammar-html-content img{max-width:100%;height:auto;border-radius:8px;margin:10px 0;display:block;}
+.grammar-html-content table{border-collapse:collapse;width:100%;margin:12px 0;font-size:0.92rem;}
+.grammar-html-content th,.grammar-html-content td{border:1px solid #d1d5db;padding:8px 12px;text-align:left;}
+.grammar-html-content th{background:#f1f5f9;font-weight:700;}
+.grammar-html-content blockquote{border-left:4px solid #667eea;margin:12px 0;padding:8px 16px;background:rgba(102,126,234,0.07);border-radius:0 8px 8px 0;color:#334155;}
+.grammar-html-content h3{margin:14px 0 8px;color:var(--text-color);}
+.grammar-html-content p{margin:6px 0;}
+`;
+
 const S = {
   page: { minHeight: '100vh', background: 'var(--bg-color-main)' },
   hero: { background: SITE_GRAD, padding: '40px 24px 60px', textAlign: 'center', color: '#fff' },
@@ -104,6 +114,19 @@ const S = {
     background: 'var(--bg-color-accent)', borderRadius: 12, padding: '16px 20px', marginBottom: 24,
     lineHeight: 1.7, color: 'var(--text-color)', fontSize: '0.95rem',
   },
+  divider: { height: 2, background: 'var(--border-color)', margin: '28px 0', borderRadius: 4 },
+  classAssignSection: {
+    marginTop: 8, background: 'rgba(102,126,234,0.05)', borderRadius: 16, padding: '20px 22px',
+    border: '2px solid rgba(102,126,234,0.2)',
+  },
+  classAssignHeader: { fontWeight: 900, fontSize: '1rem', color: 'var(--text-color)', marginBottom: 14 },
+  classAssignCard: (urgency) => ({
+    borderRadius: 12, padding: '14px 16px', marginBottom: 10,
+    border: `2px solid ${urgency === 'urgent' ? '#fca5a5' : urgency === 'warning' ? '#fde68a' : urgency === 'done' ? '#a7f3d0' : urgency === 'expired' ? '#e2e8f0' : '#bfdbfe'}`,
+    background: urgency === 'urgent' ? '#fef2f2' : urgency === 'warning' ? '#fffbeb' : urgency === 'done' ? '#ecfdf5' : urgency === 'expired' ? '#f8fafc' : '#eff6ff',
+    cursor: urgency !== 'expired' ? 'pointer' : 'default',
+    transition: 'transform 0.12s',
+  }),
   exCard: { border: '1.5px solid var(--border-color)', borderRadius: 12, padding: '16px 18px', marginBottom: 14 },
   exQuestion: { fontWeight: 700, color: 'var(--text-color)', marginBottom: 12, fontSize: '0.95rem' },
   optionBtn: (state) => ({
@@ -185,7 +208,7 @@ function DeadlineDisplay({ dueDate, isDone }) {
   return <span style={S.deadline(urgency)}>{prefix}{label} · Hạn: {fmtDatetime(dueDate)}</span>;
 }
 
-// ─── Exercise item (for common lessons - no tracking) ─────────────────────────
+// ─── Exercise item (common lesson practice — no tracking) ─────────────────────
 function ExerciseItem({ exercise, index }) {
   const [selected, setSelected] = useState(null);
   const [fillValue, setFillValue] = useState('');
@@ -230,11 +253,6 @@ function AssignmentExItem({ exercise, index, answer, onChange, submitted }) {
   const [fillValue, setFillValue] = useState(answer || '');
   const isCorrect = submitted && answer ? answer.trim().toLowerCase() === exercise.answer.trim().toLowerCase() : null;
 
-  const handleOption = (opt) => {
-    if (submitted) return;
-    onChange(opt);
-  };
-
   const getOptionState = (opt) => {
     if (!submitted) return answer === opt ? 'reveal' : 'idle';
     if (opt === exercise.answer) return answer === opt ? 'correct' : 'reveal';
@@ -248,7 +266,7 @@ function AssignmentExItem({ exercise, index, answer, onChange, submitted }) {
       {exercise.type === 'mcq' ? (
         <>
           {exercise.options.map((opt, i) => (
-            <button key={i} style={S.optionBtn(getOptionState(opt))} onClick={() => handleOption(opt)}>
+            <button key={i} style={S.optionBtn(getOptionState(opt))} onClick={() => { if (!submitted) onChange(opt); }}>
               {String.fromCharCode(65 + i)}. {opt}
             </button>
           ))}
@@ -259,8 +277,7 @@ function AssignmentExItem({ exercise, index, answer, onChange, submitted }) {
           <input style={S.fillInput(submitted ? (isCorrect ? 'correct' : 'wrong') : 'idle')}
             value={fillValue}
             onChange={(e) => { if (!submitted) { setFillValue(e.target.value); onChange(e.target.value); } }}
-            placeholder="Nhập đáp án..."
-            disabled={submitted} />
+            placeholder="Nhập đáp án..." disabled={submitted} />
           {submitted && <div style={S.explanation(isCorrect)}>{isCorrect ? '✅ Chính xác!' : `❌ Sai! Đáp án: ${exercise.answer}`}{exercise.explanation ? ` — ${exercise.explanation}` : ''}</div>}
         </>
       )}
@@ -268,8 +285,9 @@ function AssignmentExItem({ exercise, index, answer, onChange, submitted }) {
   );
 }
 
-// ─── Assignment modal ─────────────────────────────────────────────────────────
-function AssignmentModal({ assignment, existingSubmission, userInfo, onClose, onSubmitted }) {
+// ─── Inline assignment panel (shown inside lesson modal) ─────────────────────
+function InlineAssignment({ assignment, existingSubmission, userInfo, onSubmitted }) {
+  const [open, setOpen] = useState(false);
   const [answers, setAnswers] = useState(() => {
     if (existingSubmission) {
       const m = {};
@@ -282,18 +300,16 @@ function AssignmentModal({ assignment, existingSubmission, userInfo, onClose, on
   const [result, setResult] = useState(existingSubmission ? { score: existingSubmission.score, maxScore: existingSubmission.maxScore } : null);
   const [submitting, setSubmitting] = useState(false);
   const [msg, setMsg] = useState('');
-  const isExpired = assignment.dueDate && new Date() > new Date(assignment.dueDate);
 
-  const setAnswer = (questionId, val) => setAnswers((prev) => ({ ...prev, [questionId]: val }));
+  const isExpired = assignment.dueDate && new Date() > new Date(assignment.dueDate);
+  const t = useCountdown(assignment.dueDate);
+  const urgency = submitted ? 'done' : !assignment.dueDate ? 'normal' : t?.expired ? 'expired' : t?.urgent ? 'urgent' : t?.warning ? 'warning' : 'normal';
 
   const handleSubmit = async () => {
     setSubmitting(true); setMsg('');
     try {
       const answerList = (assignment.exercises || []).map((ex) => ({ questionId: ex.id, answer: answers[ex.id] || '' }));
-      const res = await grammarApi.submitAssignment(assignment.id, {
-        answers: answerList,
-        studentName: userInfo?.name || '',
-      });
+      const res = await grammarApi.submitAssignment(assignment.id, { answers: answerList, studentName: userInfo?.name || '' });
       setResult({ score: res.data.score, maxScore: res.data.maxScore });
       setSubmitted(true);
       onSubmitted && onSubmitted();
@@ -303,44 +319,56 @@ function AssignmentModal({ assignment, existingSubmission, userInfo, onClose, on
   };
 
   return (
-    <div style={S.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
-      <div style={S.modal}>
-        <div style={S.modalHeader}>
-          <button style={S.modalClose} onClick={onClose}>✕</button>
-          <div style={{ fontSize: '0.82rem', opacity: 0.8, marginBottom: 6 }}>
-            📋 Bài tập · {assignment.classroomName}
-            {assignment.dueDate ? ` · Hạn: ${fmtDatetime(assignment.dueDate)}` : ''}
+    <div style={S.classAssignCard(urgency)}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 800, fontSize: '0.95rem', color: '#0f172a', marginBottom: 3 }}>{assignment.title}</div>
+          <div style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: 4 }}>
+            📅 {assignment.weekNumber ? `Tuần ${assignment.weekNumber} · ` : ''}{assignment.exercises?.length || 0} câu
           </div>
-          <h2 style={{ margin: 0, fontWeight: 900, fontSize: '1.35rem' }}>{assignment.title}</h2>
-          {assignment.description && <div style={{ fontSize: '0.85rem', opacity: 0.8, marginTop: 4 }}>{assignment.description}</div>}
-        </div>
-        <div style={S.modalBody}>
-          {msg && <div style={{ marginBottom: 12, padding: '10px 14px', borderRadius: 8, background: '#fde8e4', color: '#e17055', fontWeight: 700 }}>{msg}</div>}
-
-          {isExpired && !submitted && (
-            <div style={{ marginBottom: 14, padding: '10px 14px', borderRadius: 8, background: '#fff7ed', color: '#c2410c', fontWeight: 700, border: '1px solid #fed7aa' }}>
-              ⚠️ Bài tập đã hết hạn. Bài nộp sẽ bị đánh dấu muộn.
+          <DeadlineDisplay dueDate={assignment.dueDate} isDone={submitted} />
+          {result && (
+            <div style={{ marginTop: 4, fontSize: '0.82rem', fontWeight: 700, color: '#047857' }}>
+              Kết quả: {result.score}/{result.maxScore} ({result.maxScore > 0 ? Math.round((result.score / result.maxScore) * 100) : 0}%)
             </div>
           )}
+        </div>
+        {!isExpired || submitted ? (
+          <button onClick={() => setOpen(!open)} style={{
+            padding: '7px 16px', borderRadius: 10, border: 'none', cursor: 'pointer',
+            fontWeight: 700, fontSize: '0.85rem',
+            background: submitted ? '#ecfdf5' : SITE_GRAD,
+            color: submitted ? '#047857' : '#fff',
+            whiteSpace: 'nowrap', flexShrink: 0,
+          }}>
+            {submitted ? (open ? 'Đóng' : '📋 Xem lại') : (open ? 'Đóng' : '✏️ Làm bài')}
+          </button>
+        ) : null}
+      </div>
 
-          {assignment.exercises && assignment.exercises.length > 0 && (
-            <>
-              <div style={S.sectionTitle}>✏️ Bài tập ({assignment.exercises.length} câu)</div>
-              {assignment.exercises.map((ex, i) => (
-                <AssignmentExItem key={ex.id || i} exercise={ex} index={i}
-                  answer={answers[ex.id]}
-                  onChange={(val) => setAnswer(ex.id, val)}
-                  submitted={submitted} />
-              ))}
-            </>
+      {open && (
+        <div style={{ marginTop: 16 }}>
+          {msg && <div style={{ marginBottom: 10, padding: '8px 12px', borderRadius: 8, background: '#fde8e4', color: '#e17055', fontWeight: 700 }}>{msg}</div>}
+          {isExpired && !submitted && (
+            <div style={{ marginBottom: 10, padding: '8px 12px', borderRadius: 8, background: '#fff7ed', color: '#c2410c', fontWeight: 700 }}>
+              ⚠️ Bài tập đã hết hạn — bài nộp sẽ bị đánh dấu muộn.
+            </div>
           )}
-
-          {!submitted && assignment.exercises?.length > 0 && (
+          {assignment.description && (
+            <div style={{ marginBottom: 14, padding: '10px 14px', background: 'rgba(0,0,0,0.04)', borderRadius: 8, fontSize: '0.9rem', color: '#374151' }}>
+              📝 {assignment.description}
+            </div>
+          )}
+          {(assignment.exercises || []).map((ex, i) => (
+            <AssignmentExItem key={ex.id || i} exercise={ex} index={i}
+              answer={answers[ex.id]} onChange={(val) => setAnswers((prev) => ({ ...prev, [ex.id]: val }))}
+              submitted={submitted} />
+          ))}
+          {!submitted && (assignment.exercises?.length > 0) && (
             <button style={S.submitBtn} onClick={handleSubmit} disabled={submitting}>
               {submitting ? 'Đang nộp...' : '📤 Nộp bài'}
             </button>
           )}
-
           {result && (
             <div style={S.resultBox}>
               <div style={{ fontSize: '2rem', fontWeight: 900 }}>{result.score}/{result.maxScore}</div>
@@ -348,23 +376,64 @@ function AssignmentModal({ assignment, existingSubmission, userInfo, onClose, on
                 {result.maxScore > 0 ? Math.round((result.score / result.maxScore) * 100) : 0}% chính xác
               </div>
               <div style={{ fontSize: '0.9rem', opacity: 0.85, marginTop: 8 }}>
-                {result.score === result.maxScore ? '🎉 Xuất sắc! Hoàn thành toàn bộ bài tập.' : result.score >= result.maxScore * 0.7 ? '👍 Tốt! Xem lại các câu sai bên trên.' : '💪 Cố gắng hơn! Xem lại bài lý thuyết.'}
+                {result.score === result.maxScore ? '🎉 Xuất sắc! Hoàn thành toàn bộ.' : result.score >= result.maxScore * 0.7 ? '👍 Tốt! Xem lại các câu sai.' : '💪 Cố gắng hơn! Xem lại lý thuyết.'}
               </div>
             </div>
           )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
-// ─── Student assignments section ──────────────────────────────────────────────
+// ─── Class assignments section inside lesson modal ────────────────────────────
+function LessonClassAssignments({ lesson, userInfo }) {
+  const [assignments, setAssignments] = useState([]);
+  const [mySubmissions, setMySubmissions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const classroomId = userInfo?.classroomId || '';
+
+  const load = useCallback(async () => {
+    if (!classroomId || !lesson?.id) { setLoading(false); return; }
+    setLoading(true);
+    try {
+      const [aRes, sRes] = await Promise.all([
+        grammarApi.getLessonClassroomAssignments(lesson.id, classroomId),
+        grammarApi.getMySubmissions(),
+      ]);
+      setAssignments(aRes.data?.assignments || []);
+      setMySubmissions(sRes.data?.submissions || []);
+    } catch { setAssignments([]); }
+    finally { setLoading(false); }
+  }, [lesson?.id, classroomId]);
+
+  useEffect(() => { load(); }, [load]);
+
+  if (!classroomId) return null;
+  if (loading) return <div style={{ padding: '12px 0', color: 'var(--grey)', fontSize: '0.88rem' }}>⏳ Đang tải bài tập...</div>;
+  if (assignments.length === 0) return null;
+
+  const getSubmission = (id) => mySubmissions.find((s) => s.assignmentId === id) || null;
+
+  return (
+    <>
+      <div style={S.divider} />
+      <div style={S.classAssignSection}>
+        <div style={S.classAssignHeader}>📌 Bài tập của lớp ({assignments.length} bài)</div>
+        {assignments.map((a) => (
+          <InlineAssignment key={a.id} assignment={a} existingSubmission={getSubmission(a.id)} userInfo={userInfo} onSubmitted={load} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ─── Student assignments overview (top of page) ───────────────────────────────
 function StudentAssignmentsSection({ userInfo }) {
   const [assignments, setAssignments] = useState([]);
   const [mySubmissions, setMySubmissions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [activeAssignment, setActiveAssignment] = useState(null);
-
   const classroomId = userInfo?.classroomId || '';
 
   const load = useCallback(async () => {
@@ -383,76 +452,57 @@ function StudentAssignmentsSection({ userInfo }) {
 
   useEffect(() => { load(); }, [load]);
 
-  if (!classroomId) return null;
-  if (loading) return null;
-  if (assignments.length === 0) return null;
+  if (!classroomId || loading || assignments.length === 0) return null;
 
-  const getSubmission = (assignmentId) => mySubmissions.find((s) => s.assignmentId === assignmentId) || null;
+  const pending = assignments.filter((a) => {
+    const sub = mySubmissions.find((s) => s.assignmentId === a.id);
+    if (sub) return false;
+    if (!a.dueDate) return true;
+    return new Date(a.dueDate) > Date.now();
+  });
+  if (pending.length === 0) return null;
 
-  const getUrgency = (assignment) => {
-    const sub = getSubmission(assignment.id);
-    if (sub) return 'done';
-    if (!assignment.dueDate) return 'normal';
-    const diff = new Date(assignment.dueDate) - Date.now();
+  const getUrgency = (a) => {
+    if (!a.dueDate) return 'normal';
+    const diff = new Date(a.dueDate) - Date.now();
     if (diff <= 0) return 'expired';
     if (diff < 3600000) return 'urgent';
     if (diff < 86400000) return 'warning';
     return 'normal';
   };
 
-  const activeAssignmentSub = activeAssignment ? getSubmission(activeAssignment.id) : null;
-
   return (
-    <>
-      <div style={S.assignSection}>
-        <div style={S.assignHeader}>
-          <h2 style={S.assignTitle}>📌 Bài tập của tôi ({assignments.length})</h2>
-        </div>
-        <div style={S.assignGrid}>
-          {assignments.map((a) => {
-            const urgency = getUrgency(a);
-            const sub = getSubmission(a.id);
-            return (
-              <div key={a.id} style={S.assignCard(urgency)}
-                onClick={() => setActiveAssignment(a)}
-                onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)'; }}
-                onMouseOut={(e) => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}>
-                <div style={S.assignCardTitle}>{a.title}</div>
-                <div style={S.assignCardClass}>🏫 {a.classroomName}{a.weekNumber ? ` · Tuần ${a.weekNumber}` : ''}</div>
-                <DeadlineDisplay dueDate={a.dueDate} isDone={!!sub} />
-                {sub && (
-                  <div style={{ marginTop: 6, fontSize: '0.8rem', fontWeight: 700, color: '#047857' }}>
-                    Điểm: {sub.score}/{sub.maxScore} ({sub.maxScore > 0 ? Math.round((sub.score / sub.maxScore) * 100) : 0}%)
-                    {sub.isLate ? ' · ⚠️ Nộp muộn' : ''}
-                  </div>
-                )}
-                <div style={{ marginTop: 8, fontSize: '0.78rem', color: '#64748b' }}>
-                  {a.exercises?.length || 0} câu · Nhấn để làm bài
-                </div>
-              </div>
-            );
-          })}
-        </div>
+    <div style={S.assignSection}>
+      <div style={S.assignHeader}>
+        <h2 style={S.assignTitle}>📌 Bài tập chưa hoàn thành ({pending.length})</h2>
       </div>
-
-      {activeAssignment && (
-        <AssignmentModal
-          assignment={activeAssignment}
-          existingSubmission={activeAssignmentSub}
-          userInfo={userInfo}
-          onClose={() => setActiveAssignment(null)}
-          onSubmitted={load}
-        />
-      )}
-    </>
+      <div style={S.assignGrid}>
+        {pending.map((a) => {
+          const urgency = getUrgency(a);
+          return (
+            <div key={a.id} style={S.assignCard(urgency)}
+              onMouseOver={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.10)'; }}
+              onMouseOut={(e) => { e.currentTarget.style.transform = ''; e.currentTarget.style.boxShadow = ''; }}>
+              <div style={S.assignCardTitle}>{a.title}</div>
+              <div style={S.assignCardClass}>🏫 {a.classroomName}{a.weekNumber ? ` · Tuần ${a.weekNumber}` : ''}</div>
+              <DeadlineDisplay dueDate={a.dueDate} isDone={false} />
+              <div style={{ marginTop: 8, fontSize: '0.78rem', color: '#64748b' }}>
+                {a.exercises?.length || 0} câu · Mở bài học để làm bài
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 
 // ─── Common lesson modal ──────────────────────────────────────────────────────
-function LessonModal({ lesson, onClose }) {
+function LessonModal({ lesson, userInfo, onClose }) {
   const embedUrl = toYouTubeEmbed(lesson.videoUrl);
   return (
     <div style={S.overlay} onClick={(e) => e.target === e.currentTarget && onClose()}>
+      <style>{GRAMMAR_CONTENT_CSS}</style>
       <div style={S.modal}>
         <div style={S.modalHeader}>
           <button style={S.modalClose} onClick={onClose}>✕</button>
@@ -462,7 +512,7 @@ function LessonModal({ lesson, onClose }) {
             {lesson.module ? ` · ${lesson.module}` : ''}
           </div>
           <h2 style={{ margin: 0, fontWeight: 900, fontSize: '1.35rem' }}>{lesson.title}</h2>
-          <div style={{ fontSize: '0.85rem', opacity: 0.75, marginTop: 4 }}>Giáo viên: {lesson.teacherName}</div>
+          <div style={{ fontSize: '0.85rem', opacity: 0.75, marginTop: 4 }}>👨‍🏫 {lesson.teacherName}</div>
         </div>
         <div style={S.modalBody}>
           {embedUrl && (
@@ -475,15 +525,17 @@ function LessonModal({ lesson, onClose }) {
           {lesson.content && (
             <>
               <div style={S.sectionTitle}>📖 Lý thuyết</div>
-              <div style={S.contentBox} dangerouslySetInnerHTML={{ __html: lesson.content }} />
+              <div className="grammar-html-content" style={S.contentBox} dangerouslySetInnerHTML={{ __html: lesson.content }} />
             </>
           )}
           {lesson.exercises && lesson.exercises.length > 0 && (
             <>
-              <div style={S.sectionTitle}>✏️ Bài tập ({lesson.exercises.length} câu)</div>
+              <div style={S.sectionTitle}>✏️ Bài tập luyện tập ({lesson.exercises.length} câu)</div>
               {lesson.exercises.map((ex, i) => <ExerciseItem key={ex.id || i} exercise={ex} index={i} />)}
             </>
           )}
+          {/* Class-specific assignments linked to this lesson */}
+          <LessonClassAssignments lesson={lesson} userInfo={userInfo} />
         </div>
       </div>
     </div>
@@ -503,7 +555,7 @@ function GrammarPage() {
   const [yearFilter, setYearFilter] = useState('');
   const [search, setSearch] = useState('');
   const [selectedLesson, setSelectedLesson] = useState(null);
-  const [topics, setTopics] = useState({});
+  const [moduleFilter, setModuleFilter] = useState('');
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -519,17 +571,29 @@ function GrammarPage() {
   }, [gradeFilter, monthFilter, yearFilter]);
 
   useEffect(() => { load(); }, [load]);
-  useEffect(() => { grammarApi.getTopics().then((res) => setTopics(res.data?.topics || {})).catch(() => {}); }, []);
 
-  const allTopics = [...new Set(Object.values(topics).flat())];
-  const filtered = lessons.filter((l) => {
-    if (topicFilter && l.topic !== topicFilter) return false;
-    if (search) {
-      const q = search.toLowerCase();
-      return (l.title || '').toLowerCase().includes(q) || (l.topic || '').toLowerCase().includes(q);
-    }
-    return true;
-  });
+  const allTopics = [...new Set(lessons.filter((l) => l.topic).map((l) => l.topic))].sort((a, b) => a.localeCompare(b));
+  const allModules = [...new Set(lessons.filter((l) => l.module).map((l) => l.module))].sort((a, b) => a.localeCompare(b));
+
+  const filtered = lessons
+    .filter((l) => {
+      if (topicFilter && l.topic !== topicFilter) return false;
+      if (moduleFilter && l.module !== moduleFilter) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        return (l.title || '').toLowerCase().includes(q) || (l.topic || '').toLowerCase().includes(q) || (l.module || '').toLowerCase().includes(q);
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      const ga = a.gradeLevel === 'all' ? 99 : parseInt(a.gradeLevel) || 99;
+      const gb = b.gradeLevel === 'all' ? 99 : parseInt(b.gradeLevel) || 99;
+      if (ga !== gb) return ga - gb;
+      const wa = parseInt(a.weekNumber) || 0;
+      const wb = parseInt(b.weekNumber) || 0;
+      if (wa !== wb) return wa - wb;
+      return (a.title || '').localeCompare(b.title || '');
+    });
 
   const currentYear = new Date().getFullYear();
   const years = [currentYear, currentYear - 1, currentYear - 2];
@@ -546,10 +610,10 @@ function GrammarPage() {
       </div>
 
       <div style={S.body}>
-        {/* Student assignment section */}
+        {/* Pending assignments overview */}
         <StudentAssignmentsSection userInfo={userInfo} />
 
-        {/* Common lessons filter */}
+        {/* Lesson browser */}
         <div style={S.filterCard}>
           <div style={S.gradeTabs}>
             {GRADE_LEVELS.map((g) => (
@@ -560,6 +624,10 @@ function GrammarPage() {
           </div>
           <div style={S.filterRow}>
             <input style={S.searchInput} placeholder="🔍 Tìm kiếm bài học..." value={search} onChange={(e) => setSearch(e.target.value)} />
+            <select style={S.select} value={moduleFilter} onChange={(e) => setModuleFilter(e.target.value)}>
+              <option value="">Tất cả Unit</option>
+              {allModules.map((m) => <option key={m} value={m}>{m}</option>)}
+            </select>
             <select style={S.select} value={topicFilter} onChange={(e) => setTopicFilter(e.target.value)}>
               <option value="">Tất cả chủ đề</option>
               {allTopics.map((t) => <option key={t} value={t}>{t}</option>)}
@@ -605,7 +673,7 @@ function GrammarPage() {
         )}
       </div>
 
-      {selectedLesson && <LessonModal lesson={selectedLesson} onClose={() => setSelectedLesson(null)} />}
+      {selectedLesson && <LessonModal lesson={selectedLesson} userInfo={userInfo} onClose={() => setSelectedLesson(null)} />}
     </div>
   );
 }

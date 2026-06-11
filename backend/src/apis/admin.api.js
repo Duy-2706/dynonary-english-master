@@ -1,6 +1,7 @@
 const adminApi = require('express').Router();
 const adminController = require('../controllers/admin.controller');
 const { jwtAuthentication, requireRole } = require('../middlewares/passport.middleware');
+const grammarController = require('../controllers/grammar.controller');
 
 
 const adminOnly = [jwtAuthentication, requireRole('admin')];
@@ -20,5 +21,14 @@ adminApi.get('/classrooms', ...adminOnly, adminController.getClassrooms);
 adminApi.post('/classrooms', ...adminOnly, adminController.createClassroom);
 adminApi.put('/teachers/:id', ...adminOnly, adminController.updateTeacher);
 adminApi.delete('/teachers/:id', ...adminOnly, adminController.deleteTeacher);
+
+// Grammar admin CRUD (bypass owner check)
+adminApi.get('/grammar/lessons', ...adminOnly, grammarController.adminGetAllLessons);
+adminApi.post('/grammar/lessons', ...adminOnly, grammarController.adminCreateLesson);
+adminApi.put('/grammar/lessons/:id', ...adminOnly, grammarController.adminUpdateLesson);
+adminApi.delete('/grammar/lessons/:id', ...adminOnly, grammarController.adminDeleteLesson);
+adminApi.post('/grammar/upload-image', ...adminOnly, grammarController.adminUploadImage);
+
+
 
 module.exports = adminApi;

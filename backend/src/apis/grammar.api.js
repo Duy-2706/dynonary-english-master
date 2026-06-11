@@ -31,4 +31,7 @@ grammarApi.get('/assignments/classroom/:classroomId', jwtAuthentication, grammar
 grammarApi.post('/assignments/:id/submit', jwtAuthentication, grammarController.submitAssignment);
 grammarApi.get('/submissions/mine', jwtAuthentication, grammarController.getMySubmissions);
 
+// Lesson-linked classroom assignments (shown inside lesson detail)
+grammarApi.get('/lessons/:lessonId/classroom-assignments/:classroomId', grammarController.getLessonClassroomAssignments);
+
 module.exports = grammarApi;

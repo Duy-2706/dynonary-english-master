@@ -22,6 +22,13 @@ const adminApi = {
   getClassrooms: () => axiosClient.get(`${URL}/classrooms`),
   createClassroom: (data) => axiosClient.post(`${URL}/classrooms`, data),
 
+    // Grammar admin
+  getGrammarLessons: () => axiosClient.get(`${URL}/grammar/lessons`),
+  createGrammarLesson: (data) => axiosClient.post(`${URL}/grammar/lessons`, data),
+  updateGrammarLesson: (id, data) => axiosClient.put(`${URL}/grammar/lessons/${id}`, data),
+  deleteGrammarLesson: (id) => axiosClient.delete(`${URL}/grammar/lessons/${id}`),
+  uploadGrammarImage: (image) => axiosClient.post(`${URL}/grammar/upload-image`, { image }),
+
 };
 
 export default adminApi;

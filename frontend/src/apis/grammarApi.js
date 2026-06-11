@@ -21,6 +21,7 @@ const grammarApi = {
   getClassroomAssignments: (classroomId) => axiosClient.get(`${URL}/assignments/classroom/${classroomId}`),
   submitAssignment: (id, data) => axiosClient.post(`${URL}/assignments/${id}/submit`, data),
   getMySubmissions: () => axiosClient.get(`${URL}/submissions/mine`),
+    getLessonClassroomAssignments: (lessonId, classroomId) => axiosClient.get(`${URL}/lessons/${lessonId}/classroom-assignments/${classroomId}`),
 };
 
 export default grammarApi;

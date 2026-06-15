@@ -70,6 +70,16 @@ function SettingMenu({ anchorEl, onClose }) {
         </Link>
       )}
 
+      {/* Quản lý lớp học - giáo viên và admin */}
+      {isAuth && (role === 'teacher' || role === 'admin') && (
+        <Link to={ROUTES.CLASSROOM}>
+          <MenuItem className={classes.menuItem}>
+            <SupervisorAccountIcon className={classes.icon} fontSize="small" />
+            <p className={classes.text}>Quản lý lớp học</p>
+          </MenuItem>
+        </Link>
+      )}
+
       {/* Quản lý phòng game - giáo viên và admin */}
       {isAuth && (role === 'teacher' || role === 'admin') && (
         <Link to="/teacher/game-rooms">

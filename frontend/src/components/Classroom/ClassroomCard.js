@@ -6,9 +6,12 @@ import PeopleIcon from '@material-ui/icons/People';
 import PropTypes from 'prop-types';
 import React from 'react';
 import useStyle from './style';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import { useHistory } from 'react-router-dom';
 
 function ClassroomCard({ classroom, onEdit, onDelete }) {
   const classes = useStyle();
+  const history = useHistory();
 
   const {
     _id,
@@ -47,6 +50,14 @@ function ClassroomCard({ classroom, onEdit, onDelete }) {
       </div>
 
       <div className={classes.cardActions}>
+        <Button
+          className="_btn _btn-primary"
+          startIcon={<DashboardIcon />}
+          style={{ marginRight: 'auto' }}
+          onClick={() => history.push(`/classrooms/${_id}`)}>
+          Quản lý
+        </Button>
+
         <Button
           className={classes.editBtn}
           startIcon={<EditIcon />}

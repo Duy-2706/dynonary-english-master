@@ -78,7 +78,7 @@ exports.deleteClassroom = async (req, res) => {
 
     const result = await classroomService.deleteClassroom(req.user, id);
 
-    if (!result.deletedCount) {
+    if (!result) {
       return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
     }
 
@@ -86,5 +86,85 @@ exports.deleteClassroom = async (req, res) => {
   } catch (error) {
     console.error('DELETE CLASSROOM ERROR:', error);
     return res.status(500).json({ message: 'Lỗi xóa lớp học.' });
+  }
+
+
+    const result = await classroomService.deleteClassroom(req.user, id);
+
+    if (!result.deletedCount) {
+    if (!result) {
+      return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
+    }
+
+    console.error('DELETE CLASSROOM ERROR:', error);
+    return res.status(500).json({ message: 'Lỗi xóa lớp học.' });
+  }
+};
+
+exports.getClassroomById = async (req, res) => {
+  try {
+    if (!checkAuth(req, res)) return;
+    const { id } = req.params;
+    const classroom = await classroomService.getClassroomById(req.user, id);
+    if (!classroom)
+      return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
+    return res.status(200).json({ classroom });
+  } catch (error) {
+    console.error('GET CLASSROOM BY ID ERROR:', error);
+    return res.status(500).json({ message: 'Lỗi lấy thông tin lớp học.' });
+  }
+};
+
+exports.getActivity = async (req, res) => {
+  try {
+    if (!checkAuth(req, res)) return;
+    const { id } = req.params;
+    const activity = await classroomService.getClassroomActivity(req.user, id);
+    if (!activity)
+      return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
+    return res.status(200).json({ activity });
+  } catch (error) {
+    console.error('GET ACTIVITY ERROR:', error);
+    return res.status(500).json({ message: 'Lỗi lấy thông tin hoạt động.' });
+  }
+};
+
+exports.getWeeklyReport = async (req, res) => {
+  try {
+    if (!checkAuth(req, res)) return;
+    const { id } = req.params;
+    const { weekNumber, year } = req.query;
+    const report = await classroomService.getWeeklyReport(
+      req.user,
+      id,
+      weekNumber,
+      year,
+    );
+    if (!report)
+      return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
+    return res.status(200).json(report);
+  } catch (error) {
+    console.error('GET WEEKLY REPORT ERROR:', error);
+    return res.status(500).json({ message: 'Lỗi lấy báo cáo tuần.' });
+  }
+};
+
+exports.upsertWeeklyEvaluation = async (req, res) => {
+  try {
+    if (!checkAuth(req, res)) return;
+    const { id } = req.params;
+    const evaluation = await classroomService.upsertWeeklyEvaluation(
+      req.user,
+      id,
+      req.body,
+    );
+    if (!evaluation)
+      return res.status(404).json({ message: 'Không tìm thấy lớp học.' });
+    return res
+      .status(200)
+      .json({ message: 'Đánh giá đã được lưu.', evaluation });
+  } catch (error) {
+    console.error('UPSERT EVAL ERROR:', error);
+    return res.status(500).json({ message: 'Lỗi lưu đánh giá.' });
   }
 };

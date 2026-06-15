@@ -25,6 +25,7 @@ const ForgotPasswordPage = React.lazy(() => import('pages/ForgotPassword'));
 const UserAccountPage = React.lazy(() => import('pages/UserAccount'));
 const LeaderBoardPage = React.lazy(() => import('pages/LeaderBoard'));
 const ClassroomPage = React.lazy(() => import('pages/Classroom'));
+const ClassroomDetailPage = React.lazy(() => import('pages/Teacher/ClassroomDetail'));
 
 const CoursePage = React.lazy(() => import('pages/Course'));
 const CourseDetailPage = React.lazy(() => import('pages/Course/CourseDetailPage'));
@@ -168,10 +169,16 @@ const routes = [
     component: () => <FastGamePage />,
   },
   {
-  path: ROUTES.CLASSROOM,
-  exact: false,
-  isProtect: true,
-  component: () => <ClassroomPage />,
+    path: '/classrooms/:id',
+    exact: true,
+    isProtect: true,
+    component: () => <ClassroomDetailPage />,
+  },
+  {
+    path: ROUTES.CLASSROOM,
+    exact: false,
+    isProtect: true,
+    component: () => <ClassroomPage />,
   },
   {
     path: '/courses/:id/learn/:lessonId',

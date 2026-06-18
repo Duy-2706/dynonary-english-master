@@ -34,4 +34,7 @@ grammarApi.get('/submissions/mine', jwtAuthentication, grammarController.getMySu
 // Lesson-linked classroom assignments (shown inside lesson detail)
 grammarApi.get('/lessons/:lessonId/classroom-assignments/:classroomId', grammarController.getLessonClassroomAssignments);
 
+// Assignments – teacher management view for a single classroom (includes drafts)
+grammarApi.get('/assignments/classroom/:classroomId/manage', jwtAuthentication, grammarController.getClassroomAssignmentsForTeacher);
+
 module.exports = grammarApi;

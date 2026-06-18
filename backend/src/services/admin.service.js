@@ -69,7 +69,7 @@ exports.deleteTeacher = async (userId, adminAccountId) => {
 
 exports.adminCreateTeachers = async (teachers = []) => {
   const results = [];
-  const defaultPw = 'GiaoVien@TCA123';
+  const defaultPw = '12345678a';
   for (const t of teachers) {
     const base = generateTeacherEmail(t.name);
     const email = await uniqueEmail(base);
@@ -90,9 +90,9 @@ exports.adminCreateTeachers = async (teachers = []) => {
 exports.adminCreateStudents = async (students = [], classroomId = '', classroomName = '') => {
   const results = [];
   for (const s of students) {
-    const base = generateStudentEmail(s.name, s.dob);
+    const base = (s.email && s.email.trim()) ? s.email.trim().toLowerCase() : generateStudentEmail(s.name, s.dob);
     const email = await uniqueEmail(base);
-    const password = generateStudentPassword(s.dob);
+    const password = (s.password && s.password.trim()) ? s.password.trim() : generateStudentPassword();
     const created = await makeAccountAndUser(email, password, s.name, 'student', {
       classroomId,
       classroomName,

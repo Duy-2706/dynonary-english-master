@@ -18,6 +18,8 @@ exports.getMyLessons = async (req, res) => {
     const lessons = await grammarService.getLessons({ teacherAccountId: req.user.accountId });
     return res.status(200).json({ lessons });
   } catch (error) {
+    if (error.message === 'Không tìm thấy bài tập') return res.status(404).json({ message: error.message });
+    if (error.message === 'Bài tập chưa đến ngày mở') return res.status(400).json({ message: error.message });
     return res.status(503).json({ message: 'Lỗi dịch vụ' });
   }
 };
@@ -224,10 +226,20 @@ exports.adminUploadImage = async (req, res) => {
   try {
     const { image } = req.body;
     if (!image) return res.status(400).json({ message: 'Thiếu dữ liệu ảnh' });
-    const url = await commonService.uploadImage(image, 'grammar_content');
+    const url = await commonService.uploadImageToStorage(image, 'grammar_content');
     return res.status(200).json({ url });
   } catch (error) {
     console.error('ADMIN UPLOAD IMAGE ERROR:', error);
     return res.status(503).json({ message: 'Lỗi upload ảnh' });
+  }
+};
+
+exports.getClassroomAssignmentsForTeacher = async (req, res) => {
+  try {
+    if (!req.user) return res.status(401).json({ message: 'Chưa đăng nhập' });
+    const assignments = await grammarService.getClassroomAssignmentsForTeacher(req.params.classroomId, req.user.accountId);
+    return res.status(200).json({ assignments });
+  } catch (error) {
+    return res.status(503).json({ message: 'Lỗi dịch vụ' });
   }
 };

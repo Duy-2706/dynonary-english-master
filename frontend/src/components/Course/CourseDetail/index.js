@@ -16,7 +16,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import BookIcon from '@material-ui/icons/Book';
 import SchoolIcon from '@material-ui/icons/School';
 import PeopleIcon from '@material-ui/icons/People';
-import StarIcon from '@material-ui/icons/Star';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useParams } from 'react-router-dom';
@@ -25,386 +24,364 @@ import { setMessage } from 'redux/slices/message.slice';
 import courseApi from 'apis/courseApi';
 import { ROUTES } from 'constant';
 
-const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
-
 const LEVEL_COLORS = {
-  A1: ['#19c7a8', '#07947f'],
-  A2: ['#0a84ff', '#00439d'],
-  B1: ['#ff8a00', '#bd5f00'],
-  B2: ['#ff1493', '#9b0054'],
-  C1: ['#7b1cff', '#360087'],
-  C2: ['#34c759', '#087a3c'],
-  'Tất cả': ['#19c7a8', '#07947f'],
+  A1: '#059669',
+  A2: '#2563eb',
+  B1: '#d97706',
+  B2: '#7c3aed',
+  C1: '#dc2626',
+  C2: '#0891b2',
+  'Tất cả': '#475569',
 };
 
 const useStyle = makeStyles(() => ({
   page: {
     minHeight: '100vh',
     background: `
-      radial-gradient(circle at 12% 18%, rgba(25,199,168,.22) 0 4px, transparent 5px),
-      radial-gradient(circle at 86% 24%, rgba(255,191,31,.16) 0 5px, transparent 6px),
-      radial-gradient(circle at 34% 74%, rgba(255,255,255,.10) 0 3px, transparent 4px),
-      linear-gradient(180deg, #063c46 0%, #042b33 100%)
+      radial-gradient(circle at 8% 12%, rgba(37,99,235,.10) 0 260px, transparent 261px),
+      radial-gradient(circle at 92% 8%, rgba(14,165,233,.12) 0 240px, transparent 241px),
+      radial-gradient(circle at 82% 88%, rgba(16,185,129,.10) 0 280px, transparent 281px),
+      linear-gradient(180deg, #eef4ff 0%, #f6f8fc 46%, #eef7f3 100%)
     `,
-    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
-    padding: '42px 0 90px',
-    fontFamily: GAME_FONT,
+    padding: '34px 0 70px',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
   },
 
   wrapper: {
-    maxWidth: 1380,
+    width: 'min(1240px, calc(100% - 48px))',
     margin: '0 auto',
-    padding: '0 34px',
   },
 
   backBtn: {
-    marginBottom: '22px !important',
-    background: 'linear-gradient(180deg,#ffffff,#eefdf9) !important',
-    color: '#056d5e !important',
-    border: '4px solid #19c7a8 !important',
-    borderRadius: '999px !important',
-    padding: '11px 22px !important',
-    fontSize: '1.08rem !important',
-    fontWeight: '900 !important',
-    fontFamily: `${GAME_FONT} !important`,
+    marginBottom: '20px !important',
+    background: '#ffffff !important',
+    color: '#334155 !important',
+    border: '1px solid #cbd5e1 !important',
+    borderRadius: '11px !important',
+    padding: '10px 18px !important',
+    fontSize: '1rem !important',
+    fontWeight: '800 !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 6px 0 rgba(7,148,127,.20) !important',
+    boxShadow: '0 6px 16px rgba(15,23,42,.06) !important',
+    '&:hover': {
+      background: '#f8fafc !important',
+      borderColor: '#94a3b8 !important',
+    },
   },
 
   hero: {
-    background: 'linear-gradient(180deg,#ffffff 0%,#eefdf9 100%)',
-    borderRadius: 40,
-    border: '7px solid rgba(255,255,255,.96)',
-    boxShadow: '0 12px 0 rgba(7,148,127,.55), 0 24px 48px rgba(0,0,0,.22)',
-    padding: '42px',
-    marginBottom: 38,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-
-  heroDecor: {
-    position: 'absolute',
-    right: 44,
-    top: 28,
-    fontSize: '6rem',
-    opacity: 0.13,
-    transform: 'rotate(-10deg)',
+    background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%)',
+    borderRadius: 22,
+    padding: '34px 36px',
+    marginBottom: 26,
+    boxShadow: '0 18px 42px rgba(15,23,42,0.18)',
+    color: '#ffffff',
   },
 
   heroGrid: {
     display: 'grid',
     gridTemplateColumns: 'minmax(0, 1fr) 340px',
-    gap: 34,
-    position: 'relative',
-    zIndex: 2,
-  },
-
-  heroLeft: {
-    minWidth: 0,
+    gap: 28,
+    alignItems: 'start',
   },
 
   levelChip: {
-    height: 'auto !important',
+    height: '32px !important',
     borderRadius: '999px !important',
-    color: '#fff !important',
-    border: '4px solid #fff !important',
-    fontFamily: `${GAME_FONT} !important`,
-    fontWeight: '900 !important',
-    fontSize: '1.12rem !important',
-    padding: '7px 8px !important',
-    boxShadow: '0 6px 0 rgba(0,0,0,.18)',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
-    marginBottom: '18px !important',
+    color: '#ffffff !important',
+    border: '1px solid rgba(255,255,255,.32) !important',
+    fontWeight: '800 !important',
+    fontSize: '0.9rem !important',
+    marginBottom: '16px !important',
   },
 
   courseTitle: {
-    fontSize: 'clamp(3rem, 5vw, 5.2rem)',
+    fontSize: 'clamp(2.25rem, 4vw, 3.7rem)',
     fontWeight: 900,
-    color: '#06434b',
-    margin: '0 0 18px',
-    lineHeight: 0.92,
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
+    color: '#ffffff',
+    margin: '0 0 16px',
+    lineHeight: 1.12,
+    letterSpacing: '-0.04em',
   },
 
   description: {
-    color: '#07545c',
-    fontSize: '1.28rem',
-    fontWeight: 850,
-    lineHeight: 1.6,
-    margin: '0 0 22px',
+    color: '#dbeafe',
+    fontSize: '1.08rem',
+    fontWeight: 500,
+    lineHeight: 1.75,
+    margin: '0 0 24px',
+    maxWidth: 760,
   },
 
   metaGrid: {
     display: 'flex',
-    gap: 14,
+    gap: 12,
     flexWrap: 'wrap',
   },
 
   metaPill: {
-    display: 'flex',
+    display: 'inline-flex',
     alignItems: 'center',
     gap: 8,
-    background: '#fff',
-    color: '#06434b',
-    border: '3px solid #d6f3ed',
+    background: 'rgba(255,255,255,.14)',
+    color: '#ffffff',
+    border: '1px solid rgba(255,255,255,.24)',
     borderRadius: 999,
-    padding: '10px 16px',
-    fontSize: '1.08rem',
-    fontWeight: 900,
-    boxShadow: '0 5px 0 rgba(7,148,127,.12)',
+    padding: '9px 14px',
+    fontSize: '0.98rem',
+    fontWeight: 750,
   },
 
   enrollCard: {
-    background: 'linear-gradient(180deg,#ffffff,#fff8e1)',
-    borderRadius: 32,
-    border: '6px solid #ffcf45',
-    padding: 28,
-    boxShadow: '0 10px 0 #bd7800, 0 22px 42px rgba(0,0,0,.18)',
-    alignSelf: 'start',
+    background: '#ffffff',
+    borderRadius: 18,
+    border: '1px solid rgba(255,255,255,.35)',
+    padding: 24,
+    boxShadow: '0 14px 34px rgba(15,23,42,.22)',
+    color: '#0f172a',
   },
 
   priceLabel: {
-    color: '#9b5c00',
-    fontSize: '1.08rem',
-    fontWeight: 900,
-    marginBottom: 6,
+    color: '#64748b',
+    fontSize: '0.9rem',
+    fontWeight: 800,
+    marginBottom: 8,
     textTransform: 'uppercase',
-    letterSpacing: 1,
+    letterSpacing: 0.7,
   },
 
   price: {
-    color: '#ff8a00',
-    fontSize: '2.7rem',
+    color: '#0f172a',
+    fontSize: '2rem',
     fontWeight: 900,
-    lineHeight: 1,
-    marginBottom: 22,
-    textShadow: '0 3px 0 rgba(184,79,0,.14)',
+    lineHeight: 1.1,
+    marginBottom: 20,
+    letterSpacing: '-0.03em',
   },
 
   enrollBtn: {
     width: '100%',
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00) !important',
+    background: '#1d4ed8 !important',
     color: '#fff !important',
-    border: '4px solid #fff !important',
-    fontWeight: '900 !important',
-    borderRadius: '999px !important',
-    padding: '15px 18px !important',
-    fontSize: '1.18rem !important',
-    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '850 !important',
+    borderRadius: '11px !important',
+    padding: '12px 18px !important',
+    fontSize: '1rem !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 8px 0 #bd5f00 !important',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+    boxShadow: '0 8px 18px rgba(29,78,216,.26) !important',
+    '&:hover': {
+      background: '#1e40af !important',
+    },
   },
 
   enrolledBtn: {
     width: '100%',
-    background: 'linear-gradient(180deg,#36e27d,#0ca84f) !important',
+    background: '#059669 !important',
     color: '#fff !important',
-    border: '4px solid #fff !important',
-    fontWeight: '900 !important',
-    borderRadius: '999px !important',
-    padding: '15px 18px !important',
-    fontSize: '1.18rem !important',
-    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '850 !important',
+    borderRadius: '11px !important',
+    padding: '12px 18px !important',
+    fontSize: '1rem !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 8px 0 #087a3c !important',
   },
 
   pendingBtn: {
     width: '100%',
-    background: 'linear-gradient(180deg,#9aa8b8,#64748b) !important',
+    background: '#64748b !important',
     color: '#fff !important',
-    border: '4px solid #fff !important',
-    fontWeight: '900 !important',
-    borderRadius: '999px !important',
-    padding: '15px 18px !important',
-    fontSize: '1.12rem !important',
-    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '850 !important',
+    borderRadius: '11px !important',
+    padding: '12px 18px !important',
+    fontSize: '1rem !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 8px 0 #475569 !important',
   },
 
   pendingNote: {
-    color: '#7a5200',
-    fontSize: '1.05rem',
+    color: '#92400e',
+    fontSize: '0.96rem',
     marginTop: 14,
     textAlign: 'center',
-    fontWeight: 900,
-    lineHeight: 1.45,
+    fontWeight: 700,
+    lineHeight: 1.55,
+    background: '#fffbeb',
+    border: '1px solid #fde68a',
+    borderRadius: 12,
+    padding: '10px 12px',
   },
 
   contentCard: {
-    background: '#fff',
-    borderRadius: 36,
-    border: '7px solid rgba(255,255,255,.95)',
-    padding: 34,
-    boxShadow: '0 12px 0 rgba(7,148,127,.38), 0 24px 48px rgba(0,0,0,.20)',
+    background: '#ffffff',
+    borderRadius: 20,
+    border: '1px solid #dbe4ef',
+    padding: 30,
+    boxShadow: '0 12px 30px rgba(15,23,42,0.10)',
   },
 
   sectionTitle: {
     fontWeight: 900,
-    margin: '0 0 26px',
-    fontSize: '2.2rem',
-    color: '#06434b',
+    margin: '0 0 24px',
+    fontSize: '1.55rem',
+    color: '#0f172a',
     display: 'flex',
     alignItems: 'center',
-    gap: 12,
-    textShadow: '0 3px 0 rgba(25,199,168,.12)',
+    gap: 10,
+    letterSpacing: '-0.02em',
   },
 
   emptyBox: {
     textAlign: 'center',
-    padding: 58,
-    color: '#07545c',
-    border: '5px dashed #d6f3ed',
-    borderRadius: 30,
-    background: '#f7fffd',
-    fontWeight: 900,
-    fontSize: '1.28rem',
-    lineHeight: 1.5,
+    padding: 54,
+    color: '#64748b',
+    border: '1px dashed #cbd5e1',
+    borderRadius: 16,
+    background: '#f8fafc',
+    fontWeight: 750,
+    fontSize: '1.06rem',
+    lineHeight: 1.6,
   },
 
   accordion: {
-    borderRadius: '30px !important',
-    marginBottom: '20px !important',
+    borderRadius: '16px !important',
+    marginBottom: '16px !important',
     overflow: 'hidden',
-    border: '5px solid #d6f3ed',
-    boxShadow: '0 8px 0 rgba(7,148,127,.18), 0 16px 32px rgba(0,0,0,.12)',
+    border: '1px solid #dbe4ef',
+    boxShadow: '0 6px 18px rgba(15,23,42,0.06)',
     '&:before': {
       display: 'none',
     },
   },
 
   accordionSummary: {
-    background: 'linear-gradient(180deg,#eefdf9,#ffffff) !important',
-    padding: '12px 24px !important',
-    minHeight: '82px !important',
+    background: '#f8fafc !important',
+    padding: '10px 20px !important',
+    minHeight: '78px !important',
+    borderBottom: '1px solid #e2e8f0',
   },
 
   chapterHeader: {
     display: 'flex',
     alignItems: 'center',
-    gap: 16,
+    gap: 15,
     width: '100%',
   },
 
   chapterOrder: {
-    background: 'linear-gradient(180deg,#19c7a8,#07947f)',
+    background: '#1d4ed8',
     color: '#fff',
-    borderRadius: '50%',
-    width: 52,
-    height: 52,
+    borderRadius: 12,
+    width: 46,
+    height: 46,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    fontSize: '1.35rem',
+    fontSize: '1.1rem',
     fontWeight: 900,
     flexShrink: 0,
-    border: '4px solid #fff',
-    boxShadow: '0 5px 0 rgba(0,0,0,.14)',
+    boxShadow: '0 6px 14px rgba(29,78,216,.22)',
   },
 
   chapterTitle: {
     fontWeight: 900,
-    fontSize: '1.55rem',
-    color: '#06434b',
-    lineHeight: 1.2,
+    fontSize: '1.25rem',
+    color: '#0f172a',
+    lineHeight: 1.35,
   },
 
   chapterMeta: {
-    color: '#07545c',
-    fontSize: '1.08rem',
-    fontWeight: 800,
-    marginTop: 5,
+    color: '#64748b',
+    fontSize: '0.98rem',
+    fontWeight: 650,
+    marginTop: 4,
   },
 
   lessonItem: {
-    borderRadius: '24px !important',
-    border: '4px solid #eef7f5',
-    marginBottom: 14,
-    background: '#fff',
-    padding: '13px 18px !important',
-    boxShadow: '0 5px 0 rgba(7,148,127,.08)',
-    transition: 'all .18s ease',
+    borderRadius: '14px !important',
+    border: '1px solid #e2e8f0',
+    marginBottom: 10,
+    background: '#ffffff',
+    padding: '12px 14px !important',
+    transition: 'all .16s ease',
     '&:hover': {
-      background: '#f3fffc',
-      borderColor: '#19c7a8',
-      transform: 'translateY(-2px)',
+      background: '#eff6ff',
+      borderColor: '#bfdbfe',
     },
   },
 
   lessonLocked: {
-    opacity: 0.68,
+    opacity: 0.72,
     background: '#f8fafc',
   },
 
   playIcon: {
-    color: '#19c7a8',
-    fontSize: '34px !important',
-    filter: 'drop-shadow(0 2px 0 rgba(0,0,0,.12))',
+    color: '#1d4ed8',
+    fontSize: '30px !important',
   },
 
   lockIcon: {
     color: '#94a3b8',
-    fontSize: '30px !important',
+    fontSize: '28px !important',
   },
 
   lessonPrimary: {
-    fontSize: '1.22rem',
-    fontWeight: 900,
-    color: '#06434b',
-    lineHeight: 1.35,
+    fontSize: '1.06rem',
+    fontWeight: 850,
+    color: '#0f172a',
+    lineHeight: 1.45,
   },
 
   lessonSecondary: {
-    fontSize: '1.05rem',
-    color: '#07545c',
-    fontWeight: 800,
-    lineHeight: 1.4,
+    fontSize: '0.96rem',
+    color: '#64748b',
+    fontWeight: 600,
+    lineHeight: 1.45,
   },
 
   freeLessonChip: {
     display: 'inline-block',
-    fontSize: '.9rem',
-    color: '#057a55',
-    fontWeight: 900,
-    marginLeft: 10,
-    backgroundColor: '#d4f5eb',
-    border: '2px solid #a8e8db',
-    padding: '3px 9px',
+    fontSize: '.78rem',
+    color: '#047857',
+    fontWeight: 850,
+    marginLeft: 9,
+    backgroundColor: '#ecfdf5',
+    border: '1px solid #a7f3d0',
+    padding: '4px 9px',
     borderRadius: 999,
     verticalAlign: 'middle',
   },
 
   lockedTag: {
-    fontSize: '1rem',
-    color: '#b84f00',
-    fontWeight: 900,
+    fontSize: '0.9rem',
+    color: '#92400e',
+    fontWeight: 850,
     whiteSpace: 'nowrap',
-    border: '3px solid #ffcf45',
-    background: '#fff8e1',
-    padding: '5px 12px',
+    border: '1px solid #fde68a',
+    background: '#fffbeb',
+    padding: '6px 11px',
     borderRadius: 999,
   },
 
   loading: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#042b33',
+    background: '#f5f7fb',
   },
 
   notFound: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#042b33',
-    color: '#fff',
-    fontFamily: GAME_FONT,
-    fontSize: '1.4rem',
-    fontWeight: 900,
+    background: '#f5f7fb',
+    color: '#334155',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+    fontSize: '1.15rem',
+    fontWeight: 800,
   },
 
   '@media (max-width: 960px)': {
@@ -417,9 +394,8 @@ const useStyle = makeStyles(() => ({
   },
 }));
 
-function getLevelGradient(level) {
-  const colors = LEVEL_COLORS[level] || LEVEL_COLORS['Tất cả'];
-  return `linear-gradient(180deg, ${colors[0]}, ${colors[1]})`;
+function getLevelColor(level) {
+  return LEVEL_COLORS[level] || LEVEL_COLORS['Tất cả'];
 }
 
 function CourseDetail() {
@@ -486,10 +462,10 @@ function CourseDetail() {
       if (res.status === 200) {
         if (res.data.isPending) {
           setIsPending(true);
-          dispatch(setMessage({ type: 'info', message: 'Đã gửi yêu cầu! Chờ giáo viên duyệt.' }));
+          dispatch(setMessage({ type: 'info', message: 'Đã gửi yêu cầu. Vui lòng chờ giáo viên duyệt.' }));
         } else {
           setIsEnrolled(true);
-          dispatch(setMessage({ type: 'success', message: 'Đăng ký thành công! Bạn có thể học ngay.' }));
+          dispatch(setMessage({ type: 'success', message: 'Đăng ký thành công. Bạn có thể học ngay.' }));
         }
       }
     } catch (e) {
@@ -504,7 +480,7 @@ function CourseDetail() {
 
   const handleLearnLesson = (lessonId, canAccess) => {
     if (!canAccess) {
-      dispatch(setMessage({ type: 'warning', message: 'Bạn cần đăng ký khóa học để học bài này!' }));
+      dispatch(setMessage({ type: 'warning', message: 'Bạn cần đăng ký khóa học để học bài này.' }));
       return;
     }
 
@@ -514,7 +490,7 @@ function CourseDetail() {
   const getLessonTypeLabel = (type) => {
     switch (type) {
       case 'video':
-        return 'Video + Bài tập';
+        return 'Video + bài tập';
       case 'flashcard':
         return 'Flashcard từ vựng';
       case 'quiz':
@@ -533,7 +509,7 @@ function CourseDetail() {
   if (loading) {
     return (
       <div className={classes.loading}>
-        <CircularProgress style={{ color: '#fff' }} size={58} thickness={5} />
+        <CircularProgress style={{ color: '#1d4ed8' }} size={54} thickness={4.5} />
       </div>
     );
   }
@@ -543,7 +519,7 @@ function CourseDetail() {
   }
 
   const isTeacherOfCourse = role === 'teacher';
-  const levelGradient = getLevelGradient(course.level);
+  const levelColor = getLevelColor(course.level);
 
   return (
     <div className={classes.page}>
@@ -557,41 +533,39 @@ function CourseDetail() {
         </Button>
 
         <div className={classes.hero}>
-          <div className={classes.heroDecor}>🎓</div>
-
           <div className={classes.heroGrid}>
-            <div className={classes.heroLeft}>
+            <div>
               <Chip
-                label={`🎯 ${course.level}`}
+                label={course.level || 'Chưa phân loại'}
                 className={classes.levelChip}
-                style={{ background: levelGradient }}
+                style={{ background: levelColor }}
               />
 
               <h1 className={classes.courseTitle}>{course.title}</h1>
 
               <p className={classes.description}>
-                {course.description || 'Khóa học giúp bạn học tiếng Anh theo từng bài, dễ hiểu và dễ luyện tập.'}
+                {course.description || 'Khóa học giúp học sinh học tiếng Anh theo từng bài, dễ hiểu và dễ luyện tập.'}
               </p>
 
               <div className={classes.metaGrid}>
                 <span className={classes.metaPill}>
-                  <PersonIcon style={{ fontSize: 22 }} />
-                  Giáo viên: <strong>{course.teacherName}</strong>
+                  <PersonIcon style={{ fontSize: 20 }} />
+                  Giáo viên: <strong>{course.teacherName || '—'}</strong>
                 </span>
 
                 <span className={classes.metaPill}>
-                  <BookIcon style={{ fontSize: 22 }} />
-                  {course.totalLessons} bài học
+                  <BookIcon style={{ fontSize: 20 }} />
+                  {course.totalLessons || 0} bài học
                 </span>
 
                 <span className={classes.metaPill}>
-                  <PeopleIcon style={{ fontSize: 22 }} />
-                  {course.totalStudents} học viên
+                  <PeopleIcon style={{ fontSize: 20 }} />
+                  {course.totalStudents || 0} học viên
                 </span>
 
                 <span className={classes.metaPill}>
-                  <SchoolIcon style={{ fontSize: 22 }} />
-                  Cấp độ: {course.level}
+                  <SchoolIcon style={{ fontSize: 20 }} />
+                  Cấp độ: {course.level || '—'}
                 </span>
               </div>
             </div>
@@ -614,11 +588,11 @@ function CourseDetail() {
                 </Button>
               ) : isEnrolled ? (
                 <Button className={classes.enrolledBtn} variant="contained" disabled>
-                  Đã đăng ký · Đang học
+                  Đã đăng ký
                 </Button>
               ) : isPending ? (
                 <Button className={classes.pendingBtn} variant="contained" disabled>
-                  Đang chờ giáo viên duyệt
+                  Đang chờ duyệt
                 </Button>
               ) : (
                 <Button
@@ -626,7 +600,6 @@ function CourseDetail() {
                   variant="contained"
                   onClick={handleEnroll}
                   disabled={enrolling}
-                  startIcon={!enrolling ? <StarIcon /> : null}
                 >
                   {enrolling ? (
                     <CircularProgress size={22} style={{ color: '#fff' }} />
@@ -649,7 +622,7 @@ function CourseDetail() {
 
         <div className={classes.contentCard}>
           <h2 className={classes.sectionTitle}>
-            <BookIcon style={{ fontSize: 34 }} />
+            <BookIcon style={{ fontSize: 28, color: '#1d4ed8' }} />
             Nội dung khóa học
           </h2>
 
@@ -681,7 +654,7 @@ function CourseDetail() {
                   </div>
                 </AccordionSummary>
 
-                <AccordionDetails style={{ padding: '16px 22px 22px' }}>
+                <AccordionDetails style={{ padding: '16px 20px 22px' }}>
                   <List dense style={{ width: '100%' }}>
                     {chapter.lessons?.map((lesson) => {
                       const canAccess =
@@ -696,7 +669,7 @@ function CourseDetail() {
                           button
                           onClick={() => handleLearnLesson(lesson._id, canAccess)}
                         >
-                          <ListItemIcon style={{ minWidth: 48 }}>
+                          <ListItemIcon style={{ minWidth: 46 }}>
                             {canAccess ? (
                               <PlayCircleIcon className={classes.playIcon} />
                             ) : (

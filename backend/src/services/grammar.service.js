@@ -178,7 +178,10 @@ exports.createAssignment = async (teacherAccountId, teacherName, data) => {
     gradeLevel: data.gradeLevel || 'all',
     weekNumber: data.weekNumber ? Number(data.weekNumber) : null,
     year: data.year ? Number(data.year) : new Date().getFullYear(),
+    startDate: data.startDate || null,
     dueDate: data.dueDate || null,
+    durationMinutes: data.durationMinutes ? Number(data.durationMinutes) : null,
+    showResultOnly: data.showResultOnly !== undefined ? !!data.showResultOnly : true,
     exercises: (data.exercises || []).map((ex, i) => ({
       id: ex.id || `ex_${i}_${Date.now()}`,
       question: ex.question || '',
@@ -194,6 +197,16 @@ exports.createAssignment = async (teacherAccountId, teacherName, data) => {
   const ref = await assignmentsCol.add(doc);
   return { ...doc, id: ref.id, _id: ref.id };
 };
+
+// Teacher-only: list ALL assignments for a classroom (including drafts), for management UI
+exports.getClassroomAssignmentsForTeacher = async (classroomId, teacherAccountId) => {
+  const snap = await assignmentsCol.where('classroomId', '==', classroomId).get();
+  return snap.docs
+    .map(docToObj)
+    .filter((a) => a.teacherAccountId === teacherAccountId)
+    .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1));
+};
+
 
 exports.getTeacherAssignments = async (teacherAccountId) => {
   const snap = await assignmentsCol.where('teacherAccountId', '==', teacherAccountId).get();
@@ -242,6 +255,9 @@ exports.submitAssignment = async (assignmentId, studentAccountId, studentName, d
   if (!doc.exists) throw new Error('Không tìm thấy bài tập');
   const assignment = doc.data();
   const now = new Date().toISOString();
+   if (assignment.startDate && now < assignment.startDate) {
+    throw new Error('Bài tập chưa đến ngày mở');
+  }
   const isLate = assignment.dueDate ? now > assignment.dueDate : false;
 
   const exercises = assignment.exercises || [];

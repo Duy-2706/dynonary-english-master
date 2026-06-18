@@ -202,3 +202,21 @@ exports.removeVerifyCode = async (email = '') => {
   snap.docs.forEach((doc) => batch.delete(doc.ref));
   await batch.commit();
 };
+
+exports.uploadImageToStorage = async (imgSrc, folder = 'uploads') => {
+  const { randomUUID } = require('crypto');
+  const { admin } = require('../configs/firebase.config');
+  const bucket = admin.storage().bucket(process.env.FIREBASE_STORAGE_BUCKET);
+  const base64Data = imgSrc.replace(/^data:[^;]+;base64,/, '');
+  const buffer = Buffer.from(base64Data, 'base64');
+  const mimeMatch = imgSrc.match(/^data:([^;]+);base64,/);
+  const mimeType = mimeMatch ? mimeMatch[1] : 'image/jpeg';
+  const ext = mimeType.split('/').pop() || 'jpg';
+  const token = randomUUID();
+  const filename = `${folder}/${Date.now()}_${randomUUID().split('-')[0]}.${ext}`;
+  const file = bucket.file(filename);
+  await file.save(buffer, {
+    metadata: { contentType: mimeType, metadata: { firebaseStorageDownloadTokens: token } },
+  });
+  return `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encodeURIComponent(filename)}?alt=media&token=${token}`;
+};

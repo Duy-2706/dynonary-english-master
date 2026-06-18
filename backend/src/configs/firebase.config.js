@@ -1,3 +1,4 @@
+require('dotenv').config(); 
 const admin = require('firebase-admin');
 
 if (!admin.apps.length) {
@@ -20,6 +21,7 @@ if (!admin.apps.length) {
 
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   });
 }
 
@@ -50,7 +52,7 @@ const COLLECTIONS = {
 
 function docToObj(doc) {
   if (!doc || !doc.exists) return null;
-  return { _id: doc.id, id: doc.id, ...doc.data() };
+  return { ...doc.data(), _id: doc.id, id: doc.id };
 }
 
 module.exports = { admin, db, COLLECTIONS, docToObj };

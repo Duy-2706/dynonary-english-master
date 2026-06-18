@@ -15,50 +15,34 @@ import ReplayIcon from '@material-ui/icons/Replay';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import { makeStyles } from '@material-ui/core/styles';
 import { useHistory, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setMessage } from 'redux/slices/message.slice';
 import courseApi from 'apis/courseApi';
-
-const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
 
 const useStyle = makeStyles(() => ({
   page: {
     minHeight: '100vh',
     background: `
-      radial-gradient(circle at 12% 18%, rgba(25,199,168,.22) 0 4px, transparent 5px),
-      radial-gradient(circle at 86% 24%, rgba(255,191,31,.16) 0 5px, transparent 6px),
-      radial-gradient(circle at 34% 74%, rgba(255,255,255,.10) 0 3px, transparent 4px),
-      linear-gradient(180deg, #063c46 0%, #042b33 100%)
+      radial-gradient(circle at 8% 12%, rgba(37,99,235,.10) 0 260px, transparent 261px),
+      radial-gradient(circle at 92% 8%, rgba(14,165,233,.12) 0 240px, transparent 241px),
+      radial-gradient(circle at 82% 88%, rgba(16,185,129,.10) 0 280px, transparent 281px),
+      linear-gradient(180deg, #eef4ff 0%, #f6f8fc 46%, #eef7f3 100%)
     `,
-    backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
-    padding: '38px 0 90px',
-    fontFamily: GAME_FONT,
+    padding: '34px 0 72px',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
   },
 
   wrapper: {
-    maxWidth: 1180,
+    width: 'min(1180px, calc(100% - 48px))',
     margin: '0 auto',
-    padding: '0 34px',
   },
 
   headerCard: {
-    background: 'linear-gradient(180deg,#ffffff 0%,#eefdf9 100%)',
-    borderRadius: 38,
-    border: '7px solid rgba(255,255,255,.96)',
-    boxShadow: '0 12px 0 rgba(7,148,127,.55), 0 24px 48px rgba(0,0,0,.22)',
-    padding: '32px 38px',
-    marginBottom: 30,
-    position: 'relative',
-    overflow: 'hidden',
-  },
-
-  headerDecor: {
-    position: 'absolute',
-    right: 38,
-    top: 20,
-    fontSize: '5.4rem',
-    opacity: 0.13,
-    transform: 'rotate(-10deg)',
+    background: 'linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #0369a1 100%)',
+    borderRadius: 22,
+    padding: '30px 34px',
+    marginBottom: 24,
+    boxShadow: '0 18px 42px rgba(15,23,42,0.18)',
   },
 
   header: {
@@ -66,64 +50,64 @@ const useStyle = makeStyles(() => ({
     alignItems: 'center',
     gap: 18,
     flexWrap: 'wrap',
-    position: 'relative',
-    zIndex: 2,
   },
 
   backBtn: {
-    background: 'linear-gradient(180deg,#ffffff,#eefdf9) !important',
-    color: '#056d5e !important',
-    border: '4px solid #19c7a8 !important',
-    borderRadius: '999px !important',
-    padding: '11px 22px !important',
-    fontSize: '1.08rem !important',
-    fontWeight: '900 !important',
-    fontFamily: `${GAME_FONT} !important`,
+    background: 'rgba(255,255,255,.14) !important',
+    color: '#ffffff !important',
+    border: '1px solid rgba(255,255,255,.28) !important',
+    borderRadius: '11px !important',
+    padding: '10px 18px !important',
+    fontSize: '1rem !important',
+    fontWeight: '800 !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 6px 0 rgba(7,148,127,.20) !important',
+    boxShadow: 'none !important',
+    '&:hover': {
+      background: 'rgba(255,255,255,.20) !important',
+    },
   },
 
   lessonTitle: {
     fontWeight: 900,
-    fontSize: 'clamp(2.4rem, 4.4vw, 4.5rem)',
+    fontSize: 'clamp(2rem, 3.7vw, 3.45rem)',
     flex: 1,
-    color: '#06434b',
+    color: '#ffffff',
     margin: 0,
-    lineHeight: 0.95,
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
+    lineHeight: 1.14,
+    letterSpacing: '-0.04em',
   },
 
   contentCard: {
-    background: '#fff',
-    borderRadius: 36,
-    border: '7px solid rgba(255,255,255,.95)',
-    padding: 34,
-    boxShadow: '0 12px 0 rgba(7,148,127,.38), 0 24px 48px rgba(0,0,0,.20)',
+    background: '#ffffff',
+    borderRadius: 20,
+    border: '1px solid #dbe4ef',
+    padding: 30,
+    boxShadow: '0 12px 30px rgba(15,23,42,0.10)',
   },
 
   tabsWrap: {
-    marginBottom: 30,
+    marginBottom: 28,
   },
 
   tabs: {
-    background: '#fff',
-    borderRadius: 999,
-    border: '4px solid #d6f3ed',
-    padding: 5,
-    boxShadow: '0 6px 0 rgba(7,148,127,.12)',
+    background: '#f8fafc',
+    borderRadius: 14,
+    border: '1px solid #dbe4ef',
+    padding: 6,
     '& .MuiTab-root': {
-      fontFamily: GAME_FONT,
-      fontSize: '1.12rem',
-      fontWeight: 900,
+      fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+      fontSize: '1rem',
+      fontWeight: 850,
       textTransform: 'none',
-      borderRadius: 999,
-      minHeight: 52,
-      color: '#07545c',
+      borderRadius: 10,
+      minHeight: 48,
+      color: '#475569',
     },
     '& .Mui-selected': {
-      color: '#fff !important',
-      background: 'linear-gradient(180deg,#19c7a8,#07947f)',
-      boxShadow: '0 5px 0 rgba(0,0,0,.12)',
+      color: '#ffffff !important',
+      background: '#1d4ed8',
+      boxShadow: '0 6px 16px rgba(29,78,216,.22)',
     },
     '& .MuiTabs-indicator': {
       display: 'none',
@@ -131,27 +115,27 @@ const useStyle = makeStyles(() => ({
   },
 
   lockNote: {
-    color: '#9b5c00',
-    fontSize: '1.08rem',
-    fontWeight: 900,
-    padding: '12px 16px',
+    color: '#92400e',
+    fontSize: '0.98rem',
+    fontWeight: 750,
+    padding: '12px 15px',
     marginTop: 12,
-    background: '#fff8e1',
-    border: '3px solid #ffcf45',
-    borderRadius: 18,
+    background: '#fffbeb',
+    border: '1px solid #fde68a',
+    borderRadius: 12,
   },
 
   videoWrap: {
     position: 'relative',
     width: '100%',
     maxWidth: 900,
-    margin: '0 auto 26px',
-    borderRadius: 30,
+    margin: '0 auto 24px',
+    borderRadius: 18,
     overflow: 'hidden',
-    boxShadow: '0 10px 0 rgba(7,148,127,.32), 0 22px 42px rgba(0,0,0,.22)',
+    boxShadow: '0 16px 38px rgba(15,23,42,.16)',
     backgroundColor: '#000',
     paddingTop: '56.25%',
-    border: '6px solid #19c7a8',
+    border: '1px solid #dbe4ef',
   },
 
   videoIframe: {
@@ -165,79 +149,85 @@ const useStyle = makeStyles(() => ({
 
   videoNote: {
     textAlign: 'center',
-    color: '#06434b',
-    fontSize: '1.18rem',
+    color: '#334155',
+    fontSize: '1.05rem',
     marginBottom: 22,
-    fontWeight: 900,
-    lineHeight: 1.5,
+    fontWeight: 650,
+    lineHeight: 1.6,
   },
 
   watchedNote: {
     textAlign: 'center',
-    color: '#057a55',
-    fontWeight: 900,
-    fontSize: '1.18rem',
-    background: '#d4f5eb',
-    border: '4px solid #a8e8db',
-    padding: '14px 18px',
-    borderRadius: 22,
+    color: '#047857',
+    fontWeight: 800,
+    fontSize: '1rem',
+    background: '#ecfdf5',
+    border: '1px solid #a7f3d0',
+    padding: '13px 16px',
+    borderRadius: 13,
     maxWidth: 720,
     margin: '0 auto',
   },
 
   mainBtn: {
-    background: 'linear-gradient(180deg,#ffdf3b,#ff8a00) !important',
+    background: '#1d4ed8 !important',
     color: '#fff !important',
-    border: '4px solid #fff !important',
-    borderRadius: '999px !important',
-    padding: '13px 28px !important',
-    fontSize: '1.12rem !important',
-    fontWeight: '900 !important',
-    fontFamily: `${GAME_FONT} !important`,
+    borderRadius: '11px !important',
+    padding: '11px 24px !important',
+    fontSize: '1rem !important',
+    fontWeight: '850 !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 7px 0 #bd5f00 !important',
-    textShadow: '0 2px 0 rgba(0,0,0,.18)',
+    boxShadow: '0 8px 18px rgba(29,78,216,.24) !important',
+    '&:hover': {
+      background: '#1e40af !important',
+    },
   },
 
   secondaryBtn: {
-    background: 'linear-gradient(180deg,#ffffff,#eefdf9) !important',
-    color: '#056d5e !important',
-    border: '4px solid #19c7a8 !important',
-    borderRadius: '999px !important',
-    padding: '13px 26px !important',
-    fontSize: '1.12rem !important',
-    fontWeight: '900 !important',
-    fontFamily: `${GAME_FONT} !important`,
+    background: '#ffffff !important',
+    color: '#334155 !important',
+    border: '1px solid #cbd5e1 !important',
+    borderRadius: '11px !important',
+    padding: '11px 22px !important',
+    fontSize: '1rem !important',
+    fontWeight: '850 !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 7px 0 rgba(7,148,127,.20) !important',
+    boxShadow: '0 6px 16px rgba(15,23,42,.06) !important',
+    '&:hover': {
+      background: '#f8fafc !important',
+    },
   },
 
   theoryWrap: {
     maxWidth: 900,
     margin: '0 auto',
-    lineHeight: 1.85,
-    fontSize: '1.22rem',
-    color: '#06434b',
-    fontWeight: 800,
+    lineHeight: 1.8,
+    fontSize: '1.06rem',
+    color: '#334155',
+    fontWeight: 500,
     '& h1': {
-      fontSize: '2.4rem',
+      fontSize: '2.05rem',
       fontWeight: 900,
       marginBottom: 18,
-      color: '#06434b',
+      color: '#0f172a',
+      letterSpacing: '-0.025em',
     },
     '& h2': {
-      fontSize: '2rem',
+      fontSize: '1.65rem',
       fontWeight: 900,
       marginBottom: 14,
       marginTop: 28,
-      color: '#07947f',
+      color: '#1d4ed8',
+      letterSpacing: '-0.02em',
     },
     '& h3': {
-      fontSize: '1.65rem',
-      fontWeight: 900,
+      fontSize: '1.35rem',
+      fontWeight: 850,
       marginBottom: 12,
       marginTop: 22,
-      color: '#06434b',
+      color: '#0f172a',
     },
     '& p': {
       marginBottom: 14,
@@ -247,88 +237,96 @@ const useStyle = makeStyles(() => ({
       borderCollapse: 'separate',
       borderSpacing: 0,
       marginBottom: 22,
-      border: '4px solid #d6f3ed',
-      borderRadius: 22,
+      border: '1px solid #dbe4ef',
+      borderRadius: 14,
       overflow: 'hidden',
     },
     '& th': {
-      backgroundColor: '#07947f',
+      backgroundColor: '#0f172a',
       color: '#fff',
-      padding: '14px 18px',
+      padding: '13px 16px',
       textAlign: 'left',
-      fontSize: '1.12rem',
-      fontWeight: 900,
+      fontSize: '0.98rem',
+      fontWeight: 850,
     },
     '& td': {
-      padding: '13px 18px',
-      borderBottom: '2px solid #eef7f5',
-      fontSize: '1.08rem',
-      fontWeight: 800,
+      padding: '13px 16px',
+      borderBottom: '1px solid #eef2ff',
+      fontSize: '0.98rem',
+      fontWeight: 500,
     },
     '& tr:nth-child(even)': {
-      backgroundColor: '#f3fffc',
+      backgroundColor: '#f8fafc',
     },
     '& .highlight': {
-      backgroundColor: '#fff3cd',
-      padding: '4px 9px',
-      borderRadius: 9,
-      fontWeight: 900,
-      color: '#9b5c00',
+      backgroundColor: '#fffbeb',
+      padding: '3px 8px',
+      borderRadius: 7,
+      fontWeight: 800,
+      color: '#92400e',
     },
     '& .example': {
-      color: '#07947f',
+      color: '#047857',
       fontStyle: 'italic',
-      fontWeight: 900,
+      fontWeight: 750,
     },
     '& ul': {
       paddingLeft: 28,
       marginBottom: 16,
     },
     '& li': {
-      marginBottom: 9,
+      marginBottom: 8,
     },
     '& .rule-box': {
-      border: '4px solid #19c7a8',
-      borderRadius: 24,
-      padding: 22,
-      marginBottom: 22,
-      backgroundColor: '#eefdf9',
-      boxShadow: '0 6px 0 rgba(7,148,127,.14)',
+      border: '1px solid #bfdbfe',
+      borderRadius: 14,
+      padding: 20,
+      marginBottom: 20,
+      backgroundColor: '#eff6ff',
     },
     '& .warning-box': {
-      border: '4px solid #ffcf45',
-      borderRadius: 24,
-      padding: 22,
-      marginBottom: 22,
-      backgroundColor: '#fff8e1',
-      color: '#7a5200',
-      boxShadow: '0 6px 0 rgba(184,120,0,.14)',
+      border: '1px solid #fde68a',
+      borderRadius: 14,
+      padding: 20,
+      marginBottom: 20,
+      backgroundColor: '#fffbeb',
+      color: '#92400e',
     },
   },
 
   materialCard: {
-    padding: '18px 20px',
-    borderRadius: 24,
+    padding: '16px 18px',
+    borderRadius: 14,
     marginBottom: 12,
-    border: '4px solid #d6f3ed',
-    backgroundColor: '#f7fffd',
+    border: '1px solid #dbe4ef',
+    backgroundColor: '#f8fafc',
     display: 'flex',
     alignItems: 'center',
     gap: 14,
-    boxShadow: '0 6px 0 rgba(7,148,127,.10)',
   },
 
   materialTitle: {
-    fontWeight: 900,
-    color: '#06434b',
-    fontSize: '1.18rem',
+    fontWeight: 850,
+    color: '#0f172a',
+    fontSize: '1.05rem',
   },
 
   materialText: {
-    color: '#07545c',
-    fontSize: '1.02rem',
+    color: '#64748b',
+    fontSize: '0.98rem',
     margin: '4px 0 0',
+    fontWeight: 500,
+  },
+
+  materialLink: {
+    padding: '9px 16px',
+    background: '#1d4ed8',
+    color: '#fff',
+    borderRadius: 10,
+    textDecoration: 'none',
+    fontSize: '0.96rem',
     fontWeight: 800,
+    whiteSpace: 'nowrap',
   },
 
   flashcardWrap: {
@@ -346,118 +344,122 @@ const useStyle = makeStyles(() => ({
   progressText: {
     display: 'flex',
     justifyContent: 'space-between',
-    fontSize: '1.08rem',
-    color: '#06434b',
+    fontSize: '1rem',
+    color: '#334155',
     marginBottom: 10,
-    fontWeight: 900,
+    fontWeight: 800,
   },
 
   progressBar: {
-    height: '14px !important',
+    height: '12px !important',
     borderRadius: '999px !important',
-    backgroundColor: '#dff7f2 !important',
-    border: '2px solid #bdeee5',
+    backgroundColor: '#e2e8f0 !important',
     '& .MuiLinearProgress-bar': {
       borderRadius: 999,
-      background: 'linear-gradient(90deg,#19c7a8,#ffdf3b)',
+      background: '#1d4ed8',
     },
   },
 
   flashcard: {
     width: '100%',
     maxWidth: 720,
-    minHeight: 330,
-    borderRadius: 34,
-    boxShadow: '0 10px 0 rgba(7,148,127,.32), 0 22px 42px rgba(0,0,0,.18)',
-    background: 'linear-gradient(180deg,#ffffff,#eefdf9)',
-    border: '6px solid #19c7a8',
+    minHeight: 320,
+    borderRadius: 20,
+    boxShadow: '0 16px 38px rgba(15,23,42,.14)',
+    background: '#ffffff',
+    border: '1px solid #dbe4ef',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 48,
+    padding: 42,
     cursor: 'pointer',
-    transition: 'transform .22s cubic-bezier(.34,1.56,.64,1)',
+    transition: 'transform .18s ease, box-shadow .18s ease',
     '&:hover': {
-      transform: 'translateY(-6px) scale(1.018)',
+      transform: 'translateY(-4px)',
+      boxShadow: '0 20px 44px rgba(15,23,42,.18)',
     },
   },
 
   wordText: {
-    fontSize: 'clamp(3rem, 6vw, 5rem)',
+    fontSize: 'clamp(2.8rem, 5.4vw, 4.6rem)',
     fontWeight: 900,
-    marginBottom: 10,
+    marginBottom: 12,
     textAlign: 'center',
-    color: '#06434b',
-    lineHeight: .95,
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
+    color: '#0f172a',
+    lineHeight: 1,
+    letterSpacing: '-0.04em',
   },
 
   phoneticText: {
-    color: '#07947f',
-    fontSize: '1.45rem',
+    color: '#1d4ed8',
+    fontSize: '1.28rem',
     marginBottom: 18,
-    fontWeight: 900,
+    fontWeight: 800,
   },
 
   meanText: {
-    fontSize: '1.55rem',
-    color: '#06434b',
+    fontSize: '1.35rem',
+    color: '#0f172a',
     textAlign: 'center',
-    fontWeight: 900,
+    fontWeight: 850,
     lineHeight: 1.45,
   },
 
   exampleText: {
-    fontSize: '1.15rem',
-    color: '#07545c',
+    fontSize: '1.05rem',
+    color: '#64748b',
     fontStyle: 'italic',
     marginTop: 12,
     textAlign: 'center',
-    fontWeight: 800,
+    fontWeight: 600,
+    lineHeight: 1.55,
   },
 
   tapHint: {
-    color: '#07545c',
-    fontSize: '1.18rem',
+    color: '#64748b',
+    fontSize: '1.05rem',
     marginTop: 10,
-    fontWeight: 900,
-    opacity: .75,
+    fontWeight: 750,
   },
 
   actionRow: {
     display: 'flex',
-    gap: 18,
+    gap: 14,
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
 
   btnKnown: {
-    background: 'linear-gradient(180deg,#36e27d,#0ca84f) !important',
+    background: '#059669 !important',
     color: '#fff !important',
-    fontWeight: '900 !important',
-    padding: '14px 38px !important',
-    borderRadius: '999px !important',
-    minWidth: '170px !important',
-    border: '4px solid #fff !important',
-    fontSize: '1.12rem !important',
-    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '850 !important',
+    padding: '12px 30px !important',
+    borderRadius: '11px !important',
+    minWidth: '160px !important',
+    fontSize: '1rem !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 7px 0 #087a3c !important',
+    boxShadow: '0 8px 18px rgba(5,150,105,.22) !important',
+    '&:hover': {
+      background: '#047857 !important',
+    },
   },
 
   btnUnknown: {
-    background: 'linear-gradient(180deg,#ffffff,#ffe2f1) !important',
-    border: '4px solid #ff1493 !important',
-    color: '#9b0054 !important',
-    fontWeight: '900 !important',
-    padding: '14px 38px !important',
-    borderRadius: '999px !important',
-    minWidth: '170px !important',
-    fontSize: '1.12rem !important',
-    fontFamily: `${GAME_FONT} !important`,
+    background: '#ffffff !important',
+    border: '1px solid #ef4444 !important',
+    color: '#b91c1c !important',
+    fontWeight: '850 !important',
+    padding: '12px 30px !important',
+    borderRadius: '11px !important',
+    minWidth: '160px !important',
+    fontSize: '1rem !important',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important",
     textTransform: 'none !important',
-    boxShadow: '0 7px 0 rgba(155,0,84,.18) !important',
+    '&:hover': {
+      background: '#fef2f2 !important',
+    },
   },
 
   quizWrap: {
@@ -466,71 +468,67 @@ const useStyle = makeStyles(() => ({
   },
 
   questionNum: {
-    color: '#07947f',
-    fontSize: '1.12rem',
+    color: '#1d4ed8',
+    fontSize: '1rem',
     marginBottom: 10,
-    fontWeight: 900,
+    fontWeight: 850,
   },
 
   questionText: {
-    fontSize: '1.55rem',
-    fontWeight: 900,
+    fontSize: '1.28rem',
+    fontWeight: 850,
     marginBottom: 24,
-    lineHeight: 1.5,
-    color: '#06434b',
-    background: '#eefdf9',
-    border: '4px solid #d6f3ed',
-    borderRadius: 26,
-    padding: '22px 24px',
-    boxShadow: '0 6px 0 rgba(7,148,127,.12)',
+    lineHeight: 1.55,
+    color: '#0f172a',
+    background: '#eff6ff',
+    border: '1px solid #bfdbfe',
+    borderRadius: 16,
+    padding: '20px 22px',
   },
 
   optionBtn: {
     display: 'block',
     width: '100%',
     textAlign: 'left',
-    padding: '18px 22px',
-    marginBottom: 14,
-    borderRadius: 24,
-    border: '4px solid #d6f3ed',
+    padding: '16px 18px',
+    marginBottom: 12,
+    borderRadius: 14,
+    border: '1px solid #dbe4ef',
     cursor: 'pointer',
-    fontSize: '1.18rem',
-    transition: 'all .2s',
+    fontSize: '1.06rem',
+    transition: 'all .16s',
     backgroundColor: '#fff',
-    color: '#06434b',
-    fontFamily: GAME_FONT,
-    fontWeight: 900,
-    boxShadow: '0 6px 0 rgba(7,148,127,.10)',
+    color: '#0f172a',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+    fontWeight: 700,
     '&:hover': {
-      borderColor: '#19c7a8',
-      backgroundColor: '#f3fffc',
-      transform: 'translateY(-2px)',
+      borderColor: '#bfdbfe',
+      backgroundColor: '#eff6ff',
     },
   },
 
   optionCorrect: {
-    borderColor: '#36e27d !important',
-    background: '#d4f5eb !important',
-    color: '#057a55 !important',
+    borderColor: '#10b981 !important',
+    background: '#ecfdf5 !important',
+    color: '#047857 !important',
   },
 
   optionWrong: {
-    borderColor: '#ff8a8a !important',
-    background: '#fde8e4 !important',
-    color: '#dc2626 !important',
+    borderColor: '#fca5a5 !important',
+    background: '#fef2f2 !important',
+    color: '#b91c1c !important',
   },
 
   explanation: {
     marginTop: 16,
-    padding: '16px 20px',
-    borderRadius: 22,
-    backgroundColor: '#fff8e1',
-    color: '#7a5200',
-    border: '4px solid #ffcf45',
-    fontSize: '1.12rem',
-    fontWeight: 900,
-    lineHeight: 1.5,
-    boxShadow: '0 6px 0 rgba(184,120,0,.14)',
+    padding: '15px 18px',
+    borderRadius: 14,
+    backgroundColor: '#fffbeb',
+    color: '#92400e',
+    border: '1px solid #fde68a',
+    fontSize: '1rem',
+    fontWeight: 700,
+    lineHeight: 1.55,
   },
 
   fillWrap: {
@@ -539,44 +537,43 @@ const useStyle = makeStyles(() => ({
   },
 
   sentenceText: {
-    fontSize: '1.55rem',
-    fontWeight: 900,
+    fontSize: '1.28rem',
+    fontWeight: 850,
     marginBottom: 18,
-    lineHeight: 1.7,
-    color: '#06434b',
-    background: '#eefdf9',
-    border: '4px solid #d6f3ed',
-    borderRadius: 26,
-    padding: '22px 24px',
-    boxShadow: '0 6px 0 rgba(7,148,127,.12)',
+    lineHeight: 1.65,
+    color: '#0f172a',
+    background: '#eff6ff',
+    border: '1px solid #bfdbfe',
+    borderRadius: 16,
+    padding: '20px 22px',
   },
 
   hintText: {
-    color: '#9b5c00',
+    color: '#92400e',
     marginBottom: 14,
-    fontSize: '1.12rem',
-    background: '#fff8e1',
-    border: '3px solid #ffcf45',
-    borderRadius: 18,
-    padding: '12px 16px',
-    fontWeight: 900,
+    fontSize: '1rem',
+    background: '#fffbeb',
+    border: '1px solid #fde68a',
+    borderRadius: 12,
+    padding: '12px 15px',
+    fontWeight: 750,
   },
 
   input: {
     width: '100%',
     boxSizing: 'border-box',
-    padding: '17px 20px',
-    borderRadius: 22,
-    border: '4px solid #d6f3ed',
-    fontSize: '1.18rem',
+    padding: '15px 17px',
+    borderRadius: 13,
+    border: '1px solid #cbd5e1',
+    fontSize: '1.06rem',
     marginBottom: 14,
     outline: 'none',
-    fontFamily: GAME_FONT,
-    fontWeight: 900,
-    color: '#06434b',
-    boxShadow: '0 5px 0 rgba(7,148,127,.10)',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+    fontWeight: 700,
+    color: '#0f172a',
     '&:focus': {
-      borderColor: '#19c7a8',
+      borderColor: '#1d4ed8',
+      boxShadow: '0 0 0 3px rgba(29,78,216,.12)',
     },
   },
 
@@ -589,109 +586,108 @@ const useStyle = makeStyles(() => ({
   },
 
   resultTitle: {
-    fontSize: 'clamp(2.6rem, 5vw, 4.4rem)',
+    fontSize: 'clamp(2.25rem, 4.6vw, 4rem)',
     fontWeight: 900,
-    margin: '0 0 10px',
-    color: '#06434b',
-    lineHeight: 0.95,
-    textShadow: '0 4px 0 rgba(25,199,168,.18)',
+    margin: '0 0 12px',
+    color: '#0f172a',
+    lineHeight: 1.08,
+    letterSpacing: '-0.04em',
   },
 
   resultLessonTitle: {
-    color: '#07545c',
+    color: '#64748b',
     marginBottom: 18,
-    fontWeight: 900,
-    fontSize: '1.18rem',
+    fontWeight: 700,
+    fontSize: '1.06rem',
   },
 
   resultScore: {
-    fontSize: 'clamp(4rem, 7vw, 6rem)',
+    fontSize: 'clamp(3.6rem, 6vw, 5.4rem)',
     fontWeight: 900,
-    color: '#ff8a00',
-    marginBottom: 8,
+    color: '#1d4ed8',
+    marginBottom: 10,
     lineHeight: 1,
-    textShadow: '0 4px 0 rgba(184,79,0,.16)',
+    letterSpacing: '-0.04em',
   },
 
   resultMessage: {
     marginBottom: 28,
-    fontSize: '1.3rem',
-    fontWeight: 900,
-    color: '#06434b',
+    fontSize: '1.15rem',
+    fontWeight: 800,
+    color: '#334155',
   },
 
   statRow: {
     display: 'flex',
-    gap: 18,
-    marginBottom: 34,
+    gap: 16,
+    marginBottom: 32,
     justifyContent: 'center',
     flexWrap: 'wrap',
   },
 
   statBox: {
-    padding: '20px 28px',
-    borderRadius: 24,
+    padding: '18px 26px',
+    borderRadius: 16,
     minWidth: 120,
-    border: '4px solid',
+    border: '1px solid',
     textAlign: 'center',
-    boxShadow: '0 6px 0 rgba(0,0,0,.10)',
+    background: '#ffffff',
   },
 
   statNumber: {
-    fontSize: '2rem',
+    fontSize: '1.8rem',
     fontWeight: 900,
   },
 
   statLabel: {
-    fontSize: '1rem',
-    fontWeight: 900,
-    color: '#07545c',
+    fontSize: '0.95rem',
+    fontWeight: 800,
+    color: '#64748b',
   },
 
   lockWrap: {
     textAlign: 'center',
-    padding: '70px 24px',
-    border: '5px dashed #ffcf45',
-    borderRadius: 30,
+    padding: '64px 24px',
+    border: '1px dashed #fde68a',
+    borderRadius: 18,
     maxWidth: 620,
     margin: '0 auto',
-    background: '#fff8e1',
-    color: '#7a5200',
-    boxShadow: '0 8px 0 rgba(184,120,0,.16)',
+    background: '#fffbeb',
+    color: '#92400e',
   },
 
   lockTitle: {
-    fontSize: '1.8rem',
+    fontSize: '1.55rem',
     fontWeight: 900,
-    color: '#7a5200',
+    color: '#92400e',
     margin: '0 0 12px',
   },
 
   lockText: {
-    color: '#7a5200',
-    fontSize: '1.15rem',
-    fontWeight: 900,
-    lineHeight: 1.5,
+    color: '#92400e',
+    fontSize: '1.05rem',
+    fontWeight: 650,
+    lineHeight: 1.6,
   },
 
   loading: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#042b33',
+    background: '#f5f7fb',
   },
 
   notFound: {
-    minHeight: '80vh',
+    minHeight: '100vh',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    background: '#042b33',
-    color: '#fff',
-    fontFamily: GAME_FONT,
-    fontSize: '1.4rem',
-    fontWeight: 900,
+    background: '#f5f7fb',
+    color: '#334155',
+    fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+    fontSize: '1.15rem',
+    fontWeight: 800,
   },
 }));
 
@@ -729,7 +725,7 @@ function VideoSection({ videoUrl, onWatched }) {
 
       {!watched && (
         <div className={classes.videoNote}>
-          <p>📺 Xem video bài giảng xong rồi nhấn nút bên dưới để mở bài tập.</p>
+          <p>Xem xong video bài giảng, nhấn nút bên dưới để mở phần bài tập.</p>
 
           <Button
             variant="contained"
@@ -737,14 +733,14 @@ function VideoSection({ videoUrl, onWatched }) {
             style={{ marginTop: 8 }}
             onClick={handleWatched}
           >
-            ✅ Tôi đã xem xong video
+            Tôi đã xem xong video
           </Button>
         </div>
       )}
 
       {watched && (
         <p className={classes.watchedNote}>
-          ✅ Đã xem video — Hãy chuyển sang tab Bài tập để luyện tập!
+          Đã xác nhận xem video. Bạn có thể chuyển sang phần bài tập.
         </p>
       )}
     </div>
@@ -766,16 +762,16 @@ function TheorySection({ content, materials }) {
             style={{
               fontWeight: 900,
               marginBottom: 16,
-              color: '#06434b',
-              fontSize: '1.7rem',
+              color: '#0f172a',
+              fontSize: '1.35rem',
             }}
           >
-            📎 Tài liệu đính kèm
+            Tài liệu đính kèm
           </h3>
 
           {materials.map((m, i) => (
             <div key={i} className={classes.materialCard}>
-              <span style={{ fontSize: 34 }}>📄</span>
+              <MenuBookIcon style={{ fontSize: 30, color: '#1d4ed8' }} />
 
               <div style={{ flex: 1 }}>
                 <div className={classes.materialTitle}>{m.title}</div>
@@ -787,17 +783,7 @@ function TheorySection({ content, materials }) {
                   href={m.fileUrl}
                   target="_blank"
                   rel="noreferrer"
-                  style={{
-                    padding: '10px 18px',
-                    background: 'linear-gradient(180deg,#19c7a8,#07947f)',
-                    color: '#fff',
-                    borderRadius: 999,
-                    textDecoration: 'none',
-                    fontSize: '1.05rem',
-                    fontWeight: 900,
-                    border: '3px solid #fff',
-                    boxShadow: '0 5px 0 #087565',
-                  }}
+                  className={classes.materialLink}
                 >
                   Xem / Tải
                 </a>
@@ -857,11 +843,20 @@ function FlashcardMode({ words, onComplete }) {
           <img
             src={word.picture}
             alt={word.word}
-            style={{ width: 140, height: 120, objectFit: 'cover', borderRadius: 12, marginBottom: 12, boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}
-            onError={(e) => { e.target.style.display = 'none'; }}
+            style={{
+              width: 150,
+              height: 124,
+              objectFit: 'cover',
+              borderRadius: 14,
+              marginBottom: 14,
+              boxShadow: '0 8px 22px rgba(15,23,42,0.14)',
+            }}
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
           />
         )}
-        
+
         <div className={classes.wordText}>{word.word}</div>
 
         {word.phonetic && <div className={classes.phoneticText}>/{word.phonetic}/</div>}
@@ -872,7 +867,7 @@ function FlashcardMode({ words, onComplete }) {
             {word.example && <div className={classes.exampleText}>"{word.example}"</div>}
           </>
         ) : (
-          <div className={classes.tapHint}>👆 Nhấn để xem nghĩa</div>
+          <div className={classes.tapHint}>Nhấn vào thẻ để xem nghĩa</div>
         )}
       </div>
 
@@ -940,13 +935,13 @@ function QuizMode({ questions, onComplete }) {
       <div className={classes.progressWrap}>
         <div className={classes.progressText}>
           <span>Câu {current + 1} / {questions.length}</span>
-          <span>✅ {correct} đúng</span>
+          <span>{correct} câu đúng</span>
         </div>
 
         <LinearProgress className={classes.progressBar} variant="determinate" value={percent} />
       </div>
 
-      <p className={classes.questionNum}>Câu {current + 1}:</p>
+      <p className={classes.questionNum}>Câu {current + 1}</p>
 
       <div className={classes.questionText}>{question.question}</div>
 
@@ -967,7 +962,7 @@ function QuizMode({ questions, onComplete }) {
 
       {showExplain && question.explanation && (
         <div className={classes.explanation}>
-          💡 <strong>Giải thích:</strong> {question.explanation}
+          <strong>Giải thích:</strong> {question.explanation}
         </div>
       )}
     </div>
@@ -1012,7 +1007,7 @@ function FillBlankMode({ fillBlanks, onComplete }) {
       <div className={classes.progressWrap}>
         <div className={classes.progressText}>
           <span>Câu {current + 1} / {fillBlanks.length}</span>
-          <span>✅ {correct} đúng</span>
+          <span>{correct} câu đúng</span>
         </div>
 
         <LinearProgress
@@ -1026,16 +1021,16 @@ function FillBlankMode({ fillBlanks, onComplete }) {
         {item.sentence.replace('___', '________')}
       </div>
 
-      {item.hint && <p className={classes.hintText}>💡 Gợi ý: {item.hint}</p>}
+      {item.hint && <p className={classes.hintText}>Gợi ý: {item.hint}</p>}
 
       <input
         className={classes.input}
         style={{
           borderColor:
             feedback === 'correct'
-              ? '#36e27d'
+              ? '#10b981'
               : feedback === 'wrong'
-              ? '#ff8a8a'
+              ? '#fca5a5'
               : undefined,
         }}
         value={answer}
@@ -1049,26 +1044,26 @@ function FillBlankMode({ fillBlanks, onComplete }) {
       {feedback === 'wrong' && (
         <p
           style={{
-            color: '#dc2626',
+            color: '#b91c1c',
             marginBottom: 14,
-            fontSize: '1.12rem',
-            fontWeight: 900,
+            fontSize: '1rem',
+            fontWeight: 750,
           }}
         >
-          ❌ Đáp án đúng: <strong>{item.correctAnswer}</strong>
+          Đáp án đúng: <strong>{item.correctAnswer}</strong>
         </p>
       )}
 
       {feedback === 'correct' && (
         <p
           style={{
-            color: '#057a55',
+            color: '#047857',
             marginBottom: 14,
-            fontSize: '1.12rem',
-            fontWeight: 900,
+            fontSize: '1rem',
+            fontWeight: 750,
           }}
         >
-          ✅ Chính xác!
+          Chính xác.
         </p>
       )}
 
@@ -1092,15 +1087,15 @@ function LessonResult({ result, lessonTitle, onNext, onReplay, nextLessonLocked 
   const percent = total > 0 ? Math.round((correct / total) * 100) : 0;
 
   const getMessage = () => {
-    if (percent === 100) return '🏆 Xuất sắc! Bạn làm đúng tất cả!';
-    if (percent >= 80) return '🎉 Rất tốt! Tiếp tục phát huy!';
-    if (percent >= 60) return '💪 Khá ổn! Hãy ôn lại phần chưa nắm!';
-    return '📚 Cần cố gắng thêm! Làm lại nhé!';
+    if (percent === 100) return 'Bạn đã hoàn thành xuất sắc bài học.';
+    if (percent >= 80) return 'Kết quả rất tốt. Hãy tiếp tục bài học tiếp theo.';
+    if (percent >= 60) return 'Kết quả ổn. Bạn nên ôn lại các phần chưa chắc.';
+    return 'Bạn cần ôn lại nội dung bài học và làm lại để cải thiện kết quả.';
   };
 
   return (
     <div className={classes.resultWrap}>
-      <h1 className={classes.resultTitle}>Hoàn Thành Bài Học!</h1>
+      <h1 className={classes.resultTitle}>Hoàn thành bài học</h1>
 
       <p className={classes.resultLessonTitle}>{lessonTitle}</p>
 
@@ -1111,26 +1106,26 @@ function LessonResult({ result, lessonTitle, onNext, onReplay, nextLessonLocked 
       <div className={classes.statRow}>
         <div
           className={classes.statBox}
-          style={{ borderColor: '#36e27d', backgroundColor: '#d4f5eb' }}
+          style={{ borderColor: '#a7f3d0', backgroundColor: '#ecfdf5' }}
         >
-          <div className={classes.statNumber} style={{ color: '#057a55' }}>{correct}</div>
-          <div className={classes.statLabel}>✅ Đúng</div>
+          <div className={classes.statNumber} style={{ color: '#047857' }}>{correct}</div>
+          <div className={classes.statLabel}>Đúng</div>
         </div>
 
         <div
           className={classes.statBox}
-          style={{ borderColor: '#ff8a8a', backgroundColor: '#fde8e4' }}
+          style={{ borderColor: '#fecaca', backgroundColor: '#fef2f2' }}
         >
-          <div className={classes.statNumber} style={{ color: '#dc2626' }}>{total - correct}</div>
-          <div className={classes.statLabel}>❌ Sai</div>
+          <div className={classes.statNumber} style={{ color: '#b91c1c' }}>{total - correct}</div>
+          <div className={classes.statLabel}>Sai</div>
         </div>
 
         <div
           className={classes.statBox}
-          style={{ borderColor: '#19c7a8', backgroundColor: '#eefdf9' }}
+          style={{ borderColor: '#bfdbfe', backgroundColor: '#eff6ff' }}
         >
-          <div className={classes.statNumber} style={{ color: '#07947f' }}>{total}</div>
-          <div className={classes.statLabel}>📝 Tổng</div>
+          <div className={classes.statNumber} style={{ color: '#1d4ed8' }}>{total}</div>
+          <div className={classes.statLabel}>Tổng</div>
         </div>
       </div>
 
@@ -1151,7 +1146,7 @@ function LessonResult({ result, lessonTitle, onNext, onReplay, nextLessonLocked 
             startIcon={<LockIcon />}
             onClick={onNext}
           >
-            Mua khóa để học tiếp
+            Đăng ký khóa học để học tiếp
           </Button>
         ) : (
           <Button
@@ -1173,7 +1168,6 @@ function CourseLearn() {
   const { id: courseId, lessonId } = useParams();
   const history = useHistory();
   const dispatch = useDispatch();
-  const { isAuth } = useSelector((s) => s.userInfo);
 
   const [lesson, setLesson] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -1235,15 +1229,13 @@ function CourseLearn() {
     setIsDone(false);
     setResult(null);
     setKey((k) => k + 1);
-    setTab(lesson?.videoUrl ? 0 : lesson?.content ? 0 : 0);
+    setTab(0);
     setVideoWatched(false);
   };
 
   const handleNext = () => {
     if (nextLessonInfo && !nextLessonInfo.locked) {
       history.push(`/courses/${courseId}/learn/${nextLessonInfo._id}`);
-    } else if (nextLessonInfo?.locked) {
-      history.push(`/courses/${courseId}/detail`);
     } else {
       history.push(`/courses/${courseId}/detail`);
     }
@@ -1252,12 +1244,14 @@ function CourseLearn() {
   const getTabs = () => {
     const tabs = [];
 
-    if (lesson?.videoUrl) tabs.push({ label: '📺 Video', icon: <PlayCircleIcon /> });
+    if (lesson?.videoUrl) tabs.push({ label: 'Video', icon: <PlayCircleIcon /> });
+
     if (lesson?.content || lesson?.materials?.length > 0) {
-      tabs.push({ label: '📖 Lý thuyết', icon: <MenuBookIcon /> });
+      tabs.push({ label: 'Lý thuyết', icon: <MenuBookIcon /> });
     }
+
     if (lesson?.hasExercise !== false) {
-      tabs.push({ label: '✏️ Bài tập', icon: <AssignmentIcon /> });
+      tabs.push({ label: 'Bài tập', icon: <AssignmentIcon /> });
     }
 
     return tabs;
@@ -1271,7 +1265,7 @@ function CourseLearn() {
   if (loading) {
     return (
       <div className={classes.loading}>
-        <CircularProgress style={{ color: '#fff' }} size={58} thickness={5} />
+        <CircularProgress style={{ color: '#1d4ed8' }} size={54} thickness={4.5} />
       </div>
     );
   }
@@ -1286,8 +1280,6 @@ function CourseLearn() {
     <div className={classes.page}>
       <div className={classes.wrapper}>
         <div className={classes.headerCard}>
-          <div className={classes.headerDecor}>📖</div>
-
           <div className={classes.header}>
             <Button
               startIcon={<ArrowBackIcon />}
@@ -1325,6 +1317,7 @@ function CourseLearn() {
                       <Tab
                         key={i}
                         label={t.label}
+                        icon={t.icon}
                         disabled={i === tabs.length - 1 && !canDoExercise()}
                       />
                     ))}
@@ -1332,7 +1325,7 @@ function CourseLearn() {
 
                   {!canDoExercise() && (
                     <p className={classes.lockNote}>
-                      🔒 Xem xong video mới có thể làm bài tập.
+                      Cần xem xong video trước khi làm bài tập.
                     </p>
                   )}
                 </div>
@@ -1354,12 +1347,12 @@ function CourseLearn() {
                   <>
                     {!canDoExercise() ? (
                       <div className={classes.lockWrap}>
-                        <LockIcon style={{ fontSize: 64, color: '#ff9800', marginBottom: 14 }} />
+                        <LockIcon style={{ fontSize: 58, color: '#d97706', marginBottom: 14 }} />
 
-                        <h3 className={classes.lockTitle}>Hãy xem video trước!</h3>
+                        <h3 className={classes.lockTitle}>Chưa mở bài tập</h3>
 
                         <p className={classes.lockText}>
-                          Bạn cần xem hết video bài giảng rồi mới làm bài tập được nhé.
+                          Bạn cần xem xong video bài giảng trước khi bắt đầu làm bài tập.
                         </p>
 
                         <Button
@@ -1368,7 +1361,7 @@ function CourseLearn() {
                           style={{ marginTop: 18 }}
                           onClick={() => setTab(0)}
                         >
-                          Xem video ngay
+                          Xem video
                         </Button>
                       </div>
                     ) : (
@@ -1404,13 +1397,13 @@ function CourseLearn() {
                           <div style={{ textAlign: 'center', padding: 48 }}>
                             <p
                               style={{
-                                color: '#057a55',
-                                fontSize: '1.28rem',
-                                fontWeight: 900,
+                                color: '#047857',
+                                fontSize: '1.15rem',
+                                fontWeight: 800,
                                 marginBottom: 18,
                               }}
                             >
-                              ✅ Bài này chỉ có video. Nhấn hoàn thành để lưu tiến độ!
+                              Bài học này chỉ có video. Nhấn hoàn thành để lưu tiến độ.
                             </p>
 
                             <Button

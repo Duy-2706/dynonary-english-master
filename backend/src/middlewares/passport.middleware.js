@@ -24,6 +24,9 @@ async function getUserByAccountId(accountId) {
     favoriteList: data.favoriteList || [],
     coin: data.coin,
     role: data.role,
+    classroomId: data.classroomId || '',    // ← THÊM
+   classroomName: data.classroomName || '', // ← THÊM
+    dob: data.dob || '',                    // ← THÊM
     accountId,
   };
 }

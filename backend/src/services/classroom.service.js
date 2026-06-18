@@ -1,6 +1,7 @@
 const { db, COLLECTIONS, docToObj } = require('../configs/firebase.config');
 
 const classroomsCol = db.collection(COLLECTIONS.CLASSROOMS);
+const usersCol = db.collection(COLLECTIONS.USERS);
 const submissionsCol = db.collection(COLLECTIONS.GRAMMAR_SUBMISSIONS);
 const assignmentsCol = db.collection(COLLECTIONS.GRAMMAR_ASSIGNMENTS);
 const evalsCol = db.collection(COLLECTIONS.WEEKLY_EVALUATIONS);
@@ -52,13 +53,36 @@ exports.createClassroom = async (teacher, data) => {
   return getById(ref.id);
 };
 
-exports.getMyClassrooms = async (teacher) => {
+exports.getMyClassrooms = async (user) => {
+    if (user.role === 'student') {
+    // Try classroomId first
+    if (user.classroomId) {
+      const doc = await classroomsCol.doc(user.classroomId).get();
+      if (doc.exists) return [docToObj(doc)];
+    }
+    // Fallback: find by classroomName, then auto-fix classroomId on user doc
+    if (user.classroomName) {
+      const snap = await classroomsCol.where('name', '==', user.classroomName).limit(1).get();
+      if (!snap.empty) {
+        const classroom = docToObj(snap.docs[0]);
+        const userSnap = await usersCol.where('accountId', '==', user.accountId).limit(1).get();
+        if (!userSnap.empty) {
+          await userSnap.docs[0].ref.update({ classroomId: classroom.id });
+        }
+        return [classroom];
+      }
+    }
+    return [];
+  }
   const snap = await classroomsCol
-    .where('teacherAccountId', '==', teacher.accountId)
-    .orderBy('createdAt', 'desc')
+    .where('teacherAccountId', '==', user.accountId)
+    // .orderBy('createdAt', 'desc')
     .get();
-
-  return snap.docs.map(docToObj);
+    return snap.docs.map(docToObj).sort((a, b) => {
+    const ta = a.createdAt?.toDate?.() ?? new Date(a.createdAt ?? 0);
+    const tb = b.createdAt?.toDate?.() ?? new Date(b.createdAt ?? 0);
+    return tb - ta;
+  });
 };
 
 exports.updateClassroom = async (teacher, classroomId, data) => {

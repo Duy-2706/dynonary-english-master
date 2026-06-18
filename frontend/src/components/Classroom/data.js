@@ -1,11 +1,12 @@
 import classroomApi from 'apis/classroomApi';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMessage } from 'redux/slices/message.slice';
 import Classroom from '.';
 
 function ClassroomData() {
   const dispatch = useDispatch();
+  const { role } = useSelector((state) => state.userInfo);
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -132,6 +133,7 @@ function ClassroomData() {
       loading={loading}
       submitting={submitting}
       classrooms={classrooms}
+      role={role}
       onCreate={handleCreate}
       onUpdate={handleUpdate}
       onDelete={handleDelete}

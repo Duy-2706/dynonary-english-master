@@ -87,13 +87,14 @@ exports.generateStudentEmail = (fullName = '', dob = '') => {
  * Generate default student password from dob.
  * "21/10/2011" → "TCA@21102011"
  */
-exports.generateStudentPassword = (dob = '') => {
-  const parts = dob.replace(/-/g, '/').split('/');
-  if (parts.length === 3) {
-    const dd = parts[0].padStart(2, '0');
-    const mm = parts[1].padStart(2, '0');
-    const yyyy = parts[2].length === 2 ? `20${parts[2]}` : parts[2];
-    return `TCA@${dd}${mm}${yyyy}`;
-  }
-  return 'TCA@123456';
-};
+// exports.generateStudentPassword = (dob = '') => {
+//   const parts = dob.replace(/-/g, '/').split('/');
+//   if (parts.length === 3) {
+//     const dd = parts[0].padStart(2, '0');
+//     const mm = parts[1].padStart(2, '0');
+//     const yyyy = parts[2].length === 2 ? `20${parts[2]}` : parts[2];
+//     return `TCA@${dd}${mm}${yyyy}`;
+//   }
+//   return 'TCA@123456';
+// };
+exports.generateStudentPassword = () => '12345678a';

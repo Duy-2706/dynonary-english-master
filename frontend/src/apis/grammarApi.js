@@ -17,6 +17,7 @@ const grammarApi = {
   updateAssignment: (id, data) => axiosClient.put(`${URL}/assignments/${id}`, data),
   deleteAssignment: (id) => axiosClient.delete(`${URL}/assignments/${id}`),
   getSubmissions: (id) => axiosClient.get(`${URL}/assignments/${id}/submissions`),
+  getClassroomAssignmentsForManage: (classroomId) => axiosClient.get(`${URL}/assignments/classroom/${classroomId}/manage`),
   // Assignments – student
   getClassroomAssignments: (classroomId) => axiosClient.get(`${URL}/assignments/classroom/${classroomId}`),
   submitAssignment: (id, data) => axiosClient.post(`${URL}/assignments/${id}/submit`, data),

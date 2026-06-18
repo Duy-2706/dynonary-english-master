@@ -26,11 +26,13 @@ import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 import EditIcon from '@material-ui/icons/Edit';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import GradeIcon from '@material-ui/icons/Grade';
 import PeopleIcon from '@material-ui/icons/People';
 import SaveIcon from '@material-ui/icons/Save';
+import AssignmentsTab from './AssignmentsTab';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import classroomApi from 'apis/classroomApi';
@@ -604,6 +606,7 @@ function ClassroomDetailPage() {
         <Tab icon={<PeopleIcon />} label="Học sinh" />
         <Tab icon={<AssessmentIcon />} label="Hoạt động" />
         <Tab icon={<GradeIcon />} label="Chấm điểm tuần" />
+        <Tab icon={<AssignmentIcon />} label="Bài tập" />
       </Tabs>
 
       <TabPanel value={tab} index={0}>
@@ -614,6 +617,9 @@ function ClassroomDetailPage() {
       </TabPanel>
       <TabPanel value={tab} index={2}>
         <WeeklyGradingTab classroomId={id} />
+      </TabPanel>
+      <TabPanel value={tab} index={3}>
+        <AssignmentsTab classroom={classroom} />
       </TabPanel>
     </div>
   );

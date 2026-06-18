@@ -2,12 +2,13 @@ import adminApi from 'apis/adminApi';
 import grammarApi from 'apis/grammarApi';
 import useTitle from 'hooks/useTitle';
 import React, { useCallback, useEffect, useState } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-const GRADE_LEVELS = ['all', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+const GRADE_LEVELS = ['all', '1', '2', '3', '4', '5'];
 const GRADE_LABELS = {
   all: 'Tất cả khối',
   '1': 'Khối 1', '2': 'Khối 2', '3': 'Khối 3', '4': 'Khối 4', '5': 'Khối 5',
-  '6': 'Khối 6', '7': 'Khối 7', '8': 'Khối 8', '9': 'Khối 9',
 };
 const MONTHS = ['', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
 
@@ -81,6 +82,10 @@ const S = {
     border: '1.5px solid #e0e0e0', fontSize: '0.9rem', outline: 'none',
     minHeight: 120, resize: 'vertical', fontFamily: 'inherit',
   },
+  quillWrap: {
+    borderRadius: 8, border: '1.5px solid #e0e0e0', overflow: 'hidden',
+    marginBottom: 0,
+  },
   divider: { height: 1, background: '#f0f0f0', margin: '24px 0' },
   sectionTitle: { fontWeight: 800, color: '#333', fontSize: '1rem', margin: '0 0 16px' },
   exCard: {
@@ -123,6 +128,49 @@ const S = {
     background: ok ? '#d4f5eb' : '#fde8e4', color: ok ? '#00b894' : '#e17055', fontWeight: 700,
   }),
 };
+
+function stripFontAttrs(node, delta) {
+  // Remove font-family and font-size from every pasted op so site font is preserved
+  delta.ops = delta.ops.map((op) => {
+    if (op.attributes) {
+      delete op.attributes.font;
+      delete op.attributes.size;
+      if (op.attributes.color === 'windowtext') delete op.attributes.color;
+      if (Object.keys(op.attributes).length === 0) delete op.attributes;
+    }
+    return op;
+  });
+  return delta;
+}
+
+const QUILL_MODULES = {
+  toolbar: [
+    [{ header: [1, 2, 3, false] }],
+    ['bold', 'italic', 'underline', 'strike'],
+    [{ color: [] }, { background: [] }],
+    [{ list: 'ordered' }, { list: 'bullet' }],
+    [{ align: [] }],
+    ['link', 'image'],
+    ['blockquote', 'code-block'],
+    ['clean'],
+  ],
+  clipboard: {
+    // Strip all inline styles (including font-family, font-size from Word/browser) on paste
+    matchVisual: false,
+    matchers: [
+      [Node.ELEMENT_NODE, stripFontAttrs],
+    ],
+  },
+};
+
+const QUILL_FORMATS = [
+  'header', 'bold', 'italic', 'underline', 'strike',
+  'color', 'background',
+  'list', 'bullet',
+  'align',
+  'link', 'image',
+  'blockquote', 'code-block',
+];
 
 function ExerciseBuilder({ exercises, onChange }) {
   const addEx = (type) => {
@@ -331,8 +379,18 @@ function LessonsSection() {
             <input style={S.input} placeholder="Mô tả nội dung bài học..." value={form.description} onChange={(e) => setField('description', e.target.value)} />
           </div>
           <div style={{ marginBottom: 16 }}>
-            <label style={S.fieldLabel}>Nội dung lý thuyết (hỗ trợ HTML)</label>
-            <textarea style={S.textarea} placeholder="Nhập nội dung lý thuyết..." value={form.content} onChange={(e) => setField('content', e.target.value)} />
+             <label style={S.fieldLabel}>Nội dung lý thuyết</label>
+            <div style={S.quillWrap}>
+              <ReactQuill
+                theme="snow"
+                value={form.content}
+                onChange={(val) => setField('content', val)}
+                modules={QUILL_MODULES}
+                formats={QUILL_FORMATS}
+                placeholder="Nhập nội dung lý thuyết..."
+                style={{ minHeight: 220 }}
+              />
+            </div>
           </div>
           <div style={S.divider} />
           <ExerciseBuilder exercises={form.exercises} onChange={(exs) => setField('exercises', exs)} />

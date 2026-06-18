@@ -60,6 +60,16 @@ function SettingMenu({ anchorEl, onClose }) {
         </Link>
       )}
 
+      {/* Lớp học của tôi - học sinh */}   {/* ← THÊM ĐOẠN NÀY */}
+      {isAuth && role === 'student' && (
+        <Link to={ROUTES.CLASSROOM}>
+          <MenuItem className={classes.menuItem}>
+            <SupervisorAccountIcon className={classes.icon} fontSize="small" />
+            <p className={classes.text}>Lớp học của tôi</p>
+          </MenuItem>
+        </Link>
+      )}
+
       {/* Quản lý khóa học - chỉ giáo viên */}
       {isAuth && (role === 'teacher' || role === 'admin') && (
         <Link to="/teacher/courses">

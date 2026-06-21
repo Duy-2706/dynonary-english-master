@@ -1,47 +1,53 @@
 const cache = {};
 
-function fallbackUrl(word) {
-  return `https://loremflickr.com/640/480/${encodeURIComponent(word.toLowerCase())}`;
-}
-
 async function fetchWikipediaImage(word) {
   const q = encodeURIComponent(word.toLowerCase());
-  // pageimages API returns the representative image for the Wikipedia article
-  const res = await fetch(
-    `https://en.wikipedia.org/w/api.php?action=query&titles=${q}&prop=pageimages&format=json&pithumbsize=500&origin=*`,
-  );
-  const data = await res.json();
-  const pages = Object.values(data?.query?.pages || {});
-  const thumb = pages[0]?.thumbnail?.source;
-  return thumb || null;
+
+  // 1. Direct title match
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&titles=${q}&prop=pageimages&format=json&pithumbsize=500&origin=*`,
+    );
+    const data = await res.json();
+    const pages = Object.values(data?.query?.pages || {});
+    const thumb = pages[0]?.thumbnail?.source;
+    if (thumb) return thumb;
+  } catch (_) {}
+
+  // 2. Search-based — only titles starting with the word (avoids person surnames)
+  try {
+    const res = await fetch(
+      `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrlimit=10&prop=pageimages&pithumbsize=500&format=json&origin=*`,
+    );
+    const data = await res.json();
+    const pages = Object.values(data?.query?.pages || {});
+    const wordLower = word.toLowerCase();
+    const withImage = pages.filter((p) => p.thumbnail?.source);
+    const relevant = withImage.filter((p) => p.title.toLowerCase().startsWith(wordLower));
+    const src = (relevant[0] || null)?.thumbnail?.source;
+    if (src) return src;
+  } catch (_) {}
+
+  return null;
 }
 
 function loadIntoCache(word) {
-  if (!word || cache[word]) return;
+  if (!word || cache[word] !== undefined) return;
   cache[word] = 'loading';
 
   fetchWikipediaImage(word)
     .then((src) => {
-      const url = src || fallbackUrl(word);
+      if (!src) { cache[word] = ''; return; }
       const img = new window.Image();
       img.onload = () => { cache[word] = img.src; };
-      img.onerror = () => {
-        // Wikipedia image failed, use loremflickr
-        const fb = fallbackUrl(word);
-        const img2 = new window.Image();
-        img2.onload = () => { cache[word] = img2.src; };
-        img2.onerror = () => { cache[word] = fb; };
-        img2.src = fb;
-      };
-      img.src = url;
+      img.onerror = () => { cache[word] = ''; };
+      img.src = src;
     })
-    .catch(() => {
-      cache[word] = fallbackUrl(word);
-    });
+    .catch(() => { cache[word] = ''; });
 }
 
 export function prefetchImage(word) {
-  if (!word || cache[word]) return;
+  if (!word || cache[word] !== undefined) return;
   loadIntoCache(word);
 }
 
@@ -53,13 +59,13 @@ export function getCachedImage(word) {
 export function ensureImage(word, onReady) {
   if (!word) return;
   const v = cache[word];
-  if (v && v !== 'loading') { onReady(v); return; }
+  if (v !== undefined && v !== 'loading') { onReady(v); return; }
 
-  if (!v) loadIntoCache(word);
+  if (v === undefined) loadIntoCache(word);
 
   const poll = setInterval(() => {
     const cur = cache[word];
-    if (cur && cur !== 'loading') {
+    if (cur !== undefined && cur !== 'loading') {
       clearInterval(poll);
       onReady(cur);
     }
@@ -68,8 +74,8 @@ export function ensureImage(word, onReady) {
   setTimeout(() => {
     clearInterval(poll);
     if (!cache[word] || cache[word] === 'loading') {
-      cache[word] = fallbackUrl(word);
-      onReady(cache[word]);
+      cache[word] = '';
+      onReady('');
     }
   }, 8000);
 }

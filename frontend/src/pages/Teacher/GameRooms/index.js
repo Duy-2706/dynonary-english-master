@@ -4,204 +4,285 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import gameRoomApi from 'apis/gameRoomApi';
 
+import AddIcon from '@material-ui/icons/Add';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import ErrorIcon from '@material-ui/icons/Error';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import GamesIcon from '@material-ui/icons/Games';
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import SettingsIcon from '@material-ui/icons/Settings';
+import StopIcon from '@material-ui/icons/Stop';
+
 const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
 
 const SITE_GRAD = 'linear-gradient(180deg, #ffdf3b 0%, #ff8a00 100%)';
 
+const COLORS = {
+  bg: '#05090d',
+  panel: '#101c22',
+  panel2: '#0b151a',
+  border: 'rgba(25,199,168,.45)',
+  main: '#19c7a8',
+  mainDark: '#07947f',
+  text: '#f6fffd',
+  sub: '#bff8ee',
+  muted: '#a7c9c4',
+  yellow: '#ffdf3b',
+  orange: '#ff8a00',
+  green: '#36e27d',
+  red: '#ff8a8a',
+};
+
 const S = {
   page: {
-    minHeight: '100vh',
+    height: 'calc(100vh - 112px)',
+    minHeight: 620,
     background: `
-      radial-gradient(circle at 14% 18%, rgba(25,199,168,.18) 0 4px, transparent 5px),
-      radial-gradient(circle at 82% 22%, rgba(255,138,0,.16) 0 5px, transparent 6px),
-      radial-gradient(circle at 28% 72%, rgba(255,20,147,.12) 0 4px, transparent 5px),
+      radial-gradient(circle at 14% 18%, rgba(25,199,168,.16) 0 4px, transparent 5px),
+      radial-gradient(circle at 82% 22%, rgba(255,138,0,.13) 0 5px, transparent 6px),
+      radial-gradient(circle at 28% 72%, rgba(255,20,147,.09) 0 4px, transparent 5px),
       linear-gradient(180deg, #05090d 0%, #071217 45%, #05090d 100%)
     `,
     backgroundSize: '90px 90px, 130px 130px, 110px 110px, auto',
-    padding: '44px 28px 80px',
+    padding: 0,
     fontFamily: GAME_FONT,
-    color: '#f6fffd',
+    color: COLORS.text,
+    overflow: 'hidden',
   },
 
   wrap: {
-    maxWidth: 1180,
+    height: '100%',
+    maxWidth: 1320,
     margin: '0 auto',
+    padding: '0 24px',
+    display: 'flex',
+    flexDirection: 'column',
+    overflow: 'hidden',
   },
 
   header: {
+    flexShrink: 0,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     flexWrap: 'wrap',
-    gap: 18,
-    marginBottom: 34,
+    gap: 16,
+    marginBottom: 18,
     background: 'linear-gradient(180deg, rgba(18,31,38,.98), rgba(10,19,24,.98))',
-    border: '5px solid rgba(25,199,168,.55)',
-    borderRadius: 34,
-    padding: '30px 34px',
-    boxShadow: '0 10px 0 rgba(25,199,168,.22), 0 24px 48px rgba(0,0,0,.42)',
+    border: '3px solid rgba(25,199,168,.52)',
+    borderRadius: 24,
+    padding: '20px 24px',
+    boxShadow: '0 7px 0 rgba(25,199,168,.16), 0 16px 34px rgba(0,0,0,.34)',
   },
 
   title: {
-    fontSize: 'clamp(2.5rem, 4.8vw, 4.4rem)',
+    fontSize: '1.9rem',
     fontWeight: 900,
     color: '#ffffff',
     margin: 0,
-    lineHeight: 0.95,
-    textShadow: '0 5px 0 rgba(25,199,168,.35), 0 12px 24px rgba(0,0,0,.55)',
+    lineHeight: 1.12,
+    letterSpacing: '-0.025em',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    textShadow: '0 3px 0 rgba(25,199,168,.22)',
   },
 
   headerSub: {
-    color: '#bff8ee',
-    margin: '12px 0 0',
-    fontSize: '1.2rem',
-    fontWeight: 900,
-    lineHeight: 1.45,
+    color: COLORS.sub,
+    margin: '7px 0 0',
+    fontSize: '.98rem',
+    fontWeight: 800,
+    lineHeight: 1.4,
+  },
+
+  content: {
+    flex: 1,
+    minHeight: 0,
+    overflow: 'hidden',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  scrollArea: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+    paddingRight: 4,
+    paddingBottom: 18,
   },
 
   btnPrimary: (disabled) => ({
-    padding: '14px 26px',
+    padding: '10px 18px',
     borderRadius: 999,
-    border: '4px solid #fff',
+    border: '3px solid #fff',
     cursor: disabled ? 'not-allowed' : 'pointer',
     background: disabled ? '#4b5563' : SITE_GRAD,
     color: '#fff',
     fontWeight: 900,
-    fontSize: '1.12rem',
+    fontSize: '.94rem',
     fontFamily: GAME_FONT,
     opacity: disabled ? 0.7 : 1,
-    boxShadow: disabled ? 'none' : '0 8px 0 #bd5f00, 0 16px 28px rgba(0,0,0,.32)',
-    textShadow: '0 2px 0 rgba(0,0,0,.25)',
+    boxShadow: disabled ? 'none' : '0 5px 0 #bd5f00, 0 12px 22px rgba(0,0,0,.26)',
+    textShadow: '0 2px 0 rgba(0,0,0,.22)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 7,
   }),
 
   btnSecondary: {
-    padding: '11px 20px',
+    padding: '9px 15px',
     borderRadius: 999,
-    border: '3px solid rgba(25,199,168,.8)',
+    border: '2.5px solid rgba(25,199,168,.78)',
     cursor: 'pointer',
     background: 'linear-gradient(180deg,#14252d,#0d1a20)',
     color: '#d8fffa',
     fontWeight: 900,
-    fontSize: '1rem',
+    fontSize: '.88rem',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(25,199,168,.16)',
+    boxShadow: '0 4px 0 rgba(25,199,168,.13)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   },
 
   btnDanger: {
-    padding: '11px 20px',
+    padding: '9px 15px',
     borderRadius: 999,
-    border: '3px solid #ff8a8a',
+    border: '2.5px solid #ff8a8a',
     cursor: 'pointer',
     background: 'linear-gradient(180deg,#2b1015,#18080b)',
     color: '#ffb7b7',
     fontWeight: 900,
-    fontSize: '1rem',
+    fontSize: '.88rem',
     fontFamily: GAME_FONT,
-    boxShadow: '0 6px 0 rgba(255,80,80,.18)',
+    boxShadow: '0 4px 0 rgba(255,80,80,.15)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   },
 
   btnGreen: {
-    padding: '11px 20px',
+    padding: '9px 15px',
     borderRadius: 999,
-    border: '3px solid #fff',
+    border: '2.5px solid #fff',
     cursor: 'pointer',
     background: 'linear-gradient(180deg,#36e27d,#0ca84f)',
     color: '#fff',
     fontWeight: 900,
-    fontSize: '1rem',
+    fontSize: '.88rem',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 #087a3c',
+    boxShadow: '0 5px 0 #087a3c',
     textShadow: '0 2px 0 rgba(0,0,0,.22)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   },
 
   btnOrange: {
-    padding: '11px 20px',
+    padding: '9px 15px',
     borderRadius: 999,
-    border: '3px solid #fff',
+    border: '2.5px solid #fff',
     cursor: 'pointer',
     background: 'linear-gradient(180deg,#ff8a00,#e85d00)',
     color: '#fff',
     fontWeight: 900,
-    fontSize: '1rem',
+    fontSize: '.88rem',
     fontFamily: GAME_FONT,
-    boxShadow: '0 7px 0 #9b3200',
+    boxShadow: '0 5px 0 #9b3200',
     textShadow: '0 2px 0 rgba(0,0,0,.22)',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 6,
   },
 
   card: {
     background: 'linear-gradient(180deg, rgba(18,31,38,.98), rgba(10,19,24,.98))',
-    borderRadius: 30,
-    padding: '26px 28px',
-    marginBottom: 22,
-    border: '4px solid rgba(25,199,168,.42)',
-    boxShadow: '0 9px 0 rgba(25,199,168,.18), 0 22px 42px rgba(0,0,0,.36)',
+    borderRadius: 24,
+    padding: '20px 22px',
+    marginBottom: 16,
+    border: '3px solid rgba(25,199,168,.42)',
+    boxShadow: '0 6px 0 rgba(25,199,168,.13), 0 16px 32px rgba(0,0,0,.28)',
   },
 
   roomTitle: {
     fontWeight: 900,
-    fontSize: '1.55rem',
+    fontSize: '1.22rem',
     color: '#ffffff',
-    marginBottom: 8,
-    lineHeight: 1.2,
-    textShadow: '0 3px 0 rgba(0,0,0,.26)',
+    marginBottom: 6,
+    lineHeight: 1.22,
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
   },
 
   roomDesc: {
     color: '#b7d8d4',
-    fontSize: '1.08rem',
-    marginBottom: 14,
-    fontWeight: 800,
+    fontSize: '.94rem',
+    marginBottom: 12,
+    fontWeight: 750,
     lineHeight: 1.45,
   },
 
   mutedText: {
-    color: '#a7c9c4',
-    fontSize: '1rem',
+    color: COLORS.muted,
+    fontSize: '.9rem',
     fontWeight: 850,
   },
 
   roomCode: {
     fontFamily: 'monospace',
-    fontSize: '1.65rem',
+    fontSize: '1.08rem',
     fontWeight: 900,
     color: '#ffffff',
-    letterSpacing: '0.2em',
+    letterSpacing: '0.13em',
     background: 'linear-gradient(180deg,#0a84ff,#00439d)',
-    border: '3px solid #fff',
-    borderRadius: 16,
-    padding: '7px 16px',
+    border: '2.5px solid #fff',
+    borderRadius: 13,
+    padding: '5px 12px',
     display: 'inline-block',
-    boxShadow: '0 6px 0 rgba(0,67,157,.55)',
-    textShadow: '0 2px 0 rgba(0,0,0,.28)',
+    boxShadow: '0 4px 0 rgba(0,67,157,.45)',
+    textShadow: '0 2px 0 rgba(0,0,0,.24)',
   },
 
   badge: (n) => ({
-    display: 'inline-block',
+    display: 'inline-flex',
+    alignItems: 'center',
     background:
       n > 0
         ? 'linear-gradient(180deg,#36e27d,#0ca84f)'
         : 'linear-gradient(180deg,#475569,#1f2937)',
     color: '#fff',
     borderRadius: 999,
-    padding: '7px 15px',
-    fontSize: '1rem',
+    padding: '5px 12px',
+    fontSize: '.84rem',
     fontWeight: 900,
-    border: '3px solid rgba(255,255,255,.9)',
-    boxShadow: n > 0 ? '0 5px 0 #087a3c' : '0 5px 0 rgba(0,0,0,.22)',
+    border: '2.5px solid rgba(255,255,255,.9)',
+    boxShadow: n > 0 ? '0 4px 0 #087a3c' : '0 4px 0 rgba(0,0,0,.20)',
   }),
 
   liveBadge: {
-    display: 'inline-block',
+    display: 'inline-flex',
     background: 'linear-gradient(180deg,#ff4fa3,#c40075)',
     color: '#fff',
     borderRadius: 999,
-    padding: '6px 13px',
-    fontSize: '.9rem',
+    padding: '4px 10px',
+    fontSize: '.78rem',
     fontWeight: 900,
-    marginLeft: 10,
-    border: '3px solid #fff',
-    boxShadow: '0 5px 0 #7c004b',
-    textShadow: '0 2px 0 rgba(0,0,0,.22)',
+    border: '2.5px solid #fff',
+    boxShadow: '0 4px 0 #7c004b',
+    textShadow: '0 2px 0 rgba(0,0,0,.20)',
   },
 
   modal: {
@@ -218,80 +299,119 @@ const S = {
 
   modalCard: {
     background: 'linear-gradient(180deg,#121f26,#0a1318)',
-    borderRadius: 34,
-    padding: '34px 30px',
+    borderRadius: 26,
+    padding: 0,
     width: '100%',
     maxWidth: 620,
-    maxHeight: '90vh',
-    overflowY: 'auto',
-    border: '5px solid rgba(25,199,168,.72)',
-    boxShadow: '0 12px 0 rgba(25,199,168,.26), 0 28px 60px rgba(0,0,0,.58)',
+    maxHeight: '88vh',
+    overflow: 'hidden',
+    border: '4px solid rgba(25,199,168,.72)',
+    boxShadow: '0 9px 0 rgba(25,199,168,.20), 0 24px 54px rgba(0,0,0,.52)',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  modalHead: {
+    flexShrink: 0,
+    padding: '20px 24px',
+    borderBottom: '3px solid rgba(25,199,168,.32)',
+    background: 'linear-gradient(180deg,#14252d,#0d1a20)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 14,
   },
 
   modalTitle: {
-    fontSize: '2rem',
+    fontSize: '1.35rem',
     fontWeight: 900,
     color: '#ffffff',
-    margin: '0 0 24px',
-    textShadow: '0 4px 0 rgba(25,199,168,.28)',
+    margin: 0,
+    lineHeight: 1.2,
+    textShadow: '0 3px 0 rgba(25,199,168,.22)',
+  },
+
+  modalBody: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+    padding: '22px 24px',
   },
 
   label: {
     display: 'block',
     fontWeight: 900,
     color: '#d8fffa',
-    marginBottom: 9,
-    fontSize: '1.1rem',
+    marginBottom: 7,
+    fontSize: '.94rem',
   },
 
   input: {
     width: '100%',
-    padding: '15px 17px',
-    borderRadius: 18,
-    border: '3px solid rgba(25,199,168,.55)',
+    padding: '11px 13px',
+    borderRadius: 14,
+    border: '2.5px solid rgba(25,199,168,.55)',
     background: '#071217',
     color: '#ffffff',
-    fontSize: '1.08rem',
-    fontWeight: 850,
+    fontSize: '.96rem',
+    fontWeight: 800,
     fontFamily: GAME_FONT,
     outline: 'none',
     boxSizing: 'border-box',
-    marginBottom: 18,
-    boxShadow: '0 5px 0 rgba(25,199,168,.10)',
+    marginBottom: 15,
+    boxShadow: '0 4px 0 rgba(25,199,168,.08)',
   },
 
   textarea: {
     width: '100%',
-    padding: '15px 17px',
-    borderRadius: 18,
-    border: '3px solid rgba(25,199,168,.55)',
+    padding: '11px 13px',
+    borderRadius: 14,
+    border: '2.5px solid rgba(25,199,168,.55)',
     background: '#071217',
     color: '#ffffff',
-    fontSize: '1.08rem',
-    fontWeight: 850,
+    fontSize: '.96rem',
+    fontWeight: 800,
     fontFamily: GAME_FONT,
     outline: 'none',
     boxSizing: 'border-box',
-    marginBottom: 18,
+    marginBottom: 15,
     resize: 'vertical',
-    minHeight: 92,
+    minHeight: 88,
     lineHeight: 1.5,
-    boxShadow: '0 5px 0 rgba(25,199,168,.10)',
+    boxShadow: '0 4px 0 rgba(25,199,168,.08)',
+  },
+
+  qHeader: {
+    flexShrink: 0,
+    background: 'linear-gradient(180deg, rgba(18,31,38,.98), rgba(10,19,24,.98))',
+    border: '3px solid rgba(25,199,168,.42)',
+    borderRadius: 22,
+    padding: '16px 20px',
+    marginBottom: 16,
+    boxShadow: '0 5px 0 rgba(25,199,168,.12)',
+  },
+
+  questionList: {
+    flex: 1,
+    minHeight: 0,
+    overflowY: 'auto',
+    paddingRight: 4,
+    paddingBottom: 18,
   },
 
   qItem: {
     background: 'linear-gradient(180deg,#111e25,#091217)',
-    borderRadius: 24,
-    padding: '20px 22px',
-    marginBottom: 16,
-    border: '4px solid rgba(10,132,255,.45)',
-    boxShadow: '0 8px 0 rgba(10,132,255,.18), 0 18px 34px rgba(0,0,0,.30)',
+    borderRadius: 22,
+    padding: '17px 19px',
+    marginBottom: 14,
+    border: '3px solid rgba(10,132,255,.42)',
+    boxShadow: '0 6px 0 rgba(10,132,255,.14), 0 14px 28px rgba(0,0,0,.24)',
   },
 
   qIndex: {
     color: '#7dd3fc',
-    fontSize: '1rem',
-    marginBottom: 7,
+    fontSize: '.88rem',
+    marginBottom: 6,
     fontWeight: 900,
   },
 
@@ -299,52 +419,38 @@ const S = {
     fontWeight: 900,
     color: '#ffffff',
     marginBottom: 8,
-    fontSize: '1.22rem',
-    lineHeight: 1.45,
+    fontSize: '1.03rem',
+    lineHeight: 1.42,
   },
 
   qAnswer: {
     color: '#72ffad',
-    fontSize: '1.05rem',
+    fontSize: '.92rem',
     fontWeight: 900,
-    marginTop: 5,
+    marginTop: 4,
   },
 
   qChoices: {
     color: '#c6d7d4',
-    fontSize: '1rem',
+    fontSize: '.9rem',
     marginTop: 6,
-    fontWeight: 800,
+    fontWeight: 750,
     lineHeight: 1.4,
   },
 
   hintText: {
     color: '#ffd86f',
-    fontSize: '1rem',
+    fontSize: '.9rem',
     marginTop: 6,
     fontWeight: 900,
   },
 
   timeText: {
     color: '#95aeb0',
-    fontSize: '.95rem',
+    fontSize: '.84rem',
     marginTop: 6,
-    fontWeight: 900,
+    fontWeight: 850,
   },
-
-  alertBanner: (ok) => ({
-    padding: '15px 18px',
-    borderRadius: 20,
-    fontWeight: 900,
-    marginBottom: 20,
-    fontSize: '1.08rem',
-    background: ok
-      ? 'linear-gradient(180deg,#123a2b,#0b241b)'
-      : 'linear-gradient(180deg,#3a1518,#1d090b)',
-    color: ok ? '#72ffad' : '#ffb7b7',
-    border: ok ? '3px solid #36e27d' : '3px solid #ff8a8a',
-    boxShadow: '0 6px 0 rgba(0,0,0,.22)',
-  }),
 
   noAccess: {
     minHeight: '100vh',
@@ -360,56 +466,60 @@ const S = {
   noAccessText: {
     fontWeight: 900,
     color: '#d8fffa',
-    fontSize: '1.25rem',
+    fontSize: '1.05rem',
   },
 
   sessionBanner: {
     background: 'linear-gradient(180deg,#271900,#111111)',
-    border: '4px solid #ffcf45',
-    borderRadius: 26,
-    padding: '20px 22px',
-    marginBottom: 22,
+    border: '3px solid #ffcf45',
+    borderRadius: 22,
+    padding: '15px 17px',
+    marginBottom: 16,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
     flexWrap: 'wrap',
-    gap: 14,
-    boxShadow: '0 8px 0 rgba(189,120,0,.35), 0 18px 34px rgba(0,0,0,.35)',
+    gap: 12,
+    boxShadow: '0 5px 0 rgba(189,120,0,.25), 0 14px 28px rgba(0,0,0,.26)',
   },
 
   sessionTitle: {
     fontWeight: 900,
-    color: '#ffdf3b',
-    marginBottom: 6,
-    fontSize: '1.22rem',
-    textShadow: '0 2px 0 rgba(0,0,0,.28)',
+    color: COLORS.yellow,
+    marginBottom: 5,
+    fontSize: '1rem',
+    textShadow: '0 2px 0 rgba(0,0,0,.24)',
   },
 
   pinBig: {
     fontFamily: 'monospace',
-    fontSize: '2.7rem',
+    fontSize: '1.75rem',
     fontWeight: 900,
     color: '#ffffff',
-    letterSpacing: '0.25em',
-    textShadow: '0 4px 0 #bd5f00',
+    letterSpacing: '0.18em',
+    textShadow: '0 3px 0 #bd5f00',
+    marginTop: 3,
   },
 
   emptyBox: {
     background: 'linear-gradient(180deg, rgba(18,31,38,.98), rgba(10,19,24,.98))',
-    borderRadius: 30,
-    padding: '54px 24px',
-    marginBottom: 18,
+    borderRadius: 24,
+    padding: '42px 22px',
+    marginBottom: 16,
     textAlign: 'center',
-    border: '4px dashed rgba(25,199,168,.5)',
-    boxShadow: '0 9px 0 rgba(25,199,168,.14), 0 22px 42px rgba(0,0,0,.32)',
+    border: '3px dashed rgba(25,199,168,.5)',
+    boxShadow: '0 6px 0 rgba(25,199,168,.10), 0 16px 32px rgba(0,0,0,.28)',
   },
 
   sectionTitle: {
-    fontSize: '1.55rem',
+    fontSize: '1.16rem',
     fontWeight: 900,
     color: '#ffffff',
     margin: 0,
-    textShadow: '0 3px 0 rgba(25,199,168,.24)',
+    textShadow: '0 3px 0 rgba(25,199,168,.20)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
   },
 };
 
@@ -426,30 +536,120 @@ const EMPTY_Q = {
   hint: '',
 };
 
+function TeacherToast({ toast, onClose }) {
+  if (!toast?.show) return null;
+
+  const ok = toast.type === 'success' || toast.type === 'delete';
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 92,
+        right: 28,
+        zIndex: 9999,
+        minWidth: 320,
+        maxWidth: 430,
+        borderRadius: 20,
+        padding: '13px 16px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 12,
+        background: ok
+          ? 'linear-gradient(135deg,#ecfdf5,#ffffff)'
+          : 'linear-gradient(135deg,#fff1f2,#ffffff)',
+        border: ok ? '3px solid #19c7a8' : '3px solid #ff8a8a',
+        boxShadow: '0 16px 36px rgba(15,23,42,.15)',
+        fontFamily: GAME_FONT,
+      }}
+    >
+      <div
+        style={{
+          width: 38,
+          height: 38,
+          borderRadius: 13,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: ok ? '#d4f5eb' : '#ffe4e6',
+          color: ok ? '#07947f' : '#e53935',
+          flexShrink: 0,
+        }}
+      >
+        {ok ? <CheckCircleIcon /> : <ErrorIcon />}
+      </div>
+
+      <div style={{ flex: 1 }}>
+        <div
+          style={{
+            color: ok ? '#06434b' : '#7f1d1d',
+            fontSize: '.98rem',
+            fontWeight: 900,
+            lineHeight: 1.25,
+          }}
+        >
+          {toast.title}
+        </div>
+
+        <div
+          style={{
+            color: '#64748b',
+            fontSize: '.88rem',
+            fontWeight: 750,
+            lineHeight: 1.35,
+            marginTop: 2,
+          }}
+        >
+          {toast.message}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onClose}
+        style={{
+          width: 30,
+          height: 30,
+          border: 0,
+          borderRadius: 999,
+          background: '#f8fafc',
+          color: '#64748b',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <CloseIcon style={{ fontSize: 17 }} />
+      </button>
+    </div>
+  );
+}
+
 function ChoicesEditor({ choices, onChange }) {
   return (
     <div>
-      {choices.map((c, i) => (
-        <div key={i} style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
+      {choices.map((choice, index) => (
+        <div key={index} style={{ display: 'flex', gap: 10, marginBottom: 10 }}>
           <span
             style={{
               color: '#7dd3fc',
-              minWidth: 28,
-              paddingTop: 14,
-              fontSize: '1rem',
+              minWidth: 24,
+              paddingTop: 10,
+              fontSize: '.9rem',
               fontWeight: 900,
             }}
           >
-            {i + 1}.
+            {index + 1}.
           </span>
 
           <input
             style={{ ...S.input, marginBottom: 0, flex: 1 }}
-            placeholder={`Lựa chọn ${i + 1}`}
-            value={c}
-            onChange={(e) => {
+            placeholder={`Lựa chọn ${index + 1}`}
+            value={choice}
+            onChange={(event) => {
               const updated = [...choices];
-              updated[i] = e.target.value;
+              updated[index] = event.target.value;
               onChange(updated);
             }}
           />
@@ -462,14 +662,20 @@ function ChoicesEditor({ choices, onChange }) {
 export default function TeacherGameRoomsPage() {
   useTitle('Quản lý phòng game');
 
-  const userInfo = useSelector((s) => s.userInfo);
+  const userInfo = useSelector((state) => state.userInfo);
   const history = useHistory();
 
   const isAllowed = userInfo?.role === 'teacher' || userInfo?.role === 'admin';
 
   const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [msg, setMsg] = useState(null);
+
+  const [toast, setToast] = useState({
+    show: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
 
   const [showCreateRoom, setShowCreateRoom] = useState(false);
   const [roomForm, setRoomForm] = useState(EMPTY_ROOM);
@@ -480,9 +686,20 @@ export default function TeacherGameRoomsPage() {
   const [qForm, setQForm] = useState(EMPTY_Q);
   const [editingQ, setEditingQ] = useState(null);
 
-  const showMsg = (ok, text) => {
-    setMsg({ ok, text });
-    setTimeout(() => setMsg(null), 3500);
+  const showToast = (type, title, message) => {
+    setToast({
+      show: true,
+      type,
+      title,
+      message,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        show: false,
+      }));
+    }, 2600);
   };
 
   const loadRooms = useCallback(async () => {
@@ -493,6 +710,12 @@ export default function TeacherGameRoomsPage() {
       setRooms(res.data.rooms || []);
     } catch {
       setRooms([]);
+
+      showToast(
+        'error',
+        'Không tải được phòng game',
+        'Danh sách phòng game chưa được tải. Vui lòng thử lại.',
+      );
     } finally {
       setLoading(false);
     }
@@ -503,15 +726,28 @@ export default function TeacherGameRoomsPage() {
   }, [isAllowed, loadRooms]);
 
   useEffect(() => {
-    if (selectedRoom) {
-      const updated = rooms.find((r) => r.id === selectedRoom.id);
-      if (updated) setSelectedRoom(updated);
-    }
-  }, [rooms, selectedRoom]);
+    if (!selectedRoom?.id) return;
+
+    const updated = rooms.find((room) => room.id === selectedRoom.id);
+
+    if (updated) setSelectedRoom(updated);
+  }, [rooms, selectedRoom?.id]);
+
+  const resetRoomModal = () => {
+    setShowCreateRoom(false);
+    setEditingRoom(null);
+    setRoomForm(EMPTY_ROOM);
+  };
+
+  const resetQuestionModal = () => {
+    setShowAddQ(false);
+    setEditingQ(null);
+    setQForm(EMPTY_Q);
+  };
 
   const handleCreateRoom = async () => {
     if (!roomForm.title.trim()) {
-      showMsg(false, 'Vui lòng nhập tên phòng');
+      showToast('error', 'Thiếu tên phòng', 'Bạn cần nhập tên phòng trước khi tạo.');
       return;
     }
 
@@ -521,19 +757,23 @@ export default function TeacherGameRoomsPage() {
         description: roomForm.description,
       });
 
-      setShowCreateRoom(false);
-      setRoomForm(EMPTY_ROOM);
+      resetRoomModal();
 
-      showMsg(true, 'Tạo phòng thành công!');
+      showToast(
+        'success',
+        'Tạo phòng thành công',
+        'Phòng game mới đã được thêm vào danh sách.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi tạo phòng');
+      showToast('error', 'Không thể tạo phòng', 'Vui lòng thử lại sau.');
     }
   };
 
   const handleUpdateRoom = async () => {
     if (!editingRoom || !roomForm.title.trim()) {
-      showMsg(false, 'Vui lòng nhập tên phòng');
+      showToast('error', 'Thiếu tên phòng', 'Bạn cần nhập tên phòng trước khi lưu.');
       return;
     }
 
@@ -543,18 +783,24 @@ export default function TeacherGameRoomsPage() {
         description: roomForm.description,
       });
 
-      setEditingRoom(null);
-      setRoomForm(EMPTY_ROOM);
+      resetRoomModal();
 
-      showMsg(true, 'Cập nhật thành công!');
+      showToast(
+        'success',
+        'Cập nhật phòng thành công',
+        'Thông tin phòng game đã được lưu lại.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi cập nhật phòng');
+      showToast('error', 'Không thể cập nhật phòng', 'Vui lòng thử lại sau.');
     }
   };
 
   const handleDeleteRoom = async (room) => {
-    if (!window.confirm(`Xóa phòng "${room.title}"? Hành động này không thể hoàn tác.`)) return;
+    if (!window.confirm(`Xóa phòng "${room.title}"? Hành động này không thể hoàn tác.`)) {
+      return;
+    }
 
     try {
       if (room.activeLiveSession) {
@@ -565,30 +811,57 @@ export default function TeacherGameRoomsPage() {
 
       if (selectedRoom?.id === room.id) setSelectedRoom(null);
 
-      showMsg(true, 'Đã xóa phòng');
+      showToast(
+        'delete',
+        'Đã xóa phòng',
+        'Phòng game đã được xóa khỏi danh sách.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi xóa phòng');
+      showToast('error', 'Không thể xóa phòng', 'Vui lòng thử lại sau.');
     }
   };
 
-  const handleAddQuestion = async () => {
+  const validateQuestion = () => {
     if (!qForm.question.trim() || !qForm.answer.trim()) {
-      showMsg(false, 'Vui lòng nhập câu hỏi và đáp án');
-      return;
+      showToast(
+        'error',
+        'Thiếu câu hỏi hoặc đáp án',
+        'Bạn cần nhập đầy đủ câu hỏi và đáp án đúng.',
+      );
+      return null;
     }
 
-    const filteredChoices = qForm.choices.filter((c) => c.trim());
+    const filteredChoices = qForm.choices.filter((choice) => choice.trim());
 
     if (filteredChoices.length < 2) {
-      showMsg(false, 'Cần ít nhất 2 lựa chọn');
-      return;
+      showToast(
+        'error',
+        'Thiếu lựa chọn',
+        'Câu hỏi cần có ít nhất 2 lựa chọn.',
+      );
+      return null;
     }
 
     if (!filteredChoices.includes(qForm.answer.trim())) {
-      showMsg(false, 'Đáp án phải nằm trong danh sách lựa chọn');
-      return;
+      showToast(
+        'error',
+        'Đáp án chưa khớp',
+        'Đáp án đúng phải nằm trong danh sách lựa chọn.',
+      );
+      return null;
     }
+
+    return filteredChoices;
+  };
+
+  const handleAddQuestion = async () => {
+    if (!selectedRoom) return;
+
+    const filteredChoices = validateQuestion();
+
+    if (!filteredChoices) return;
 
     try {
       const res = await gameRoomApi.addQuestion(selectedRoom.id, {
@@ -599,36 +872,27 @@ export default function TeacherGameRoomsPage() {
         hint: qForm.hint,
       });
 
-      setShowAddQ(false);
-      setQForm(EMPTY_Q);
+      resetQuestionModal();
       setSelectedRoom(res.data.room);
 
-      showMsg(true, 'Thêm câu hỏi thành công!');
+      showToast(
+        'success',
+        'Thêm câu hỏi thành công',
+        'Câu hỏi mới đã được thêm vào phòng game.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi thêm câu hỏi');
+      showToast('error', 'Không thể thêm câu hỏi', 'Vui lòng thử lại sau.');
     }
   };
 
   const handleUpdateQuestion = async () => {
-    if (!editingQ) return;
+    if (!editingQ || !selectedRoom) return;
 
-    if (!qForm.question.trim() || !qForm.answer.trim()) {
-      showMsg(false, 'Vui lòng nhập câu hỏi và đáp án');
-      return;
-    }
+    const filteredChoices = validateQuestion();
 
-    const filteredChoices = qForm.choices.filter((c) => c.trim());
-
-    if (filteredChoices.length < 2) {
-      showMsg(false, 'Cần ít nhất 2 lựa chọn');
-      return;
-    }
-
-    if (!filteredChoices.includes(qForm.answer.trim())) {
-      showMsg(false, 'Đáp án phải nằm trong danh sách lựa chọn');
-      return;
-    }
+    if (!filteredChoices) return;
 
     try {
       const res = await gameRoomApi.updateQuestion(selectedRoom.id, editingQ.id, {
@@ -639,29 +903,39 @@ export default function TeacherGameRoomsPage() {
         hint: qForm.hint,
       });
 
-      setEditingQ(null);
-      setQForm(EMPTY_Q);
+      resetQuestionModal();
       setSelectedRoom(res.data.room);
 
-      showMsg(true, 'Cập nhật câu hỏi thành công!');
+      showToast(
+        'success',
+        'Cập nhật câu hỏi thành công',
+        'Nội dung câu hỏi đã được lưu lại.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi cập nhật câu hỏi');
+      showToast('error', 'Không thể cập nhật câu hỏi', 'Vui lòng thử lại sau.');
     }
   };
 
-  const handleDeleteQuestion = async (q) => {
+  const handleDeleteQuestion = async (question) => {
+    if (!selectedRoom) return;
     if (!window.confirm('Xóa câu hỏi này?')) return;
 
     try {
-      const res = await gameRoomApi.deleteQuestion(selectedRoom.id, q.id);
+      const res = await gameRoomApi.deleteQuestion(selectedRoom.id, question.id);
 
       setSelectedRoom(res.data.room);
 
-      showMsg(true, 'Đã xóa câu hỏi');
+      showToast(
+        'delete',
+        'Đã xóa câu hỏi',
+        'Câu hỏi đã được xóa khỏi phòng game.',
+      );
+
       loadRooms();
     } catch {
-      showMsg(false, 'Lỗi khi xóa câu hỏi');
+      showToast('error', 'Không thể xóa câu hỏi', 'Vui lòng thử lại sau.');
     }
   };
 
@@ -670,7 +944,13 @@ export default function TeacherGameRoomsPage() {
       const res = await gameRoomApi.startLiveSession(room.id);
       const { pin, room: gameRoom, existing } = res.data;
 
-      if (existing) showMsg(true, `Phòng đang có mã PIN: ${pin}`);
+      if (existing) {
+        showToast(
+          'success',
+          'Phòng đang hoạt động',
+          `Mã PIN hiện tại là ${pin}.`,
+        );
+      }
 
       await loadRooms();
 
@@ -681,103 +961,117 @@ export default function TeacherGameRoomsPage() {
         teacherRoomId: room.id,
       });
     } catch (err) {
-      showMsg(false, err?.response?.data?.message || 'Lỗi khi tạo phòng trực tiếp');
+      showToast(
+        'error',
+        'Không thể tạo phòng live',
+        err?.response?.data?.message || 'Vui lòng thử lại sau.',
+      );
     }
   };
 
   const handleCancelLive = async (room) => {
-    if (!window.confirm('Hủy phòng chơi đang hoạt động? Học sinh sẽ bị thoát.')) return;
+    if (!window.confirm('Hủy phòng chơi đang hoạt động? Học sinh sẽ bị thoát.')) {
+      return;
+    }
 
     try {
       await gameRoomApi.cancelLiveSession(room.id);
 
-      showMsg(true, 'Đã hủy phòng chơi');
+      showToast(
+        'delete',
+        'Đã hủy phòng chơi',
+        'Phiên chơi live đã được kết thúc.',
+      );
+
       loadRooms();
 
       if (selectedRoom?.id === room.id) {
-        setSelectedRoom((p) => ({
-          ...p,
+        setSelectedRoom((prev) => ({
+          ...prev,
           activeLiveSession: null,
         }));
       }
     } catch {
-      showMsg(false, 'Lỗi khi hủy phòng');
+      showToast('error', 'Không thể hủy phòng', 'Vui lòng thử lại sau.');
     }
   };
 
   const copyCode = (code) => {
     navigator.clipboard.writeText(code).catch(() => {});
-    showMsg(true, `Đã sao chép: ${code}`);
-  };
 
-  if (!isAllowed) {
-    return (
-      <div style={S.noAccess}>
-        <div style={{ fontSize: '4rem' }}>🔒</div>
-
-        <div style={S.noAccessText}>
-          Chỉ giáo viên hoặc admin mới có thể truy cập.
-        </div>
-
-        <button style={S.btnPrimary(false)} onClick={() => history.push('/')}>
-          Về trang chủ
-        </button>
-      </div>
+    showToast(
+      'success',
+      'Đã sao chép mã',
+      `Mã ${code} đã được lưu vào clipboard.`,
     );
-  }
+  };
 
   const roomModal = (showCreateRoom || editingRoom) && (
     <div
       style={S.modal}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          setShowCreateRoom(false);
-          setEditingRoom(null);
-          setRoomForm(EMPTY_ROOM);
-        }
+      onClick={(event) => {
+        if (event.target === event.currentTarget) resetRoomModal();
       }}
     >
       <div style={S.modalCard}>
-        <h2 style={S.modalTitle}>
-          {editingRoom ? '✏️ Chỉnh sửa phòng' : '🏠 Tạo phòng mới'}
-        </h2>
+        <div style={S.modalHead}>
+          <h2 style={S.modalTitle}>
+            {editingRoom ? 'Chỉnh sửa phòng' : 'Tạo phòng mới'}
+          </h2>
 
-        <label style={S.label}>Tên phòng *</label>
-
-        <input
-          style={S.input}
-          placeholder="VD: Ôn tập Unit 1..."
-          value={roomForm.title}
-          onChange={(e) => setRoomForm({ ...roomForm, title: e.target.value })}
-        />
-
-        <label style={S.label}>Mô tả</label>
-
-        <textarea
-          style={S.textarea}
-          placeholder="Mô tả nội dung..."
-          value={roomForm.description}
-          onChange={(e) => setRoomForm({ ...roomForm, description: e.target.value })}
-        />
-
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-          <button
-            style={S.btnPrimary(false)}
-            onClick={editingRoom ? handleUpdateRoom : handleCreateRoom}
-          >
-            {editingRoom ? 'Lưu thay đổi' : 'Tạo phòng'}
+          <button type="button" style={S.btnSecondary} onClick={resetRoomModal}>
+            <CloseIcon style={{ fontSize: 17 }} />
+            Đóng
           </button>
+        </div>
 
-          <button
-            style={S.btnSecondary}
-            onClick={() => {
-              setShowCreateRoom(false);
-              setEditingRoom(null);
-              setRoomForm(EMPTY_ROOM);
-            }}
-          >
-            Hủy
-          </button>
+        <div style={S.modalBody}>
+          <label style={S.label}>Tên phòng *</label>
+
+          <input
+            style={S.input}
+            placeholder="VD: Ôn tập Unit 1..."
+            value={roomForm.title}
+            onChange={(event) =>
+              setRoomForm({
+                ...roomForm,
+                title: event.target.value,
+              })
+            }
+          />
+
+          <label style={S.label}>Mô tả</label>
+
+          <textarea
+            style={S.textarea}
+            placeholder="Mô tả nội dung..."
+            value={roomForm.description}
+            onChange={(event) =>
+              setRoomForm({
+                ...roomForm,
+                description: event.target.value,
+              })
+            }
+          />
+
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              style={S.btnPrimary(false)}
+              onClick={editingRoom ? handleUpdateRoom : handleCreateRoom}
+            >
+              {editingRoom ? (
+                <EditIcon style={{ fontSize: 18 }} />
+              ) : (
+                <AddIcon style={{ fontSize: 18 }} />
+              )}
+              {editingRoom ? 'Lưu thay đổi' : 'Tạo phòng'}
+            </button>
+
+            <button type="button" style={S.btnSecondary} onClick={resetRoomModal}>
+              Hủy
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -786,101 +1080,154 @@ export default function TeacherGameRoomsPage() {
   const questionModal = (showAddQ || editingQ) && selectedRoom && (
     <div
       style={S.modal}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          setShowAddQ(false);
-          setEditingQ(null);
-          setQForm(EMPTY_Q);
-        }
+      onClick={(event) => {
+        if (event.target === event.currentTarget) resetQuestionModal();
       }}
     >
       <div style={S.modalCard}>
-        <h2 style={S.modalTitle}>
-          {editingQ ? '✏️ Sửa câu hỏi' : '➕ Thêm câu hỏi'}
-        </h2>
+        <div style={S.modalHead}>
+          <h2 style={S.modalTitle}>
+            {editingQ ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}
+          </h2>
 
-        <label style={S.label}>Câu hỏi / nghĩa / gợi ý *</label>
-
-        <textarea
-          style={S.textarea}
-          placeholder="VD: What is the English word for 'con chó'?"
-          value={qForm.question}
-          onChange={(e) => setQForm({ ...qForm, question: e.target.value })}
-        />
-
-        <label style={S.label}>Đáp án đúng *</label>
-
-        <input
-          style={S.input}
-          placeholder="VD: dog"
-          value={qForm.answer}
-          onChange={(e) => setQForm({ ...qForm, answer: e.target.value })}
-        />
-
-        <label style={S.label}>
-          Các lựa chọn, tối thiểu 2 lựa chọn và phải có đáp án đúng *
-        </label>
-
-        <ChoicesEditor
-          choices={qForm.choices}
-          onChange={(c) => setQForm({ ...qForm, choices: c })}
-        />
-
-        <label style={S.label}>Gợi ý phonetic</label>
-
-        <input
-          style={S.input}
-          placeholder="VD: /dɒɡ/"
-          value={qForm.hint}
-          onChange={(e) => setQForm({ ...qForm, hint: e.target.value })}
-        />
-
-        <label style={S.label}>Thời gian trả lời, tính bằng giây</label>
-
-        <input
-          type="number"
-          min={5}
-          max={60}
-          style={{ ...S.input, width: 160 }}
-          value={qForm.timeLimit}
-          onChange={(e) =>
-            setQForm({
-              ...qForm,
-              timeLimit: parseInt(e.target.value, 10) || 20,
-            })
-          }
-        />
-
-        <div style={{ display: 'flex', gap: 12, marginTop: 4, flexWrap: 'wrap' }}>
-          <button
-            style={S.btnPrimary(false)}
-            onClick={editingQ ? handleUpdateQuestion : handleAddQuestion}
-          >
-            {editingQ ? 'Lưu câu hỏi' : 'Thêm câu hỏi'}
+          <button type="button" style={S.btnSecondary} onClick={resetQuestionModal}>
+            <CloseIcon style={{ fontSize: 17 }} />
+            Đóng
           </button>
+        </div>
 
-          <button
-            style={S.btnSecondary}
-            onClick={() => {
-              setShowAddQ(false);
-              setEditingQ(null);
-              setQForm(EMPTY_Q);
-            }}
-          >
-            Hủy
-          </button>
+        <div style={S.modalBody}>
+          <label style={S.label}>Câu hỏi / nghĩa / gợi ý *</label>
+
+          <textarea
+            style={S.textarea}
+            placeholder="VD: What is the English word for 'con chó'?"
+            value={qForm.question}
+            onChange={(event) =>
+              setQForm({
+                ...qForm,
+                question: event.target.value,
+              })
+            }
+          />
+
+          <label style={S.label}>Đáp án đúng *</label>
+
+          <input
+            style={S.input}
+            placeholder="VD: dog"
+            value={qForm.answer}
+            onChange={(event) =>
+              setQForm({
+                ...qForm,
+                answer: event.target.value,
+              })
+            }
+          />
+
+          <label style={S.label}>
+            Các lựa chọn, tối thiểu 2 lựa chọn và phải có đáp án đúng *
+          </label>
+
+          <ChoicesEditor
+            choices={qForm.choices}
+            onChange={(choices) =>
+              setQForm({
+                ...qForm,
+                choices,
+              })
+            }
+          />
+
+          <label style={S.label}>Gợi ý phonetic</label>
+
+          <input
+            style={S.input}
+            placeholder="VD: /dɒɡ/"
+            value={qForm.hint}
+            onChange={(event) =>
+              setQForm({
+                ...qForm,
+                hint: event.target.value,
+              })
+            }
+          />
+
+          <label style={S.label}>Thời gian trả lời, tính bằng giây</label>
+
+          <input
+            type="number"
+            min={5}
+            max={60}
+            style={{ ...S.input, width: 160 }}
+            value={qForm.timeLimit}
+            onChange={(event) =>
+              setQForm({
+                ...qForm,
+                timeLimit: parseInt(event.target.value, 10) || 20,
+              })
+            }
+          />
+
+          <div style={{ display: 'flex', gap: 10, marginTop: 4, flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              style={S.btnPrimary(false)}
+              onClick={editingQ ? handleUpdateQuestion : handleAddQuestion}
+            >
+              {editingQ ? (
+                <EditIcon style={{ fontSize: 18 }} />
+              ) : (
+                <AddIcon style={{ fontSize: 18 }} />
+              )}
+              {editingQ ? 'Lưu câu hỏi' : 'Thêm câu hỏi'}
+            </button>
+
+            <button type="button" style={S.btnSecondary} onClick={resetQuestionModal}>
+              Hủy
+            </button>
+          </div>
         </div>
       </div>
     </div>
   );
 
+  if (!isAllowed) {
+    return (
+      <div style={S.noAccess}>
+        <div style={{ fontSize: '3.4rem' }}>🔒</div>
+
+        <div style={S.noAccessText}>
+          Chỉ giáo viên hoặc admin mới có thể truy cập.
+        </div>
+
+        <button type="button" style={S.btnPrimary(false)} onClick={() => history.push('/')}>
+          Về trang chủ
+        </button>
+      </div>
+    );
+  }
+
   if (!selectedRoom) {
     return (
       <div style={S.page}>
+        <TeacherToast
+          toast={toast}
+          onClose={() =>
+            setToast((prev) => ({
+              ...prev,
+              show: false,
+            }))
+          }
+        />
+
         <div style={S.wrap}>
           <div style={S.header}>
             <div>
-              <h1 style={S.title}>🎮 Quản Lý Phòng Game</h1>
+              <h1 style={S.title}>
+                <GamesIcon style={{ fontSize: 31, color: COLORS.main }} />
+                Quản lý phòng game
+              </h1>
 
               <p style={S.headerSub}>
                 Tạo phòng, thêm câu hỏi và bắt đầu chơi live với học sinh.
@@ -888,157 +1235,194 @@ export default function TeacherGameRoomsPage() {
             </div>
 
             <button
+              type="button"
               style={S.btnPrimary(false)}
               onClick={() => {
                 setShowCreateRoom(true);
                 setRoomForm(EMPTY_ROOM);
               }}
             >
-              + Tạo phòng mới
+              <AddIcon style={{ fontSize: 18 }} />
+              Tạo phòng mới
             </button>
           </div>
 
-          {msg && (
-            <div style={S.alertBanner(msg.ok)}>
-              {msg.ok ? '✅' : '❌'} {msg.text}
-            </div>
-          )}
+          <div style={S.content}>
+            <div style={S.scrollArea}>
+              {loading ? (
+                <div style={S.emptyBox}>
+                  <RefreshIcon
+                    style={{
+                      fontSize: 46,
+                      marginBottom: 10,
+                      color: COLORS.main,
+                    }}
+                  />
 
-          {loading ? (
-            <p
-              style={{
-                color: '#d8fffa',
-                textAlign: 'center',
-                padding: 46,
-                fontSize: '1.25rem',
-                fontWeight: 900,
-              }}
-            >
-              ⏳ Đang tải...
-            </p>
-          ) : rooms.length === 0 ? (
-            <div style={S.emptyBox}>
-              <div style={{ fontSize: '4.2rem', marginBottom: 14 }}>🎯</div>
+                  <p
+                    style={{
+                      color: '#d8fffa',
+                      fontWeight: 900,
+                      fontSize: '1rem',
+                      margin: 0,
+                    }}
+                  >
+                    Đang tải phòng game...
+                  </p>
+                </div>
+              ) : rooms.length === 0 ? (
+                <div style={S.emptyBox}>
+                  <div style={{ fontSize: '3.4rem', marginBottom: 12 }}>🎯</div>
 
-              <p
-                style={{
-                  color: '#d8fffa',
-                  fontWeight: 900,
-                  fontSize: '1.25rem',
-                  margin: 0,
-                }}
-              >
-                Bạn chưa có phòng game nào
-              </p>
-            </div>
-          ) : (
-            rooms.map((room) => (
-              <div key={room.id} style={S.card}>
-                {room.activeLiveSession && (
-                  <div style={S.sessionBanner}>
-                    <div>
-                      <div style={S.sessionTitle}>🔴 Đang có phòng chơi live</div>
+                  <p
+                    style={{
+                      color: '#d8fffa',
+                      fontWeight: 900,
+                      fontSize: '1rem',
+                      margin: 0,
+                    }}
+                  >
+                    Bạn chưa có phòng game nào.
+                  </p>
+                </div>
+              ) : (
+                rooms.map((room) => (
+                  <div key={room.id} style={S.card}>
+                    {room.activeLiveSession && (
+                      <div style={S.sessionBanner}>
+                        <div>
+                          <div style={S.sessionTitle}>Đang có phòng chơi live</div>
 
-                      <div style={S.mutedText}>
-                        Chia sẻ mã PIN này cho học sinh:
+                          <div style={S.mutedText}>Chia sẻ mã PIN này cho học sinh:</div>
+
+                          <div style={S.pinBig}>{room.activeLiveSession.pin}</div>
+                        </div>
+
+                        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                          <button
+                            type="button"
+                            style={S.btnPrimary(false)}
+                            onClick={() =>
+                              history.push('/games/multiplayer', {
+                                pin: room.activeLiveSession.pin,
+                                isHost: true,
+                                teacherRoomId: room.id,
+                              })
+                            }
+                          >
+                            <PlayArrowIcon style={{ fontSize: 18 }} />
+                            Vào phòng chờ
+                          </button>
+
+                          <button
+                            type="button"
+                            style={S.btnOrange}
+                            onClick={() => handleCancelLive(room)}
+                          >
+                            <StopIcon style={{ fontSize: 18 }} />
+                            Hủy phòng
+                          </button>
+                        </div>
                       </div>
-
-                      <div style={S.pinBig}>{room.activeLiveSession.pin}</div>
-                    </div>
-
-                    <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                      <button
-                        style={S.btnPrimary(false)}
-                        onClick={() =>
-                          history.push('/games/multiplayer', {
-                            pin: room.activeLiveSession.pin,
-                            isHost: true,
-                            teacherRoomId: room.id,
-                          })
-                        }
-                      >
-                        🎮 Vào phòng chờ
-                      </button>
-
-                      <button style={S.btnOrange} onClick={() => handleCancelLive(room)}>
-                        ⛔ Hủy phòng
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    flexWrap: 'wrap',
-                    gap: 16,
-                  }}
-                >
-                  <div style={{ flex: 1, minWidth: 260 }}>
-                    <div style={S.roomTitle}>
-                      {room.title}
-                      {room.activeLiveSession && <span style={S.liveBadge}>LIVE</span>}
-                    </div>
-
-                    {room.description && <div style={S.roomDesc}>{room.description}</div>}
+                    )}
 
                     <div
                       style={{
                         display: 'flex',
-                        gap: 12,
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
                         flexWrap: 'wrap',
-                        alignItems: 'center',
+                        gap: 14,
                       }}
                     >
-                      <div>
-                        <span style={S.mutedText}>Mã phòng: </span>
-                        <span style={S.roomCode}>{room.roomCode}</span>
+                      <div style={{ flex: 1, minWidth: 260 }}>
+                        <div style={S.roomTitle}>
+                          <MeetingRoomIcon style={{ fontSize: 22, color: COLORS.main }} />
+                          {room.title}
+                          {room.activeLiveSession && <span style={S.liveBadge}>LIVE</span>}
+                        </div>
+
+                        {room.description && <div style={S.roomDesc}>{room.description}</div>}
+
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: 10,
+                            flexWrap: 'wrap',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <div>
+                            <span style={S.mutedText}>Mã phòng: </span>
+                            <span style={S.roomCode}>{room.roomCode}</span>
+                          </div>
+
+                          <span style={S.badge(room.questions?.length || 0)}>
+                            {room.questions?.length || 0} câu hỏi
+                          </span>
+                        </div>
                       </div>
 
-                      <span style={S.badge(room.questions?.length || 0)}>
-                        {room.questions?.length || 0} câu hỏi
-                      </span>
+                      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                        <button
+                          type="button"
+                          style={S.btnSecondary}
+                          onClick={() => copyCode(room.roomCode)}
+                        >
+                          <FileCopyIcon style={{ fontSize: 17 }} />
+                          Sao chép
+                        </button>
+
+                        <button
+                          type="button"
+                          style={S.btnGreen}
+                          onClick={() => setSelectedRoom(room)}
+                        >
+                          <SettingsIcon style={{ fontSize: 17 }} />
+                          Quản lý
+                        </button>
+
+                        {!room.activeLiveSession && (
+                          <button
+                            type="button"
+                            style={S.btnPrimary(false)}
+                            onClick={() => handleStartLive(room)}
+                          >
+                            <PlayArrowIcon style={{ fontSize: 18 }} />
+                            Bắt đầu
+                          </button>
+                        )}
+
+                        <button
+                          type="button"
+                          style={S.btnSecondary}
+                          onClick={() => {
+                            setEditingRoom(room);
+                            setRoomForm({
+                              title: room.title,
+                              description: room.description || '',
+                            });
+                          }}
+                        >
+                          <EditIcon style={{ fontSize: 17 }} />
+                          Sửa
+                        </button>
+
+                        <button
+                          type="button"
+                          style={S.btnDanger}
+                          onClick={() => handleDeleteRoom(room)}
+                        >
+                          <DeleteIcon style={{ fontSize: 17 }} />
+                          Xóa
+                        </button>
+                      </div>
                     </div>
                   </div>
-
-                  <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-                    <button style={S.btnSecondary} onClick={() => copyCode(room.roomCode)}>
-                      📋 Sao chép mã
-                    </button>
-
-                    <button style={S.btnGreen} onClick={() => setSelectedRoom(room)}>
-                      ⚙️ Quản lý
-                    </button>
-
-                    {!room.activeLiveSession && (
-                      <button style={S.btnPrimary(false)} onClick={() => handleStartLive(room)}>
-                        🚀 Bắt đầu chơi
-                      </button>
-                    )}
-
-                    <button
-                      style={S.btnSecondary}
-                      onClick={() => {
-                        setEditingRoom(room);
-                        setRoomForm({
-                          title: room.title,
-                          description: room.description || '',
-                        });
-                      }}
-                    >
-                      ✏️ Sửa
-                    </button>
-
-                    <button style={S.btnDanger} onClick={() => handleDeleteRoom(room)}>
-                      🗑️ Xóa
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
+                ))
+              )}
+            </div>
+          </div>
         </div>
 
         {roomModal}
@@ -1050,167 +1434,222 @@ export default function TeacherGameRoomsPage() {
 
   return (
     <div style={S.page}>
+      <TeacherToast
+        toast={toast}
+        onClose={() =>
+          setToast((prev) => ({
+            ...prev,
+            show: false,
+          }))
+        }
+      />
+
       <div style={S.wrap}>
         <div style={S.header}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap' }}>
-            <button style={S.btnSecondary} onClick={() => setSelectedRoom(null)}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 14,
+              flexWrap: 'wrap',
+            }}
+          >
+            <button
+              type="button"
+              style={S.btnSecondary}
+              onClick={() => setSelectedRoom(null)}
+            >
               ← Quay lại
             </button>
 
-            <h1 style={{ ...S.title, margin: 0 }}>{selectedRoom.title}</h1>
+            <h1 style={S.title}>
+              <GamesIcon style={{ fontSize: 31, color: COLORS.main }} />
+              {selectedRoom.title}
+            </h1>
           </div>
         </div>
 
-        <div
-          style={{
-            display: 'flex',
-            gap: 12,
-            alignItems: 'center',
-            marginBottom: 24,
-            flexWrap: 'wrap',
-          }}
-        >
-          <span style={S.mutedText}>Mã phòng luyện tập:</span>
-
-          <span style={S.roomCode}>{selectedRoom.roomCode}</span>
-
-          <button style={S.btnSecondary} onClick={() => copyCode(selectedRoom.roomCode)}>
-            📋 Sao chép
-          </button>
-
-          <span style={S.badge(questions.length)}>{questions.length} câu hỏi</span>
-
-          {selectedRoom.activeLiveSession ? (
-            <>
-              <button
-                style={S.btnPrimary(false)}
-                onClick={() =>
-                  history.push('/games/multiplayer', {
-                    pin: selectedRoom.activeLiveSession.pin,
-                    isHost: true,
-                    teacherRoomId: selectedRoom.id,
-                  })
-                }
-              >
-                🎮 Vào phòng ({selectedRoom.activeLiveSession.pin})
-              </button>
-
-              <button style={S.btnOrange} onClick={() => handleCancelLive(selectedRoom)}>
-                ⛔ Hủy phòng
-              </button>
-            </>
-          ) : (
-            <button style={S.btnPrimary(false)} onClick={() => handleStartLive(selectedRoom)}>
-              🚀 Bắt đầu chơi
-            </button>
-          )}
-        </div>
-
-        {msg && (
-          <div style={S.alertBanner(msg.ok)}>
-            {msg.ok ? '✅' : '❌'} {msg.text}
-          </div>
-        )}
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginBottom: 18,
-            gap: 14,
-            flexWrap: 'wrap',
-          }}
-        >
-          <h2 style={S.sectionTitle}>Danh sách câu hỏi</h2>
-
-          <button
-            style={S.btnPrimary(false)}
-            onClick={() => {
-              setShowAddQ(true);
-              setQForm(EMPTY_Q);
+        <div style={S.qHeader}>
+          <div
+            style={{
+              display: 'flex',
+              gap: 10,
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              marginBottom: 12,
             }}
           >
-            + Thêm câu hỏi
-          </button>
-        </div>
+            <span style={S.mutedText}>Mã phòng luyện tập:</span>
 
-        {questions.length === 0 ? (
-          <div style={S.emptyBox}>
-            <div style={{ fontSize: '3.6rem', marginBottom: 12 }}>📝</div>
+            <span style={S.roomCode}>{selectedRoom.roomCode}</span>
 
-            <p
-              style={{
-                color: '#d8fffa',
-                fontWeight: 900,
-                fontSize: '1.25rem',
-                margin: 0,
+            <button
+              type="button"
+              style={S.btnSecondary}
+              onClick={() => copyCode(selectedRoom.roomCode)}
+            >
+              <FileCopyIcon style={{ fontSize: 17 }} />
+              Sao chép
+            </button>
+
+            <span style={S.badge(questions.length)}>{questions.length} câu hỏi</span>
+
+            {selectedRoom.activeLiveSession ? (
+              <>
+                <button
+                  type="button"
+                  style={S.btnPrimary(false)}
+                  onClick={() =>
+                    history.push('/games/multiplayer', {
+                      pin: selectedRoom.activeLiveSession.pin,
+                      isHost: true,
+                      teacherRoomId: selectedRoom.id,
+                    })
+                  }
+                >
+                  <PlayArrowIcon style={{ fontSize: 18 }} />
+                  Vào phòng ({selectedRoom.activeLiveSession.pin})
+                </button>
+
+                <button
+                  type="button"
+                  style={S.btnOrange}
+                  onClick={() => handleCancelLive(selectedRoom)}
+                >
+                  <StopIcon style={{ fontSize: 18 }} />
+                  Hủy phòng
+                </button>
+              </>
+            ) : (
+              <button
+                type="button"
+                style={S.btnPrimary(false)}
+                onClick={() => handleStartLive(selectedRoom)}
+              >
+                <PlayArrowIcon style={{ fontSize: 18 }} />
+                Bắt đầu chơi
+              </button>
+            )}
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              gap: 14,
+              flexWrap: 'wrap',
+            }}
+          >
+            <h2 style={S.sectionTitle}>
+              <AssignmentLikeIcon />
+              Danh sách câu hỏi
+            </h2>
+
+            <button
+              type="button"
+              style={S.btnPrimary(false)}
+              onClick={() => {
+                setShowAddQ(true);
+                setQForm(EMPTY_Q);
               }}
             >
-              Chưa có câu hỏi nào
-            </p>
+              <AddIcon style={{ fontSize: 18 }} />
+              Thêm câu hỏi
+            </button>
           </div>
-        ) : (
-          questions.map((q, i) => (
-            <div key={q.id} style={S.qItem}>
-              <div
+        </div>
+
+        <div style={S.questionList}>
+          {questions.length === 0 ? (
+            <div style={S.emptyBox}>
+              <div style={{ fontSize: '3.2rem', marginBottom: 12 }}>📝</div>
+
+              <p
                 style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'flex-start',
-                  gap: 14,
+                  color: '#d8fffa',
+                  fontWeight: 900,
+                  fontSize: '1rem',
+                  margin: 0,
                 }}
               >
-                <div style={{ flex: 1 }}>
-                  <div style={S.qIndex}>Câu {i + 1}</div>
+                Chưa có câu hỏi nào.
+              </p>
+            </div>
+          ) : (
+            questions.map((question, index) => (
+              <div key={question.id} style={S.qItem}>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'flex-start',
+                    gap: 14,
+                    flexWrap: 'wrap',
+                  }}
+                >
+                  <div style={{ flex: 1, minWidth: 260 }}>
+                    <div style={S.qIndex}>Câu {index + 1}</div>
 
-                  <div style={S.qText}>{q.question}</div>
+                    <div style={S.qText}>{question.question}</div>
 
-                  <div style={S.qAnswer}>✅ Đáp án: {q.answer}</div>
+                    <div style={S.qAnswer}>Đáp án: {question.answer}</div>
 
-                  {q.choices?.length > 0 && (
-                    <div style={S.qChoices}>
-                      Lựa chọn: {q.choices.join(' | ')}
-                    </div>
-                  )}
+                    {question.choices?.length > 0 && (
+                      <div style={S.qChoices}>
+                        Lựa chọn: {question.choices.join(' | ')}
+                      </div>
+                    )}
 
-                  {q.hint && <div style={S.hintText}>💡 {q.hint}</div>}
+                    {question.hint && <div style={S.hintText}>Gợi ý: {question.hint}</div>}
 
-                  <div style={S.timeText}>⏱️ {q.timeLimit || 20}s</div>
-                </div>
+                    <div style={S.timeText}>Thời gian: {question.timeLimit || 20}s</div>
+                  </div>
 
-                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                  <button
-                    style={S.btnSecondary}
-                    onClick={() => {
-                      setEditingQ(q);
-                      setQForm({
-                        question: q.question,
-                        answer: q.answer,
-                        choices:
-                          q.choices?.length >= 4
-                            ? q.choices
-                            : [...(q.choices || []), '', '', '', ''].slice(0, 4),
-                        timeLimit: q.timeLimit || 20,
-                        hint: q.hint || '',
-                      });
-                    }}
-                  >
-                    ✏️ Sửa
-                  </button>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                    <button
+                      type="button"
+                      style={S.btnSecondary}
+                      onClick={() => {
+                        setEditingQ(question);
+                        setQForm({
+                          question: question.question,
+                          answer: question.answer,
+                          choices:
+                            question.choices?.length >= 4
+                              ? question.choices
+                              : [...(question.choices || []), '', '', '', ''].slice(0, 4),
+                          timeLimit: question.timeLimit || 20,
+                          hint: question.hint || '',
+                        });
+                      }}
+                    >
+                      <EditIcon style={{ fontSize: 17 }} />
+                      Sửa
+                    </button>
 
-                  <button style={S.btnDanger} onClick={() => handleDeleteQuestion(q)}>
-                    🗑️ Xóa
-                  </button>
+                    <button
+                      type="button"
+                      style={S.btnDanger}
+                      onClick={() => handleDeleteQuestion(question)}
+                    >
+                      <DeleteIcon style={{ fontSize: 17 }} />
+                      Xóa
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        )}
+            ))
+          )}
+        </div>
       </div>
 
       {questionModal}
       {roomModal}
     </div>
   );
+}
+
+function AssignmentLikeIcon() {
+  return <GamesIcon style={{ fontSize: 22, color: COLORS.main }} />;
 }

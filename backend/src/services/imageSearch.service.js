@@ -13,20 +13,26 @@ function httpsGet(url) {
   });
 }
 
-/**
- * Fetch a permanent image URL for a word from Wikipedia.
- * Returns null when no image found.
- * Wikipedia thumbnail URLs are permanent CDN links (upload.wikimedia.org).
- */
 exports.fetchImageForWord = async (word) => {
+  const q = encodeURIComponent(word.toLowerCase().trim());
+
+  // 1. Wikipedia REST summary
   try {
-    const q = encodeURIComponent(word.toLowerCase());
+    const json = await httpsGet(`https://en.wikipedia.org/api/rest_v1/page/summary/${q}`);
+    if (json?.thumbnail?.source) return json.thumbnail.source;
+  } catch (_) {}
+
+  // 2. Wikipedia search — only titles starting with the word (avoids person surnames)
+  try {
+    const wordLower = word.toLowerCase().trim();
     const json = await httpsGet(
-      `https://en.wikipedia.org/api/rest_v1/page/summary/${q}`,
+      `https://en.wikipedia.org/w/api.php?action=query&generator=search&gsrsearch=${q}&gsrlimit=10&prop=pageimages&pithumbsize=500&format=json`,
     );
-    if (json && json.thumbnail && json.thumbnail.source) {
-      return json.thumbnail.source.replace(/\/\d+px-/, '/640px-');
-    }
+    const pages = Object.values(json?.query?.pages || {});
+    const withImage = pages.filter((p) => p.thumbnail?.source);
+    const relevant = withImage.filter((p) => p.title.toLowerCase().startsWith(wordLower));
+    const src = relevant[0]?.thumbnail?.source;
+    if (src) return src;
   } catch (_) {}
 
   return null;

@@ -145,3 +145,53 @@ exports.createClassroom = async (req, res) => {
     return res.status(503).json({ message: 'Lỗi dịch vụ' });
   }
 };
+
+exports.lockUser = async (req, res) => {
+  try {
+    await adminService.lockUser(req.params.id, req.user.accountId);
+
+    return res.status(200).json({
+      message: 'Khóa tài khoản thành công',
+    });
+  } catch (error) {
+    if (
+      error.message.includes('tồn tại') ||
+      error.message.includes('chính mình')
+    ) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    console.error('ADMIN LOCK USER ERROR:', error);
+
+    return res.status(503).json({
+      message: 'Lỗi dịch vụ',
+    });
+  }
+};
+
+exports.unlockUser = async (req, res) => {
+  try {
+    await adminService.unlockUser(req.params.id, req.user.accountId);
+
+    return res.status(200).json({
+      message: 'Mở khóa tài khoản thành công',
+    });
+  } catch (error) {
+    if (
+      error.message.includes('tồn tại') ||
+      error.message.includes('chính mình')
+    ) {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    console.error('ADMIN UNLOCK USER ERROR:', error);
+
+    return res.status(503).json({
+      message: 'Lỗi dịch vụ',
+    });
+  }
+};

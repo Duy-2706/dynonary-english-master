@@ -47,7 +47,8 @@ const COLLECTIONS = {
   GRAMMAR_ASSIGNMENTS: 'grammarAssignments',
   GRAMMAR_SUBMISSIONS: 'grammarSubmissions',
   WEEKLY_EVALUATIONS: 'weeklyEvaluations',
-  
+  VOCAB_SETS: 'vocabSets',
+  PAYMENTS: 'payments',
 };
 
 function docToObj(doc) {

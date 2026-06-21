@@ -5,17 +5,41 @@ const passport = require('passport');
 const GooglePlusTokenStrategy = require('passport-google-token').Strategy;
 const FacebookTokenStrategy = require('passport-facebook-token');
 
+const accountsCol = db.collection(COLLECTIONS.ACCOUNTS);
 const usersCol = db.collection(COLLECTIONS.USERS);
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
 async function getUserByAccountId(accountId) {
+  const accountDoc = await accountsCol.doc(accountId).get();
+
+  if (!accountDoc.exists) return null;
+
+  const accountData = accountDoc.data();
+
+  if (accountData.isLocked) {
+    return {
+      locked: true,
+      accountId,
+    };
+  }
+
   const snap = await usersCol
     .where('accountId', '==', accountId)
     .limit(1)
     .get();
+
   if (snap.empty) return null;
+
   const data = snap.docs[0].data();
+
+  if (data.isLocked) {
+    return {
+      locked: true,
+      accountId,
+    };
+  }
+
   return {
     id: snap.docs[0].id,
     username: data.username,
@@ -24,9 +48,9 @@ async function getUserByAccountId(accountId) {
     favoriteList: data.favoriteList || [],
     coin: data.coin,
     role: data.role,
-    classroomId: data.classroomId || '',    // ← THÊM
-   classroomName: data.classroomName || '', // ← THÊM
-    dob: data.dob || '',                    // ← THÊM
+    classroomId: data.classroomId || '',
+    classroomName: data.classroomName || '',
+    dob: data.dob || '',
     accountId,
   };
 }
@@ -48,10 +72,19 @@ exports.jwtAuthentication = async (req, res, next) => {
     if (decoded) {
       const { accountId } = decoded.sub;
       const user = await getUserByAccountId(accountId);
-      if (user) {
-        res.locals.isAuth = true;
-        req.user = user;
-      }
+
+        if (user?.locked) {
+          res.clearCookie(KEYS.JWT_TOKEN);
+
+          return res.status(403).json({
+            message: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên.',
+          });
+        }
+
+        if (user) {
+          res.locals.isAuth = true;
+          req.user = user;
+        }
     }
 
     next();
@@ -76,6 +109,13 @@ exports.jwtOptional = async (req, res, next) => {
     if (decoded) {
       const { accountId } = decoded.sub;
       const user = await getUserByAccountId(accountId);
+
+      if (user?.locked) {
+        res.clearCookie(KEYS.JWT_TOKEN);
+        next();
+        return;
+      }
+
       if (user) {
         res.locals.isAuth = true;
         req.user = user;

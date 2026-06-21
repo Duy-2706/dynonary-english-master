@@ -1,3 +1,6 @@
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CloseIcon from '@material-ui/icons/Close';
+import ErrorIcon from '@material-ui/icons/Error';
 import grammarApi from 'apis/grammarApi';
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -59,6 +62,9 @@ const S = {
     alignItems: 'start',
     fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
     fontSize: '20px',
+    height: 'calc(100vh - 300px)',
+    minHeight: 560,
+    overflow: 'hidden',
   },
 
   sidebar: {
@@ -68,7 +74,9 @@ const S = {
     padding: 22,
     boxShadow: '0 12px 32px rgba(15,23,42,0.10)',
     position: 'sticky',
-    top: 20,
+    top: 0,
+    maxHeight: '100%',
+    overflowY: 'auto',
   },
 
   sidebarTitle: {
@@ -141,6 +149,9 @@ const S = {
 
   main: {
     minWidth: 0,
+    maxHeight: '100%',
+    overflowY: 'auto',
+    paddingRight: 10,
   },
 
   pageHead: {
@@ -158,13 +169,14 @@ const S = {
     fontSize: '2.35rem',
     letterSpacing: '-0.03em',
     lineHeight: 1.2,
+    color: '#ffffff',
   },
 
   pageDesc: {
     margin: '10px 0 0',
     color: '#dbeafe',
     fontSize: '1.28rem',
-    fontWeight: 500,
+    fontWeight: 650,
     lineHeight: 1.6,
   },
 
@@ -412,18 +424,6 @@ const S = {
     lineHeight: 1.45,
   },
 
-  msgBox: (ok) => ({
-    marginBottom: 18,
-    padding: '16px 18px',
-    borderRadius: 14,
-    background: ok ? '#ecfdf5' : '#fef2f2',
-    color: ok ? '#047857' : '#b91c1c',
-    border: ok ? '1px solid #a7f3d0' : '1px solid #fecaca',
-    fontWeight: 850,
-    fontSize: '1.18rem',
-    lineHeight: 1.5,
-  }),
-
   checkboxRow: {
     display: 'flex',
     alignItems: 'center',
@@ -483,6 +483,96 @@ const S = {
   }),
 };
 
+function TeacherToast({ toast, onClose }) {
+  if (!toast?.show) return null;
+
+  const ok = toast.type === 'success' || toast.type === 'delete';
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 90,
+        right: 28,
+        zIndex: 9999,
+        minWidth: 340,
+        maxWidth: 460,
+        borderRadius: 18,
+        padding: '16px 18px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 14,
+        background: ok
+          ? 'linear-gradient(135deg,#ecfdf5,#ffffff)'
+          : 'linear-gradient(135deg,#fff1f2,#ffffff)',
+        border: ok ? '3px solid #059669' : '3px solid #ef4444',
+        boxShadow: '0 18px 42px rgba(15,23,42,.18)',
+        fontFamily: "'Inter', 'Segoe UI', Roboto, Arial, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          width: 44,
+          height: 44,
+          borderRadius: 14,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: ok ? '#d1fae5' : '#fee2e2',
+          color: ok ? '#047857' : '#b91c1c',
+          flexShrink: 0,
+        }}
+      >
+        {ok ? <CheckCircleIcon /> : <ErrorIcon />}
+      </div>
+
+      <div style={{ flex: 1 }}>
+        <div
+          style={{
+            color: ok ? '#064e3b' : '#7f1d1d',
+            fontSize: '1.12rem',
+            fontWeight: 900,
+            lineHeight: 1.3,
+          }}
+        >
+          {toast.title}
+        </div>
+
+        <div
+          style={{
+            color: '#64748b',
+            fontSize: '1rem',
+            fontWeight: 650,
+            lineHeight: 1.45,
+            marginTop: 2,
+          }}
+        >
+          {toast.message}
+        </div>
+      </div>
+
+      <button
+        type="button"
+        onClick={onClose}
+        style={{
+          width: 34,
+          height: 34,
+          border: 0,
+          borderRadius: 999,
+          background: '#f8fafc',
+          color: '#64748b',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}
+      >
+        <CloseIcon style={{ fontSize: 18 }} />
+      </button>
+    </div>
+  );
+}
+
 function fmtDatetime(iso) {
   if (!iso) return '—';
 
@@ -490,15 +580,19 @@ function fmtDatetime(iso) {
 
   return `${d.getDate().toString().padStart(2, '0')}/${(d.getMonth() + 1)
     .toString()
-    .padStart(2, '0')}/${d.getFullYear()} ${d.getHours().toString().padStart(2, '0')}:${d
-    .getMinutes()
+    .padStart(2, '0')}/${d.getFullYear()} ${d
+    .getHours()
     .toString()
-    .padStart(2, '0')}`;
+    .padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
 }
 
 function toInputDatetime(iso) {
   if (!iso) return '';
   return iso.slice(0, 16);
+}
+
+function getItemId(item) {
+  return item?.id || item?._id;
 }
 
 function ExerciseBuilder({ exercises, onChange }) {
@@ -514,7 +608,7 @@ function ExerciseBuilder({ exercises, onChange }) {
 
   const updateOpt = (idx, oi, val) => {
     const exs = [...exercises];
-    const opts = [...(exs[idx].options || [])];
+    const opts = [...(exs[idx].options || ['', '', '', ''])];
 
     opts[oi] = val;
     exs[idx] = { ...exs[idx], options: opts };
@@ -641,13 +735,35 @@ function AssignmentsTab({ classroom }) {
   const [form, setForm] = useState(emptyForm(classroomId, classroomName));
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState(false);
-  const [msg, setMsg] = useState('');
   const [submissions, setSubmissions] = useState(null);
   const [loadingSub, setLoadingSub] = useState(false);
 
   const [topicFilter, setTopicFilter] = useState('');
   const [moduleFilter, setModuleFilter] = useState('');
   const [weekFilter, setWeekFilter] = useState('');
+
+  const [toast, setToast] = useState({
+    show: false,
+    type: 'success',
+    title: '',
+    message: '',
+  });
+
+  const showToast = (type, title, message) => {
+    setToast({
+      show: true,
+      type,
+      title,
+      message,
+    });
+
+    setTimeout(() => {
+      setToast((prev) => ({
+        ...prev,
+        show: false,
+      }));
+    }, 2600);
+  };
 
   const load = useCallback(async () => {
     if (!classroomId) return;
@@ -662,6 +778,12 @@ function AssignmentsTab({ classroom }) {
       setLessons(lRes.data?.lessons || []);
     } catch {
       setAssignments([]);
+
+      showToast(
+        'error',
+        'Không tải được dữ liệu',
+        'Danh sách bài tập của lớp chưa được tải. Vui lòng thử lại.',
+      );
     }
   }, [classroomId]);
 
@@ -672,7 +794,6 @@ function AssignmentsTab({ classroom }) {
   const handleNew = () => {
     setSelected(null);
     setForm(emptyForm(classroomId, classroomName));
-    setMsg('');
     setSubmissions(null);
     setTopicFilter('');
     setModuleFilter('');
@@ -690,7 +811,6 @@ function AssignmentsTab({ classroom }) {
       showResultOnly: a.showResultOnly !== false,
     });
 
-    setMsg('');
     setSubmissions(null);
   };
 
@@ -698,36 +818,38 @@ function AssignmentsTab({ classroom }) {
     setForm((prev) => ({ ...prev, [key]: val }));
   };
 
-  const allTopics = [...new Set(lessons.filter((l) => l.topic).map((l) => l.topic))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const allTopics = [
+    ...new Set(lessons.filter((l) => l.topic).map((l) => l.topic)),
+  ].sort((a, b) => a.localeCompare(b));
 
-  const allModules = [...new Set(lessons.filter((l) => l.module).map((l) => l.module))].sort((a, b) =>
-    a.localeCompare(b),
-  );
+  const allModules = [
+    ...new Set(lessons.filter((l) => l.module).map((l) => l.module)),
+  ].sort((a, b) => a.localeCompare(b));
 
-  const allWeeks = [...new Set(lessons.filter((l) => l.weekNumber).map((l) => l.weekNumber))].sort(
-    (a, b) => a - b,
-  );
+  const allWeeks = [
+    ...new Set(lessons.filter((l) => l.weekNumber).map((l) => l.weekNumber)),
+  ].sort((a, b) => Number(a) - Number(b));
 
   const filteredLessons = lessons.filter((l) => {
     if (topicFilter && l.topic !== topicFilter) return false;
     if (moduleFilter && l.module !== moduleFilter) return false;
     if (weekFilter && String(l.weekNumber) !== String(weekFilter)) return false;
+
     return true;
   });
 
-  const isSuccessMsg =
-    msg.startsWith('Đã') || msg.includes('thành công') || msg.includes('xóa');
-
   const handleSave = async (statusOverride) => {
     if (!form.title.trim()) {
-      setMsg('Nhập tiêu đề bài tập.');
+      showToast(
+        'error',
+        'Thiếu tiêu đề bài tập',
+        'Bạn cần nhập tiêu đề trước khi lưu.',
+      );
+
       return;
     }
 
     setSaving(true);
-    setMsg('');
 
     try {
       const payload = {
@@ -742,18 +864,34 @@ function AssignmentsTab({ classroom }) {
       if (statusOverride) payload.status = statusOverride;
 
       if (selected) {
-        const res = await grammarApi.updateAssignment(selected.id, payload);
+        const res = await grammarApi.updateAssignment(getItemId(selected), payload);
+
         handleSelect(res.data.assignment);
-        setMsg('Đã cập nhật bài tập thành công.');
+
+        showToast(
+          'success',
+          'Đã cập nhật bài tập',
+          'Thông tin bài tập đã được lưu lại.',
+        );
       } else {
         const res = await grammarApi.createAssignment(payload);
+
         handleSelect(res.data.assignment);
-        setMsg('Đã tạo bài tập thành công.');
+
+        showToast(
+          'success',
+          'Đã tạo bài tập',
+          'Bài tập mới đã được thêm vào lớp.',
+        );
       }
 
       await load();
     } catch (err) {
-      setMsg(`Lỗi: ${err?.response?.data?.message || 'Vui lòng thử lại.'}`);
+      showToast(
+        'error',
+        'Không thể lưu bài tập',
+        err?.response?.data?.message || 'Vui lòng thử lại.',
+      );
     } finally {
       setSaving(false);
     }
@@ -765,14 +903,25 @@ function AssignmentsTab({ classroom }) {
     setDeleting(true);
 
     try {
-      await grammarApi.deleteAssignment(selected.id);
+      await grammarApi.deleteAssignment(getItemId(selected));
+
       setSelected(null);
       setForm(emptyForm(classroomId, classroomName));
       setSubmissions(null);
+
       await load();
-      setMsg('Đã xóa bài tập.');
+
+      showToast(
+        'delete',
+        'Đã xóa bài tập',
+        'Bài tập đã được xóa khỏi danh sách.',
+      );
     } catch {
-      setMsg('Không thể xóa bài tập.');
+      showToast(
+        'error',
+        'Không thể xóa bài tập',
+        'Vui lòng thử lại sau.',
+      );
     } finally {
       setDeleting(false);
     }
@@ -784,10 +933,23 @@ function AssignmentsTab({ classroom }) {
     setLoadingSub(true);
 
     try {
-      const res = await grammarApi.getSubmissions(selected.id);
+      const res = await grammarApi.getSubmissions(getItemId(selected));
+
       setSubmissions(res.data?.submissions || []);
+
+      showToast(
+        'success',
+        'Đã tải điểm học sinh',
+        'Kết quả nộp bài đã được cập nhật.',
+      );
     } catch {
       setSubmissions([]);
+
+      showToast(
+        'error',
+        'Không tải được điểm',
+        'Vui lòng thử lại sau.',
+      );
     } finally {
       setLoadingSub(false);
     }
@@ -795,6 +957,16 @@ function AssignmentsTab({ classroom }) {
 
   return (
     <div style={S.body}>
+      <TeacherToast
+        toast={toast}
+        onClose={() =>
+          setToast((prev) => ({
+            ...prev,
+            show: false,
+          }))
+        }
+      />
+
       <div style={S.sidebar}>
         <div style={S.sidebarTitle}>Bài tập của lớp {classroomName}</div>
 
@@ -807,15 +979,13 @@ function AssignmentsTab({ classroom }) {
         </button>
 
         {assignments.length === 0 && (
-          <div style={S.emptyText}>
-            Chưa có bài tập nào cho lớp này.
-          </div>
+          <div style={S.emptyText}>Chưa có bài tập nào cho lớp này.</div>
         )}
 
         {assignments.map((a) => (
           <div
-            key={a.id}
-            style={S.item(selected?.id === a.id)}
+            key={getItemId(a)}
+            style={S.item(getItemId(selected) === getItemId(a))}
             onClick={() => handleSelect(a)}
           >
             <div style={S.itemTitle}>{a.title || 'Chưa đặt tên'}</div>
@@ -840,8 +1010,6 @@ function AssignmentsTab({ classroom }) {
             Thiết lập bài tập ngữ pháp, thời hạn nộp bài, câu hỏi và theo dõi kết quả học sinh.
           </p>
         </div>
-
-        {msg && <div style={S.msgBox(isSuccessMsg)}>{msg}</div>}
 
         <div style={S.formCard}>
           <div style={{ marginBottom: 22 }}>
@@ -922,7 +1090,7 @@ function AssignmentsTab({ classroom }) {
               <option value="">Không gắn với bài học cụ thể</option>
 
               {filteredLessons.map((l) => (
-                <option key={l.id} value={l.id}>
+                <option key={getItemId(l)} value={getItemId(l)}>
                   {l.title}
                   {l.topic ? ` · ${l.topic}` : ''}
                   {l.module ? ` · ${l.module}` : ''}
@@ -1039,7 +1207,11 @@ function AssignmentsTab({ classroom }) {
 
           <div style={S.btnRow}>
             <button
-              style={S.saveBtn('draft')}
+              style={{
+                ...S.saveBtn('draft'),
+                opacity: saving ? 0.65 : 1,
+                cursor: saving ? 'not-allowed' : 'pointer',
+              }}
               onClick={() => handleSave('draft')}
               disabled={saving}
             >
@@ -1047,7 +1219,11 @@ function AssignmentsTab({ classroom }) {
             </button>
 
             <button
-              style={S.saveBtn('active')}
+              style={{
+                ...S.saveBtn('active'),
+                opacity: saving ? 0.65 : 1,
+                cursor: saving ? 'not-allowed' : 'pointer',
+              }}
               onClick={() => handleSave('active')}
               disabled={saving}
             >
@@ -1055,7 +1231,15 @@ function AssignmentsTab({ classroom }) {
             </button>
 
             {selected && (
-              <button style={S.deleteBtn} onClick={handleDelete} disabled={deleting}>
+              <button
+                style={{
+                  ...S.deleteBtn,
+                  opacity: deleting ? 0.65 : 1,
+                  cursor: deleting ? 'not-allowed' : 'pointer',
+                }}
+                onClick={handleDelete}
+                disabled={deleting}
+              >
                 {deleting ? 'Đang xóa...' : 'Xóa bài tập'}
               </button>
             )}
@@ -1070,7 +1254,11 @@ function AssignmentsTab({ classroom }) {
               </div>
 
               <button
-                style={S.saveBtn('score')}
+                style={{
+                  ...S.saveBtn('score'),
+                  opacity: loadingSub ? 0.65 : 1,
+                  cursor: loadingSub ? 'not-allowed' : 'pointer',
+                }}
                 onClick={handleLoadSubmissions}
                 disabled={loadingSub}
               >
@@ -1085,9 +1273,7 @@ function AssignmentsTab({ classroom }) {
             )}
 
             {submissions !== null && submissions.length === 0 && (
-              <div style={S.emptyText}>
-                Chưa có học sinh nào nộp bài.
-              </div>
+              <div style={S.emptyText}>Chưa có học sinh nào nộp bài.</div>
             )}
 
             {submissions !== null && submissions.length > 0 && (
@@ -1110,7 +1296,7 @@ function AssignmentsTab({ classroom }) {
                       const pct = s.maxScore ? Math.round((s.score / s.maxScore) * 100) : 0;
 
                       return (
-                        <tr key={s.id}>
+                        <tr key={getItemId(s) || i}>
                           <td style={S.subTd}>{i + 1}</td>
 
                           <td style={{ ...S.subTd, fontWeight: 800 }}>

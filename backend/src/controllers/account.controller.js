@@ -95,11 +95,18 @@ exports.postLogin = async (req, res) => {
     const { password } = req.body;
 
     const account = await findAccount(email);
-    if (!account) {
-      return res.status(406).json({ message: 'Tài khoản không tồn tại' });
-    }
+      if (!account) {
+        return res.status(406).json({ message: 'Tài khoản không tồn tại' });
+      }
 
-    const isMatch = await bcrypt.compare(password, account.password);
+      if (account.isLocked) {
+        return res.status(403).json({
+          message: 'Tài khoản đã bị khóa. Vui lòng liên hệ quản trị viên.',
+        });
+      }
+
+      const isMatch = await bcrypt.compare(password, account.password);
+
     if (!isMatch) {
       return res.status(401).json({ message: 'Mật khẩu không đúng' });
     }

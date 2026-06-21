@@ -297,12 +297,14 @@ function TagBadge({ tag, color }) {
   );
 }
 
-function GameCard({ game, practicePackInfo }) {
+function GameCard({ game, practicePackInfo, practiceWordList }) {
   const history = useHistory();
   const [hovered, setHovered] = useState(false);
 
   const handleClick = () => {
-    if (practicePackInfo) {
+    if (practiceWordList) {
+      history.push(game.to, { wordList: practiceWordList });
+    } else if (practicePackInfo) {
       history.push(game.to, { packInfo: practicePackInfo });
     } else {
       history.push(game.to);
@@ -346,6 +348,7 @@ function PlayGamesPage() {
 
   const location = useLocation();
   const practicePackInfo = location.state?.practicePackInfo || null;
+  const practiceWordList = location.state?.practiceWordList || null;
   const practiceTitle = location.state?.practiceTitle || null;
 
   return (
@@ -384,11 +387,7 @@ function PlayGamesPage() {
 
       <div style={S.grid}>
         {GAME_LIST.map((game) => (
-          <GameCard
-            key={game.to}
-            game={game}
-            practicePackInfo={practicePackInfo}
-          />
+          <GameCard key={game.to} game={game} practicePackInfo={practicePackInfo} practiceWordList={practiceWordList} />
         ))}
       </div>
     </div>

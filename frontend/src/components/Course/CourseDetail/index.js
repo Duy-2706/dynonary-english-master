@@ -23,6 +23,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMessage } from 'redux/slices/message.slice';
 import courseApi from 'apis/courseApi';
 import { ROUTES } from 'constant';
+import PaymentModal from 'components/Payment/PaymentModal';
 
 const LEVEL_COLORS = {
   A1: '#059669',
@@ -410,6 +411,7 @@ function CourseDetail() {
   const [enrolling, setEnrolling] = useState(false);
   const [isEnrolled, setIsEnrolled] = useState(false);
   const [isPending, setIsPending] = useState(false);
+  const [paymentOpen, setPaymentOpen] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -454,19 +456,19 @@ function CourseDetail() {
       return;
     }
 
+    // Khóa học có phí → mở modal thanh toán
+    if (course && !course.isFree) {
+      setPaymentOpen(true);
+      return;
+    }
     setEnrolling(true);
 
     try {
       const res = await courseApi.enrollCourse(id);
 
       if (res.status === 200) {
-        if (res.data.isPending) {
-          setIsPending(true);
-          dispatch(setMessage({ type: 'info', message: 'Đã gửi yêu cầu. Vui lòng chờ giáo viên duyệt.' }));
-        } else {
-          setIsEnrolled(true);
-          dispatch(setMessage({ type: 'success', message: 'Đăng ký thành công. Bạn có thể học ngay.' }));
-        }
+        setIsEnrolled(true);
+        dispatch(setMessage({ type: 'success', message: 'Đăng ký thành công! Bạn có thể học ngay.' }));
       }
     } catch (e) {
       dispatch(setMessage({
@@ -477,6 +479,12 @@ function CourseDetail() {
 
     setEnrolling(false);
   };
+
+  const handlePaymentSuccess = () => {
+    setIsEnrolled(true);
+    setIsPending(false);
+  };
+
 
   const handleLearnLesson = (lessonId, canAccess) => {
     if (!canAccess) {
@@ -708,6 +716,17 @@ function CourseDetail() {
               </Accordion>
             ))
           )}
+
+            {/* Modal thanh toán */}
+            <PaymentModal
+              open={paymentOpen}
+              onClose={() => setPaymentOpen(false)}
+              courseId={id}
+              courseTitle={course?.title}
+              amount={course?.price}
+              courseRoute={`/courses/${id}/detail`}
+              onSuccess={() => { handlePaymentSuccess(); setPaymentOpen(false); }}
+            />
         </div>
       </div>
     </div>

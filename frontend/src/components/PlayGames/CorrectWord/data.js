@@ -6,22 +6,43 @@ import PlayIcon from '@material-ui/icons/PlayCircleFilledWhite';
 import InputCustom from 'components/UI/InputCustom';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { setMessage } from 'redux/slices/message.slice';
 import CorrectWord from '.';
 
 const MAX_LEN_WORD_PACK = 500;
 
+function buildFromWordList(words) {
+  const list = words.filter((w) => w.word);
+  return list.map((w, i) => {
+    const others = list.filter((_, j) => j !== i);
+    const wrong = [...others].sort(() => Math.random() - 0.5).slice(0, 3);
+    return {
+      word: w.word,
+      mean: w.meaning || w.mean || '',
+      phonetic: w.phonetic || '',
+      wrongList: wrong.map((o) => ({ word: o.word, phonetic: o.phonetic || '' })),
+    };
+  });
+}
+
 function CorrectWordData() {
   const [state, setState] = useState(0);
   const [wordPack, setWordPack] = useState([]);
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
   const nQuestion = useRef(50);
   const { packInfo, isChosen } = useSelector((state) => state.wordPack);
 
   // Nếu đã chọn chủ đề từ Flashcard → tự động load luôn
   useEffect(() => {
+    const locWordList = location.state?.wordList;
+    if (locWordList?.length) {
+      const built = buildFromWordList(locWordList);
+      if (built.length > 0) { setWordPack(built); setState(2); return; }
+    }
+    
     if (isChosen && packInfo) {
       getWordPackage(packInfo);
     }

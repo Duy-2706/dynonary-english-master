@@ -29,6 +29,9 @@ adminApi.put('/grammar/lessons/:id', ...adminOnly, grammarController.adminUpdate
 adminApi.delete('/grammar/lessons/:id', ...adminOnly, grammarController.adminDeleteLesson);
 adminApi.post('/grammar/upload-image', ...adminOnly, grammarController.adminUploadImage);
 
-
+adminApi.put('/users/:id/lock', ...adminOnly, adminController.lockUser);
+adminApi.put('/users/:id/unlock', ...adminOnly, adminController.unlockUser);
+adminApi.get('/users', ...adminOnly, adminController.getUsers);
+adminApi.put('/users/:id/role', ...adminOnly, adminController.updateUserRole);
 
 module.exports = adminApi;

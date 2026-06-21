@@ -220,19 +220,57 @@ exports.getSystemStats = async () => {
 };
 
 exports.lockUser = async (userId, adminAccountId) => {
-  const doc = await usersCol.doc(userId).get();
-  if (!doc.exists) throw new Error('Người dùng không tồn tại');
-  if (doc.data().accountId === adminAccountId) throw new Error('Không thể khóa tài khoản của chính mình');
+  const userDoc = await usersCol.doc(userId).get();
 
-  await doc.ref.update({ isLocked: true, lockedAt: new Date().toISOString() });
+  if (!userDoc.exists) {
+    throw new Error('Người dùng không tồn tại');
+  }
+
+  const userData = userDoc.data();
+
+  if (userData.accountId === adminAccountId) {
+    throw new Error('Không thể khóa tài khoản của chính mình');
+  }
+
+  const now = new Date().toISOString();
+
+  await userDoc.ref.update({
+    isLocked: true,
+    lockedAt: now,
+  });
+
+  if (userData.accountId) {
+    await accountsCol.doc(userData.accountId).update({
+      isLocked: true,
+      lockedAt: now,
+    });
+  }
 };
 
 exports.unlockUser = async (userId, adminAccountId) => {
-  const doc = await usersCol.doc(userId).get();
-  if (!doc.exists) throw new Error('Người dùng không tồn tại');
-  if (doc.data().accountId === adminAccountId) throw new Error('Không thể mở khóa tài khoản của chính mình');
+  const userDoc = await usersCol.doc(userId).get();
 
-  await doc.ref.update({ isLocked: false, lockedAt: null });
+  if (!userDoc.exists) {
+    throw new Error('Người dùng không tồn tại');
+  }
+
+  const userData = userDoc.data();
+
+  if (userData.accountId === adminAccountId) {
+    throw new Error('Không thể mở khóa tài khoản của chính mình');
+  }
+
+  await userDoc.ref.update({
+    isLocked: false,
+    lockedAt: null,
+  });
+
+  if (userData.accountId) {
+    await accountsCol.doc(userData.accountId).update({
+      isLocked: false,
+      lockedAt: null,
+    });
+  }
 };
 
 const GRAMMAR_TENSES = [

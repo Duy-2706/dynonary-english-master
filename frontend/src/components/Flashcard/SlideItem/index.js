@@ -46,15 +46,28 @@ function SlideItem({ mean, word, type, phonetic: phoneProp, example, picture: pi
     setPhonetic(phoneProp || '');
     activeWordRef.current = word;
 
+    setImgReady(false);
     if (picProp) {
-      setPicture(picProp);
-      setImgReady(true);
+      const img = new window.Image();
+      img.onload = () => {
+        if (activeWordRef.current !== word) return;
+        setPicture(picProp);
+        setImgReady(true);
+      };
+      img.onerror = () => {
+        if (activeWordRef.current !== word) return;
+        ensureImage(word, (src) => {
+          if (activeWordRef.current !== word) return;
+          setPicture(src);
+          setImgReady(!!src);
+        });
+      };
+      img.src = picProp;
     } else {
-      setImgReady(false);
       ensureImage(word, (src) => {
         if (activeWordRef.current !== word) return;
         setPicture(src);
-        setImgReady(true);
+        setImgReady(!!src);
       });
     }
 

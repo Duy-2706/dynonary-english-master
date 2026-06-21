@@ -1,7 +1,7 @@
 {
   "name": "dynonary-apis",
   "version": "1.0.0",
-  "description": "Dynonary - Free web app to learn english",
+  "description": "Edwảd - Learning is never ending",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,6 +11,7 @@
   "author": "Tuan Nguyen",
   "license": "ISC",
   "dependencies": {
+    "@payos/node": "^1.0.10",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.26.0",

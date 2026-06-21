@@ -1,3 +1,4 @@
+import { Redirect } from 'react-router-dom';
 import Logout from 'components/Logout';
 import { ROUTES } from 'constant';
 import HomePage from 'pages/Home';
@@ -45,6 +46,8 @@ const TeacherGrammarPage = React.lazy(() => import('pages/Teacher/Grammar'));
 const AdminUsersPage = React.lazy(() => import('pages/Admin/Users'));
 const StatsPage = React.lazy(() => import('pages/Stats'));
 const TeacherGameRoomsPage = React.lazy(() => import('pages/Teacher/GameRooms'));
+const TeacherVocabSetPage = React.lazy(() => import('pages/Teacher/VocabSet'));
+const VocabSetLearnPage = React.lazy(() => import('pages/VocabSetLearn'));
 
 // routes for app
 const routes = [
@@ -174,11 +177,11 @@ const routes = [
     isProtect: true,
     component: () => <ClassroomDetailPage />,
   },
-  {
+    {
     path: ROUTES.CLASSROOM,
     exact: false,
     isProtect: true,
-    component: () => <ClassroomPage />,
+    component: () => <Redirect to="/?teacherTab=classrooms" />,
   },
   {
     path: '/courses/:id/learn/:lessonId',
@@ -214,7 +217,7 @@ const routes = [
     path: '/teacher/courses',
     exact: true,
     isProtect: true,
-    component: () => <TeacherCoursesPage />,
+    component: () => <Redirect to="/?teacherTab=courses" />,
   },
   {
     path: ROUTES.GAMES.WORD_ORDER,
@@ -253,22 +256,35 @@ const routes = [
     component: () => <ListenChoosePage />,
   },
   {
+     path: '/vocab-set/:id/learn',
+    exact: true,
+    isProtect: false,
+    component: () => <VocabSetLearnPage />,
+  },
+  {
     path: ROUTES.GAMES.MULTIPLAYER,
     exact: true,
     isProtect: false,
     component: () => <MultiplayerPage />,
   },
-   {
+  
+  {
     path: ROUTES.TEACHER.GRAMMAR,
     exact: false,
     isProtect: true,
-    component: () => <TeacherGrammarPage />,
+    component: () => <Redirect to="/?teacherTab=grammar" />,
+  },
+  {
+    path: ROUTES.TEACHER.VOCAB_SETS,
+    exact: false,
+    isProtect: true,
+    component: () => <Redirect to="/?teacherTab=vocab" />,
   },
   {
     path: ROUTES.TEACHER.GAME_ROOMS,
     exact: false,
     isProtect: true,
-    component: () => <TeacherGameRoomsPage />,
+    component: () => <Redirect to="/?teacherTab=games" />,
   },
   {
     path: ROUTES.ADMIN.USERS,

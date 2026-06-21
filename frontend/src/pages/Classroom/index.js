@@ -3,11 +3,11 @@ import useScrollTop from 'hooks/useScrollTop';
 import useTitle from 'hooks/useTitle';
 import React from 'react';
 
-function ClassroomPage() {
+function ClassroomPage({ embedded = false }) {
   useTitle('Lớp học của tôi');
   useScrollTop();
 
-  return <ClassroomData />;
+  return <ClassroomData embedded={embedded} />;
 }
 
 export default ClassroomPage;

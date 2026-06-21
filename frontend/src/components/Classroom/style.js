@@ -1,274 +1,196 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-export default makeStyles((theme) => ({
-  hero: {
-    position: 'relative',
-    overflow: 'hidden',
-    margin: '3.2rem 0 3.6rem',
-    padding: '4.5rem',
-    borderRadius: '38px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: '3rem',
-    background:
-      'linear-gradient(135deg, rgba(255,250,244,0.98), rgba(231,248,253,0.92))',
-    boxShadow: '0 22px 58px rgba(16, 47, 78, 0.09)',
-    border: '1px solid rgba(255,255,255,0.9)',
+const GAME_FONT = '"Baloo 2", "Nunito", sans-serif';
 
-    [theme.breakpoints.down('sm')]: {
-      padding: '3rem',
-      borderRadius: '28px',
-      flexDirection: 'column',
-      alignItems: 'flex-start',
-    },
-  },
-
-  eyebrow: {
-    color: '#f28b6c',
-    fontSize: '1.25rem',
-    fontWeight: 900,
-    letterSpacing: '2px',
-    marginBottom: '1rem',
-  },
-
-  title: {
-    color: '#102f4e',
-    fontSize: '4rem',
-    lineHeight: 1.15,
-    fontWeight: 900,
-    letterSpacing: '-1px',
-    marginBottom: '1.4rem',
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '3rem',
-    },
-  },
-
-  description: {
-    maxWidth: '58rem',
-    color: '#69737d',
-    fontSize: '1.65rem',
-    lineHeight: 1.8,
-    fontWeight: 500,
-    marginBottom: '2.4rem',
-  },
-
-  createBtn: {
-    minWidth: '15rem',
-  },
-
-  heroIconWrap: {
-    width: '15rem',
-    height: '15rem',
-    minWidth: '15rem',
-    borderRadius: '36px',
-    background:
-      'linear-gradient(135deg, rgba(255,168,131,0.22), rgba(111,199,225,0.2))',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-
-    [theme.breakpoints.down('sm')]: {
-      width: '10rem',
-      height: '10rem',
-      minWidth: '10rem',
-    },
-  },
-
-  heroIcon: {
-    fontSize: '7rem !important',
-    color: '#102f4e',
-
-    [theme.breakpoints.down('sm')]: {
-      fontSize: '5rem !important',
-    },
-  },
-
-  skeleton: {
-    height: '24rem',
-    borderRadius: '30px',
-  },
-
+const useStyle = makeStyles(() => ({
   card: {
-    height: '100%',
-    minHeight: '27rem',
-    padding: '2.6rem',
-    borderRadius: '30px',
-    background: 'rgba(255,255,255,0.86)',
-    border: '1px solid rgba(255,255,255,0.9)',
-    boxShadow: '0 16px 42px rgba(16,47,78,0.08)',
-    transition: 'all 0.25s',
-
+    width: '100%',
+    maxWidth: 360,
+    minHeight: 360,
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: 26,
+    overflow: 'hidden',
+    background: '#ffffff',
+    border: '4px solid #19c7a8',
+    boxShadow: '0 8px 0 #07947f, 0 18px 34px rgba(15,23,42,.12)',
+    fontFamily: GAME_FONT,
+    transition: 'transform .18s ease, box-shadow .18s ease',
     '&:hover': {
-      transform: 'translateY(-5px)',
-      boxShadow: '0 22px 50px rgba(16,47,78,0.13)',
-      background: '#fffaf4',
+      transform: 'translateY(-4px)',
+      boxShadow: '0 11px 0 #07947f, 0 24px 42px rgba(15,23,42,.16)',
     },
   },
 
   cardTop: {
+    height: 88,
+    background: 'linear-gradient(135deg,#19c7a8,#087565)',
+    color: '#fff',
+    padding: '18px 20px',
     display: 'flex',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
-    marginBottom: '1.8rem',
+    position: 'relative',
+    overflow: 'hidden',
+  },
+
+  cardDecor: {
+    position: 'absolute',
+    right: 18,
+    top: 10,
+    opacity: 0.16,
+    color: '#ffffff',
+    transform: 'rotate(-12deg)',
   },
 
   levelBadge: {
-    width: '5.4rem',
-    height: '5.4rem',
-    borderRadius: '18px',
-    background:
-      'linear-gradient(135deg, rgba(255,168,131,0.28), rgba(111,199,225,0.2))',
-    color: '#102f4e',
+    position: 'relative',
+    zIndex: 2,
+    background: '#ffffff',
+    color: '#07947f',
+    border: '3px solid #d6f3ed',
+    borderRadius: 999,
+    padding: '7px 14px',
+    fontSize: '.9rem',
     fontWeight: 900,
-    fontSize: '1.8rem',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    boxShadow: '0 5px 0 rgba(0,0,0,.13)',
   },
 
   activeChip: {
-    backgroundColor: 'rgba(91,204,154,0.18) !important',
-    color: '#21875b !important',
-    fontWeight: '800 !important',
+    position: 'relative',
+    zIndex: 2,
+    height: 'auto !important',
+    borderRadius: '999px !important',
+    background: '#d4f5eb !important',
+    color: '#057a55 !important',
+    border: '3px solid #a8e8db !important',
+    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '900 !important',
+    fontSize: '.86rem !important',
+    padding: '4px 2px !important',
   },
 
   inactiveChip: {
-    backgroundColor: 'rgba(255,168,131,0.18) !important',
-    color: '#d86d4b !important',
-    fontWeight: '800 !important',
+    position: 'relative',
+    zIndex: 2,
+    height: 'auto !important',
+    borderRadius: '999px !important',
+    background: '#f8fafc !important',
+    color: '#64748b !important',
+    border: '3px solid #e2e8f0 !important',
+    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '900 !important',
+    fontSize: '.86rem !important',
+    padding: '4px 2px !important',
+  },
+
+  cardBody: {
+    padding: '22px 22px 14px',
+    flex: 1,
   },
 
   cardTitle: {
-    color: '#102f4e',
-    fontSize: '2.4rem',
-    lineHeight: 1.3,
+    margin: '0 0 10px',
+    color: '#06434b',
+    fontSize: '1.42rem',
+    lineHeight: 1.16,
     fontWeight: 900,
-    letterSpacing: '-0.5px',
-    marginBottom: '1rem',
+    letterSpacing: '-0.02em',
   },
 
   cardDesc: {
-    minHeight: '5rem',
-    color: '#69737d',
-    fontSize: '1.5rem',
-    lineHeight: 1.65,
-    fontWeight: 500,
-    marginBottom: '1.8rem',
+    margin: '0 0 16px',
+    color: '#07545c',
+    fontSize: '.98rem',
+    lineHeight: 1.48,
+    fontWeight: 750,
+    minHeight: 44,
   },
 
   codeBox: {
-    padding: '1.2rem 1.4rem',
-    borderRadius: '18px',
-    background: 'rgba(111,199,225,0.12)',
-    border: '1px dashed rgba(16,47,78,0.16)',
+    background: '#eefdf9',
+    border: '3px solid #d6f3ed',
+    borderRadius: 18,
+    padding: '10px 14px',
+    marginBottom: 14,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: '1.4rem',
-
+    gap: 10,
+    color: '#06434b',
+    boxShadow: '0 4px 0 rgba(7,148,127,.08)',
     '& span': {
-      color: '#69737d',
-      fontSize: '1.35rem',
-      fontWeight: 700,
+      color: '#64748b',
+      fontSize: '.88rem',
+      fontWeight: 850,
     },
-
     '& b': {
-      color: '#102f4e',
-      fontSize: '1.8rem',
-      letterSpacing: '1px',
+      fontSize: '1.02rem',
+      fontWeight: 900,
+      color: '#07947f',
     },
   },
 
   metaRow: {
     display: 'flex',
     alignItems: 'center',
-    color: '#69737d',
-    fontSize: '1.45rem',
-    fontWeight: 700,
-    marginBottom: '2rem',
+    gap: 8,
+    color: '#07545c',
+    fontSize: '.98rem',
+    fontWeight: 850,
   },
 
   metaIcon: {
-    color: '#f28b6c',
-    marginRight: '0.8rem',
+    color: '#07947f',
+    fontSize: '1.1rem !important',
   },
 
   cardActions: {
+    padding: '0 18px 20px',
     display: 'flex',
-    gap: '1rem',
+    gap: 8,
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
+
+  manageBtn: {
+    background: 'linear-gradient(180deg,#19c7a8,#07947f) !important',
+    color: '#fff !important',
+    border: '3px solid #fff !important',
+    borderRadius: '999px !important',
+    padding: '7px 13px !important',
+    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '900 !important',
+    fontSize: '.9rem !important',
+    textTransform: 'none !important',
+    boxShadow: '0 5px 0 rgba(7,148,127,.28) !important',
   },
 
   editBtn: {
+    background: 'linear-gradient(180deg,#ffffff,#eefdf9) !important',
+    color: '#056d5e !important',
+    border: '3px solid #19c7a8 !important',
     borderRadius: '999px !important',
-    padding: '0.8rem 1.6rem !important',
-    color: '#102f4e !important',
-    background: 'rgba(111,199,225,0.14) !important',
-    fontWeight: '800 !important',
+    padding: '7px 13px !important',
+    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '900 !important',
+    fontSize: '.9rem !important',
     textTransform: 'none !important',
+    boxShadow: '0 5px 0 rgba(7,148,127,.14) !important',
   },
 
   deleteBtn: {
+    background: '#fff1f1 !important',
+    color: '#e53935 !important',
+    border: '3px solid #ffb7b7 !important',
     borderRadius: '999px !important',
-    padding: '0.8rem 1.6rem !important',
-    color: '#d6493c !important',
-    background: 'rgba(214,73,60,0.09) !important',
-    fontWeight: '800 !important',
+    padding: '7px 13px !important',
+    fontFamily: `${GAME_FONT} !important`,
+    fontWeight: '900 !important',
+    fontSize: '.9rem !important',
     textTransform: 'none !important',
-  },
-
-  emptyBox: {
-    minHeight: '34rem',
-    borderRadius: '34px',
-    background: 'rgba(255,255,255,0.82)',
-    border: '1px solid rgba(255,255,255,0.9)',
-    boxShadow: '0 18px 45px rgba(16,47,78,0.08)',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '4rem',
-    textAlign: 'center',
-
-    '& h2': {
-      color: '#102f4e',
-      fontSize: '2.8rem',
-      fontWeight: 900,
-      marginBottom: '1rem',
-    },
-
-    '& p': {
-      color: '#69737d',
-      fontSize: '1.6rem',
-      marginBottom: '2rem',
-    },
-  },
-
-  emptyIcon: {
-    fontSize: '7rem !important',
-    color: '#6fc7e1',
-    marginBottom: '1.6rem',
-  },
-
-  modalPaper: {
-    borderRadius: '30px !important',
-    background: '#fffaf4 !important',
-  },
-
-  modalTitle: {
-    '& h2': {
-      color: '#102f4e',
-      fontSize: '2.8rem',
-      fontWeight: 900,
-    },
-  },
-
-  modalContent: {
-    borderColor: 'rgba(16,47,78,0.08) !important',
-  },
-
-  modalActions: {
-    padding: '1.6rem 2.4rem !important',
+    boxShadow: '0 5px 0 rgba(141,22,22,.10) !important',
   },
 }));
+
+export default useStyle;

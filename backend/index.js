@@ -26,6 +26,8 @@ const courseApi = require('./src/apis/course.api');
 const grammarApi = require('./src/apis/grammar.api');
 const adminApi = require('./src/apis/admin.api');
 const statsApi = require('./src/apis/stats.api');
+const vocabSetApi = require('./src/apis/vocabSet.api');
+const paymentApi = require('./src/apis/payment.api');
 
 // ================== set port ==================
 const app = express();
@@ -91,6 +93,16 @@ app.use(`${BASE_URL}/grammar`, grammarApi);
 app.use(`${BASE_URL}/admin`, adminApi);
 app.use(`${BASE_URL}/stats`, statsApi);
 
+// ================== vocab sets ==================
+app.use(`${BASE_URL}/vocab-set`, vocabSetApi);
+
+
+app.use(`${BASE_URL}/payment`, paymentApi);
+
+
+
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '/src/build', 'index.html'));
+
 });
+

@@ -1,8 +1,9 @@
 import adminApi from 'apis/adminApi';
+import { ROUTES } from 'constant';
 import useTitle from 'hooks/useTitle';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const COLORS = {
   blue: '#2563eb',
@@ -47,127 +48,428 @@ const ROLE_CONFIG = {
   admin: { label: 'Admin', tone: 'warning' },
 };
 
+const ADMIN_MENU = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    desc: 'Tổng quan hệ thống',
+    icon: 'dashboard',
+  },
+  {
+    id: 'accounts',
+    label: 'Quản lý tài khoản',
+    desc: 'Người dùng, giáo viên, học sinh',
+    icon: 'users',
+  },
+  {
+    id: 'statistics',
+    label: 'Thống kê báo cáo',
+    desc: 'Biểu đồ và số liệu vận hành',
+    icon: 'chart',
+  },
+  {
+    id: 'systemData',
+    label: 'Quản trị dữ liệu',
+    desc: 'Lớp học, ngữ pháp, khóa học',
+    icon: 'folder',
+  },
+];
+
+const TABS = ADMIN_MENU;
+
+const getValidTab = (tab) => {
+  return ADMIN_MENU.some((item) => item.id === tab) ? tab : 'dashboard';
+};
+
 const S = {
   page: {
     minHeight: '100vh',
-    background: `
-      radial-gradient(circle at 8% 12%, rgba(37,99,235,.10) 0 260px, transparent 261px),
-      radial-gradient(circle at 92% 8%, rgba(14,165,233,.12) 0 240px, transparent 241px),
-      linear-gradient(180deg, #eef4ff 0%, #f6f8fc 46%, #eef7f3 100%)
-    `,
+    background: '#f3f7fb',
     fontFamily: "'Inter','Segoe UI',Roboto,Arial,sans-serif",
-    padding: '30px 24px 54px',
     color: '#172033',
   },
-  maxW: { maxWidth: 1280, margin: '0 auto' },
+
+  maxW: {
+    maxWidth: 1280,
+    margin: '0 auto',
+  },
+
   header: {
-    display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 22, marginBottom: 24,
-    flexWrap: 'wrap', background: 'linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0369a1 100%)',
-    borderRadius: 20, padding: '28px 32px', boxShadow: '0 18px 40px rgba(15,23,42,.18)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: 22,
+    marginBottom: 24,
+    flexWrap: 'wrap',
+    background: 'linear-gradient(135deg,#0f172a 0%,#1e3a8a 55%,#0369a1 100%)',
+    borderRadius: 20,
+    padding: '28px 32px',
+    boxShadow: '0 18px 40px rgba(15,23,42,.18)',
   },
-  title: { fontSize: '2.25rem', fontWeight: 900, color: '#fff', margin: '0 0 10px' },
-  subtitle: { color: '#dbeafe', fontSize: '1.08rem', margin: 0, lineHeight: 1.6, fontWeight: 500 },
+
+  title: {
+    fontSize: '2.65rem',
+    fontWeight: 950,
+    color: '#fff',
+    margin: '0 0 12px',
+    letterSpacing: '-.03em',
+  },
+
+  subtitle: {
+    color: '#dbeafe',
+    fontSize: '1.18rem',
+    margin: 0,
+    lineHeight: 1.7,
+    fontWeight: 650,
+  },
+
   headerMeta: {
-    background: 'rgba(255,255,255,.15)', border: '1px solid rgba(255,255,255,.28)', borderRadius: 999,
-    padding: '10px 18px', color: '#fff', fontSize: '1rem', fontWeight: 800,
+    background: 'rgba(255,255,255,.15)',
+    border: '1px solid rgba(255,255,255,.28)',
+    borderRadius: 999,
+    padding: '10px 18px',
+    color: '#fff',
+    fontSize: '1rem',
+    fontWeight: 800,
   },
-  statsRow: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(170px,1fr))', gap: 16, marginBottom: 22 },
+
+  statsRow: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))',
+    gap: 18,
+    marginBottom: 24,
+  },
+
   statCard: (c = COLORS.blue) => ({
-    background: `linear-gradient(180deg,#fff 0%,${c}10 100%)`, border: `1px solid ${c}33`,
-    borderTop: `5px solid ${c}`, borderRadius: 16, padding: '18px 20px', boxShadow: '0 8px 22px rgba(15,23,42,.08)',
+    minHeight: 106,
+    background: '#fff',
+    border: '1px solid #e2e8f0',
+    borderTop: `5px solid ${c}`,
+    borderRadius: 16,
+    padding: '17px 19px',
+    boxShadow: '0 14px 30px rgba(15,23,42,.08)',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   }),
-  statTop: { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12, gap: 10 },
-  statLabel: { color: '#475569', fontSize: '1rem', fontWeight: 800, margin: 0 },
-  statNum: { color: '#0f172a', fontSize: '2rem', fontWeight: 900, lineHeight: 1 },
+
+  statTop: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+    gap: 10,
+  },
+
+  statLabel: {
+    color: '#475569',
+    fontSize: '.98rem',
+    fontWeight: 850,
+    margin: 0,
+    lineHeight: 1.35,
+  },
+
+  statNum: {
+    color: '#0f172a',
+    fontSize: '1.95rem',
+    fontWeight: 950,
+    lineHeight: 1,
+    letterSpacing: '-.04em',
+  },
+
   statCode: (c = COLORS.blue) => ({
-    width: 42, height: 42, borderRadius: 11, background: `${c}12`, border: `1px solid ${c}26`,
-    color: c, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '.9rem', fontWeight: 900,
+    width: 42,
+    height: 42,
+    borderRadius: 11,
+    background: `${c}12`,
+    border: `1px solid ${c}26`,
+    color: c,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '.9rem',
+    fontWeight: 900,
   }),
+
   controlsCard: {
-    background: 'rgba(255,255,255,.96)', border: '1px solid #dbeafe', borderLeft: '6px solid #2563eb',
-    borderRadius: 16, padding: 18, boxShadow: '0 8px 24px rgba(37,99,235,.08)', marginBottom: 18,
+    background: 'rgba(255,255,255,.96)',
+    border: '1px solid #dbeafe',
+    borderLeft: '6px solid #2563eb',
+    borderRadius: 16,
+    padding: 18,
+    boxShadow: '0 8px 24px rgba(37,99,235,.08)',
+    marginBottom: 18,
   },
-  controls: { display: 'flex', gap: 14, flexWrap: 'wrap', alignItems: 'center' },
+
+  controls: {
+    display: 'flex',
+    gap: 14,
+    flexWrap: 'wrap',
+    alignItems: 'center',
+  },
+
   searchInput: {
-    flex: 1, minWidth: 280, padding: '13px 15px', borderRadius: 11, border: '1px solid #cbd5e1',
-    fontSize: '1rem', outline: 'none', background: '#fff', color: '#111827', fontFamily: 'inherit',
+    flex: 1,
+    minWidth: 280,
+    padding: '13px 15px',
+    borderRadius: 11,
+    border: '1px solid #cbd5e1',
+    fontSize: '1rem',
+    outline: 'none',
+    background: '#fff',
+    color: '#111827',
+    fontFamily: 'inherit',
   },
-  seedBtn: (disabled) => ({
-    padding: '13px 18px', borderRadius: 11, border: '1px solid #0f766e',
-    background: disabled ? '#99f6e4' : 'linear-gradient(135deg,#0f766e,#059669)', color: '#fff',
-    fontWeight: 850, cursor: disabled ? 'not-allowed' : 'pointer', opacity: disabled ? .8 : 1,
-    whiteSpace: 'nowrap', fontFamily: 'inherit', fontSize: '1rem',
-  }),
-  tableCard: { background: '#fff', border: '1px solid #dbeafe', borderRadius: 16, overflow: 'hidden', boxShadow: '0 12px 30px rgba(15,23,42,.10)' },
-  tableWrap: { width: '100%', overflowX: 'auto' },
-  table: { width: '100%', borderCollapse: 'collapse', fontSize: '1rem' },
+
+  tableCard: {
+    background: '#fff',
+    border: '1px solid #dbeafe',
+    borderRadius: 16,
+    overflow: 'hidden',
+    boxShadow: '0 12px 30px rgba(15,23,42,.10)',
+  },
+
+  tableWrap: {
+    width: '100%',
+    overflowX: 'auto',
+  },
+
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+    fontSize: '1rem',
+  },
+
   th: {
-    padding: '14px 16px', textAlign: 'left', fontWeight: 900, fontSize: '.88rem', color: '#e0f2fe',
-    background: '#0f172a', borderBottom: '1px solid #1e293b', textTransform: 'uppercase', letterSpacing: '.035em', whiteSpace: 'nowrap',
+    padding: '14px 16px',
+    textAlign: 'left',
+    fontWeight: 900,
+    fontSize: '1rem',
+    color: '#e0f2fe',
+    background: '#0f172a',
+    borderBottom: '1px solid #1e293b',
+    textTransform: 'uppercase',
+    letterSpacing: '.035em',
+    whiteSpace: 'nowrap',
   },
-  td: { padding: '15px 16px', color: '#374151', borderBottom: '1px solid #eef2ff', verticalAlign: 'middle', background: '#fff', fontSize: '1rem' },
-  index: { color: '#94a3b8', fontWeight: 850, width: 52 },
-  userCell: { display: 'flex', alignItems: 'center', gap: 12, minWidth: 200 },
-  avatar: { width: 42, height: 42, borderRadius: '50%', objectFit: 'cover', background: '#e5e7eb', border: '1px solid #e5e7eb' },
+
+  td: {
+    padding: '15px 16px',
+    color: '#374151',
+    borderBottom: '1px solid #eef2ff',
+    verticalAlign: 'middle',
+    background: '#fff',
+    fontSize: '1.05rem',
+  },
+
+  index: {
+    color: '#94a3b8',
+    fontWeight: 850,
+    width: 52,
+  },
+
+  userCell: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 12,
+    minWidth: 200,
+  },
+
+  avatar: {
+    width: 42,
+    height: 42,
+    borderRadius: '50%',
+    objectFit: 'cover',
+    background: '#e5e7eb',
+    border: '1px solid #e5e7eb',
+  },
+
   avatarFallback: {
-    width: 42, height: 42, borderRadius: '50%', background: '#eff6ff', color: '#1d4ed8',
-    border: '1px solid #bfdbfe', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
+    width: 42,
+    height: 42,
+    borderRadius: '50%',
+    background: '#eff6ff',
+    color: '#1d4ed8',
+    border: '1px solid #bfdbfe',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontWeight: 900,
   },
-  userName: { fontWeight: 900, color: '#111827', lineHeight: 1.3, fontSize: '1.02rem' },
-  lockedText: { display: 'block', marginTop: 4, color: '#b91c1c', fontSize: '.84rem', fontWeight: 800 },
-  muted: { color: '#64748b', fontSize: '.96rem' },
+
+  userName: {
+    fontWeight: 900,
+    color: '#111827',
+    lineHeight: 1.3,
+    fontSize: '1.02rem',
+  },
+
+  lockedText: {
+    display: 'block',
+    marginTop: 4,
+    color: '#b91c1c',
+    fontSize: '.84rem',
+    fontWeight: 800,
+  },
+
+  muted: {
+    color: '#64748b',
+    fontSize: '.96rem',
+  },
+
   badge: (tone = 'default') => {
     const m = {
-      success: ['#ecfdf5', '#047857', '#a7f3d0'], info: ['#eff6ff', '#1d4ed8', '#bfdbfe'],
-      warning: ['#fffbeb', '#b45309', '#fde68a'], danger: ['#fef2f2', '#b91c1c', '#fecaca'],
-      neutral: ['#f3f4f6', '#374151', '#e5e7eb'], default: ['#f8fafc', '#475569', '#e2e8f0'],
+      success: ['#ecfdf5', '#047857', '#a7f3d0'],
+      info: ['#eff6ff', '#1d4ed8', '#bfdbfe'],
+      warning: ['#fffbeb', '#b45309', '#fde68a'],
+      danger: ['#fef2f2', '#b91c1c', '#fecaca'],
+      neutral: ['#f3f4f6', '#374151', '#e5e7eb'],
+      default: ['#f8fafc', '#475569', '#e2e8f0'],
     };
+
     const c = m[tone] || m.default;
+
     return {
-      display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: c[0], color: c[1],
-      border: `1px solid ${c[2]}`, borderRadius: 999, padding: '6px 12px', fontSize: '.88rem',
-      fontWeight: 900, lineHeight: 1, whiteSpace: 'nowrap',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: c[0],
+      color: c[1],
+      border: `1px solid ${c[2]}`,
+      borderRadius: 999,
+      padding: '6px 12px',
+      fontSize: '.88rem',
+      fontWeight: 900,
+      lineHeight: 1,
+      whiteSpace: 'nowrap',
     };
   },
+
   roleSelect: {
-    padding: '10px 12px', borderRadius: 10, border: '1px solid #cbd5e1', fontSize: '.96rem',
-    cursor: 'pointer', background: '#fff', color: '#111827', fontFamily: 'inherit', fontWeight: 800, outline: 'none',
+    padding: '10px 12px',
+    borderRadius: 10,
+    border: '1px solid #cbd5e1',
+    fontSize: '.96rem',
+    cursor: 'pointer',
+    background: '#fff',
+    color: '#111827',
+    fontFamily: 'inherit',
+    fontWeight: 800,
+    outline: 'none',
   },
+
   actionBtn: (locked, disabled) => ({
-    padding: '10px 14px', borderRadius: 10, border: locked ? '1px solid #059669' : '1px solid #dc2626',
-    cursor: disabled ? 'not-allowed' : 'pointer', fontWeight: 900, fontSize: '.92rem',
-    background: locked ? '#ecfdf5' : '#fef2f2', color: locked ? '#047857' : '#b91c1c',
-    opacity: disabled ? .65 : 1, fontFamily: 'inherit', whiteSpace: 'nowrap',
+    padding: '10px 14px',
+    borderRadius: 10,
+    border: locked ? '1px solid #059669' : '1px solid #dc2626',
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    fontWeight: 900,
+    fontSize: '.92rem',
+    background: locked ? '#ecfdf5' : '#fef2f2',
+    color: locked ? '#047857' : '#b91c1c',
+    opacity: disabled ? .65 : 1,
+    fontFamily: 'inherit',
+    whiteSpace: 'nowrap',
   }),
-  loadingCell: { textAlign: 'center', padding: 52, color: '#6b7280', fontWeight: 800, background: '#fff', fontSize: '1rem' },
-  emptyCell: { textAlign: 'center', padding: 52, color: '#64748b', fontWeight: 800, background: '#fff', fontSize: '1rem' },
-  pagination: { marginTop: 20, display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' },
+
+  loadingCell: {
+    textAlign: 'center',
+    padding: 52,
+    color: '#6b7280',
+    fontWeight: 800,
+    background: '#fff',
+    fontSize: '1rem',
+  },
+
+  emptyCell: {
+    textAlign: 'center',
+    padding: 52,
+    color: '#64748b',
+    fontWeight: 800,
+    background: '#fff',
+    fontSize: '1rem',
+  },
+
+  pagination: {
+    marginTop: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    gap: 8,
+    flexWrap: 'wrap',
+  },
+
   pageBtn: (active) => ({
-    minWidth: 42, padding: '10px 14px', borderRadius: 10, border: active ? '1px solid #1d4ed8' : '1px solid #cbd5e1',
-    cursor: 'pointer', fontWeight: 900, fontSize: '.95rem', background: active ? '#1d4ed8' : '#fff',
-    color: active ? '#fff' : '#374151', fontFamily: 'inherit',
+    minWidth: 42,
+    padding: '10px 14px',
+    borderRadius: 10,
+    border: active ? '1px solid #1d4ed8' : '1px solid #cbd5e1',
+    cursor: 'pointer',
+    fontWeight: 900,
+    fontSize: '.95rem',
+    background: active ? '#1d4ed8' : '#fff',
+    color: active ? '#fff' : '#374151',
+    fontFamily: 'inherit',
   }),
+
   overlay: {
-    position: 'fixed', inset: 0, background: 'rgba(15,23,42,.64)', display: 'flex',
-    alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: 20,
+    position: 'fixed',
+    inset: 0,
+    background: 'rgba(15,23,42,.64)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 1000,
+    padding: 20,
   },
+
   modal: {
-    background: '#fff', borderRadius: 22, padding: 30, maxWidth: 920, width: '100%',
-    maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 26px 70px rgba(15,23,42,.32)',
+    background: '#fff',
+    borderRadius: 22,
+    padding: 30,
+    maxWidth: 920,
+    width: '100%',
+    maxHeight: '90vh',
+    overflowY: 'auto',
+    boxShadow: '0 26px 70px rgba(15,23,42,.32)',
   },
+
   noAccess: {
-    minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    flexDirection: 'column', gap: 16, background: '#f5f7fb', fontFamily: "'Inter','Segoe UI',Roboto,Arial,sans-serif",
-    color: '#172033', padding: 24, textAlign: 'center',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column',
+    gap: 16,
+    background: '#f5f7fb',
+    fontFamily: "'Inter','Segoe UI',Roboto,Arial,sans-serif",
+    color: '#172033',
+    padding: 24,
+    textAlign: 'center',
   },
+
   homeBtn: {
-    padding: '13px 24px', borderRadius: 12, border: 'none', background: '#1d4ed8',
-    color: '#fff', fontWeight: 900, cursor: 'pointer', fontFamily: 'inherit', fontSize: '1rem',
+    padding: '13px 24px',
+    borderRadius: 12,
+    border: 'none',
+    background: '#1d4ed8',
+    color: '#fff',
+    fontWeight: 900,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    fontSize: '1rem',
   },
+
   toastWrap: {
-    position: 'fixed', top: 24, right: 24, zIndex: 99999, display: 'flex',
-    flexDirection: 'column', gap: 12, pointerEvents: 'none',
+    position: 'fixed',
+    top: 24,
+    right: 24,
+    zIndex: 99999,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 12,
+    pointerEvents: 'none',
   },
+
   toastBox: (type = 'success') => {
     const c = {
       success: ['#ecfdf5', '#10b981', '#047857'],
@@ -177,69 +479,212 @@ const S = {
     }[type] || ['#ecfdf5', '#10b981', '#047857'];
 
     return {
-      width: 380, maxWidth: 'calc(100vw - 40px)', display: 'flex', alignItems: 'flex-start',
-      gap: 14, padding: '16px 18px', borderRadius: 18, background: c[0], border: `2px solid ${c[1]}`,
-      color: c[2], boxShadow: '0 18px 44px rgba(15,23,42,.22)', pointerEvents: 'auto',
+      width: 380,
+      maxWidth: 'calc(100vw - 40px)',
+      display: 'flex',
+      alignItems: 'flex-start',
+      gap: 14,
+      padding: '16px 18px',
+      borderRadius: 18,
+      background: c[0],
+      border: `2px solid ${c[1]}`,
+      color: c[2],
+      boxShadow: '0 18px 44px rgba(15,23,42,.22)',
+      pointerEvents: 'auto',
       animation: 'toastSlide .22s ease-out',
     };
   },
+
   toastIcon: (type = 'success') => {
-    const bg = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: '#2563eb' }[type] || '#10b981';
+    const bg = {
+      success: '#10b981',
+      error: '#ef4444',
+      warning: '#f59e0b',
+      info: '#2563eb',
+    }[type] || '#10b981';
+
     return {
-      width: 34, height: 34, borderRadius: '50%', background: bg, color: '#fff',
-      display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900,
-      flexShrink: 0, boxShadow: '0 6px 14px rgba(15,23,42,.16)',
+      width: 34,
+      height: 34,
+      borderRadius: '50%',
+      background: bg,
+      color: '#fff',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontWeight: 900,
+      flexShrink: 0,
+      boxShadow: '0 6px 14px rgba(15,23,42,.16)',
     };
   },
+
   confirmBackdrop: {
-    position: 'fixed', inset: 0, background: 'rgba(15,23,42,.58)', zIndex: 99998,
-    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
+    position: 'fixed',
+    inset: 0,
+    background: 'rgba(15,23,42,.58)',
+    zIndex: 99998,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
   },
+
   confirmBox: {
-    width: 480, maxWidth: 'calc(100vw - 40px)', background: '#fff', borderRadius: 24,
-    padding: 30, boxShadow: '0 28px 80px rgba(15,23,42,.34)', border: '1px solid #e2e8f0',
+    width: 480,
+    maxWidth: 'calc(100vw - 40px)',
+    background: '#fff',
+    borderRadius: 24,
+    padding: 30,
+    boxShadow: '0 28px 80px rgba(15,23,42,.34)',
+    border: '1px solid #e2e8f0',
+  },
+
+  sectionHead: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: 16,
+    marginBottom: 18,
+    flexWrap: 'wrap',
+  },
+
+  sectionTitle: {
+    margin: '0 0 8px',
+    fontSize: '2rem',
+    fontWeight: 950,
+    color: '#0f172a',
+    letterSpacing: '-.03em',
+  },
+
+  sectionSub: {
+    margin: 0,
+    color: '#64748b',
+    fontSize: '1.08rem',
+    fontWeight: 700,
+    lineHeight: 1.65,
+  },
+
+  panel: {
+    background: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: 18,
+    padding: 22,
+    boxShadow: '0 12px 28px rgba(15,23,42,.08)',
+    marginBottom: 18,
+  },
+
+  cardTitle: {
+    margin: '0 0 20px',
+    color: '#0f172a',
+    fontWeight: 950,
+    fontSize: '1.22rem',
+    letterSpacing: '-.02em',
+  },
+
+  smallTitle: {
+    margin: '20px 0 12px',
+    color: '#0f172a',
+    fontWeight: 950,
+    fontSize: '1.05rem',
+  },
+
+  primaryBtn: {
+    border: 'none',
+    borderRadius: 12,
+    padding: '12px 18px',
+    background: 'linear-gradient(135deg,#2563eb,#1d4ed8)',
+    color: '#fff',
+    fontWeight: 900,
+    cursor: 'pointer',
+    fontFamily: 'inherit',
+    boxShadow: '0 10px 20px rgba(37,99,235,.24)',
+  },
+
+  alert: {
+    marginTop: 14,
+    border: '1px solid',
+    borderRadius: 12,
+    padding: '12px 14px',
+    fontWeight: 800,
+  },
+
+  chartGrid: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+    gap: 22,
+    alignItems: 'stretch',
+  },
+
+  chartCard: {
+    minHeight: 360,
+    background: '#fff',
+    border: '1px solid #e2e8f0',
+    borderRadius: 22,
+    padding: 26,
+    boxShadow: '0 16px 38px rgba(15,23,42,.09)',
+    display: 'flex',
+    flexDirection: 'column',
+  },
+
+  chartRowLabel: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    gap: 12,
+    color: '#334155',
+    fontWeight: 900,
+    marginBottom: 8,
+    fontSize: '.98rem',
+  },
+
+  barTrack: {
+    height: 18,
+    borderRadius: 999,
+    background: '#e2e8f0',
+    overflow: 'hidden',
+  },
+
+  barFill: {
+    height: '100%',
+    borderRadius: 999,
+    background: 'linear-gradient(90deg,#2563eb,#38bdf8)',
   },
 };
 
 const inp = {
-  padding: '13px 15px', borderRadius: 11, border: '1px solid #cbd5e1', fontSize: '1rem',
-  fontFamily: "'Inter','Segoe UI',Roboto,Arial,sans-serif", outline: 'none', background: '#fff',
-  color: '#111827', fontWeight: 650, lineHeight: 1.4,
+  padding: '13px 15px',
+  borderRadius: 11,
+  border: '1px solid #cbd5e1',
+  fontSize: '1rem',
+  fontFamily: "'Inter','Segoe UI',Roboto,Arial,sans-serif",
+  outline: 'none',
+  background: '#fff',
+  color: '#111827',
+  fontWeight: 650,
+  lineHeight: 1.4,
 };
 
-const TABS = [
-  { id: 'users', label: 'Người dùng' },
-  { id: 'classes', label: 'Lớp học' },
-  { id: 'teachers', label: 'Giáo viên' },
-  { id: 'students', label: 'Học sinh' },
-  { id: 'grammar', label: 'Ngữ pháp' },
-];
-
 function formatNumber(v) {
-  return v == null ? 0 : Number(v).toLocaleString('vi-VN');
+  if (v == null || v === '') return 0;
+
+  if (typeof v === 'string') {
+    if (v.includes('%')) return v;
+
+    const numberValue = Number(v);
+
+    if (Number.isNaN(numberValue)) return v;
+
+    return numberValue.toLocaleString('vi-VN');
+  }
+
+  const numberValue = Number(v);
+
+  if (Number.isNaN(numberValue)) return v;
+
+  return numberValue.toLocaleString('vi-VN');
 }
 
 function getInitial(name, username, email) {
   return (name || username || email || 'U').trim().charAt(0).toUpperCase();
-}
-
-function TabBar({ active, onChange }) {
-  return (
-    <div style={{
-      display: 'flex', gap: 8, marginBottom: 22, flexWrap: 'wrap', background: 'rgba(255,255,255,.86)',
-      padding: 8, borderRadius: 16, border: '1px solid #dbeafe', boxShadow: '0 8px 24px rgba(15,23,42,.08)',
-    }}>
-      {TABS.map((t) => (
-        <button key={t.id} onClick={() => onChange(t.id)} style={{
-          padding: '13px 20px', borderRadius: 12, border: 'none', cursor: 'pointer', fontWeight: 900,
-          fontSize: '1rem', fontFamily: 'inherit', background: active === t.id ? '#1d4ed8' : 'transparent',
-          color: active === t.id ? '#fff' : '#334155',
-        }}>
-          {t.label}
-        </button>
-      ))}
-    </div>
-  );
 }
 
 function Toast({ toast, onClose }) {
@@ -284,9 +729,17 @@ function ConfirmDialog({
     <div style={S.confirmBackdrop} onClick={(e) => e.target === e.currentTarget && !loading && onCancel()}>
       <div style={S.confirmBox}>
         <div style={{
-          width: 62, height: 62, borderRadius: '50%', background: danger ? '#fee2e2' : '#eff6ff',
-          color: danger ? '#dc2626' : '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontWeight: 900, fontSize: '1.7rem', margin: '0 auto 16px',
+          width: 62,
+          height: 62,
+          borderRadius: '50%',
+          background: danger ? '#fee2e2' : '#eff6ff',
+          color: danger ? '#dc2626' : '#2563eb',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontWeight: 900,
+          fontSize: '1.7rem',
+          margin: '0 auto 16px',
         }}>
           {danger ? '!' : '?'}
         </div>
@@ -305,9 +758,15 @@ function ConfirmDialog({
             onClick={onCancel}
             disabled={loading}
             style={{
-              padding: '13px 22px', borderRadius: 13, border: '1px solid #cbd5e1', background: '#f8fafc',
-              color: '#475569', fontWeight: 900, cursor: loading ? 'not-allowed' : 'pointer',
-              fontFamily: 'inherit', fontSize: '1rem',
+              padding: '13px 22px',
+              borderRadius: 13,
+              border: '1px solid #cbd5e1',
+              background: '#f8fafc',
+              color: '#475569',
+              fontWeight: 900,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontFamily: 'inherit',
+              fontSize: '1rem',
             }}
           >
             {cancelText}
@@ -318,9 +777,16 @@ function ConfirmDialog({
             onClick={onConfirm}
             disabled={loading}
             style={{
-              padding: '13px 24px', borderRadius: 13, border: 'none', background: danger ? '#dc2626' : '#2563eb',
-              color: '#fff', fontWeight: 900, cursor: loading ? 'not-allowed' : 'pointer',
-              fontFamily: 'inherit', fontSize: '1rem', opacity: loading ? 0.75 : 1,
+              padding: '13px 24px',
+              borderRadius: 13,
+              border: 'none',
+              background: danger ? '#dc2626' : '#2563eb',
+              color: '#fff',
+              fontWeight: 900,
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontFamily: 'inherit',
+              fontSize: '1rem',
+              opacity: loading ? 0.75 : 1,
             }}
           >
             {loading ? 'Đang xử lý...' : confirmText}
@@ -349,7 +815,1340 @@ function Field({ label, children }) {
   );
 }
 
-function UsersTab({ systemStats, notify }) {
+function SvgIcon({ name, size = 20, color = 'currentColor' }) {
+  const common = {
+    width: size,
+    height: size,
+    viewBox: '0 0 24 24',
+    fill: 'none',
+    stroke: color,
+    strokeWidth: 2,
+    strokeLinecap: 'round',
+    strokeLinejoin: 'round',
+  };
+
+  if (name === 'dashboard') {
+    return (
+      <svg {...common}>
+        <rect x="3" y="3" width="7" height="7" rx="2" />
+        <rect x="14" y="3" width="7" height="7" rx="2" />
+        <rect x="3" y="14" width="7" height="7" rx="2" />
+        <rect x="14" y="14" width="7" height="7" rx="2" />
+      </svg>
+    );
+  }
+
+  if (name === 'users') {
+    return (
+      <svg {...common}>
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+        <circle cx="9" cy="7" r="4" />
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+    );
+  }
+
+  if (name === 'chart') {
+    return (
+      <svg {...common}>
+        <path d="M3 3v18h18" />
+        <rect x="7" y="12" width="3" height="5" rx="1" />
+        <rect x="12" y="8" width="3" height="9" rx="1" />
+        <rect x="17" y="5" width="3" height="12" rx="1" />
+      </svg>
+    );
+  }
+
+  if (name === 'folder') {
+    return (
+      <svg {...common}>
+        <path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      </svg>
+    );
+  }
+
+  if (name === 'book') {
+    return (
+      <svg {...common}>
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z" />
+      </svg>
+    );
+  }
+
+  if (name === 'student') {
+    return (
+      <svg {...common}>
+        <path d="M22 10L12 5 2 10l10 5 10-5z" />
+        <path d="M6 12v5c0 1.2 2.7 3 6 3s6-1.8 6-3v-5" />
+      </svg>
+    );
+  }
+
+  if (name === 'search') {
+    return (
+      <svg {...common}>
+        <circle cx="11" cy="11" r="7" />
+        <path d="M21 21l-4.3-4.3" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...common}>
+      <circle cx="12" cy="12" r="9" />
+    </svg>
+  );
+}
+
+function SubTabBar({ tabs, active, onChange }) {
+  return (
+    <div className="admin-sub-tabs">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          type="button"
+          onClick={() => onChange(tab.id)}
+          className={active === tab.id ? 'active' : ''}
+        >
+          {tab.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function AdminSidebar({ activeTab, onChange, systemStats }) {
+  return (
+    <aside className="admin-layout-sidebar">
+      <div className="admin-layout-brand">
+        <div className="admin-layout-logo">E</div>
+
+        <div>
+          <strong>EDWARDS</strong>
+          <span>Admin System</span>
+        </div>
+      </div>
+
+      <div className="admin-layout-menu">
+        <p className="admin-layout-menu-title">Main menu</p>
+
+        {ADMIN_MENU.map((item) => (
+          <button
+            type="button"
+            key={item.id}
+            className={`admin-layout-menu-item ${activeTab === item.id ? 'active' : ''}`}
+            onClick={() => onChange(item.id)}
+          >
+            <span className="admin-layout-menu-icon">
+              <SvgIcon name={item.icon} size={20} />
+            </span>
+
+            <span className="admin-layout-menu-text">
+              <strong>{item.label}</strong>
+              <em>{item.desc}</em>
+            </span>
+          </button>
+        ))}
+      </div>
+
+      {/* <div className="admin-layout-side-card">
+        <span>Tổng người dùng</span>
+        <strong>{formatNumber(systemStats?.totalUsers || 0)}</strong>
+        <p>Hệ thống đang vận hành</p>
+      </div> */}
+    </aside>
+  );
+}
+
+function AdminDashboardOverview({ systemStats, onChange }) {
+  const cards = [
+    {
+      label: 'Tổng người dùng',
+      value: systemStats?.totalUsers || 0,
+      sub: 'Tất cả tài khoản',
+      icon: 'users',
+      color: '#2563eb',
+      tab: 'accounts',
+    },
+    {
+      label: 'Học sinh',
+      value: systemStats?.totalStudents || 0,
+      sub: 'Tài khoản học sinh',
+      icon: 'student',
+      color: '#059669',
+      tab: 'accounts',
+    },
+    {
+      label: 'Giáo viên',
+      value: systemStats?.totalTeachers || 0,
+      sub: 'Tài khoản giáo viên',
+      icon: 'book',
+      color: '#7c3aed',
+      tab: 'accounts',
+    },
+    {
+      label: 'Khóa học',
+      value: systemStats?.totalCourses || 0,
+      sub: 'Nội dung học tập',
+      icon: 'folder',
+      color: '#f97316',
+      tab: 'systemData',
+    },
+  ];
+
+  const actions = [
+    {
+      title: 'Quản lý tài khoản',
+      desc: 'Tạo tài khoản, phân quyền, khóa hoặc mở tài khoản người dùng.',
+      icon: 'users',
+      tab: 'accounts',
+      color: '#2563eb',
+    },
+    {
+      title: 'Thống kê báo cáo',
+      desc: 'Theo dõi người dùng, khóa học, lượt đăng ký và hoạt động game.',
+      icon: 'chart',
+      tab: 'statistics',
+      color: '#7c3aed',
+    },
+    {
+      title: 'Quản trị dữ liệu',
+      desc: 'Quản lý lớp học, ngữ pháp, seed grammar và khóa học toàn hệ thống.',
+      icon: 'folder',
+      tab: 'systemData',
+      color: '#0891b2',
+    },
+  ];
+
+  return (
+    <section>
+      <div className="admin-dashboard-hero">
+        <div>
+          <p>ADMIN DASHBOARD</p>
+          <h2>Trung tâm điều phối hệ thống</h2>
+          <span>
+            Quản trị toàn bộ website học tiếng Anh: tài khoản, báo cáo,
+            lớp học, ngữ pháp, khóa học và dữ liệu vận hành.
+          </span>
+        </div>
+
+        <button type="button" onClick={() => onChange('accounts')}>
+          Quản lý tài khoản
+        </button>
+      </div>
+
+      <div className="admin-dashboard-stat-grid">
+        {cards.map((item) => (
+          <button
+            type="button"
+            key={item.label}
+            className="admin-dashboard-stat-card"
+            onClick={() => onChange(item.tab)}
+            style={{ '--main': item.color }}
+          >
+            <div>
+              <span>{item.label}</span>
+              <strong>{formatNumber(item.value)}</strong>
+              <p>{item.sub}</p>
+            </div>
+
+            <em>
+              <SvgIcon name={item.icon} size={22} />
+            </em>
+          </button>
+        ))}
+      </div>
+
+      <div className="admin-dashboard-main-grid">
+        <div className="admin-dashboard-chart-card">
+          <div className="admin-dashboard-card-head">
+            <div>
+              <h3>Hoạt động hệ thống</h3>
+              <p>Mô phỏng tổng quan vận hành trong tuần</p>
+            </div>
+            <span>•••</span>
+          </div>
+
+          <svg className="admin-dashboard-area" viewBox="0 0 760 280" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="adminAreaA" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.48" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.05" />
+              </linearGradient>
+
+              <linearGradient id="adminAreaB" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stopColor="#2563eb" stopOpacity="0.32" />
+                <stop offset="100%" stopColor="#2563eb" stopOpacity="0.04" />
+              </linearGradient>
+            </defs>
+
+            <path
+              d="M0,170 C70,145 100,190 160,130 C220,68 260,132 330,100 C390,72 420,168 488,125 C555,82 590,160 650,112 C710,64 735,120 760,92 L760,280 L0,280 Z"
+              fill="url(#adminAreaA)"
+            />
+
+            <path
+              d="M0,205 C70,176 112,215 170,168 C230,116 275,174 342,138 C405,104 438,205 502,156 C568,110 605,194 672,148 C724,112 742,165 760,140 L760,280 L0,280 Z"
+              fill="url(#adminAreaB)"
+            />
+
+            <path
+              d="M0,170 C70,145 100,190 160,130 C220,68 260,132 330,100 C390,72 420,168 488,125 C555,82 590,160 650,112 C710,64 735,120 760,92"
+              fill="none"
+              stroke="#0ea5e9"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+
+            <path
+              d="M0,205 C70,176 112,215 170,168 C230,116 275,174 342,138 C405,104 438,205 502,156 C568,110 605,194 672,148 C724,112 742,165 760,140"
+              fill="none"
+              stroke="#2563eb"
+              strokeWidth="5"
+              strokeLinecap="round"
+            />
+          </svg>
+
+          <div className="admin-dashboard-chart-footer">
+            <div>
+              <strong>{formatNumber(systemStats?.totalWords || 0)}</strong>
+              <span>Từ vựng</span>
+            </div>
+
+            <div>
+              <strong>{formatNumber(systemStats?.totalGrammarLessons || 0)}</strong>
+              <span>Bài ngữ pháp</span>
+            </div>
+
+            <div>
+              <strong>{formatNumber(systemStats?.totalGameRooms || 0)}</strong>
+              <span>Phòng game</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="admin-dashboard-donut-card">
+          <div className="admin-dashboard-card-head">
+            <div>
+              <h3>Cơ cấu người dùng</h3>
+              <p>Phân bổ theo vai trò</p>
+            </div>
+            <span>•••</span>
+          </div>
+
+          <div className="admin-dashboard-donut-wrap">
+            <div className="admin-dashboard-donut">
+              <strong>{formatNumber(systemStats?.totalUsers || 0)}</strong>
+              <span>users</span>
+            </div>
+
+            <div className="admin-dashboard-legend">
+              <div>
+                <i style={{ background: '#2563eb' }} />
+                <span>Học sinh</span>
+                <strong>{formatNumber(systemStats?.totalStudents || 0)}</strong>
+              </div>
+
+              <div>
+                <i style={{ background: '#059669' }} />
+                <span>Giáo viên</span>
+                <strong>{formatNumber(systemStats?.totalTeachers || 0)}</strong>
+              </div>
+
+              <div>
+                <i style={{ background: '#f97316' }} />
+                <span>Admin</span>
+                <strong>{formatNumber(systemStats?.totalAdmins || 0)}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="admin-dashboard-action-grid">
+        {actions.map((item) => (
+          <button
+            type="button"
+            key={item.title}
+            className="admin-dashboard-action-card"
+            onClick={() => onChange(item.tab)}
+            style={{ '--main': item.color, '--soft': `${item.color}18` }}
+          >
+            <em>
+              <SvgIcon name={item.icon} size={24} />
+            </em>
+
+            <h3>{item.title}</h3>
+            <p>{item.desc}</p>
+            <strong>Mở chức năng →</strong>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function AdminLayoutStyles() {
+  return (
+    <style>
+      {`
+        .admin-system-page,
+        .admin-system-page * {
+          font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important;
+          box-sizing: border-box;
+        }
+
+        .admin-system-page {
+          min-height: 100vh;
+          margin: 0 calc((100vw - 100%) / -2);
+          background: #f3f6fb;
+          display: grid;
+          grid-template-columns: 312px minmax(0, 1fr);
+          align-items: stretch;
+          color: #0f172a;
+          font-size: 15.5px;
+        }
+
+        .admin-layout-sidebar {
+          min-height: 100%;
+          height: auto;
+          background: #070b14;
+          color: #e5edf7;
+          padding: 24px 18px;
+          box-shadow: 12px 0 34px rgba(15, 23, 42, .16);
+          position: relative;
+          align-self: stretch;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .admin-layout-brand {
+          display: flex;
+          align-items: center;
+          gap: 13px;
+          padding: 0 10px 24px;
+          border-bottom: 1px solid rgba(255,255,255,.09);
+        }
+
+        .admin-layout-logo {
+          width: 48px;
+          height: 48px;
+          border-radius: 16px;
+          background: #111827;
+          border: 1px solid rgba(255,255,255,.10);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          font-size: 1.16rem;
+          font-weight: 950;
+        }
+
+        .admin-layout-brand strong {
+          display: block;
+          color: #fff;
+          font-size: 1.08rem;
+          font-weight: 950;
+          line-height: 1.1;
+          letter-spacing: .01em;
+        }
+
+        .admin-layout-brand span {
+          display: block;
+          margin-top: 5px;
+          color: #93a4b8;
+          font-size: .82rem;
+          font-weight: 750;
+        }
+
+        .admin-layout-menu {
+          padding-top: 20px;
+          flex: 1;
+        }
+
+        .admin-layout-menu-title {
+          margin: 0 0 12px;
+          padding: 0 10px;
+          color: #7f8ea3;
+          font-size: .76rem;
+          font-weight: 950;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+        }
+
+        .admin-layout-menu-item {
+          width: 100%;
+          min-height: 64px;
+          border: 1px solid transparent;
+          border-radius: 17px;
+          background: transparent;
+          color: #cbd5e1;
+          display: flex;
+          align-items: center;
+          gap: 13px;
+          padding: 12px 12px;
+          cursor: pointer;
+          text-align: left;
+          margin-bottom: 8px;
+          transition: all .16s ease;
+        }
+
+        .admin-layout-menu-item:hover {
+          background: rgba(255,255,255,.06);
+          color: #fff;
+        }
+
+        .admin-layout-menu-item.active {
+          background: #111827;
+          border-color: rgba(255,255,255,.13);
+          color: #fff;
+          box-shadow: 0 12px 28px rgba(0,0,0,.22);
+        }
+
+        .admin-layout-menu-icon {
+          width: 42px;
+          height: 42px;
+          border-radius: 14px;
+          background: rgba(255,255,255,.07);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: 0 0 42px;
+          color: #dbeafe;
+        }
+
+        .admin-layout-menu-item.active .admin-layout-menu-icon {
+          background: #1d4ed8;
+          color: #fff;
+        }
+
+        .admin-layout-menu-text strong {
+          display: block;
+          color: inherit;
+          font-size: 1.125rem;
+          font-weight: 900;
+          line-height: 1.18;
+        }
+
+        .admin-layout-menu-text em {
+          display: block;
+          margin-top: 5px;
+          color: #94a3b8;
+          font-size: .96rem;
+          font-style: normal;
+          font-weight: 700;
+          line-height: 1.3;
+        }
+
+        .admin-layout-menu-item.active .admin-layout-menu-text em {
+          color: #cbd5e1;
+        }
+
+        .admin-layout-side-card {
+          margin: 32px 8px 0;
+          padding: 20px;
+          border-radius: 20px;
+          background: #111827;
+          border: 1px solid rgba(255,255,255,.10);
+        }
+
+        .admin-layout-side-card strong {
+          display: block;
+          color: #fff;
+          font-size: 1.85rem;
+          font-weight: 950;
+          margin: 8px 0 5px;
+          letter-spacing: -.03em;
+        }
+
+        .admin-layout-side-card p {
+          margin: 0;
+          color: #cbd5e1;
+          font-size: .82rem;
+          font-weight: 750;
+        }
+
+        .admin-layout-main {
+          min-width: 0;
+          padding: 24px 30px 44px;
+        }
+
+        .admin-layout-topbar {
+          min-height: 54px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          margin-bottom: 20px;
+        }
+
+        .admin-layout-search {
+          flex: 1;
+          max-width: 760px;
+          height: 46px;
+          border-radius: 10px;
+          border: 1px solid #d8e2ee;
+          background: #fff;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding: 0 16px;
+          color: #64748b;
+          box-shadow: 0 8px 18px rgba(15,23,42,.045);
+        }
+
+        .admin-layout-search input {
+          border: none;
+          outline: none;
+          flex: 1;
+          height: 100%;
+          font-size: .96rem;
+          color: #334155;
+          background: transparent;
+          font-weight: 650;
+        }
+
+        .admin-layout-user {
+          min-width: 210px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 12px;
+        }
+
+        .admin-layout-avatar {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #2563eb, #38bdf8);
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 950;
+          overflow: hidden;
+        }
+
+        .admin-layout-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .admin-layout-user strong {
+          display: block;
+          color: #0f172a;
+          font-size: .94rem;
+          font-weight: 900;
+          line-height: 1.2;
+        }
+
+        .admin-layout-user span {
+          color: #64748b;
+          font-size: .78rem;
+          font-weight: 750;
+        }
+
+        .admin-layout-page-head {
+          display: none;
+        }
+
+        .admin-sub-tabs {
+          display: flex;
+          gap: 8px;
+          flex-wrap: wrap;
+          margin-bottom: 18px;
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          border-radius: 14px;
+          padding: 8px;
+          box-shadow: 0 8px 22px rgba(15,23,42,.045);
+        }
+
+        .admin-sub-tabs button {
+          border: none;
+          border-radius: 10px;
+          padding: 10px 16px;
+          font-weight: 850;
+          cursor: pointer;
+          background: transparent;
+          color: #334155;
+          font-size: .92rem;
+        }
+
+        .admin-sub-tabs button.active {
+          background: #0f172a;
+          color: #fff;
+        }
+
+        .admin-system-page h1,
+        .admin-system-page h2,
+        .admin-system-page h3,
+        .admin-system-page h4,
+        .admin-system-page p {
+          letter-spacing: -.01em;
+        }
+
+        .admin-system-page h1 {
+          font-size: 1.68rem !important;
+          line-height: 1.22 !important;
+          font-weight: 950 !important;
+        }
+
+        .admin-system-page h2 {
+          font-size: 1.42rem !important;
+          line-height: 1.25 !important;
+          font-weight: 950 !important;
+        }
+
+        .admin-system-page h3 {
+          font-size: 1.08rem !important;
+          line-height: 1.32 !important;
+          font-weight: 900 !important;
+        }
+
+        .admin-system-page table {
+          font-size: .9rem !important;
+        }
+
+        .admin-system-page th {
+          font-size: .78rem !important;
+          letter-spacing: .05em;
+        }
+
+        .admin-system-page td {
+          font-size: .88rem !important;
+        }
+
+        .admin-system-page input,
+        .admin-system-page select,
+        .admin-system-page textarea {
+          font-size: .9rem !important;
+        }
+
+        .admin-dashboard-hero {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 22px;
+          border-radius: 18px;
+          padding: 25px 28px;
+          background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 58%, #0369a1 100%);
+          color: #fff;
+          box-shadow: 0 18px 42px rgba(15,23,42,.16);
+          margin-bottom: 22px;
+        }
+
+        .admin-dashboard-hero p {
+          margin: 0 0 8px;
+          color: #bfdbfe;
+          font-size: .76rem;
+          font-weight: 950;
+          letter-spacing: .14em;
+          text-transform: uppercase;
+        }
+
+        .admin-dashboard-hero h2 {
+          margin: 0;
+          color: #fff;
+          font-size: 1.72rem !important;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-hero span {
+          display: block;
+          margin-top: 10px;
+          max-width: 760px;
+          color: #dbeafe;
+          font-size: .96rem;
+          line-height: 1.62;
+          font-weight: 650;
+        }
+
+        .admin-dashboard-hero button {
+          border: none;
+          border-radius: 999px;
+          min-height: 42px;
+          padding: 0 18px;
+          background: #fff;
+          color: #0f172a;
+          font-size: .9rem;
+          font-weight: 900;
+          cursor: pointer;
+          white-space: nowrap;
+        }
+
+        .admin-dashboard-stat-grid {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 18px;
+          margin-bottom: 22px;
+        }
+
+        .admin-dashboard-stat-card {
+          min-height: 116px;
+          border: none;
+          border-radius: 14px;
+          padding: 18px;
+          background: #fff;
+          box-shadow: 0 14px 30px rgba(15,23,42,.08);
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          text-align: left;
+          cursor: pointer;
+          border-top: 5px solid var(--main);
+          transition: all .16s ease;
+        }
+
+        .admin-dashboard-stat-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 42px rgba(15,23,42,.12);
+        }
+
+        .admin-dashboard-stat-card span {
+          display: block;
+          color: #475569;
+          font-size: .96rem;
+          font-weight: 850;
+          margin-bottom: 10px;
+        }
+
+        .admin-dashboard-stat-card strong {
+          display: block;
+          color: #0f172a;
+          font-size: 1.7rem;
+          font-weight: 950;
+          letter-spacing: -.04em;
+        }
+
+        .admin-dashboard-stat-card p {
+          margin: 8px 0 0;
+          color: #64748b;
+          font-size: .96rem;
+          line-height: 1.45;
+          font-weight: 750;
+        }
+
+        .admin-dashboard-stat-card em {
+          width: 42px;
+          height: 42px;
+          border-radius: 14px;
+          background: rgba(37,99,235,.10);
+          color: var(--main);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-style: normal;
+        }
+
+        .admin-dashboard-main-grid {
+          display: grid;
+          grid-template-columns: minmax(0, 1.5fr) minmax(330px, .8fr);
+          gap: 22px;
+          margin-bottom: 22px;
+        }
+
+        .admin-dashboard-chart-card,
+        .admin-dashboard-donut-card {
+          background: #fff;
+          border: 1px solid #e2e8f0;
+          border-radius: 14px;
+          box-shadow: 0 14px 30px rgba(15,23,42,.08);
+          padding: 22px;
+          min-height: 315px;
+        }
+
+        .admin-dashboard-card-head {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 18px;
+        }
+
+        .admin-dashboard-card-head h3 {
+          margin: 0;
+          color: #0f172a;
+          font-size: 1.16rem !important;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-card-head p {
+          margin: 7px 0 0;
+          color: #64748b;
+          font-size: .96rem;
+          line-height: 1.45;
+          font-weight: 750;
+        }
+
+        .admin-dashboard-card-head span {
+          color: #94a3b8;
+          font-weight: 950;
+          letter-spacing: .18em;
+        }
+
+        .admin-dashboard-area {
+          width: 100%;
+          height: 200px;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .admin-dashboard-chart-footer {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          text-align: center;
+          gap: 10px;
+          padding-top: 15px;
+        }
+
+        .admin-dashboard-chart-footer div {
+          border-right: 1px solid #e2e8f0;
+        }
+
+        .admin-dashboard-chart-footer div:last-child {
+          border-right: none;
+        }
+
+        .admin-dashboard-chart-footer strong {
+          display: block;
+          color: #0f172a;
+          font-size: 1.05rem;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-chart-footer span {
+          display: block;
+          color: #64748b;
+          font-size: .8rem;
+          font-weight: 750;
+          margin-top: 4px;
+        }
+
+        .admin-dashboard-donut-wrap {
+          display: grid;
+          grid-template-columns: 160px 1fr;
+          gap: 22px;
+          align-items: center;
+          min-height: 220px;
+        }
+
+        .admin-dashboard-donut {
+          width: 158px;
+          height: 158px;
+          border-radius: 50%;
+          background: conic-gradient(#2563eb 0 72%, #059669 72% 92%, #f97316 92% 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          box-shadow: inset 0 0 0 33px #fff, 0 10px 28px rgba(15,23,42,.08);
+        }
+
+        .admin-dashboard-donut strong {
+          color: #0f172a;
+          font-size: 1.2rem;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-donut span {
+          color: #64748b;
+          font-size: .74rem;
+          font-weight: 850;
+          text-transform: uppercase;
+        }
+
+        .admin-dashboard-legend {
+          display: grid;
+          gap: 13px;
+        }
+
+        .admin-dashboard-legend div {
+          display: grid;
+          grid-template-columns: 12px 1fr auto;
+          gap: 10px;
+          align-items: center;
+          color: #475569;
+          font-size: .96rem;
+          line-height: 1.45;
+          font-weight: 800;
+        }
+
+        .admin-dashboard-legend i {
+          width: 11px;
+          height: 11px;
+          border-radius: 50%;
+        }
+
+        .admin-dashboard-legend strong {
+          color: #0f172a;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-action-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 18px;
+        }
+
+        .admin-dashboard-action-card {
+          min-height: 190px;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          background: #fff;
+          box-shadow: 0 14px 30px rgba(15,23,42,.07);
+          padding: 20px;
+          text-align: left;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          transition: all .16s ease;
+        }
+
+        .admin-dashboard-action-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 42px rgba(15,23,42,.12);
+        }
+
+        .admin-dashboard-action-card::after {
+          content: '';
+          position: absolute;
+          width: 140px;
+          height: 140px;
+          right: -72px;
+          top: -72px;
+          border-radius: 50%;
+          background: var(--soft);
+        }
+
+        .admin-dashboard-action-card em {
+          width: 52px;
+          height: 52px;
+          border-radius: 16px;
+          background: var(--soft);
+          color: var(--main);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-style: normal;
+          margin-bottom: 14px;
+        }
+
+        .admin-dashboard-action-card h3 {
+          margin: 0 0 9px;
+          color: #0f172a;
+          font-size: 1.03rem !important;
+          font-weight: 900;
+        }
+
+        .admin-dashboard-action-card p {
+          margin: 0;
+          color: #64748b;
+          font-size: .88rem;
+          line-height: 1.5;
+          font-weight: 700;
+        }
+
+        .admin-dashboard-action-card strong {
+          position: absolute;
+          left: 20px;
+          bottom: 18px;
+          color: var(--main);
+          font-size: .86rem;
+          font-weight: 900;
+        }
+
+        @keyframes toastSlide {
+          from { opacity: 0; transform: translateX(24px) translateY(-8px); }
+          to { opacity: 1; transform: translateX(0) translateY(0); }
+        }
+
+        @media (max-width: 1200px) {
+          .admin-system-page {
+            grid-template-columns: 1fr;
+          }
+
+          .admin-layout-sidebar {
+            position: relative;
+            min-height: auto;
+          }
+
+          .admin-dashboard-stat-grid,
+          .admin-dashboard-action-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .admin-dashboard-main-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 760px) {
+          .admin-layout-main {
+            padding: 18px;
+          }
+
+          .admin-layout-topbar,
+          .admin-dashboard-hero {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .admin-dashboard-stat-grid,
+          .admin-dashboard-action-grid,
+          .admin-dashboard-donut-wrap {
+            grid-template-columns: 1fr;
+          }
+
+          .admin-layout-user {
+            justify-content: flex-start;
+          }
+        }
+      `}
+    </style>
+  );
+}
+
+function AdminLayoutExtraStyles() {
+  return (
+    <style>
+      {`
+        .admin-dashboard-area {
+          width: 100%;
+          height: 210px;
+          border-bottom: 1px solid #e2e8f0;
+        }
+
+        .admin-dashboard-chart-footer {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          text-align: center;
+          gap: 10px;
+          padding-top: 16px;
+        }
+
+        .admin-dashboard-chart-footer div {
+          border-right: 1px solid #e2e8f0;
+        }
+
+        .admin-dashboard-chart-footer div:last-child {
+          border-right: none;
+        }
+
+        .admin-dashboard-chart-footer strong {
+          display: block;
+          color: #0f172a;
+          font-size: 1.12rem;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-chart-footer span {
+          display: block;
+          color: #64748b;
+          font-size: .96rem;
+          line-height: 1.45;
+          font-weight: 750;
+          margin-top: 4px;
+        }
+
+        .admin-dashboard-donut-wrap {
+          display: grid;
+          grid-template-columns: 170px 1fr;
+          gap: 24px;
+          align-items: center;
+          min-height: 230px;
+        }
+
+        .admin-dashboard-donut {
+          width: 168px;
+          height: 168px;
+          border-radius: 50%;
+          background: conic-gradient(#2563eb 0 72%, #059669 72% 92%, #f97316 92% 100%);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          box-shadow: inset 0 0 0 34px #fff, 0 10px 28px rgba(15, 23, 42, .08);
+        }
+
+        .admin-dashboard-donut strong {
+          color: #0f172a;
+          font-size: 1.35rem;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-donut span {
+          color: #64748b;
+          font-size: .8rem;
+          font-weight: 850;
+          text-transform: uppercase;
+        }
+
+        .admin-dashboard-legend {
+          display: grid;
+          gap: 14px;
+        }
+
+        .admin-dashboard-legend div {
+          display: grid;
+          grid-template-columns: 13px 1fr auto;
+          gap: 10px;
+          align-items: center;
+          color: #475569;
+          font-size: .98rem;
+          font-weight: 800;
+        }
+
+        .admin-dashboard-legend i {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+        }
+
+        .admin-dashboard-legend strong {
+          color: #0f172a;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-action-grid {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 18px;
+        }
+
+        .admin-dashboard-action-card {
+          min-height: 210px;
+          border: 1px solid #e2e8f0;
+          border-radius: 16px;
+          background: #fff;
+          box-shadow: 0 14px 30px rgba(15, 23, 42, .07);
+          padding: 22px;
+          text-align: left;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          transition: all .16s ease;
+        }
+
+        .admin-dashboard-action-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 20px 42px rgba(15, 23, 42, .12);
+        }
+
+        .admin-dashboard-action-card::after {
+          content: '';
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          right: -75px;
+          top: -75px;
+          border-radius: 50%;
+          background: var(--soft);
+        }
+
+        .admin-dashboard-action-card em {
+          width: 56px;
+          height: 56px;
+          border-radius: 16px;
+          background: var(--soft);
+          color: var(--main);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-style: normal;
+          font-size: 1.5rem;
+          margin-bottom: 16px;
+        }
+
+        .admin-dashboard-action-card h3 {
+          margin: 0 0 10px;
+          color: #0f172a;
+          font-size: 1.22rem;
+          font-weight: 950;
+        }
+
+        .admin-dashboard-action-card p {
+          margin: 0;
+          color: #64748b;
+          font-size: 1rem;
+          line-height: 1.55;
+          font-weight: 700;
+        }
+
+        .admin-dashboard-action-card strong {
+          position: absolute;
+          left: 22px;
+          bottom: 20px;
+          color: var(--main);
+          font-size: .96rem;
+          font-weight: 950;
+        }
+
+        .admin-system-page button,
+        .admin-system-page input,
+        .admin-system-page select,
+        .admin-system-page textarea,
+        .admin-system-page table,
+        .admin-system-page th,
+        .admin-system-page td {
+          font-family: 'Inter', 'Segoe UI', Roboto, Arial, sans-serif !important;
+        }
+
+        @keyframes toastSlide {
+          from { opacity: 0; transform: translateX(24px) translateY(-8px); }
+          to { opacity: 1; transform: translateX(0) translateY(0); }
+        }
+
+        @media (max-width: 1200px) {
+          .admin-system-page {
+            grid-template-columns: 1fr;
+          }
+
+          .admin-layout-sidebar {
+            position: relative;
+            min-height: auto;
+          }
+
+          .admin-dashboard-stat-grid,
+          .admin-dashboard-action-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+
+          .admin-dashboard-main-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+
+        @media (max-width: 760px) {
+          .admin-layout-main {
+            padding: 18px;
+          }
+
+          .admin-layout-topbar,
+          .admin-layout-page-head,
+          .admin-dashboard-hero {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .admin-dashboard-stat-grid,
+          .admin-dashboard-action-grid,
+          .admin-dashboard-donut-wrap {
+            grid-template-columns: 1fr;
+          }
+
+          .admin-layout-user {
+            justify-content: flex-start;
+          }
+        }
+      `}
+    </style>
+  );
+}
+
+function UsersTab({ systemStats, notify, currentAccountId }) {
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
@@ -358,12 +2157,13 @@ function UsersTab({ systemStats, notify }) {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(null);
   const [lockingUser, setLockingUser] = useState(null);
-  const [seeding, setSeeding] = useState(false);
 
   const loadUsers = useCallback(async () => {
     setLoading(true);
+
     try {
-      const res = await adminApi.getUsers({ page, limit: 20, search });
+      const res = await adminApi.getUsers({ page, limit: 10, search });
+
       setUsers(res.data.users || []);
       setTotal(res.data.total || 0);
       setTotalPages(res.data.totalPages || 1);
@@ -383,6 +2183,7 @@ function UsersTab({ systemStats, notify }) {
 
   const handleRoleChange = async (userId, newRole) => {
     setUpdating(userId);
+
     try {
       await adminApi.updateUserRole(userId, newRole);
       notify?.('success', 'Cập nhật quyền thành công', 'Quyền người dùng đã được thay đổi.');
@@ -394,20 +2195,9 @@ function UsersTab({ systemStats, notify }) {
     }
   };
 
-  const handleSeedGrammar = async () => {
-    setSeeding(true);
-    try {
-      const res = await adminApi.seedGrammarTenses();
-      notify?.('success', 'Tạo dữ liệu ngữ pháp mẫu thành công', res.data?.message || 'Đã tạo dữ liệu ngữ pháp mẫu.');
-    } catch (err) {
-      notify?.('error', 'Tạo dữ liệu ngữ pháp mẫu thất bại', err?.response?.data?.message || 'Không thể tạo dữ liệu.');
-    } finally {
-      setSeeding(false);
-    }
-  };
-
   const handleLock = async (userId, isLocked) => {
     setLockingUser(userId);
+
     try {
       if (isLocked) {
         await adminApi.unlockUser(userId);
@@ -416,6 +2206,7 @@ function UsersTab({ systemStats, notify }) {
         await adminApi.lockUser(userId);
         notify?.('success', 'Khóa người dùng thành công', 'Người dùng đã được khóa.');
       }
+
       loadUsers();
     } catch (err) {
       notify?.('error', 'Thay đổi trạng thái thất bại', err?.response?.data?.message || 'Không thể thay đổi trạng thái.');
@@ -444,6 +2235,7 @@ function UsersTab({ systemStats, notify }) {
                 <p style={S.statLabel}>{x.label}</p>
                 <div style={S.statCode(x.color)}>{x.code}</div>
               </div>
+
               <div style={S.statNum}>{formatNumber(x.value)}</div>
             </div>
           ))}
@@ -461,10 +2253,6 @@ function UsersTab({ systemStats, notify }) {
               setPage(1);
             }}
           />
-
-          <button style={S.seedBtn(seeding)} disabled={seeding} onClick={handleSeedGrammar}>
-            {seeding ? 'Đang tạo dữ liệu...' : 'Tạo dữ liệu ngữ pháp mẫu'}
-          </button>
         </div>
       </div>
 
@@ -495,7 +2283,7 @@ function UsersTab({ systemStats, notify }) {
               ) : (
                 users.map((u, i) => (
                   <tr key={u.id}>
-                    <td style={{ ...S.td, ...S.index }}>{(page - 1) * 20 + i + 1}</td>
+                    <td style={{ ...S.td, ...S.index }}>{(page - 1) * 10 + i + 1}</td>
 
                     <td style={S.td}>
                       <div style={S.userCell}>
@@ -542,13 +2330,17 @@ function UsersTab({ systemStats, notify }) {
                     </td>
 
                     <td style={S.td}>
-                      <button
-                        style={S.actionBtn(u.isLocked, lockingUser === u.id)}
-                        disabled={lockingUser === u.id}
-                        onClick={() => handleLock(u.id, u.isLocked)}
-                      >
-                        {lockingUser === u.id ? 'Đang xử lý' : u.isLocked ? 'Mở khóa' : 'Khóa'}
-                      </button>
+                      {u.accountId === currentAccountId ? (
+                        <span style={S.badge('neutral')}>Tài khoản hiện tại</span>
+                      ) : (
+                        <button
+                          style={S.actionBtn(u.isLocked, lockingUser === u.id)}
+                          disabled={lockingUser === u.id}
+                          onClick={() => handleLock(u.id, u.isLocked)}
+                        >
+                          {lockingUser === u.id ? 'Đang xử lý' : u.isLocked ? 'Mở khóa' : 'Khóa'}
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))
@@ -580,11 +2372,13 @@ function ClassroomsTab({ notify }) {
 
   const load = useCallback(async () => {
     setLoading(true);
+
     try {
       const [cRes, uRes] = await Promise.all([
         adminApi.getClassrooms(),
         adminApi.getUsers({ limit: 200 }),
       ]);
+
       setClassrooms(cRes.data?.classrooms || []);
       setTeachers((uRes.data?.users || []).filter((u) => u.role === 'teacher'));
     } catch {
@@ -620,8 +2414,15 @@ function ClassroomsTab({ notify }) {
   };
 
   const btn = (disabled) => ({
-    padding: '13px 20px', borderRadius: 11, border: 'none', background: disabled ? '#93c5fd' : '#1d4ed8',
-    color: '#fff', fontWeight: 900, cursor: disabled ? 'not-allowed' : 'pointer', fontFamily: 'inherit', fontSize: '1rem',
+    padding: '13px 20px',
+    borderRadius: 11,
+    border: 'none',
+    background: disabled ? '#93c5fd' : '#1d4ed8',
+    color: '#fff',
+    fontWeight: 900,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    fontFamily: 'inherit',
+    fontSize: '1rem',
   });
 
   return (
@@ -651,6 +2452,7 @@ function ClassroomsTab({ notify }) {
             value={form.teacherAccountId}
             onChange={(e) => {
               const t = teachers.find((x) => x.accountId === e.target.value);
+
               setForm((f) => ({
                 ...f,
                 teacherAccountId: e.target.value,
@@ -659,6 +2461,7 @@ function ClassroomsTab({ notify }) {
             }}
           >
             <option value="">— Chọn giáo viên chủ nhiệm —</option>
+
             {teachers.map((t) => (
               <option key={t.accountId} value={t.accountId}>
                 {t.name}
@@ -728,6 +2531,7 @@ function TeachersTab({ notify }) {
 
   const loadTeachers = useCallback(async () => {
     setLoading(true);
+
     try {
       const res = await adminApi.getUsers({ limit: 500 });
       setTeachers((res.data?.users || []).filter((u) => u.role === 'teacher'));
@@ -755,8 +2559,15 @@ function TeachersTab({ notify }) {
     const c = m[tone] || m.blue;
 
     return {
-      padding: '11px 15px', borderRadius: 11, border: `1px solid ${c[1]}`, background: c[0],
-      color: c[2], fontWeight: 900, cursor: 'pointer', fontFamily: 'inherit', fontSize: '.95rem',
+      padding: '11px 15px',
+      borderRadius: 11,
+      border: `1px solid ${c[1]}`,
+      background: c[0],
+      color: c[2],
+      fontWeight: 900,
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      fontSize: '.95rem',
     };
   };
 
@@ -764,8 +2575,11 @@ function TeachersTab({ notify }) {
     import('xlsx').then((XLSX) => {
       const data = [['Họ và tên', 'Môn dạy'], ['Nguyễn Thị Dương', 'Tiếng Anh'], ['Trần Văn Minh', 'Toán']];
       const ws = XLSX.utils.aoa_to_sheet(data);
+
       ws['!cols'] = [{ wch: 32 }, { wch: 20 }];
+
       const wb = XLSX.utils.book_new();
+
       XLSX.utils.book_append_sheet(wb, ws, 'GiaoVien');
       XLSX.writeFile(wb, 'mau_giao_vien.xlsx');
     });
@@ -773,6 +2587,7 @@ function TeachersTab({ notify }) {
 
   const handleXlsx = (e) => {
     const file = e.target.files?.[0];
+
     if (!file) return;
 
     import('xlsx').then((XLSX) => {
@@ -822,6 +2637,7 @@ function TeachersTab({ notify }) {
 
     try {
       const res = await adminApi.createTeachers(valid);
+
       setCreateResults(res.data?.results || []);
       notify?.('success', 'Tạo tài khoản giáo viên thành công', `Đã xử lý ${res.data?.results?.length || 0} tài khoản.`);
       setCreateRows([{ name: '', subject: 'Tiếng Anh' }]);
@@ -867,7 +2683,9 @@ function TeachersTab({ notify }) {
 
     try {
       const name = deleteTarget.name;
+
       await adminApi.deleteTeacher(deleteTarget.id);
+
       notify?.('success', 'Xóa giáo viên thành công', `Tài khoản "${name}" đã được xóa.`);
       setDeleteTarget(null);
       loadTeachers();
@@ -906,8 +2724,15 @@ function TeachersTab({ notify }) {
             setCreateRows([{ name: '', subject: 'Tiếng Anh' }]);
           }}
           style={{
-            padding: '13px 20px', borderRadius: 12, border: 'none', background: '#1d4ed8',
-            color: '#fff', fontWeight: 900, cursor: 'pointer', fontFamily: 'inherit', fontSize: '1rem',
+            padding: '13px 20px',
+            borderRadius: 12,
+            border: 'none',
+            background: '#1d4ed8',
+            color: '#fff',
+            fontWeight: 900,
+            cursor: 'pointer',
+            fontFamily: 'inherit',
+            fontSize: '1rem',
           }}
         >
           Tạo tài khoản giáo viên
@@ -962,7 +2787,7 @@ function TeachersTab({ notify }) {
             <ModalHead title="Tạo tài khoản giáo viên" onClose={() => setShowCreate(false)} />
 
             <div style={{ marginBottom: 16, padding: '13px 15px', background: '#eff6ff', borderRadius: 12, color: '#1d4ed8', fontWeight: 800 }}>
-              Mật khẩu mặc định: <code style={{ background: '#dbeafe', padding: '4px 8px', borderRadius: 6 }}>GiaoVien@TCA123</code>
+              Mật khẩu mặc định: <code style={{ background: '#dbeafe', padding: '4px 8px', borderRadius: 6 }}>12345678a</code>
             </div>
 
             <div style={{ display: 'flex', gap: 10, marginBottom: 16, flexWrap: 'wrap' }}>
@@ -1130,8 +2955,12 @@ function TeachersTab({ notify }) {
     </>
   );
 }
-
-const EMPTY_STUDENT = () => ({ name: '', dob: '', email: '', password: '12345678a' });
+const EMPTY_STUDENT = () => ({
+  name: '',
+  dob: '',
+  email: '',
+  password: '12345678a',
+});
 
 function formatDobInput(raw) {
   const d = raw.replace(/\D/g, '').slice(0, 8);
@@ -1158,15 +2987,49 @@ function StudentsTab({ notify }) {
   }, [notify]);
 
   const selectedClassObj = classrooms.find((c) => c.id === selectedClass);
-  const setRow = (i, field, val) => setRows((prev) => prev.map((r, idx) => idx === i ? { ...r, [field]: val } : r));
+
+  const setRow = (i, field, val) => {
+    setRows((prev) => prev.map((r, idx) => (idx === i ? { ...r, [field]: val } : r)));
+  };
+
   const addRow = () => setRows((prev) => [...prev, EMPTY_STUDENT()]);
+
   const removeRow = (i) => setRows((prev) => prev.filter((_, idx) => idx !== i));
+
+  const miniBtn = (tone = 'gray') => {
+    const m = {
+      green: ['#ecfdf5', '#059669', '#047857'],
+      purple: ['#f5f3ff', '#7c3aed', '#6d28d9'],
+      gray: ['#f8fafc', '#94a3b8', '#475569'],
+      blue: ['#eff6ff', '#1d4ed8', '#1d4ed8'],
+    };
+
+    const c = m[tone] || m.gray;
+
+    return {
+      padding: '11px 15px',
+      borderRadius: 11,
+      border: `1px solid ${c[1]}`,
+      background: c[0],
+      fontWeight: 900,
+      cursor: 'pointer',
+      fontFamily: 'inherit',
+      color: c[2],
+      fontSize: '.95rem',
+    };
+  };
 
   const downloadStudentTemplate = () => {
     import('xlsx').then((XLSX) => {
-      const data = [['Họ và tên', 'Ngày sinh (dd/mm/yyyy)'], ['Nguyễn Văn An', '05/03/2015'], ['Trần Thị Bích', '12/07/2015']];
+      const data = [
+        ['Họ và tên', 'Ngày sinh (dd/mm/yyyy)'],
+        ['Nguyễn Văn An', '05/03/2015'],
+        ['Trần Thị Bích', '12/07/2015'],
+      ];
+
       const ws = XLSX.utils.aoa_to_sheet(data);
       ws['!cols'] = [{ wch: 32 }, { wch: 22 }];
+
       const wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, 'HocSinh');
       XLSX.writeFile(wb, 'mau_hoc_sinh.xlsx');
@@ -1175,6 +3038,7 @@ function StudentsTab({ notify }) {
 
   const handleXlsx = (e) => {
     const file = e.target.files?.[0];
+
     if (!file) return;
 
     import('xlsx').then((XLSX) => {
@@ -1296,22 +3160,6 @@ function StudentsTab({ notify }) {
       .catch(() => notify?.('error', 'Copy thất bại', 'Không thể sao chép dữ liệu.'));
   };
 
-  const miniBtn = (tone = 'gray') => {
-    const m = {
-      green: ['#ecfdf5', '#059669', '#047857'],
-      purple: ['#f5f3ff', '#7c3aed', '#6d28d9'],
-      gray: ['#f8fafc', '#94a3b8', '#475569'],
-      blue: ['#eff6ff', '#1d4ed8', '#1d4ed8'],
-    };
-
-    const c = m[tone] || m.gray;
-
-    return {
-      padding: '11px 15px', borderRadius: 11, border: `1px solid ${c[1]}`, background: c[0],
-      fontWeight: 900, cursor: 'pointer', fontFamily: 'inherit', color: c[2], fontSize: '.95rem',
-    };
-  };
-
   return (
     <>
       <div style={S.controlsCard}>
@@ -1320,7 +3168,11 @@ function StudentsTab({ notify }) {
             Chọn lớp
           </div>
 
-          <select style={{ ...inp, minWidth: 320 }} value={selectedClass} onChange={(e) => setSelectedClass(e.target.value)}>
+          <select
+            style={{ ...inp, minWidth: 320 }}
+            value={selectedClass}
+            onChange={(e) => setSelectedClass(e.target.value)}
+          >
             <option value="">— Chọn lớp —</option>
             {classrooms.map((c) => (
               <option key={c.id} value={c.id}>
@@ -1342,13 +3194,23 @@ function StudentsTab({ notify }) {
           <div style={{ marginBottom: 16 }}>
             <textarea
               rows={5}
-              style={{ ...inp, width: '100%', boxSizing: 'border-box', resize: 'vertical', fontFamily: 'Consolas, monospace', lineHeight: 1.6 }}
+              style={{
+                ...inp,
+                width: '100%',
+                boxSizing: 'border-box',
+                resize: 'vertical',
+                fontFamily: 'Consolas, monospace',
+                lineHeight: 1.6,
+              }}
               placeholder={'Nguyễn Văn An\t05/03/2015\nTrần Thị Bích\t12/07/2015\n...'}
               value={pasteText}
               onChange={(e) => setPasteText(e.target.value)}
             />
 
-            <button onClick={parsePaste} style={{ ...miniBtn('blue'), marginTop: 10, background: '#0369a1', color: '#fff', border: 'none' }}>
+            <button
+              onClick={parsePaste}
+              style={{ ...miniBtn('blue'), marginTop: 10, background: '#0369a1', color: '#fff', border: 'none' }}
+            >
               Nhập danh sách
             </button>
           </div>
@@ -1409,7 +3271,14 @@ function StudentsTab({ notify }) {
                     {rows.length > 1 && (
                       <button
                         onClick={() => removeRow(i)}
-                        style={{ background: 'none', border: 'none', color: '#dc2626', cursor: 'pointer', fontWeight: 900, fontSize: '1.4rem' }}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#dc2626',
+                          cursor: 'pointer',
+                          fontWeight: 900,
+                          fontSize: '1.4rem',
+                        }}
                       >
                         ×
                       </button>
@@ -1436,7 +3305,13 @@ function StudentsTab({ notify }) {
 
       {results && (
         <div style={S.tableCard}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{
+            padding: '16px 20px',
+            borderBottom: '1px solid #e2e8f0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}>
             <span style={{ fontWeight: 900, color: '#1e3a8a', fontSize: '1.1rem' }}>
               Kết quả ({results.length})
             </span>
@@ -1463,7 +3338,11 @@ function StudentsTab({ notify }) {
                     <td style={S.td}><code>{r.email}</code></td>
                     <td style={S.td}>{r.skipped ? '—' : <code>{r.password}</code>}</td>
                     <td style={S.td}>
-                      {r.skipped ? <span style={S.badge('warning')}>{r.reason}</span> : <span style={S.badge('success')}>Đã tạo</span>}
+                      {r.skipped ? (
+                        <span style={S.badge('warning')}>{r.reason}</span>
+                      ) : (
+                        <span style={S.badge('success')}>Đã tạo</span>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -1476,553 +3355,136 @@ function StudentsTab({ notify }) {
   );
 }
 
-const GE_CSS = `
-@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Nunito:wght@400;600;700;800;900&display=swap');
-.ge-editor{border:1px solid #cbd5e1;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 26px rgba(15,23,42,.08)}
-.ge-toolbar{position:sticky;top:0;z-index:20;display:flex;gap:7px;padding:10px;background:#f8fafc;border-bottom:1px solid #dbe4ef;flex-wrap:wrap;align-items:center}
-.ge-btn,.ge-sel{height:40px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#334155;font-weight:850;font-size:1rem;font-family:inherit;cursor:pointer}
-.ge-btn{min-width:40px;padding:0 12px}.ge-sel{padding:0 10px}.ge-sep{width:1px;height:28px;background:#dbe4ef;margin:0 3px}
-.ge-content{height:430px;overflow:auto;padding:24px 28px;outline:none;font-size:1.28rem;line-height:1.85;color:#0f172a;font-family:'Baloo 2','Nunito','Inter','Segoe UI',sans-serif;background:#fff}
-.ge-content h1{font-size:2.35rem;line-height:1.25;margin:20px 0 12px;color:#0f172a;font-weight:900}
-.ge-content h2{font-size:1.9rem;line-height:1.3;margin:18px 0 10px;color:#1d4ed8;font-weight:900}
-.ge-content h3{font-size:1.55rem;line-height:1.35;margin:16px 0 10px;color:#334155;font-weight:850}
-.ge-content p{margin:10px 0}.ge-content ul,.ge-content ol{padding-left:38px;margin:12px 0}.ge-content li{margin:7px 0}
-.ge-content table{border-collapse:collapse;width:100%;margin:18px 0;font-size:1.08rem;table-layout:fixed;background:#fff}
-.ge-content th,.ge-content td{border:2px solid #cbd5e1;padding:12px 14px;text-align:left;word-break:break-word;overflow-wrap:break-word}
-.ge-content th{background:#eff6ff;color:#1e3a8a;font-weight:900}.ge-content tr:nth-child(even) td{background:#f8fafc}
-.ge-content blockquote{border-left:6px solid #2563eb;margin:18px 0;padding:14px 18px;background:#eff6ff;border-radius:0 14px 14px 0;color:#334155;font-weight:750}
-.ge-content hr{border:none;border-top:2px solid #e2e8f0;margin:22px 0}
-.rt-img{position:relative;display:block;width:70%;max-width:100%;min-width:90px;min-height:60px;resize:both;overflow:hidden;margin:18px auto;border-radius:12px;line-height:0;border:3px solid transparent;cursor:pointer;background:#fff}
-.rt-img img{width:100%;height:100%;display:block;border-radius:10px;object-fit:contain;pointer-events:none}
-.rt-img.selected{border-color:#2563eb;box-shadow:0 0 0 5px rgba(37,99,235,.16)}
-.rt-img.selected::after{content:'';position:absolute;right:0;bottom:0;width:18px;height:18px;background:#2563eb;border-radius:8px 0 8px 0;cursor:nwse-resize}
-.ge-content > img{max-width:100%;width:70%;height:auto;display:block;margin:18px auto;border-radius:12px;cursor:pointer}
-`;
+function AccountManagementTab({ systemStats, notify, currentAccountId }) {
+  const [tab, setTab] = useState('users');
 
-const FONT_FAMILIES = [
-  ['Baloo 2', "'Baloo 2', cursive"],
-  ['Nunito', "'Nunito', sans-serif"],
-  ['Inter', "'Inter','Segoe UI',sans-serif"],
-  ['Arial', 'Arial,sans-serif'],
-  ['Times', "'Times New Roman',serif"],
-  ['Georgia', 'Georgia,serif'],
-  ['Verdana', 'Verdana,sans-serif'],
-  ['Courier', "'Courier New',monospace"],
-];
+  const tabs = [
+    { id: 'users', label: 'Danh sách người dùng' },
+    { id: 'teachers', label: 'Tài khoản giáo viên' },
+    { id: 'students', label: 'Tài khoản học sinh' },
+  ];
 
-const FONT_SIZES = [
-  '8px', '9px', '10px', '11px', '12px', '13px', '14px', '15px',
-  '16px', '18px', '20px', '22px', '24px', '26px', '28px', '30px',
-  '32px', '36px', '40px', '42px', '48px', '56px', '64px', '72px',
-];
+  return (
+    <section>
+      <div style={S.sectionHead}>
+        <div>
+          <h2 style={S.sectionTitle}>Quản lý tài khoản</h2>
+          <p style={S.sectionSub}>
+            Quản lý người dùng, tạo tài khoản học sinh, tạo tài khoản giáo viên,
+            đổi quyền và khóa / mở khóa tài khoản.
+          </p>
+        </div>
+      </div>
 
-function RichTextEditor({ value, onChange, onUploadImage, notify }) {
-  const editorRef = useRef(null);
-  const fileRef = useRef(null);
-  const savedRangeRef = useRef(null);
-  const [showHtml, setShowHtml] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [selectedImgWrap, setSelectedImgWrap] = useState(null);
+      <SubTabBar tabs={tabs} active={tab} onChange={setTab} />
 
-  useEffect(() => {
-    if (editorRef.current) editorRef.current.innerHTML = value || '';
-  }, [value]);
+      {tab === 'users' && (
+        <UsersTab
+          systemStats={systemStats}
+          notify={notify}
+          currentAccountId={currentAccountId}
+        />
+      )}
 
-  const updateContent = () => {
-    if (editorRef.current) onChange(editorRef.current.innerHTML);
-  };
+      {tab === 'teachers' && (
+        <TeachersTab notify={notify} />
+      )}
 
-  const saveSel = () => {
-    const sel = window.getSelection();
-    if (sel && sel.rangeCount > 0) savedRangeRef.current = sel.getRangeAt(0).cloneRange();
-  };
+      {tab === 'students' && (
+        <StudentsTab notify={notify} />
+      )}
+    </section>
+  );
+}
 
-  const restoreSel = () => {
-    if (!savedRangeRef.current) return;
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(savedRangeRef.current);
-  };
+function SeedGrammarPanel({ notify }) {
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState(null);
 
-  const exec = (cmd, val = null) => {
-    if (showHtml) return;
-    editorRef.current.focus();
-    restoreSel();
-    document.execCommand(cmd, false, val);
-    updateContent();
-  };
+  const handleSeedGrammar = async () => {
+    setLoading(true);
+    setMsg(null);
 
-  const insertHTML = (html) => {
-    if (showHtml) return;
-    editorRef.current.focus();
-    restoreSel();
-    document.execCommand('insertHTML', false, html);
-    updateContent();
-  };
+    try {
+      const res = await adminApi.seedGrammarTenses();
 
-  const setFontSize = (px) => {
-    editorRef.current.focus();
-    restoreSel();
-    document.execCommand('fontSize', false, '7');
-    editorRef.current.querySelectorAll('font[size="7"]').forEach((el) => {
-      const span = document.createElement('span');
-      span.style.fontSize = px;
-      span.innerHTML = el.innerHTML;
-      el.parentNode.replaceChild(span, el);
-    });
-    updateContent();
-  };
-
-  const getCell = () => {
-    const sel = window.getSelection();
-    if (!sel || !sel.rangeCount) return null;
-    let node = sel.anchorNode;
-    if (node?.nodeType === 3) node = node.parentElement;
-    return node?.closest?.('td,th') || null;
-  };
-
-  const insertTable = () => {
-    let html = '<table><thead><tr>';
-    for (let c = 0; c < 3; c += 1) html += `<th>Tiêu đề ${c + 1}</th>`;
-    html += '</tr></thead><tbody>';
-
-    for (let r = 1; r < 3; r += 1) {
-      html += '<tr>';
-      for (let c = 0; c < 3; c += 1) html += '<td>Nội dung</td>';
-      html += '</tr>';
-    }
-
-    html += '</tbody></table><p><br/></p>';
-    insertHTML(html);
-    notify?.('success', 'Chèn bảng thành công', 'Bảng 3 x 3 đã được thêm vào nội dung.');
-  };
-
-  const tableAction = (type) => {
-    const cell = getCell();
-
-    if (!cell) {
-      notify?.('warning', 'Chưa chọn ô trong bảng', 'Bạn cần đặt con trỏ vào một ô trong bảng trước.');
-      return;
-    }
-
-    const row = cell.parentElement;
-    const table = cell.closest('table');
-    const idx = cell.cellIndex;
-
-    if (type === 'row+') {
-      const clone = row.cloneNode(true);
-      Array.from(clone.cells).forEach((c) => {
-        c.innerHTML = '&nbsp;';
+      setMsg({
+        ok: true,
+        text: res.data?.message || 'Đã tạo dữ liệu ngữ pháp mẫu.',
       });
-      row.parentNode.insertBefore(clone, row.nextSibling);
-      notify?.('success', 'Đã thêm hàng', 'Một hàng mới đã được thêm vào bảng.');
-    }
 
-    if (type === 'col+') {
-      Array.from(table.rows).forEach((r) => {
-        const c = r.insertCell(idx + 1);
-        c.innerHTML = '&nbsp;';
+      notify?.(
+        'success',
+        'Tạo dữ liệu ngữ pháp mẫu thành công',
+        res.data?.message || 'Đã tạo dữ liệu ngữ pháp mẫu.',
+      );
+    } catch (err) {
+      const message = err?.response?.data?.message || 'Không thể tạo dữ liệu mẫu.';
+
+      setMsg({
+        ok: false,
+        text: message,
       });
-      notify?.('success', 'Đã thêm cột', 'Một cột mới đã được thêm vào bảng.');
-    }
 
-    if (type === 'row-') {
-      row.remove();
-      notify?.('success', 'Đã xóa hàng', 'Hàng đã chọn đã được xóa.');
-    }
-
-    if (type === 'col-') {
-      Array.from(table.rows).forEach((r) => r.cells[idx] && r.deleteCell(idx));
-      notify?.('success', 'Đã xóa cột', 'Cột đã chọn đã được xóa.');
-    }
-
-    if (type === 'del') {
-      table.remove();
-      notify?.('success', 'Đã xóa bảng', 'Bảng đã được xóa khỏi nội dung.');
-    }
-
-    updateContent();
-  };
-
-  const imageAction = (type) => {
-    if (!selectedImgWrap) {
-      notify?.('warning', 'Chưa chọn ảnh', 'Bạn hãy bấm vào ảnh trước khi căn chỉnh hoặc xóa ảnh.');
-      return;
-    }
-
-    selectedImgWrap.style.display = 'block';
-
-    if (type === 'left') {
-      selectedImgWrap.style.marginLeft = '0';
-      selectedImgWrap.style.marginRight = 'auto';
-    }
-
-    if (type === 'center') {
-      selectedImgWrap.style.marginLeft = 'auto';
-      selectedImgWrap.style.marginRight = 'auto';
-    }
-
-    if (type === 'right') {
-      selectedImgWrap.style.marginLeft = 'auto';
-      selectedImgWrap.style.marginRight = '0';
-    }
-
-    if (['25', '50', '75', '100'].includes(type)) {
-      selectedImgWrap.style.width = `${type}%`;
-      selectedImgWrap.style.height = 'auto';
-    }
-
-    if (type === 'del') {
-      selectedImgWrap.remove();
-      setSelectedImgWrap(null);
-      notify?.('success', 'Đã xóa ảnh', 'Ảnh đã được xóa khỏi nội dung.');
-    } else {
-      notify?.('success', 'Đã chỉnh ảnh', 'Căn chỉnh ảnh đã được áp dụng.');
-    }
-
-    selectedImgWrap.style.marginTop = '18px';
-    selectedImgWrap.style.marginBottom = '18px';
-    updateContent();
-  };
-
-  const handleImageFile = async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    setUploading(true);
-
-    const reader = new FileReader();
-
-    reader.onload = async (ev) => {
-      try {
-        const url = await onUploadImage(ev.target.result);
-        insertHTML(`
-          <div class="rt-img" contenteditable="false" style="width:70%;height:auto;margin:18px auto;">
-            <img src="${url}" alt="" />
-          </div><p><br/></p>
-        `);
-        notify?.('success', 'Chèn ảnh thành công', 'Ảnh đã được thêm vào nội dung bài học.');
-      } catch {
-        notify?.('error', 'Tải ảnh thất bại', 'Không thể upload ảnh. Kiểm tra Firebase Storage hoặc API upload ảnh.');
-      } finally {
-        setUploading(false);
-      }
-    };
-
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  };
-
-  const onEditorClick = (e) => {
-    if (!editorRef.current) return;
-
-    editorRef.current
-      .querySelectorAll('.rt-img.selected')
-      .forEach((x) => x.classList.remove('selected'));
-
-    let wrap = e.target.closest?.('.rt-img');
-
-    if (!wrap && e.target.tagName === 'IMG') {
-      const img = e.target;
-      const box = document.createElement('div');
-
-      box.className = 'rt-img';
-      box.setAttribute('contenteditable', 'false');
-
-      const imgWidth = img.style.width || img.getAttribute('width');
-      const naturalWidth = img.naturalWidth || 600;
-      const editorWidth = editorRef.current.clientWidth || 900;
-
-      let percent = 70;
-
-      if (imgWidth && String(imgWidth).includes('%')) {
-        percent = parseInt(imgWidth, 10) || 70;
-      } else if (imgWidth && !Number.isNaN(Number.parseInt(imgWidth, 10))) {
-        percent = Math.min(100, Math.round((Number.parseInt(imgWidth, 10) / editorWidth) * 100));
-      } else if (naturalWidth) {
-        percent = Math.min(100, Math.round((naturalWidth / editorWidth) * 100));
-      }
-
-      box.style.width = `${percent}%`;
-      box.style.height = 'auto';
-      box.style.margin = img.style.margin || '18px auto';
-
-      img.removeAttribute('width');
-      img.removeAttribute('height');
-      img.style.width = '100%';
-      img.style.height = '100%';
-      img.style.display = 'block';
-      img.style.objectFit = 'contain';
-
-      img.parentNode.insertBefore(box, img);
-      box.appendChild(img);
-
-      wrap = box;
-      updateContent();
-    }
-
-    if (wrap) {
-      wrap.classList.add('selected');
-      setSelectedImgWrap(wrap);
-    } else {
-      setSelectedImgWrap(null);
+      notify?.('error', 'Tạo dữ liệu thất bại', message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="ge-editor">
-      <style>{GE_CSS}</style>
+    <div style={S.panel}>
+      <div style={S.sectionHead}>
+        <div>
+          <h3 style={S.cardTitle}>Seed dữ liệu ngữ pháp</h3>
+          <p style={S.sectionSub}>
+            Tạo nhanh bộ dữ liệu mẫu gồm các thì tiếng Anh cơ bản cho hệ thống.
+            Chức năng này phù hợp khi cần khởi tạo dữ liệu ban đầu cho website.
+          </p>
+        </div>
 
-      <div className="ge-toolbar">
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value) exec('fontName', e.target.value);
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Font</option>
-          {FONT_FAMILIES.map(([label, val]) => (
-            <option key={label} value={val}>{label}</option>
-          ))}
-        </select>
-
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value) setFontSize(e.target.value);
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Size</option>
-          {FONT_SIZES.map((s) => (
-            <option key={s} value={s}>{s}</option>
-          ))}
-        </select>
-
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value) exec('formatBlock', e.target.value);
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Đoạn</option>
-          <option value="P">Text</option>
-          <option value="H1">H1</option>
-          <option value="H2">H2</option>
-          <option value="H3">H3</option>
-        </select>
-
-        <span className="ge-sep" />
-        <button className="ge-btn" title="Đậm" onMouseDown={(e) => e.preventDefault()} onClick={() => exec('bold')}><b>B</b></button>
-        <button className="ge-btn" title="Nghiêng" onMouseDown={(e) => e.preventDefault()} onClick={() => exec('italic')}><i>I</i></button>
-        <button className="ge-btn" title="Gạch chân" onMouseDown={(e) => e.preventDefault()} onClick={() => exec('underline')}><u>U</u></button>
-        <button className="ge-btn" title="Gạch ngang" onMouseDown={(e) => e.preventDefault()} onClick={() => exec('strikeThrough')}><s>S</s></button>
-
-        <span className="ge-sep" />
-        <button className="ge-btn" title="Căn trái" onClick={() => exec('justifyLeft')}>↤</button>
-        <button className="ge-btn" title="Căn giữa" onClick={() => exec('justifyCenter')}>↔</button>
-        <button className="ge-btn" title="Căn phải" onClick={() => exec('justifyRight')}>↦</button>
-        <button className="ge-btn" title="Căn đều" onClick={() => exec('justifyFull')}>☰</button>
-
-        <span className="ge-sep" />
-        <button className="ge-btn" title="Danh sách" onClick={() => exec('insertUnorderedList')}>•</button>
-        <button className="ge-btn" title="Số thứ tự" onClick={() => exec('insertOrderedList')}>1.</button>
-        <button className="ge-btn" title="Thụt lề" onClick={() => exec('indent')}>⇥</button>
-        <button className="ge-btn" title="Bỏ thụt" onClick={() => exec('outdent')}>⇤</button>
-
-        <label className="ge-btn" title="Màu chữ" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          A
-          <input type="color" onMouseDown={saveSel} onChange={(e) => exec('foreColor', e.target.value)} style={{ width: 22, height: 24, border: 'none', padding: 0 }} />
-        </label>
-
-        <label className="ge-btn" title="Tô nền" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          ▧
-          <input type="color" onMouseDown={saveSel} onChange={(e) => exec('hiliteColor', e.target.value)} style={{ width: 22, height: 24, border: 'none', padding: 0 }} />
-        </label>
-
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value === 'table') insertTable();
-          if (e.target.value === 'img') fileRef.current?.click();
-          if (e.target.value === 'quote') exec('formatBlock', 'BLOCKQUOTE');
-          if (e.target.value === 'hr') insertHTML('<hr/><p><br/></p>');
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Chèn</option>
-          <option value="img">{uploading ? 'Đang tải ảnh...' : 'Ảnh'}</option>
-          <option value="table">Bảng 3x3</option>
-          <option value="quote">Trích dẫn</option>
-          <option value="hr">Đường kẻ</option>
-        </select>
-
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value) tableAction(e.target.value);
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Bảng</option>
-          <option value="row+">Thêm hàng</option>
-          <option value="col+">Thêm cột</option>
-          <option value="row-">Xóa hàng</option>
-          <option value="col-">Xóa cột</option>
-          <option value="del">Xóa bảng</option>
-        </select>
-
-        <select className="ge-sel" defaultValue="" onChange={(e) => {
-          if (e.target.value) imageAction(e.target.value);
-          e.target.value = '';
-        }}>
-          <option value="" disabled>Ảnh</option>
-          <option value="left">Căn trái</option>
-          <option value="center">Căn giữa</option>
-          <option value="right">Căn phải</option>
-          <option value="25">25%</option>
-          <option value="50">50%</option>
-          <option value="75">75%</option>
-          <option value="100">100%</option>
-          <option value="del">Xóa ảnh</option>
-        </select>
-
-        <button className="ge-btn" title="HTML" onClick={() => {
-          if (showHtml && editorRef.current) editorRef.current.innerHTML = value || '';
-          setShowHtml((v) => !v);
-        }}>
-          {'</>'}
+        <button
+          style={{
+            ...S.primaryBtn,
+            opacity: loading ? 0.7 : 1,
+            cursor: loading ? 'not-allowed' : 'pointer',
+          }}
+          onClick={handleSeedGrammar}
+          disabled={loading}
+        >
+          {loading ? 'Đang tạo...' : 'Tạo dữ liệu mẫu'}
         </button>
-
-        <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleImageFile} />
       </div>
 
-      <div
-        ref={editorRef}
-        contentEditable={!showHtml}
-        suppressContentEditableWarning
-        onInput={updateContent}
-        onMouseUp={() => {
-          saveSel();
-          updateContent();
-        }}
-        onKeyUp={saveSel}
-        onClick={onEditorClick}
-        className="ge-content"
-        style={{ display: showHtml ? 'none' : 'block' }}
-      />
-
-      {showHtml && (
-        <textarea
-          value={value}
-          onChange={(e) => {
-            onChange(e.target.value);
-            if (editorRef.current) editorRef.current.innerHTML = e.target.value;
-          }}
+      {msg && (
+        <div
           style={{
-            display: 'block', width: '100%', boxSizing: 'border-box', height: 430, padding: '20px 24px',
-            border: 'none', resize: 'none', fontFamily: 'Consolas, monospace', fontSize: '1rem',
-            lineHeight: 1.7, outline: 'none', color: '#1e293b', background: '#f8fafc',
+            ...S.alert,
+            background: msg.ok ? '#ecfdf5' : '#fef2f2',
+            color: msg.ok ? '#047857' : '#b91c1c',
+            borderColor: msg.ok ? '#a7f3d0' : '#fecaca',
           }}
-        />
+        >
+          {msg.text}
+        </div>
       )}
     </div>
   );
 }
 
-const GL = ['all', '1', '2', '3', '4', '5'];
-const GL_LABEL = { all: 'Tất cả', 1: 'Khối 1', 2: 'Khối 2', 3: 'Khối 3', 4: 'Khối 4', 5: 'Khối 5' };
-const MONTHS_G = ['', 'T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'];
-
-const EMPTY_GL = {
-  title: '',
-  description: '',
-  videoUrl: '',
-  content: '',
-  gradeLevel: 'all',
-  topic: '',
-  module: '',
-  weekNumber: '',
-  month: '',
-  year: new Date().getFullYear(),
-  exercises: [],
-  status: 'published',
-};
-
-const EMPTY_EX_G = {
-  question: '',
-  type: 'mcq',
-  options: ['', '', '', ''],
-  answer: '',
-  explanation: '',
-};
-
-const Gs = {
-  panel: {
-    height: 'calc(100vh - 220px)', minHeight: 650, display: 'grid', gridTemplateColumns: '330px minmax(0,1fr)',
-    background: '#fff', borderRadius: 20, overflow: 'hidden', boxShadow: '0 18px 46px rgba(15,23,42,.16)',
-    border: '1px solid #dbeafe',
-  },
-  side: { minHeight: 0, background: 'linear-gradient(180deg,#0f172a,#111827)', display: 'flex', flexDirection: 'column' },
-  sideTop: { flexShrink: 0, padding: 18, borderBottom: '1px solid rgba(255,255,255,.10)' },
-  sideList: { flex: 1, minHeight: 0, overflowY: 'auto', paddingTop: 8 },
-  add: {
-    display: 'block', width: '100%', padding: '14px 16px', background: '#2563eb', color: '#fff',
-    border: 'none', borderRadius: 12, cursor: 'pointer', fontWeight: 900, fontSize: '1rem',
-    marginBottom: 12, fontFamily: 'inherit',
-  },
-  search: {
-    width: '100%', boxSizing: 'border-box', padding: '12px 14px', borderRadius: 11,
-    border: '1px solid rgba(255,255,255,.16)', background: 'rgba(255,255,255,.08)',
-    color: '#fff', fontSize: '1rem', outline: 'none', fontFamily: 'inherit', fontWeight: 700,
-  },
-  tab: (a) => ({
-    padding: '8px 11px', border: 'none', borderRadius: 9, cursor: 'pointer', fontWeight: 850,
-    fontSize: '.9rem', background: a ? '#2563eb' : 'rgba(255,255,255,.10)', color: '#fff',
-    marginRight: 6, marginTop: 10, fontFamily: 'inherit',
-  }),
-  item: (a) => ({
-    padding: '15px 18px', cursor: 'pointer', borderLeft: a ? '5px solid #60a5fa' : '5px solid transparent',
-    background: a ? 'rgba(37,99,235,.28)' : 'transparent', transition: 'all .12s',
-  }),
-  itemTitle: { fontSize: '1.02rem', fontWeight: 850, color: '#f8fafc', marginBottom: 6, lineHeight: 1.35 },
-  itemMeta: { fontSize: '.9rem', color: '#cbd5e1', lineHeight: 1.45, fontWeight: 650 },
-  main: { minHeight: 0, display: 'flex', flexDirection: 'column', background: '#f8fafc' },
-  head: {
-    flexShrink: 0, padding: '18px 22px', background: '#fff', borderBottom: '1px solid #e2e8f0',
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 14,
-  },
-  title: { fontWeight: 900, color: '#0f172a', fontSize: '1.35rem', lineHeight: 1.3 },
-  body: { flex: 1, minHeight: 0, overflowY: 'auto', padding: 22 },
-  card: { background: '#fff', borderRadius: 16, padding: 24, border: '1px solid #e2e8f0', boxShadow: '0 8px 24px rgba(15,23,42,.08)' },
-  grid2: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 },
-  grid3: { display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14 },
-  inp: {
-    width: '100%', boxSizing: 'border-box', padding: '13px 14px', borderRadius: 11,
-    border: '1.5px solid #dbe4ef', fontSize: '1rem', outline: 'none',
-    fontFamily: 'inherit', color: '#0f172a', fontWeight: 600,
-  },
-  ex: { border: '1.5px solid #dbe4ef', borderRadius: 14, padding: 18, marginBottom: 18, background: '#f8fafc' },
-  btn: {
-    padding: '12px 20px', borderRadius: 11, border: 'none', cursor: 'pointer',
-    fontWeight: 900, fontSize: '1rem', background: '#2563eb', color: '#fff', fontFamily: 'inherit',
-  },
-  del: {
-    padding: '12px 18px', borderRadius: 11, border: 'none', cursor: 'pointer',
-    fontWeight: 900, fontSize: '1rem', background: '#fee2e2', color: '#b91c1c', fontFamily: 'inherit',
-  },
-  empty: {
-    height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-    textAlign: 'center', color: '#64748b', fontSize: '1.15rem', lineHeight: 1.7,
-  },
-};
-
 function GrammarAdminTab({ notify }) {
   const [lessons, setLessons] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selected, setSelected] = useState(null);
-  const [form, setForm] = useState(EMPTY_GL);
-  const [isNew, setIsNew] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
-  const [filterGrade, setFilterGrade] = useState('all');
-  const [search, setSearch] = useState('');
-  const [confirmDelete, setConfirmDelete] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
+
     try {
-      const r = await adminApi.getGrammarLessons();
-      setLessons(r.data?.lessons || []);
+      const res = await adminApi.getGrammarLessons();
+      setLessons(res.data?.lessons || []);
     } catch {
-      notify?.('error', 'Tải bài học thất bại', 'Không thể lấy danh sách bài ngữ pháp.');
+      setLessons([]);
+      notify?.('error', 'Tải bài ngữ pháp thất bại', 'Không thể lấy danh sách bài ngữ pháp.');
     } finally {
       setLoading(false);
     }
@@ -2032,409 +3494,472 @@ function GrammarAdminTab({ notify }) {
     load();
   }, [load]);
 
-  const setF = (k, v) => setForm((f) => ({ ...f, [k]: v }));
-
-  const open = (l) => {
-    setSelected(l);
-    setIsNew(false);
-    setForm({ ...EMPTY_GL, ...l, exercises: l.exercises || [] });
-  };
-
-  const newLesson = () => {
-    setSelected(null);
-    setIsNew(true);
-    setForm(EMPTY_GL);
-  };
-
-  const save = async () => {
-    if (!form.title.trim()) {
-      notify?.('warning', 'Thiếu tiêu đề bài học', 'Vui lòng nhập tiêu đề trước khi lưu.');
-      return;
-    }
-
-    setSaving(true);
-
-    try {
-      if (isNew) {
-        await adminApi.createGrammarLesson(form);
-        notify?.('success', 'Tạo bài học thành công', `Bài "${form.title}" đã được thêm vào hệ thống.`);
-        setIsNew(false);
-      } else {
-        await adminApi.updateGrammarLesson(selected.id, form);
-        notify?.('success', 'Lưu thay đổi thành công', `Bài "${form.title}" đã được cập nhật.`);
-      }
-
-      await load();
-    } catch (err) {
-      notify?.('error', 'Lưu bài học thất bại', err?.response?.data?.message || 'Không thể lưu bài học. Vui lòng thử lại.');
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const del = () => {
-    if (!selected) return;
-    setConfirmDelete(true);
-  };
-
-  const confirmDeleteLesson = async () => {
-    if (!selected) return;
-
-    setDeleting(true);
-
-    try {
-      const deletedTitle = selected.title;
-
-      await adminApi.deleteGrammarLesson(selected.id);
-
-      setSelected(null);
-      setIsNew(false);
-      setForm(EMPTY_GL);
-      setConfirmDelete(false);
-
-      notify?.('success', 'Xóa bài học thành công', `Bài "${deletedTitle}" đã được xóa khỏi hệ thống.`);
-      await load();
-    } catch (err) {
-      notify?.('error', 'Xóa bài học thất bại', err?.response?.data?.message || 'Không thể xóa bài học. Vui lòng thử lại.');
-    } finally {
-      setDeleting(false);
-    }
-  };
-
-  const upload = async (base64) => {
-    const r = await adminApi.uploadGrammarImage(base64);
-    const url = r.data?.url;
-    if (!url) throw new Error('No URL');
-    return url;
-  };
-
-  const addEx = (type) =>
-    setForm((f) => ({
-      ...f,
-      exercises: [
-        ...f.exercises,
-        { ...EMPTY_EX_G, type, options: type === 'mcq' ? ['', '', '', ''] : [] },
-      ],
-    }));
-
-  const updEx = (i, k, v) =>
-    setForm((f) => {
-      const exs = [...f.exercises];
-      exs[i] = { ...exs[i], [k]: v };
-      return { ...f, exercises: exs };
-    });
-
-  const updOpt = (i, j, v) =>
-    setForm((f) => {
-      const exs = [...f.exercises];
-      const opts = [...exs[i].options];
-      opts[j] = v;
-      exs[i] = { ...exs[i], options: opts };
-      return { ...f, exercises: exs };
-    });
-
-  const rmEx = (i) => {
-    setForm((f) => ({ ...f, exercises: f.exercises.filter((_, idx) => idx !== i) }));
-    notify?.('success', 'Đã xóa câu hỏi', 'Câu hỏi đã được xóa khỏi bài học. Nhớ bấm Lưu để cập nhật.');
-  };
-
-  const getUnitNumber = (lesson) => {
-    const text = `${lesson.module || ''} ${lesson.title || ''}`;
-    const match = text.match(/unit\s*(\d+)/i);
-    return match ? parseInt(match[1], 10) : 999;
-  };
-
-  const filtered = lessons
-    .filter((l) => {
-      const matchGrade = filterGrade === 'all' || l.gradeLevel === filterGrade;
-      if (!matchGrade) return false;
-      if (!search.trim()) return true;
-
-      const q = search.toLowerCase().trim();
-
-      return (
-        (l.title || '').toLowerCase().includes(q) ||
-        (l.topic || '').toLowerCase().includes(q) ||
-        (l.module || '').toLowerCase().includes(q) ||
-        (l.description || '').toLowerCase().includes(q)
-      );
-    })
-    .sort((a, b) => {
-      const ga = a.gradeLevel === 'all' ? 99 : parseInt(a.gradeLevel, 10) || 99;
-      const gb = b.gradeLevel === 'all' ? 99 : parseInt(b.gradeLevel, 10) || 99;
-      if (ga !== gb) return ga - gb;
-
-      const ua = getUnitNumber(a);
-      const ub = getUnitNumber(b);
-      if (ua !== ub) return ua - ub;
-
-      const wa = parseInt(a.weekNumber, 10) || 0;
-      const wb = parseInt(b.weekNumber, 10) || 0;
-      if (wa !== wb) return wa - wb;
-
-      return (a.title || '').localeCompare(b.title || '', 'vi', {
-        numeric: true,
-        sensitivity: 'base',
-      });
-    });
-
   return (
-    <div style={Gs.panel}>
-      <aside style={Gs.side}>
-        <div style={Gs.sideTop}>
-          <button style={Gs.add} onClick={newLesson}>+ Thêm bài học</button>
-
-          <input
-            style={Gs.search}
-            placeholder="Tìm bài học..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
-
-          <div>
-            {GL.map((g) => (
-              <button key={g} style={Gs.tab(filterGrade === g)} onClick={() => setFilterGrade(g)}>
-                {GL_LABEL[g]}
-              </button>
-            ))}
-          </div>
+    <div style={S.panel}>
+      <div style={S.sectionHead}>
+        <div>
+          <h3 style={S.cardTitle}>Quản lý ngữ pháp</h3>
+          <p style={S.sectionSub}>
+            Danh sách bài học ngữ pháp trong hệ thống. Phần chỉnh sửa chi tiết có thể dùng trang quản lý ngữ pháp riêng.
+          </p>
         </div>
+      </div>
 
-        <div style={Gs.sideList}>
-          {loading && <div style={{ color: '#94a3b8', padding: 22, fontSize: '1.05rem' }}>Đang tải...</div>}
+      <div style={S.tableCard}>
+        <div style={S.tableWrap}>
+          <table style={S.table}>
+            <thead>
+              <tr>
+                {['#', 'Tiêu đề', 'Khối', 'Chủ điểm', 'Trạng thái'].map((h) => (
+                  <th key={h} style={S.th}>{h}</th>
+                ))}
+              </tr>
+            </thead>
 
-          {!loading && !filtered.length && (
-            <div style={{ color: '#94a3b8', padding: 22, fontSize: '1.05rem' }}>Không có bài học.</div>
-          )}
-
-          {filtered.map((l) => (
-            <div key={l.id} style={Gs.item(selected?.id === l.id)} onClick={() => open(l)}>
-              <div style={Gs.itemTitle}>
-                {l.status === 'published' ? '●' : '○'} {l.title}
-              </div>
-
-              <div style={Gs.itemMeta}>
-                {GL_LABEL[l.gradeLevel] || l.gradeLevel} · {l.topic || '—'}
-              </div>
-            </div>
-          ))}
-        </div>
-      </aside>
-
-      <main style={Gs.main}>
-        <div style={Gs.head}>
-          <div style={Gs.title}>
-            {isNew ? 'Tạo bài học mới' : selected ? `Chỉnh sửa: ${selected.title}` : 'Quản lý bài học ngữ pháp'}
-          </div>
-
-          {(isNew || selected) && (
-            <div style={{ display: 'flex', gap: 10 }}>
-              <button style={Gs.btn} onClick={save} disabled={saving}>
-                {saving ? 'Đang lưu...' : 'Lưu'}
-              </button>
-
-              {!isNew && (
-                <button style={Gs.del} onClick={del} disabled={deleting}>
-                  {deleting ? 'Đang xóa...' : 'Xóa'}
-                </button>
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan={5} style={S.loadingCell}>Đang tải dữ liệu...</td>
+                </tr>
+              ) : lessons.length === 0 ? (
+                <tr>
+                  <td colSpan={5} style={S.emptyCell}>Chưa có bài ngữ pháp nào.</td>
+                </tr>
+              ) : (
+                lessons.map((lesson, i) => (
+                  <tr key={lesson.id || i}>
+                    <td style={{ ...S.td, ...S.index }}>{i + 1}</td>
+                    <td style={{ ...S.td, fontWeight: 900 }}>{lesson.title || '—'}</td>
+                    <td style={S.td}>{lesson.gradeLevel || '—'}</td>
+                    <td style={S.td}>{lesson.topic || '—'}</td>
+                    <td style={S.td}>
+                      <span style={S.badge(lesson.status === 'published' ? 'success' : 'warning')}>
+                        {lesson.status || 'draft'}
+                      </span>
+                    </td>
+                  </tr>
+                ))
               )}
-            </div>
-          )}
+            </tbody>
+          </table>
         </div>
-
-        <div style={Gs.body}>
-          {!(isNew || selected) ? (
-            <div style={Gs.empty}>
-              <div>
-                <b>Chọn bài học để chỉnh sửa</b>
-                <br />
-                hoặc nhấn “Thêm bài học” để tạo nội dung mới.
-              </div>
-            </div>
-          ) : (
-            <div style={Gs.card}>
-              <div style={Gs.grid2}>
-                <Field label="Tiêu đề *">
-                  <input
-                    style={Gs.inp}
-                    value={form.title}
-                    onChange={(e) => setF('title', e.target.value)}
-                    placeholder="VD: Unit 1 – In the school playground"
-                  />
-                </Field>
-
-                <Field label="Khối lớp">
-                  <select style={Gs.inp} value={form.gradeLevel} onChange={(e) => setF('gradeLevel', e.target.value)}>
-                    {GL.map((g) => (
-                      <option key={g} value={g}>{GL_LABEL[g]}</option>
-                    ))}
-                  </select>
-                </Field>
-              </div>
-
-              <div style={Gs.grid3}>
-                <Field label="Chủ điểm">
-                  <input style={Gs.inp} value={form.topic} onChange={(e) => setF('topic', e.target.value)} />
-                </Field>
-
-                <Field label="Module">
-                  <input style={Gs.inp} value={form.module} onChange={(e) => setF('module', e.target.value)} />
-                </Field>
-
-                <Field label="Trạng thái">
-                  <select style={Gs.inp} value={form.status} onChange={(e) => setF('status', e.target.value)}>
-                    <option value="published">Đã xuất bản</option>
-                    <option value="draft">Nháp</option>
-                  </select>
-                </Field>
-              </div>
-
-              <div style={Gs.grid3}>
-                <Field label="Tuần">
-                  <input style={Gs.inp} type="number" value={form.weekNumber} onChange={(e) => setF('weekNumber', e.target.value)} />
-                </Field>
-
-                <Field label="Tháng">
-                  <select style={Gs.inp} value={form.month} onChange={(e) => setF('month', e.target.value)}>
-                    {MONTHS_G.map((m, i) => (
-                      <option key={i} value={i}>{m || '—'}</option>
-                    ))}
-                  </select>
-                </Field>
-
-                <Field label="Năm">
-                  <input style={Gs.inp} type="number" value={form.year} onChange={(e) => setF('year', Number(e.target.value))} />
-                </Field>
-              </div>
-
-              <Field label="Mô tả ngắn">
-                <input style={Gs.inp} value={form.description} onChange={(e) => setF('description', e.target.value)} />
-              </Field>
-
-              <Field label="URL Video YouTube">
-                <input
-                  style={Gs.inp}
-                  value={form.videoUrl}
-                  onChange={(e) => setF('videoUrl', e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
-                />
-              </Field>
-
-              <Field label="Nội dung lý thuyết">
-                <RichTextEditor
-                  key={selected?.id || (isNew ? '__new__' : '__empty__')}
-                  value={form.content}
-                  onChange={(v) => setF('content', v)}
-                  onUploadImage={upload}
-                  notify={notify}
-                />
-
-                <div style={{ fontSize: '1rem', color: '#64748b', marginTop: 10, fontWeight: 650 }}>
-                  Chọn ảnh rồi kéo góc xanh của ảnh để đổi kích thước như Word. Chèn bảng sẽ tự tạo bảng 3x3.
-                </div>
-              </Field>
-
-              <div style={{ height: 1, background: '#e2e8f0', margin: '26px 0' }} />
-              <div style={{ ...Gs.title, fontSize: '1.28rem', marginBottom: 14 }}>
-                Bài tập ({form.exercises.length})
-              </div>
-
-              {form.exercises.map((ex, i) => (
-                <div key={i} style={Gs.ex}>
-                  <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginBottom: 14 }}>
-                    <select
-                      style={{ ...Gs.inp, width: 170, flex: 'none' }}
-                      value={ex.type}
-                      onChange={(e) => updEx(i, 'type', e.target.value)}
-                    >
-                      <option value="mcq">Trắc nghiệm</option>
-                      <option value="fill_blank">Điền từ</option>
-                    </select>
-
-                    <input
-                      style={{ ...Gs.inp, flex: 1 }}
-                      placeholder="Câu hỏi..."
-                      value={ex.question}
-                      onChange={(e) => updEx(i, 'question', e.target.value)}
-                    />
-
-                    <button style={Gs.del} onClick={() => rmEx(i)}>Xóa</button>
-                  </div>
-
-                  {ex.type === 'mcq' && (
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
-                      {(ex.options || ['', '', '', '']).map((o, j) => (
-                        <input
-                          key={j}
-                          style={Gs.inp}
-                          placeholder={`Đáp án ${j + 1}`}
-                          value={o}
-                          onChange={(e) => updOpt(i, j, e.target.value)}
-                        />
-                      ))}
-                    </div>
-                  )}
-
-                  <div style={Gs.grid2}>
-                    <Field label="Đáp án đúng">
-                      {ex.type === 'mcq' ? (
-                        <select style={Gs.inp} value={ex.answer} onChange={(e) => updEx(i, 'answer', e.target.value)}>
-                          <option value="">— Chọn —</option>
-                          {(ex.options || []).filter((o) => o.trim()).map((o, j) => (
-                            <option key={j} value={o}>{o}</option>
-                          ))}
-                        </select>
-                      ) : (
-                        <input style={Gs.inp} value={ex.answer} onChange={(e) => updEx(i, 'answer', e.target.value)} />
-                      )}
-                    </Field>
-
-                    <Field label="Giải thích">
-                      <input style={Gs.inp} value={ex.explanation} onChange={(e) => updEx(i, 'explanation', e.target.value)} />
-                    </Field>
-                  </div>
-                </div>
-              ))}
-
-              <button
-                style={{ ...Gs.btn, background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe', marginRight: 10 }}
-                onClick={() => addEx('mcq')}
-              >
-                + Trắc nghiệm
-              </button>
-
-              <button
-                style={{ ...Gs.btn, background: '#eff6ff', color: '#1d4ed8', border: '1px solid #bfdbfe' }}
-                onClick={() => addEx('fill_blank')}
-              >
-                + Điền từ
-              </button>
-            </div>
-          )}
-        </div>
-      </main>
-
-      <ConfirmDialog
-        open={confirmDelete}
-        danger
-        loading={deleting}
-        title="Xóa bài học này?"
-        message={`Bạn sắp xóa bài "${selected?.title || ''}". Hành động này không thể hoàn tác.`}
-        confirmText="Xóa bài học"
-        cancelText="Giữ lại"
-        onCancel={() => setConfirmDelete(false)}
-        onConfirm={confirmDeleteLesson}
-      />
+      </div>
     </div>
   );
 }
 
+function AdminCoursePanel() {
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    adminApi
+      .getCourseStats()
+      .then((res) => {
+        if (mounted) setStats(res.data?.stats || null);
+      })
+      .catch(() => {
+        if (mounted) setStats(null);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  if (loading) {
+    return <div style={S.panel}>Đang tải dữ liệu khóa học...</div>;
+  }
+
+  if (!stats) {
+    return <div style={S.panel}>Không tải được dữ liệu khóa học.</div>;
+  }
+
+  return (
+    <div style={S.panel}>
+      <div style={S.sectionHead}>
+        <div>
+          <h3 style={S.cardTitle}>Quản lý khóa học</h3>
+          <p style={S.sectionSub}>
+            Theo dõi tổng quan khóa học, số lượt đăng ký, tỷ lệ hoàn thành
+            và các khóa học có nhiều học viên nhất.
+          </p>
+        </div>
+      </div>
+
+      <div style={S.statsRow}>
+        <StatCard label="Tổng khóa học" value={stats.totalCourses} color={COLORS.blue} />
+        <StatCard label="Đã xuất bản" value={stats.publishedCourses} color={COLORS.green} />
+        <StatCard label="Lượt đăng ký" value={stats.totalEnrollments} color={COLORS.purple} />
+        <StatCard label="Tỷ lệ hoàn thành" value={`${stats.completionRate || 0}%`} color={COLORS.orange} />
+      </div>
+
+      <h4 style={S.smallTitle}>Top khóa học nổi bật</h4>
+
+      <div style={S.tableWrap}>
+        <table style={S.table}>
+          <thead>
+            <tr>
+              <th style={S.th}>Khóa học</th>
+              <th style={S.th}>Trạng thái</th>
+              <th style={S.th}>Đăng ký</th>
+              <th style={S.th}>Hoàn thành</th>
+              <th style={S.th}>Lượt xem</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {(stats.topCourses || []).map((course) => (
+              <tr key={course.id}>
+                <td style={S.td}>{course.title}</td>
+                <td style={S.td}>{course.status}</td>
+                <td style={S.td}>{course.enrollments}</td>
+                <td style={S.td}>{course.completed}</td>
+                <td style={S.td}>{course.viewCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function SystemDataTab({ notify }) {
+  const [tab, setTab] = useState('classes');
+
+  const tabs = [
+    { id: 'classes', label: 'Lớp học' },
+    { id: 'grammar', label: 'Ngữ pháp' },
+    { id: 'seed', label: 'Seed grammar' },
+    { id: 'courses', label: 'Khóa học' },
+  ];
+
+  return (
+    <section>
+      <div style={S.sectionHead}>
+        <div>
+          <h2 style={S.sectionTitle}>Quản trị dữ liệu hệ thống</h2>
+          <p style={S.sectionSub}>
+            Quản lý dữ liệu nền của hệ thống như lớp học, bài ngữ pháp,
+            dữ liệu mẫu và khóa học.
+          </p>
+        </div>
+      </div>
+
+      <SubTabBar tabs={tabs} active={tab} onChange={setTab} />
+
+      {tab === 'classes' && (
+        <ClassroomsTab notify={notify} />
+      )}
+
+      {tab === 'grammar' && (
+        <GrammarAdminTab notify={notify} />
+      )}
+
+      {tab === 'seed' && (
+        <SeedGrammarPanel notify={notify} />
+      )}
+
+      {tab === 'courses' && (
+        <AdminCoursePanel notify={notify} />
+      )}
+    </section>
+  );
+}
+
+function StatCard({ label, value, color = COLORS.blue }) {
+  return (
+    <div style={S.statCard(color)}>
+      <div style={{ color, fontWeight: 900, fontSize: '.86rem', marginBottom: 8 }}>
+        {label}
+      </div>
+
+      <div style={{ color: '#0f172a', fontWeight: 950, fontSize: '1.8rem' }}>
+        {formatNumber(value)}
+      </div>
+    </div>
+  );
+}
+
+function SimpleBarChart({ title, data = [], labelKey = 'label', valueKey = 'value' }) {
+  const max = Math.max(...data.map((item) => Number(item[valueKey] || 0)), 1);
+
+  return (
+    <div style={S.chartCard}>
+      <h3 style={S.cardTitle}>{title}</h3>
+
+      <div style={{ display: 'grid', gap: 12 }}>
+        {data.map((item) => {
+          const value = Number(item[valueKey] || 0);
+          const width = `${Math.max((value / max) * 100, 4)}%`;
+
+          return (
+            <div key={item[labelKey]}>
+              <div style={S.chartRowLabel}>
+                <span>{item[labelKey]}</span>
+                <strong>{formatNumber(value)}</strong>
+              </div>
+
+              <div style={S.barTrack}>
+                <div style={{ ...S.barFill, width }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SimplePieChart({ title, data = [] }) {
+  const total = data.reduce((sum, item) => sum + Number(item.value || 0), 0) || 1;
+  const colors = ['#2563eb', '#059669', '#d97706', '#7c3aed', '#dc2626'];
+
+  let current = 0;
+
+  const gradient = data
+    .map((item, index) => {
+      const start = current;
+      const percent = (Number(item.value || 0) / total) * 100;
+      current += percent;
+      return `${colors[index % colors.length]} ${start}% ${current}%`;
+    })
+    .join(', ');
+
+  return (
+    <div style={S.chartCard}>
+      <h3 style={S.cardTitle}>{title}</h3>
+
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 34, flex: 1, flexWrap: 'wrap' }}>
+        <div
+          style={{
+            width: 220,
+            height: 220,
+            borderRadius: '50%',
+            background: `conic-gradient(${gradient})`,
+            boxShadow: 'inset 0 0 0 34px #fff, 0 18px 36px rgba(15,23,42,.12)',
+            border: '1px solid #e2e8f0',
+          }}
+        />
+
+        <div style={{ display: 'grid', gap: 14, minWidth: 180 }}>
+          {data.map((item, index) => {
+            const percent = Math.round((Number(item.value || 0) / total) * 100);
+
+            return (
+              <div key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span
+                  style={{
+                    width: 14,
+                    height: 14,
+                    borderRadius: 999,
+                    background: colors[index % colors.length],
+                    flexShrink: 0,
+                  }}
+                />
+
+                <div>
+                  <div style={{ fontWeight: 950, color: '#0f172a', fontSize: '1rem' }}>
+                    {item.label}: {formatNumber(item.value)}
+                  </div>
+
+                  <div style={{ color: '#64748b', fontWeight: 750, fontSize: '.88rem' }}>
+                    {percent}% tổng số
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SimpleLineChart({ title, data = [] }) {
+  const width = 720;
+  const height = 280;
+  const padding = 44;
+  const max = Math.max(...data.map((item) => Number(item.count || 0)), 1);
+
+  const points = data.map((item, index) => {
+    const x = padding + (index * (width - padding * 2)) / Math.max(data.length - 1, 1);
+    const y = height - padding - (Number(item.count || 0) / max) * (height - padding * 2);
+
+    return { ...item, x, y };
+  });
+
+  const path = points
+    .map((p, index) => `${index === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
+    .join(' ');
+
+  return (
+    <div style={S.chartCard}>
+      <h3 style={S.cardTitle}>{title}</h3>
+
+      <div style={{ flex: 1, overflowX: 'auto' }}>
+        <svg width="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="xMidYMid meet">
+          <line x1={padding} y1={height - padding} x2={width - padding} y2={height - padding} stroke="#cbd5e1" strokeWidth="2" />
+          <line x1={padding} y1={padding} x2={padding} y2={height - padding} stroke="#cbd5e1" strokeWidth="2" />
+
+          {[0, 0.25, 0.5, 0.75, 1].map((rate) => {
+            const y = height - padding - rate * (height - padding * 2);
+
+            return (
+              <line
+                key={rate}
+                x1={padding}
+                y1={y}
+                x2={width - padding}
+                y2={y}
+                stroke="#eef2f7"
+                strokeWidth="1"
+              />
+            );
+          })}
+
+          <path d={path} fill="none" stroke="#2563eb" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+
+          {points.map((p) => (
+            <g key={p.month}>
+              <circle cx={p.x} cy={p.y} r="7" fill="#2563eb" stroke="#fff" strokeWidth="3" />
+
+              <text x={p.x} y={height - 12} fontSize="14" textAnchor="middle" fill="#475569" fontWeight="800">
+                {p.month}
+              </text>
+
+              <text x={p.x} y={p.y - 14} fontSize="14" textAnchor="middle" fill="#0f172a" fontWeight="900">
+                {p.count}
+              </text>
+            </g>
+          ))}
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function StatisticsTab({ systemStats }) {
+  const [courseStats, setCourseStats] = useState(null);
+  const [gameStats, setGameStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let mounted = true;
+
+    Promise.all([
+      adminApi.getCourseStats(),
+      adminApi.getGameStats(),
+    ])
+      .then(([courseRes, gameRes]) => {
+        if (!mounted) return;
+
+        setCourseStats(courseRes.data?.stats || null);
+        setGameStats(gameRes.data?.stats || null);
+      })
+      .catch(() => {
+        if (!mounted) return;
+
+        setCourseStats(null);
+        setGameStats(null);
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const userPieData = [
+    { label: 'Học sinh', value: systemStats?.totalStudents || 0 },
+    { label: 'Giáo viên', value: systemStats?.totalTeachers || 0 },
+    { label: 'Admin', value: systemStats?.totalAdmins || 0 },
+  ];
+
+  const courseStatusData = Object.entries(systemStats?.coursesByStatus || {}).map(
+    ([label, value]) => ({ label, value }),
+  );
+
+  const gameData = (gameStats?.gameBreakdown || []).map((game) => ({
+    label: game.gameName || 'Không tên',
+    value: game.playerCount || 0,
+  }));
+
+  return (
+    <section>
+      <div style={S.sectionHead}>
+        <div>
+          <h2 style={S.sectionTitle}>Thống kê báo cáo</h2>
+          <p style={S.sectionSub}>
+            Theo dõi tổng quan người dùng, khóa học, lượt đăng ký và hoạt động game
+            bằng các biểu đồ trực quan.
+          </p>
+        </div>
+      </div>
+
+      <div style={S.statsRow}>
+        <StatCard label="Tổng người dùng" value={systemStats?.totalUsers || 0} color={COLORS.blue} />
+        <StatCard label="Học sinh" value={systemStats?.totalStudents || 0} color={COLORS.green} />
+        <StatCard label="Giáo viên" value={systemStats?.totalTeachers || 0} color={COLORS.purple} />
+        <StatCard label="Khóa học" value={systemStats?.totalCourses || 0} color={COLORS.orange} />
+        <StatCard label="Bài ngữ pháp" value={systemStats?.totalGrammarLessons || 0} color={COLORS.red} />
+        <StatCard label="Phòng game" value={systemStats?.totalGameRooms || 0} color={COLORS.blue} />
+      </div>
+
+      {loading ? (
+        <div style={S.panel}>Đang tải dữ liệu thống kê...</div>
+      ) : (
+        <div style={S.chartGrid}>
+          <SimplePieChart title="Cơ cấu người dùng" data={userPieData} />
+
+          <SimpleBarChart
+            title="Khóa học theo trạng thái"
+            data={courseStatusData}
+          />
+
+          <SimpleLineChart
+            title="Lượt đăng ký khóa học theo tháng"
+            data={courseStats?.enrollmentsByMonth || []}
+          />
+
+          <SimpleBarChart
+            title="Số người chơi theo game"
+            data={gameData}
+          />
+
+          <SimpleBarChart
+            title="Top khóa học theo lượt đăng ký"
+            data={(courseStats?.topCourses || []).map((course) => ({
+              label: course.title,
+              value: course.enrollments || 0,
+            }))}
+          />
+        </div>
+      )}
+    </section>
+  );
+}
+
 function AdminUsersPage() {
-  useTitle('Quản lý người dùng');
+  useTitle('Quản lý hệ thống');
 
   const userInfo = useSelector((s) => s.userInfo);
   const history = useHistory();
-  const [activeTab, setActiveTab] = useState('users');
+  const location = useLocation();
+
+  const [activeTab, setActiveTab] = useState(() => {
+    const params = new URLSearchParams(location.search);
+    return getValidTab(params.get('tab'));
+  });
+
   const [systemStats, setSystemStats] = useState(null);
   const [toast, setToast] = useState(null);
 
@@ -2450,8 +3975,21 @@ function AdminUsersPage() {
   const isAdmin = userInfo?.role === 'admin';
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setActiveTab(getValidTab(params.get('tab')));
+  }, [location.search]);
+
+  const handleChangeTab = (tab) => {
+    setActiveTab(tab);
+    history.replace(`${ROUTES.ADMIN.USERS}?tab=${tab}`);
+  };
+
+  useEffect(() => {
     if (isAdmin) {
-      adminApi.getSystemStats().then((res) => setSystemStats(res.data?.stats)).catch(() => {});
+      adminApi
+        .getSystemStats()
+        .then((res) => setSystemStats(res.data?.stats))
+        .catch(() => {});
     }
   }, [isAdmin]);
 
@@ -2459,9 +3997,17 @@ function AdminUsersPage() {
     return (
       <div style={S.noAccess}>
         <div style={{
-          width: 54, height: 54, borderRadius: '50%', background: '#fee2e2', border: '1px solid #fecaca',
-          color: '#b91c1c', display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontWeight: 900, fontSize: '1.25rem',
+          width: 54,
+          height: 54,
+          borderRadius: '50%',
+          background: '#fee2e2',
+          border: '1px solid #fecaca',
+          color: '#b91c1c',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontWeight: 900,
+          fontSize: '1.25rem',
         }}>
           !
         </div>
@@ -2477,39 +4023,79 @@ function AdminUsersPage() {
     );
   }
 
-  return (
-    <div style={S.page}>
-      <style>
-        {`
-          @keyframes toastSlide {
-            from { opacity: 0; transform: translateX(24px) translateY(-8px); }
-            to { opacity: 1; transform: translateX(0) translateY(0); }
-          }
-        `}
-      </style>
+  const activeMenu = ADMIN_MENU.find((item) => item.id === activeTab) || ADMIN_MENU[0];
 
-      <div style={S.maxW}>
-        <div style={S.header}>
-          <div>
-            <h1 style={S.title}>Quản trị hệ thống</h1>
-            <p style={S.subtitle}>
-              Quản lý tài khoản, lớp học, giáo viên, học sinh và dữ liệu học tập toàn hệ thống.
-            </p>
+  return (
+    <div style={S.page} className="admin-system-page">
+      <AdminLayoutStyles />
+
+      <AdminSidebar
+        activeTab={activeTab}
+        onChange={handleChangeTab}
+        systemStats={systemStats}
+      />
+
+      <main className="admin-layout-main">
+        <div className="admin-layout-topbar">
+          <div className="admin-layout-search">
+            <SvgIcon name="search" size={20} color="#475569" />
+            <input placeholder="Tìm kiếm nhanh trong hệ thống..." />
           </div>
 
-          {systemStats && (
-            <div style={S.headerMeta}>{formatNumber(systemStats.totalUsers)} người dùng</div>
-          )}
+          {/* <div className="admin-layout-user">
+            <div className="admin-layout-avatar">
+              {userInfo?.avt ? (
+                <img src={userInfo.avt} alt="" />
+              ) : (
+                getInitial(userInfo?.name, userInfo?.username, userInfo?.email)
+              )}
+            </div>
+
+            <div>
+              <strong>{userInfo?.name || 'Admin'}</strong>
+              <span>Web Administrator</span>
+            </div>
+          </div> */}
         </div>
 
-        <TabBar active={activeTab} onChange={setActiveTab} />
+        {/* {activeTab !== 'dashboard' && (
+          <div className="admin-layout-page-head">
+            <div>
+              <h1>{activeMenu.label}</h1>
+              <p>{activeMenu.desc}</p>
+            </div>
 
-        {activeTab === 'users' && <UsersTab systemStats={systemStats} notify={notify} />}
-        {activeTab === 'classes' && <ClassroomsTab notify={notify} />}
-        {activeTab === 'teachers' && <TeachersTab notify={notify} />}
-        {activeTab === 'students' && <StudentsTab notify={notify} />}
-        {activeTab === 'grammar' && <GrammarAdminTab notify={notify} />}
-      </div>
+            <div className="admin-layout-pill">
+              {formatNumber(systemStats?.totalUsers || 0)} người dùng
+            </div>
+          </div>
+        )} */}
+
+        <div className="admin-layout-content-card">
+          {activeTab === 'dashboard' && (
+            <AdminDashboardOverview
+              systemStats={systemStats}
+              onChange={handleChangeTab}
+            />
+          )}
+
+          {activeTab === 'accounts' && (
+            <AccountManagementTab
+              systemStats={systemStats}
+              notify={notify}
+              currentAccountId={userInfo?.accountId}
+            />
+          )}
+
+          {activeTab === 'statistics' && (
+            <StatisticsTab systemStats={systemStats} />
+          )}
+
+          {activeTab === 'systemData' && (
+            <SystemDataTab notify={notify} />
+          )}
+        </div>
+      </main>
 
       <Toast toast={toast} onClose={() => setToast(null)} />
     </div>

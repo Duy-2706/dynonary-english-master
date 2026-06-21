@@ -98,6 +98,7 @@ export const ROUTES = {
     COURSE_DETAIL: '/teacher/courses/:id',
     GRAMMAR: '/teacher/grammar',
     GAME_ROOMS: '/teacher/game-rooms',
+    VOCAB_SETS: '/teacher/vocab-sets',
   },
   ADMIN: {
     USERS: '/admin/users',

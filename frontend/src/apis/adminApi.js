@@ -5,6 +5,8 @@ const URL = '/admin';
 const adminApi = {
   getUsers: (params = {}) => axiosClient.get(`${URL}/users`, { params }),
   updateUserRole: (id, role) => axiosClient.put(`${URL}/users/${id}/role`, { role }),
+  lockUser: (id) => axiosClient.put(`${URL}/users/${id}/lock`),
+  unlockUser: (id) => axiosClient.put(`${URL}/users/${id}/unlock`),
   getSystemStats: () => axiosClient.get(`${URL}/stats`),
   getCourseStats: () => axiosClient.get(`${URL}/stats/courses`),
   getGameStats: () => axiosClient.get(`${URL}/stats/games`),
@@ -28,6 +30,12 @@ const adminApi = {
   updateGrammarLesson: (id, data) => axiosClient.put(`${URL}/grammar/lessons/${id}`, data),
   deleteGrammarLesson: (id) => axiosClient.delete(`${URL}/grammar/lessons/${id}`),
   uploadGrammarImage: (image) => axiosClient.post(`${URL}/grammar/upload-image`, { image }),
+
+
+  getWords: (params = {}) => axiosClient.get(`${URL}/words`, { params }),
+  createWord: (data) => axiosClient.post(`${URL}/words`, data),
+  updateWord: (id, data) => axiosClient.put(`${URL}/words/${id}`, data),
+  deleteWord: (id) => axiosClient.delete(`${URL}/words/${id}`),
 
 };
 

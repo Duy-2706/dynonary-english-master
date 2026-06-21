@@ -29,10 +29,18 @@ function App() {
 
   // get user info
   useEffect(() => {
-    dispatch(getUserInfo());
-    setLoading(false);
-    return () => {};
-  }, []);
+    let mounted = true;
+
+    dispatch(getUserInfo()).finally(() => {
+      if (mounted) {
+        setLoading(false);
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, [dispatch]);
 
   return (
     <>

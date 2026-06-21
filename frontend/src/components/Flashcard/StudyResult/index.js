@@ -9,7 +9,7 @@ import { useHistory } from 'react-router-dom';
 import { ROUTES } from 'constant';
 import useStyle from './style';
 
-function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topicTitle, packInfo, coinsEarned = 0 }) {
+function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topicTitle, packInfo, coinsEarned = 0, wordList = null, tooFewForGames = false, wordCount = 0 }) {
   const classes = useStyle();
   const history = useHistory();
 
@@ -78,10 +78,28 @@ function StudyResult({ knownWords, unknownWords, onRestart, onReviewWrong, topic
           </Button>
         )}
 
-        <Button variant="contained" className="_btn _btn-primary" startIcon={<SportsEsportsIcon />}
-          onClick={() => history.push(ROUTES.GAMES.HOME, { practicePackInfo: packInfo, practiceTitle: topicTitle })}>
-          Luyện tập ngay
-        </Button>
+        {tooFewForGames ? (
+          <div style={{
+            background: '#fff8e1', border: '1px solid #ffe082',
+            borderRadius: 12, padding: '12px 16px', textAlign: 'center',
+            color: '#f57c00', fontWeight: 600, fontSize: '0.92rem',
+          }}>
+            ⚠️ Bộ từ chỉ có <strong>{wordCount} từ</strong> — cần ít nhất <strong>4 từ</strong> để chơi game.<br />
+            <span style={{ fontWeight: 400, fontSize: '0.88rem' }}>Giáo viên cần thêm từ vào bộ từ này.</span>
+          </div>
+        ) : (
+          <Button
+            variant="contained"
+            className="_btn _btn-primary"
+            startIcon={<SportsEsportsIcon />}
+            onClick={() => history.push(ROUTES.GAMES.HOME, {
+              practicePackInfo: wordList ? null : packInfo,
+              practiceWordList: wordList || null,
+              practiceTitle: topicTitle,
+            })}>
+            Luyện tập ngay
+          </Button>
+        )}
       </div>
     </div>
   );
